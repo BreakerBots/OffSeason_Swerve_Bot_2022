@@ -52,7 +52,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
    */
   public void setRawModuleStates(SwerveModuleState... targetModuleStates) {
     this.targetModuleStates = targetModuleStates;
-    for (int i = 0; i <= swerveModules.length; i ++) {
+    for (int i = 0; i < swerveModules.length; i ++) {
       swerveModules[i].setModuleTarget(targetModuleStates[i]);
     }
   }
@@ -98,7 +98,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   }
 
   /** Equivlent to the "move()" method but with speeds being passed in as a percentage of maximum represented as a decimal (1.0 to -1.0) */
-  public void moveWithPrecentImput(double forwardPercent, double horizontalPercent, double turnPercent) {
+  public void moveWithPercentInput(double forwardPercent, double horizontalPercent, double turnPercent) {
     move((forwardPercent * config.getMaxForwardVel()), (horizontalPercent * config.getMaxSidewaysVel()), (turnPercent * config.getMaxAngleVel()));
   }
 
@@ -115,7 +115,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   }
 
   /** effectivly equivlent to the "moveRelativeToField()" method but with speeds being passed in as a percentage of maximum represented as a decimal (1.0 to -1.0) */
-  public void moveWithPrecentImputRelativeToField(double forwardPercent, double horizontalPercent, double turnPercent) {
+  public void moveWithPercentInputRelativeToField(double forwardPercent, double horizontalPercent, double turnPercent) {
     double fwdV = forwardPercent * config.getMaxForwardVel();
     double horzV = horizontalPercent * config.getMaxSidewaysVel();
     double thetaV = turnPercent * config.getMaxAngleVel();
@@ -123,7 +123,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   }
 
   /** effectivly equivlent to the "moveRelativeToField()" method but with speeds being passed in as a percentage of maximum represented as a decimal (1.0 to -1.0) (this version of the method is for use with a custom odometry source) */
-  public void moveWithPrecentImputRelativeToField(double forwardPercent, double horizontalPercent, double turnPercent, BreakerGenericOdometer odometer) {
+  public void moveWithPercentInputRelativeToField(double forwardPercent, double horizontalPercent, double turnPercent, BreakerGenericOdometer odometer) {
     double fwdV = forwardPercent * config.getMaxForwardVel();
     double horzV = horizontalPercent * config.getMaxSidewaysVel();
     double thetaV = turnPercent * config.getMaxAngleVel();
@@ -132,7 +132,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
 
   public SwerveModuleState[] getSwerveModuleStates() {
     SwerveModuleState[] moduleStates = new SwerveModuleState[swerveModules.length];
-    for (int i = 0; i <= swerveModules.length; i ++) {
+    for (int i = 0; i < swerveModules.length; i ++) {
       moduleStates[i] = swerveModules[i].getModuleState();
     }
     return moduleStates;
@@ -141,7 +141,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   @Override
   public void updateOdometry() {
     odometer.updateWithTime(Timer.getFPGATimestamp(), Rotation2d.fromDegrees(pigeon2.getRawAngles()[0]), getSwerveModuleStates());
-    calculateMovementState((Timer.getFPGATimestamp() - prevOdometryUpdateTimestamp) * 1000);
+    //calculateMovementState((Timer.getFPGATimestamp() - prevOdometryUpdateTimestamp) * 1000);
     prevOdometryUpdateTimestamp = Timer.getFPGATimestamp();
   }
 
@@ -189,11 +189,11 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
     return curMovementState;
   }
 
-  private void calculateMovementState(double timeToLastUpdateMiliseconds) {
-    ChassisSpeeds speeds = config.getKinematics().toChassisSpeeds(getSwerveModuleStates());
-    curMovementState = BreakerMath.movementStateFromChassisSpeedsAndPreviousState(getOdometryPoseMeters(), getFieldRelativeChassisSpeeds(), timeToLastUpdateMiliseconds, prevMovementState);
-    prevMovementState = curMovementState;
-  }
+  // private void calculateMovementState(double timeToLastUpdateMiliseconds) {
+  //   ChassisSpeeds speeds = config.getKinematics().toChassisSpeeds(getSwerveModuleStates());
+  //   curMovementState = BreakerMath.movementStateFromChassisSpeedsAndPreviousState(getOdometryPoseMeters(), getFieldRelativeChassisSpeeds(), timeToLastUpdateMiliseconds, prevMovementState);
+  //   prevMovementState = curMovementState;
+  // }
 
   public SwerveModuleState[] getTargetModuleStates() {
       return targetModuleStates;

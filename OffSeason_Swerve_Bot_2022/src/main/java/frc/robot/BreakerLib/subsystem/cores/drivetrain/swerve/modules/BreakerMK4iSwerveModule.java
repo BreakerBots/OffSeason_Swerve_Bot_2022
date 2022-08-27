@@ -76,7 +76,7 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
         BreakerCTREUtil.checkError(driveMotor.configAllSettings(driveConfig), " Failed to config swerve module drive motor "); ;
         driveMotor.selectProfileSlot(0, 0);
 
-        ffProvider = config.getAbitraryFeedforwardProvider();
+        ffProvider = config.getArbitraryFeedforwardProvider();
     }
  
     @Override

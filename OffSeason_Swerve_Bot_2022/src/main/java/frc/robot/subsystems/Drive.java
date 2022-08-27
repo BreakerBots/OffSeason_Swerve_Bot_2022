@@ -4,20 +4,23 @@
 
 package frc.robot.subsystems;
 
+import static frc.robot.Constants.*;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.BreakerLib.devices.sensors.BreakerPigeon2;
-import frc.robot.BreakerLib.factories.BreakerCANCoderFactory;
-import frc.robot.BreakerLib.subsystemcores.drivetrain.swerve.BreakerSwerveDrive;
-import frc.robot.BreakerLib.subsystemcores.drivetrain.swerve.BreakerSwerveDriveConfig;
-import frc.robot.BreakerLib.subsystemcores.drivetrain.swerve.swervemodules.BreakerMK4iSwerveModule;
+import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDrive;
+import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveConfig;
+import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.modules.BreakerMK4iSwerveModule;
+import frc.robot.BreakerLib.util.BreakerArbitraryFeedforwardProvider;
+import frc.robot.BreakerLib.util.factory.BreakerCANCoderFactory;
 
 /** Add your docs here. */
-public class Drive extends SubsystemBase{
+public class Drive extends SubsystemBase {
 
     private BreakerSwerveDriveConfig config;
     private BreakerSwerveDrive drivetrain;
@@ -34,43 +37,49 @@ public class Drive extends SubsystemBase{
     private BreakerMK4iSwerveModule frontLeftModule, frontRightModule, backLeftModule, backRightModule;
 
     private BreakerPigeon2 pigeon2;
-    
+
     public Drive(BreakerPigeon2 pigeon2) {
         this.pigeon2 = pigeon2;
 
-        driveFL = new WPI_TalonFX(deviceNumber);
-        turnFL = new WPI_TalonFX(deviceNumber);
-        encoderFL = BreakerCANCoderFactory.createCANCoder(deviceID, absoluteSensorRange, absoluteOffsetDegress, invertEncoder);
-        transFL = new Translation2d(x, y);
+        driveFL = new WPI_TalonFX(FL_WHEEL_ID);
+        turnFL = new WPI_TalonFX(FL_ROTATION_ID);
+        encoderFL = BreakerCANCoderFactory.createCANCoder(FL_ENCODER_ID, AbsoluteSensorRange.Signed_PlusMinus180, 0.0,
+                false);
+        transFL = FL_TRANSLATION;
 
-        driveFR = new WPI_TalonFX(deviceNumber);
-        turnFR = new WPI_TalonFX(deviceNumber);
-        encoderFR = BreakerCANCoderFactory.createCANCoder(deviceID, absoluteSensorRange, absoluteOffsetDegress, invertEncoder);
-        transFR = new Translation2d(x, y);
-        
-        driveBL = new WPI_TalonFX(deviceNumber);
-        turnBL = new WPI_TalonFX(deviceNumber);
-        encoderBL = BreakerCANCoderFactory.createCANCoder(deviceID, absoluteSensorRange, absoluteOffsetDegress, invertEncoder);
-        transBL = new Translation2d(x, y);
+        driveFR = new WPI_TalonFX(FR_WHEEL_ID);
+        turnFR = new WPI_TalonFX(FR_ROTATION_ID);
+        encoderFR = BreakerCANCoderFactory.createCANCoder(FR_ENCODER_ID, AbsoluteSensorRange.Signed_PlusMinus180, 0.0,
+                false);
+        transFR = FR_TRANSLATION; // Yousif be like
 
-        driveBR = new WPI_TalonFX(deviceNumber);
-        turnBR = new WPI_TalonFX(deviceNumber);
-        encoderBR = BreakerCANCoderFactory.createCANCoder(deviceID, absoluteSensorRange, absoluteOffsetDegress, invertEncoder);
-        transBR = new Translation2d(x, y);
+        driveBL = new WPI_TalonFX(BL_WHEEL_ID);
+        turnBL = new WPI_TalonFX(BL_ROTATION_ID);
+        encoderBL = BreakerCANCoderFactory.createCANCoder(BL_ENCODER_ID, AbsoluteSensorRange.Signed_PlusMinus180, 0.0,
+                false);
+        transBL = BL_TRANSLATION;
 
-        config = new BreakerSwerveDriveConfig(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, transFL, transFR, transBL, transBR);
+        driveBR = new WPI_TalonFX(BR_WHEEL_ID);
+        turnBR = new WPI_TalonFX(BR_ROTATION_ID);
+        encoderBR = BreakerCANCoderFactory.createCANCoder(BR_ENCODER_ID, AbsoluteSensorRange.Signed_PlusMinus180, 0.0,
+                false);
+        transBR = BR_TRANSLATION;
+
+        config = new BreakerSwerveDriveConfig(4.1148, 4.1148, 4.1148, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 4.0,
+                new BreakerArbitraryFeedforwardProvider(0.0, 0.0), transFL, transFR, transBL, transBR);
         config.setSlowModeMultipliers(0.5, 0.5);
 
         frontLeftModule = new BreakerMK4iSwerveModule(driveFL, turnFL, encoderFL, config);
-            frontLeftModule.setDeviceName(" Front_Left_Module ");
+        frontLeftModule.setDeviceName(" Front_Left_Module ");
         frontRightModule = new BreakerMK4iSwerveModule(driveFR, turnFR, encoderFR, config);
-            frontRightModule.setDeviceName(" Front_Right_Module ");
+        frontRightModule.setDeviceName(" Front_Right_Module ");
         backLeftModule = new BreakerMK4iSwerveModule(driveBL, turnBL, encoderBL, config);
-            backLeftModule.setDeviceName(" Back_Left_Module ");
+        backLeftModule.setDeviceName(" Back_Left_Module ");
         backRightModule = new BreakerMK4iSwerveModule(driveBR, turnBR, encoderBR, config);
-            backRightModule.setDeviceName(" Back_Right_Module ");
+        backRightModule.setDeviceName(" Back_Right_Module ");
 
-        drivetrain = new BreakerSwerveDrive(config, pigeon2, frontLeftModule, frontRightModule, backLeftModule, backRightModule);
+        drivetrain = new BreakerSwerveDrive(config, pigeon2, frontLeftModule, frontRightModule, backLeftModule,
+                backRightModule);
     }
 
     public BreakerSwerveDrive getBaseDrivetrain() {

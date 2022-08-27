@@ -26,15 +26,36 @@ public class BreakerSwerveDriveConfig {
     private double wheelDiameter;
     private double slowModeLinearMultiplier;
     private double slowModeTurnMultiplier;
-    private BreakerArbitraryFeedforwardProvider abitraryFeedforwardProvider;
+    private BreakerArbitraryFeedforwardProvider arbitraryFeedforwardProvider;
 
     private SwerveDriveKinematics kinematics;
-    /** The overall configuration for a Breaker Swerve Driven holding all constants, must be passed in. 
-     * (wheel translations must be imputed in the same order as the swerve moduels themsleves are passed into your BreakerSwerveDrive constructor) */
-    public BreakerSwerveDriveConfig(double maxForwardVel, double maxSidewaysVel, double maxAngVel, 
-        double moduleAnglekP, double moduleAnglekI, double moduleAngleKd, double moduleVelkP,
-        double moduleVelkI, double moduleVelKd, double moduleVelKf, BreakerArbitraryFeedforwardProvider abitraryFeedforwardProvider, double driveMotorGearRatioToOne,
-        double wheelDiameter, Translation2d... wheelPositionsRelativeToCenter) {
+
+    /**
+     * The overall configuration for a Breaker Swerve Driven holding all constants,
+     * must be passed in.
+     * (wheel translations must be imputed in the same order as the swerve moduels
+     * themsleves are passed into your BreakerSwerveDrive constructor)
+     * 
+     * @param maxForwardVel
+     * @param maxSidewaysVel
+     * @param maxAngVel
+     * @param moduleAnglekP
+     * @param moduleAnglekI
+     * @param moduleAngleKd
+     * @param moduleVelkP
+     * @param moduleVelkI
+     * @param moduleVelKd
+     * @param moduleVelKf
+     * @param arbitraryFeedforwardProvider
+     * @param driveMotorGearRatioToOne
+     * @param wheelDiameter                  In inches.
+     * @param wheelPositionsRelativeToCenter
+     */
+    public BreakerSwerveDriveConfig(double maxForwardVel, double maxSidewaysVel, double maxAngVel,
+            double moduleAnglekP, double moduleAnglekI, double moduleAngleKd, double moduleVelkP,
+            double moduleVelkI, double moduleVelKd, double moduleVelKf, double driveMotorGearRatioToOne,
+            double wheelDiameter, BreakerArbitraryFeedforwardProvider arbitraryFeedforwardProvider,
+            Translation2d... wheelPositionsRelativeToCenter) {
 
         this.maxForwardVel = maxForwardVel;
         this.maxSidewaysVel = maxSidewaysVel;
@@ -48,10 +69,9 @@ public class BreakerSwerveDriveConfig {
         this.wheelDiameter = wheelDiameter;
         this.driveMotorGearRatioToOne = driveMotorGearRatioToOne;
         this.moduleVelKf = moduleVelKf;
-        this.abitraryFeedforwardProvider = abitraryFeedforwardProvider;
+        this.arbitraryFeedforwardProvider = arbitraryFeedforwardProvider;
         slowModeLinearMultiplier = 1;
         slowModeTurnMultiplier = 1;
-        
 
         moduleNum = wheelPositionsRelativeToCenter.length;
         kinematics = new SwerveDriveKinematics(wheelPositionsRelativeToCenter);
@@ -78,10 +98,10 @@ public class BreakerSwerveDriveConfig {
         return maxAngleVel;
     }
 
-    public int getNumerOfModules() {
+    public int getNumberOfModules() {
         return moduleNum;
     }
-    
+
     public double getModuleVelkP() {
         return moduleVelkP;
     }
@@ -130,7 +150,7 @@ public class BreakerSwerveDriveConfig {
         return slowModeTurnMultiplier;
     }
 
-    public BreakerArbitraryFeedforwardProvider getAbitraryFeedforwardProvider() {
-        return abitraryFeedforwardProvider;
+    public BreakerArbitraryFeedforwardProvider getArbitraryFeedforwardProvider() {
+        return arbitraryFeedforwardProvider;
     }
 }
