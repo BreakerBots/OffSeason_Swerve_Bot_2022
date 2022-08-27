@@ -25,6 +25,13 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
+    
+    BreakerRobotManager.setup(
+        drivetrainSys.getBaseDrivetrain(),
+        new BreakerRobotConfig(
+            new BreakerRobotStartConfig(5104, "BreakerBots", "TBD SwerveBot", 2022, "V1.0alpha",
+                "Roman Abrahamson, and Yousif Alkhalaf")));
+
     configureButtonBindings();
     drivetrainSys.getBaseDrivetrain()
         .setDefaultCommand(new BreakerSwerveDriveController(drivetrainSys.getBaseDrivetrain(), drivetrainSys.getBaseDrivetrain(), controllerSys));
