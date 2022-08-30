@@ -4,6 +4,7 @@
 
 package frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.modules;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -66,6 +67,7 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
         turnConfig.slot0.kD = config.getModuleAngleKd();
         BreakerCTREUtil.checkError(turnMotor.configAllSettings(turnConfig)," Failed to config swerve module turn motor "); 
         turnMotor.selectProfileSlot(0, 0);
+        turnMotor.set(ControlMode.Position, 0.0);
 
         TalonFXConfiguration driveConfig = new TalonFXConfiguration();
         driveConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
@@ -75,6 +77,7 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
         driveConfig.slot0.kF = config.getModuleVelKf();
         BreakerCTREUtil.checkError(driveMotor.configAllSettings(driveConfig), " Failed to config swerve module drive motor "); ;
         driveMotor.selectProfileSlot(0, 0);
+        driveMotor.set(ControlMode.Velocity, 0.0);
 
         ffProvider = config.getArbitraryFeedforwardProvider();
     }
@@ -83,11 +86,6 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
     public void setModuleTarget(Rotation2d tgtAngle, double speedMetersPreSec) {
         turnMotor.set(TalonFXControlMode.Position, tgtAngle.getDegrees());
         driveMotor.set(TalonFXControlMode.Velocity, getMetersPerSecToFalconRSU(speedMetersPreSec), DemandType.ArbitraryFeedForward, ffProvider.getArbitraryFeedforwardValue(speedMetersPreSec));
-    }
-
-    @Override
-    public void setModuleTarget(SwerveModuleState targetState) {
-        setModuleTarget(targetState.angle, targetState.speedMetersPerSecond);
     }
 
     @Override
