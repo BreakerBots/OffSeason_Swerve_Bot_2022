@@ -67,7 +67,7 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
         turnConfig.slot0.kD = config.getModuleAngleKd();
         BreakerCTREUtil.checkError(turnMotor.configAllSettings(turnConfig)," Failed to config swerve module turn motor "); 
         turnMotor.selectProfileSlot(0, 0);
-        turnMotor.set(ControlMode.Position, 0.0);
+        turnMotor.set(ControlMode.Position, turnEncoder.getAbsolutePosition());
 
         TalonFXConfiguration driveConfig = new TalonFXConfiguration();
         driveConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
