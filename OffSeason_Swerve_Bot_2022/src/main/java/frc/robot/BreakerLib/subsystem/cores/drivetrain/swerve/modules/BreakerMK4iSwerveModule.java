@@ -41,23 +41,33 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
     private PIDController drivePID, anglePID;
     private WPI_TalonFX turnMotor, driveMotor;
     private WPI_CANCoder turnEncoder;
-    private DeviceHealth turnMotorHealth = DeviceHealth.NOMINAL, driveMotorHealth = DeviceHealth.NOMINAL, overallHealth = DeviceHealth.NOMINAL, encoderHealth = DeviceHealth.NOMINAL;
-    /** constructs a new Swerve Drive Spetialties MK4I (inverted) swerve drive module, implaments the BreakerSwerveModule Interface
-     * @param driveMotor - The TalonFX motor that moves the module's wheel linearly
-     * @param turnMotor - The TalonFX motor that actuates module's wheel angle and changes the direction it is faceing
-     * @param turnEncoder - The CTRE CANcoder magnetic encoder that the module uses to detirman wheel angle
-     * @param config - The BreakerSwerveDriveConfig object that holds all constants for your drivetrain
+    private DeviceHealth turnMotorHealth = DeviceHealth.NOMINAL, driveMotorHealth = DeviceHealth.NOMINAL,
+            overallHealth = DeviceHealth.NOMINAL, encoderHealth = DeviceHealth.NOMINAL;
+
+    /**
+     * constructs a new Swerve Drive Spetialties MK4I (inverted) swerve drive
+     * module, implaments the BreakerSwerveModule Interface
+     * 
+     * @param driveMotor  - The TalonFX motor that moves the module's wheel linearly
+     * @param turnMotor   - The TalonFX motor that actuates module's wheel angle and
+     *                    changes the direction it is faceing
+     * @param turnEncoder - The CTRE CANcoder magnetic encoder that the module uses
+     *                    to detirman wheel angle
+     * @param config      - The BreakerSwerveDriveConfig object that holds all
+     *                    constants for your drivetrain
      */
-    public BreakerMK4iSwerveModule(WPI_TalonFX driveMotor, WPI_TalonFX turnMotor, WPI_CANCoder turnEncoder, BreakerSwerveDriveConfig config) {
+    public BreakerMK4iSwerveModule(WPI_TalonFX driveMotor, WPI_TalonFX turnMotor, WPI_CANCoder turnEncoder,
+            BreakerSwerveDriveConfig config) {
         this.config = config;
         this.turnMotor = turnMotor;
         this.driveMotor = driveMotor;
         this.turnEncoder = turnEncoder;
 
         CANCoderConfiguration encoderConfig = new CANCoderConfiguration();
-        encoderConfig.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
+        encoderConfig.absoluteSensorRange = AbsoluteSensorRange.Signed_PlusMinus180;
         encoderConfig.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
-        BreakerCTREUtil.checkError(turnEncoder.configAllSettings(encoderConfig), " Failed to config swerve module turn encoder "); 
+        BreakerCTREUtil.checkError(turnEncoder.configAllSettings(encoderConfig),
+                " Failed to config swerve module turn encoder ");
 
         TalonFXConfiguration turnConfig = new TalonFXConfiguration();
         turnConfig.remoteFilter0.remoteSensorDeviceID = turnEncoder.getDeviceID();
@@ -71,7 +81,8 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
         turnConfig.peakOutputReverse = -1.0;
         turnConfig.voltageCompSaturation = 12.0;
         turnConfig.statorCurrLimit = new StatorCurrentLimitConfiguration(true, 80.0, 80.0, 1.5);
-        BreakerCTREUtil.checkError(turnMotor.configAllSettings(turnConfig)," Failed to config swerve module turn motor "); 
+        BreakerCTREUtil.checkError(turnMotor.configAllSettings(turnConfig),
+                " Failed to config swerve module turn motor ");
         turnMotor.selectProfileSlot(0, 0);
         turnMotor.set(ControlMode.Position, turnEncoder.getAbsolutePosition());
 
@@ -86,17 +97,20 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
         driveConfig.peakOutputReverse = -1.0;
         driveConfig.voltageCompSaturation = 12.0;
         driveConfig.statorCurrLimit = new StatorCurrentLimitConfiguration(true, 80.0, 80.0, 1.5);
-        BreakerCTREUtil.checkError(driveMotor.configAllSettings(driveConfig), " Failed to config swerve module drive motor "); ;
+        BreakerCTREUtil.checkError(driveMotor.configAllSettings(driveConfig),
+                " Failed to config swerve module drive motor ");
+        ;
         driveMotor.selectProfileSlot(0, 0);
         driveMotor.set(ControlMode.Velocity, 0.0);
 
         ffProvider = config.getArbitraryFeedforwardProvider();
     }
- 
+
     @Override
     public void setModuleTarget(Rotation2d tgtAngle, double speedMetersPreSec) {
         turnMotor.set(TalonFXControlMode.Position, tgtAngle.getDegrees());
-        driveMotor.set(TalonFXControlMode.Velocity, getMetersPerSecToFalconRSU(speedMetersPreSec), DemandType.ArbitraryFeedForward, ffProvider.getArbitraryFeedforwardValue(speedMetersPreSec));
+        driveMotor.set(TalonFXControlMode.Velocity, getMetersPerSecToFalconRSU(speedMetersPreSec));//,
+                //DemandType.ArbitraryFeedForward, ffProvider.getArbitraryFeedforwardValue(speedMetersPreSec));
     }
 
     @Override
@@ -108,16 +122,17 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
     public double getModuleRelativeAngle() {
         return turnEncoder.getPosition();
     }
- 
+
     @Override
     public double getModuleVelMetersPerSec() {
-       return Units.inchesToMeters(BreakerMath.ticksToInches(driveMotor.getSelectedSensorVelocity() * 10,
-        BreakerMath.getTicksPerInch(2048, config.getDriveMotorGearRatioToOne(), config.getWheelDiameter())));
+        return Units.inchesToMeters(BreakerMath.ticksToInches(driveMotor.getSelectedSensorVelocity() * 10,
+                BreakerMath.getTicksPerInch(2048, config.getDriveMotorGearRatioToOne(), config.getWheelDiameter())));
     }
 
     @Override
     public double getMetersPerSecToFalconRSU(double speedMetersPerSec) {
-        return (speedMetersPerSec / 10) * Units.inchesToMeters(BreakerMath.getTicksPerInch(2048, config.getDriveMotorGearRatioToOne(), config.getWheelDiameter()));
+        return (speedMetersPerSec / 10) * Units.inchesToMeters(
+                BreakerMath.getTicksPerInch(2048, config.getDriveMotorGearRatioToOne(), config.getWheelDiameter()));
     }
 
     @Override
@@ -142,10 +157,12 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
 
     @Override
     public void runModuleSelfCheck() {
-        
+
     }
 
-    /** returns the modules health as an array [0] = overall, [1] = drive motor, [2] = turn motor, [3] = CANcoder
+    /**
+     * returns the modules health as an array [0] = overall, [1] = drive motor, [2]
+     * = turn motor, [3] = CANcoder
      */
     @Override
     public DeviceHealth[] getModuleHealths() {
@@ -160,7 +177,7 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
     @Override
     public void setDriveMotorBrakeMode(boolean isEnabled) {
         driveMotor.setNeutralMode(isEnabled ? NeutralMode.Brake : NeutralMode.Coast);
-        
+
     }
 
     @Override
@@ -224,7 +241,9 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
             encoderHealth = (encoderHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : encoderHealth;
             overallHealth = (overallHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : overallHealth;
         }
-        if (!curDriveFaults.HardwareFailure && !curTurnFaults.HardwareFailure && !curTurnFaults.SupplyUnstable && !curDriveFaults.SupplyUnstable && !curEncoderFaults.MagnetTooWeak && !curEncoderFaults.HardwareFault) {
+        if (!curDriveFaults.HardwareFailure && !curTurnFaults.HardwareFailure && !curTurnFaults.SupplyUnstable
+                && !curDriveFaults.SupplyUnstable && !curEncoderFaults.MagnetTooWeak
+                && !curEncoderFaults.HardwareFault) {
             faults = null;
             driveMotorHealth = DeviceHealth.NOMINAL;
             turnMotorHealth = DeviceHealth.NOMINAL;
@@ -279,12 +298,12 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
     @Override
     public void overrideAutomaticPowerManagement(DevicePowerMode manualPowerMode) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void returnToAutomaticPowerManagement() {
         // TODO Auto-generated method stub
-        
+
     }
 }

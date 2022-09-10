@@ -13,13 +13,15 @@ import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.util.math.polynomials.BreakerGenericPolynomial;
 
 public class BreakerSwerveDriveController extends CommandBase {
-  /** Creates a new BreakerSwerveDriveController. */
+  
   BreakerXboxController controller;
   BreakerSwerveDrive baseDrivetrain;
   BreakerGenericOdometer odometer;
   boolean usesSuppliers, usesCurves, usesExternalOdmeter;
   BreakerGenericPolynomial linearSpeedCurve, turnSpeedCurve;
   DoubleSupplier forwardSpeedPrecentSupplier, horizontalSpeedPrecentSupplier, turnSpeedPrecentSupplier;
+
+  /** Creates a new BreakerSwerveDriveController.*/
   public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerXboxController controller) {
     this.controller = controller;
     this.baseDrivetrain = baseDrivetrain;
@@ -29,7 +31,8 @@ public class BreakerSwerveDriveController extends CommandBase {
     addRequirements(baseDrivetrain);
   }
 
-  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerXboxController controller, BreakerGenericPolynomial linearSpeedCurve, BreakerGenericPolynomial turnSpeedCurve) {
+  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerXboxController controller,
+      BreakerGenericPolynomial linearSpeedCurve, BreakerGenericPolynomial turnSpeedCurve) {
     this.controller = controller;
     this.linearSpeedCurve = linearSpeedCurve;
     this.turnSpeedCurve = turnSpeedCurve;
@@ -40,7 +43,8 @@ public class BreakerSwerveDriveController extends CommandBase {
     addRequirements(baseDrivetrain);
   }
 
-  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, DoubleSupplier forwardSpeedPrecentSupplier, DoubleSupplier horizontalSpeedPrecentSupplier, DoubleSupplier turnSpeedPrecentSupplier) {
+  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, DoubleSupplier forwardSpeedPrecentSupplier,
+      DoubleSupplier horizontalSpeedPrecentSupplier, DoubleSupplier turnSpeedPrecentSupplier) {
     this.forwardSpeedPrecentSupplier = forwardSpeedPrecentSupplier;
     this.horizontalSpeedPrecentSupplier = horizontalSpeedPrecentSupplier;
     this.turnSpeedPrecentSupplier = turnSpeedPrecentSupplier;
@@ -51,7 +55,9 @@ public class BreakerSwerveDriveController extends CommandBase {
     addRequirements(baseDrivetrain);
   }
 
-  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, DoubleSupplier forwardSpeedPrecentSupplier, DoubleSupplier horizontalSpeedPrecentSupplier, DoubleSupplier turnSpeedPrecentSupplier, BreakerGenericPolynomial linearSpeedCurve, BreakerGenericPolynomial turnSpeedCurve) {
+  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, DoubleSupplier forwardSpeedPrecentSupplier,
+      DoubleSupplier horizontalSpeedPrecentSupplier, DoubleSupplier turnSpeedPrecentSupplier,
+      BreakerGenericPolynomial linearSpeedCurve, BreakerGenericPolynomial turnSpeedCurve) {
     this.forwardSpeedPrecentSupplier = forwardSpeedPrecentSupplier;
     this.horizontalSpeedPrecentSupplier = horizontalSpeedPrecentSupplier;
     this.turnSpeedPrecentSupplier = turnSpeedPrecentSupplier;
@@ -64,7 +70,14 @@ public class BreakerSwerveDriveController extends CommandBase {
     addRequirements(baseDrivetrain);
   }
 
-  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer, BreakerXboxController controller) {
+  /** Makes a BreakerSwerveDriveController with an odometer, controller, and drivetrain.
+   * 
+   * @param baseDrivetrain Swerve drivetrain.
+   * @param odometer
+   * @param controller
+   */
+  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer,
+      BreakerXboxController controller) {
     this.controller = controller;
     this.baseDrivetrain = baseDrivetrain;
     this.odometer = odometer;
@@ -74,7 +87,9 @@ public class BreakerSwerveDriveController extends CommandBase {
     addRequirements(baseDrivetrain);
   }
 
-  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer, BreakerXboxController controller, BreakerGenericPolynomial linearSpeedCurve, BreakerGenericPolynomial turnSpeedCurve) {
+  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer,
+      BreakerXboxController controller, BreakerGenericPolynomial linearSpeedCurve,
+      BreakerGenericPolynomial turnSpeedCurve) {
     this.controller = controller;
     this.linearSpeedCurve = linearSpeedCurve;
     this.turnSpeedCurve = turnSpeedCurve;
@@ -86,7 +101,9 @@ public class BreakerSwerveDriveController extends CommandBase {
     addRequirements(baseDrivetrain);
   }
 
-  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer,  DoubleSupplier forwardSpeedPrecentSupplier, DoubleSupplier horizontalSpeedPrecentSupplier, DoubleSupplier turnSpeedPrecentSupplier) {
+  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer,
+      DoubleSupplier forwardSpeedPrecentSupplier, DoubleSupplier horizontalSpeedPrecentSupplier,
+      DoubleSupplier turnSpeedPrecentSupplier) {
     this.forwardSpeedPrecentSupplier = forwardSpeedPrecentSupplier;
     this.horizontalSpeedPrecentSupplier = horizontalSpeedPrecentSupplier;
     this.turnSpeedPrecentSupplier = turnSpeedPrecentSupplier;
@@ -98,7 +115,10 @@ public class BreakerSwerveDriveController extends CommandBase {
     addRequirements(baseDrivetrain);
   }
 
-  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer,  DoubleSupplier forwardSpeedPrecentSupplier, DoubleSupplier horizontalSpeedPrecentSupplier, DoubleSupplier turnSpeedPrecentSupplier, BreakerGenericPolynomial linearSpeedCurve, BreakerGenericPolynomial turnSpeedCurve) {
+  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer,
+      DoubleSupplier forwardSpeedPrecentSupplier, DoubleSupplier horizontalSpeedPrecentSupplier,
+      DoubleSupplier turnSpeedPrecentSupplier, BreakerGenericPolynomial linearSpeedCurve,
+      BreakerGenericPolynomial turnSpeedCurve) {
     this.forwardSpeedPrecentSupplier = forwardSpeedPrecentSupplier;
     this.horizontalSpeedPrecentSupplier = horizontalSpeedPrecentSupplier;
     this.turnSpeedPrecentSupplier = turnSpeedPrecentSupplier;
@@ -114,7 +134,8 @@ public class BreakerSwerveDriveController extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -122,34 +143,37 @@ public class BreakerSwerveDriveController extends CommandBase {
     double forward = 0.0;
     double horizontal = 0.0;
     double turn = 0.0;
-    
-    if (usesSuppliers) {
-      forward = forwardSpeedPrecentSupplier.getAsDouble();
-      horizontal = horizontalSpeedPrecentSupplier.getAsDouble();
-      turn = turnSpeedPrecentSupplier.getAsDouble();
-    } else {
-      forward = controller.getBaseController().getLeftX();
-      horizontal = controller.getBaseController().getLeftY();
-      turn = controller.getBaseController().getRightY();
-    }
 
-    if (usesCurves) {
-      forward = linearSpeedCurve.getSignRelativeValueAtX(forward);
-      horizontal = linearSpeedCurve.getSignRelativeValueAtX(horizontal);
-      turn = turnSpeedCurve.getSignRelativeValueAtX(turn);
-    }
+    // if (usesSuppliers) {
+    //   forward = forwardSpeedPrecentSupplier.getAsDouble();
+    //   horizontal = horizontalSpeedPrecentSupplier.getAsDouble();
+    //   turn = turnSpeedPrecentSupplier.getAsDouble();
+    // } else {
+    //   forward = controller.getBaseController().getLeftX();
+    //   horizontal = controller.getBaseController().getLeftY();
+    //   turn = controller.getBaseController().getRightY();
+    // }
 
-    if (usesExternalOdmeter) {
-      baseDrivetrain.moveWithPercentInputRelativeToField(MathUtil.clamp(forward, -1.0, 1.0), MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0), odometer);
-    } else {
-      baseDrivetrain.moveWithPercentInputRelativeToField(MathUtil.clamp(forward, -1.0, 1.0), MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0));
-    }
-    
+    // if (usesCurves) {
+    //   forward = linearSpeedCurve.getSignRelativeValueAtX(forward);
+    //   horizontal = linearSpeedCurve.getSignRelativeValueAtX(horizontal);
+    //   turn = turnSpeedCurve.getSignRelativeValueAtX(turn);
+    // }
+
+    // if (usesExternalOdmeter) {
+    //   baseDrivetrain.moveWithPercentInputRelativeToField(MathUtil.clamp(forward, -1.0, 1.0),
+    //       MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0), odometer);
+    // } else {
+    //   baseDrivetrain.moveWithPercentInput(MathUtil.clamp(forward, -1.0, 1.0),
+    //       MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0));
+    // }
+      baseDrivetrain.move(2.0, 0.0, 0.0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

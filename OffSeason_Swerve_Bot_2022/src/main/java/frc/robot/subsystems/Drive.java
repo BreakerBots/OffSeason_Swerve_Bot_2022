@@ -44,7 +44,7 @@ public class Drive extends SubsystemBase {
         driveFL = new WPI_TalonFX(FL_WHEEL_ID);
         turnFL = new WPI_TalonFX(FL_ROTATION_ID);
         encoderFL = BreakerCANCoderFactory.createCANCoder(FL_ENCODER_ID, AbsoluteSensorRange.Signed_PlusMinus180, 0.0,
-                false);
+                true);
         transFL = FL_TRANSLATION;
 
         driveFR = new WPI_TalonFX(FR_WHEEL_ID);
@@ -62,11 +62,11 @@ public class Drive extends SubsystemBase {
         driveBR = new WPI_TalonFX(BR_WHEEL_ID);
         turnBR = new WPI_TalonFX(BR_ROTATION_ID);
         encoderBR = BreakerCANCoderFactory.createCANCoder(BR_ENCODER_ID, AbsoluteSensorRange.Signed_PlusMinus180, 0.0,
-                false);
+                true);
         transBR = BR_TRANSLATION;
 
-        config = new BreakerSwerveDriveConfig(4.1148, 4.1148, 4.1148, 0.01, 0.0, 0.0, 0.0, 0.01, 0.0, 0.0, 0.0, 4.0,
-                new BreakerArbitraryFeedforwardProvider(0.0, 0.0), transFL, transFR, transBL, transBR);
+        config = new BreakerSwerveDriveConfig(4.1148, 4.1148, 4.1148, 0.05, 0.0, 0.0, 0.0, 0.05, 0.0, 0.0, 0.0, 4.0,
+                new BreakerArbitraryFeedforwardProvider(1.0, 0.0), transFL, transFR, transBL, transBR);
         config.setSlowModeMultipliers(0.5, 0.5);
 
         frontLeftModule = new BreakerMK4iSwerveModule(driveFL, turnFL, encoderFL, config);
