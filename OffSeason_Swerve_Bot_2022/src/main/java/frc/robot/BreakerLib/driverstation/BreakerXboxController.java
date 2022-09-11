@@ -4,6 +4,7 @@
 
 package frc.robot.BreakerLib.driverstation;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -54,6 +55,8 @@ public class BreakerXboxController {
     private POVButton dPadLeft;
     private POVButton dPadRight;
 
+    private BreakerXboxControllerDeadbandConfig deadbandConfig = new BreakerXboxControllerDeadbandConfig();
+
     public BreakerXboxController(int xboxPortNum) {
         controller = new XboxController(xboxPortNum);
         buttonA = new JoystickButton(controller, A_PORT);
@@ -92,6 +95,10 @@ public class BreakerXboxController {
         }
     }
 
+    public void configAnalogInputDeadbands(BreakerXboxControllerDeadbandConfig deadbandConfig) {
+        this.deadbandConfig = deadbandConfig;
+    }
+
     public void setMixedRumble(double leftRumble, double rightRumble) {
         controller.setRumble(RumbleType.kLeftRumble, leftRumble);
         controller.setRumble(RumbleType.kRightRumble, leftRumble);
@@ -99,6 +106,30 @@ public class BreakerXboxController {
 
     public void clearRumble() {
         setMixedRumble(0, 0);
+    }
+
+    public double getLeftX() {
+       return MathUtil.applyDeadband(controller.getLeftX(), deadbandConfig.getLeftX());
+    }
+
+    public double getLeftY() {
+        return MathUtil.applyDeadband(controller.getLeftY(), deadbandConfig.getLeftY());
+    }
+
+    public double getRightX() {
+        return MathUtil.applyDeadband(controller.getRightX(), deadbandConfig.getRightX());
+    }
+
+    public double getRightY() {
+        return MathUtil.applyDeadband(controller.getRightY(), deadbandConfig.getRightY());
+    }
+
+    public double getLeftTriggerAxis() {
+        return MathUtil.applyDeadband(controller.getLeftTriggerAxis(), deadbandConfig.getLeftTriggerAxis());
+    }
+
+    public double getRightTriggerAxis() {
+        return MathUtil.applyDeadband(controller.getRightTriggerAxis(), deadbandConfig.getRightTriggerAxis());
     }
 
     public JoystickButton getBackButton() {

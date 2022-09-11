@@ -65,7 +65,7 @@ public class Drive extends SubsystemBase {
                 true);
         transBR = BR_TRANSLATION;
 
-        config = new BreakerSwerveDriveConfig(4.1148, 4.1148, 4.1148, 0.05, 0.0, 0.0, 0.0, 0.05, 0.0, 0.0, 0.0, 4.0,
+        config = new BreakerSwerveDriveConfig(4.1148, 4.1148, 4.1148, 0.05, 0.0, 0.0, 0.0, 0.05, 0.0, 0.0, 8.14, 4.0,
                 new BreakerArbitraryFeedforwardProvider(1.0, 0.0), transFL, transFR, transBL, transBR);
         config.setSlowModeMultipliers(0.5, 0.5);
 

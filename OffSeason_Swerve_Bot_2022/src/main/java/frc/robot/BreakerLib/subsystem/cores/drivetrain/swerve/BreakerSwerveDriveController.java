@@ -149,9 +149,9 @@ public class BreakerSwerveDriveController extends CommandBase {
       horizontal = horizontalSpeedPrecentSupplier.getAsDouble();
       turn = turnSpeedPrecentSupplier.getAsDouble();
     } else {
-      forward = controller.getBaseController().getLeftX();
-      horizontal = controller.getBaseController().getLeftY();
-      turn = controller.getBaseController().getRightY();
+      forward = controller.getLeftX();
+      horizontal = controller.getLeftY();
+      turn = controller.getRightY();
     }
 
     if (usesCurves) {

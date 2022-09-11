@@ -70,8 +70,8 @@ public class BreakerDiffDriveController extends CommandBase {
       net = netSpeedPrecentSupplier.getAsDouble();
       turn = turnSpeedPrecentSupplier.getAsDouble();
     } else {
-      net = controller.getBaseController().getRightTriggerAxis() - controller.getBaseController().getLeftTriggerAxis();
-      turn = controller.getBaseController().getLeftX();
+      net = controller.getRightTriggerAxis() - controller.getLeftTriggerAxis();
+      turn = controller.getLeftX();
     }
     if (usesCurves) {
       net = netSpeedCurve.getSignRelativeValueAtX(net);
