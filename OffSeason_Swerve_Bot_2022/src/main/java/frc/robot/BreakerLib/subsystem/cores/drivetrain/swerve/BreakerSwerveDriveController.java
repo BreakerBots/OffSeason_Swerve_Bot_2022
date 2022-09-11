@@ -144,30 +144,29 @@ public class BreakerSwerveDriveController extends CommandBase {
     double horizontal = 0.0;
     double turn = 0.0;
 
-    // if (usesSuppliers) {
-    //   forward = forwardSpeedPrecentSupplier.getAsDouble();
-    //   horizontal = horizontalSpeedPrecentSupplier.getAsDouble();
-    //   turn = turnSpeedPrecentSupplier.getAsDouble();
-    // } else {
-    //   forward = controller.getBaseController().getLeftX();
-    //   horizontal = controller.getBaseController().getLeftY();
-    //   turn = controller.getBaseController().getRightY();
-    // }
+    if (usesSuppliers) {
+      forward = forwardSpeedPrecentSupplier.getAsDouble();
+      horizontal = horizontalSpeedPrecentSupplier.getAsDouble();
+      turn = turnSpeedPrecentSupplier.getAsDouble();
+    } else {
+      forward = controller.getBaseController().getLeftX();
+      horizontal = controller.getBaseController().getLeftY();
+      turn = controller.getBaseController().getRightY();
+    }
 
-    // if (usesCurves) {
-    //   forward = linearSpeedCurve.getSignRelativeValueAtX(forward);
-    //   horizontal = linearSpeedCurve.getSignRelativeValueAtX(horizontal);
-    //   turn = turnSpeedCurve.getSignRelativeValueAtX(turn);
-    // }
+    if (usesCurves) {
+      forward = linearSpeedCurve.getSignRelativeValueAtX(forward);
+      horizontal = linearSpeedCurve.getSignRelativeValueAtX(horizontal);
+      turn = turnSpeedCurve.getSignRelativeValueAtX(turn);
+    }
 
-    // if (usesExternalOdmeter) {
-    //   baseDrivetrain.moveWithPercentInputRelativeToField(MathUtil.clamp(forward, -1.0, 1.0),
-    //       MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0), odometer);
-    // } else {
-    //   baseDrivetrain.moveWithPercentInput(MathUtil.clamp(forward, -1.0, 1.0),
-    //       MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0));
-    // }
-      baseDrivetrain.move(2.0, 0.0, 0.0);
+    if (usesExternalOdmeter) {
+      baseDrivetrain.moveWithPercentInputRelativeToField(MathUtil.clamp(forward, -1.0, 1.0),
+          MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0), odometer);
+    } else {
+      baseDrivetrain.moveWithPercentInput(MathUtil.clamp(forward, -1.0, 1.0),
+          MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0));
+    }
   }
 
   // Called once the command ends or is interrupted.
