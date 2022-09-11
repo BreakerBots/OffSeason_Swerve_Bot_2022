@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.BreakerLib.devices.sensors.BreakerPigeon2;
 import frc.robot.BreakerLib.driverstation.BreakerXboxController;
 import frc.robot.BreakerLib.driverstation.BreakerXboxControllerDeadbandConfig;
-import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerToggleSlowMode;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveController;
 import frc.robot.BreakerLib.util.robotmanager.BreakerRobotConfig;
 import frc.robot.BreakerLib.util.robotmanager.BreakerRobotManager;
@@ -37,7 +36,7 @@ public class RobotContainer {
     BreakerRobotManager.setup(
         drivetrainSys.getBaseDrivetrain(),
         new BreakerRobotConfig(
-            new BreakerRobotStartConfig(5104, "BreakerBots", "TBD SwerveBot", 2022, "V1.0alpha",
+            new BreakerRobotStartConfig(5104, "BreakerBots", "Offseason SwerveBot", 2022, "V1.2alpha",
                 "Roman Abrahamson, and Yousif Alkhalaf")));
 
     controllerSys.configAnalogInputDeadbands(new BreakerXboxControllerDeadbandConfig(0.05, 0.05, 0.05, 0.05, 0.05, 0.05));
@@ -54,7 +53,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    controllerSys.getdPadRight().whenPressed(new BreakerToggleSlowMode(drivetrainSys.getBaseDrivetrain()), false);
+    controllerSys.getdPadRight().whenPressed(new InstantCommand(drivetrainSys.getBaseDrivetrain()::toggleSlowMode), false);
   }
 
   /**

@@ -12,7 +12,11 @@ import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 public abstract class BreakerGenericDrivetrain extends BreakerGenericLoopedDevice implements BreakerGenericOdometer {
     protected boolean slowModeActive = false;
 
-    public  void setSlowMode(boolean isEnabled) {
+    public void toggleSlowMode() {
+        slowModeActive = !slowModeActive;
+    }
+
+    public void setSlowMode(boolean isEnabled) {
         slowModeActive = isEnabled;
     }
 
