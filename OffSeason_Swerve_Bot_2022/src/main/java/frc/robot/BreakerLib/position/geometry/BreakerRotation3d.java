@@ -27,20 +27,35 @@ public class BreakerRotation3d implements BreakerInterpolable<BreakerRotation3d>
         this.roll = roll;
     }
 
+    /**
+     * Creates a new BreakerRotation3d with the roll set to 0.
+     * 
+     * @param pitch Pitch angle as Rotation2d.
+     * @param yaw Yaw angle as Rotation2d.
+     */
     public BreakerRotation3d(Rotation2d pitch, Rotation2d yaw) {
         this.pitch = pitch;
         this.yaw = yaw;
         roll = new Rotation2d();
     }
 
+    /**
+     * @return the pitch of this BreakerRotation3d.
+     */
     public Rotation2d getPitch() {
         return pitch;
     }
 
+    /**
+     * @return the yaw of this BreakerRotation3d.
+     */
     public Rotation2d getYaw() {
         return yaw;
     }
-
+    
+    /**
+     * @return the roll of this BreakerRotation3d.
+     */
     public Rotation2d getRoll() {
         return roll;
     }
@@ -53,6 +68,10 @@ public class BreakerRotation3d implements BreakerInterpolable<BreakerRotation3d>
         return new BreakerRotation3d(newP, newY, newR);
     }
 
+    /**
+     * @param other the other BreakerRotation3d to subtract by.
+     * @return a new BreakerRotation3d with values subtracted from the other BreakerRotation3d.
+     */
     public BreakerRotation3d minus(BreakerRotation3d other) {
         Rotation2d newP = pitch.minus(other.getPitch());
         Rotation2d newY = yaw.minus(other.getYaw());

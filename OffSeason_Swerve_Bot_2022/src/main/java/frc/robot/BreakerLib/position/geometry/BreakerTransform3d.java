@@ -34,10 +34,16 @@ public class BreakerTransform3d {
         this.rotation = pose.getRotationComponent();
     }
 
+    /**
+     * @return the rotation component of this BreakerTransform3d.
+     */
     public BreakerRotation3d getRotationComponent() {
         return rotation;
     }
 
+    /**
+     * @return the translation component of this BreakerTransform3d.
+     */
     public BreakerTranslation3d getTranslationComponent() {
         return translation;
     }

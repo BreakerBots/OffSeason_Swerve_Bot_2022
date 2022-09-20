@@ -36,14 +36,23 @@ public class BreakerTranslation3d implements BreakerInterpolable<BreakerTranslat
         return new Translation2d(metersX, metersY);
     }
 
+    /**
+     * @return the X amount of meters from the destination.
+     */
     public double getMetersX() {
         return metersX;
     }
 
+    /**
+     * @return the Y amount of meters from the destination.
+     */
     public double getMetersY() {
         return metersY;
     }
 
+    /**
+     * @return the Z amount of meters from the destination.
+     */
     public double getMetersZ() {
         return metersZ;
     }

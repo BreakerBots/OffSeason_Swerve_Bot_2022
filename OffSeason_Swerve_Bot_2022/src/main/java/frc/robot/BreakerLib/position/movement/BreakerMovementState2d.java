@@ -15,18 +15,41 @@ public class BreakerMovementState2d {
     Breaker3AxisForces velocity;
     Breaker3AxisForces acceleration;
     Breaker3AxisForces jerk;
+
+    /**
+     * Creates a new BreakerMovementState2d using a given position, velocity, acceleration, and jerk.
+     * 
+     * @param position
+     * @param velocity
+     * @param acceleration
+     * @param jerk
+     */
     public BreakerMovementState2d(Pose2d position, Breaker3AxisForces velocity, Breaker3AxisForces acceleration, Breaker3AxisForces jerk) {
         this.position = position;
         this.acceleration = acceleration;
         this.jerk = jerk;
     }
 
+    /**
+     * Creates a new BreakerMovementState2d using a given position, velocity and acceleration.
+     * 
+     * @param position
+     * @param velocity
+     * @param acceleration
+     */
     public BreakerMovementState2d(Pose2d position, Breaker3AxisForces velocity, Breaker3AxisForces acceleration) {
         this.position = position;
         this.acceleration = acceleration;
         jerk = new Breaker3AxisForces();
     }
 
+     /**
+     * Creates a new BreakerMovementState2d and uses default values for the position, velocity, acceleration, and jerk.
+     * 
+     * @param position
+     * @param velocity
+     * @param acceleration
+     */
     public BreakerMovementState2d() {
         position = new Pose2d();
         velocity = new Breaker3AxisForces();
@@ -34,18 +57,29 @@ public class BreakerMovementState2d {
         jerk = new Breaker3AxisForces();
     }
 
+    /**
+     * @return The position component of this BreakerMovementState2d
+     */
     public Pose2d getPositionComponent() {
         return position;
     }
 
+    /**
+     * @return The acceleration component of this BreakerMovementState2d.
+     */
     public Breaker3AxisForces getAccelerationComponent() {
         return acceleration;
     }
-
+    /**
+     * @return The velocity component of this BreakerMovementState2d.
+     */
     public Breaker3AxisForces getVelocityComponent() {
         return velocity;
     }
 
+    /**
+     * @return The jerk component of this BreakerMovementState2d.
+     */
     public Breaker3AxisForces getJerkCompoenet() {
         return jerk;
     }
