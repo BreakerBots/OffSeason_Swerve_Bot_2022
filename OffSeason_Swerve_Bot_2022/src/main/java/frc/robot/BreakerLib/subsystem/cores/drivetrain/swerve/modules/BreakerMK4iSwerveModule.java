@@ -88,11 +88,11 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
 
         TalonFXConfiguration driveConfig = new TalonFXConfiguration();
         driveConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
-        driveConfig.slot0.kP = config.getModuleVelkP();
-        driveConfig.slot0.kI = config.getModuleVelkI();
-        driveConfig.slot0.kD = config.getModuleVelKd();
-        driveConfig.slot0.kF = config.getModuleVelKf();
-        driveConfig.slot0.closedLoopPeakOutput = 1.0;
+        driveConfig.slot1.kP = config.getModuleVelkP();
+        driveConfig.slot1.kI = config.getModuleVelkI();
+        driveConfig.slot1.kD = config.getModuleVelKd();
+        driveConfig.slot1.kF = config.getModuleVelKf();
+        driveConfig.slot1.closedLoopPeakOutput = 1.0;
         driveConfig.peakOutputForward = 1.0;
         driveConfig.peakOutputReverse = -1.0;
         driveConfig.voltageCompSaturation = 12.0;
@@ -100,7 +100,7 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
         BreakerCTREUtil.checkError(driveMotor.configAllSettings(driveConfig),
                 " Failed to config swerve module drive motor ");
         ;
-        driveMotor.selectProfileSlot(0, 0);
+        driveMotor.selectProfileSlot(1, 0);
         driveMotor.set(ControlMode.Velocity, 0.0);
 
         ffProvider = config.getArbitraryFeedforwardProvider();

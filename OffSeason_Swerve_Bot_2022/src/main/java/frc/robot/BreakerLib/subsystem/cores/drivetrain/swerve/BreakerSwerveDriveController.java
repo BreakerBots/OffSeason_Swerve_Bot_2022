@@ -160,13 +160,14 @@ public class BreakerSwerveDriveController extends CommandBase {
       turn = turnSpeedCurve.getSignRelativeValueAtX(turn);
     }
 
-    if (usesExternalOdmeter) {
-      baseDrivetrain.moveWithPercentInputRelativeToField(MathUtil.clamp(forward, -1.0, 1.0),
-          MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0), odometer);
-    } else {
-      baseDrivetrain.moveWithPercentInput(MathUtil.clamp(forward, -1.0, 1.0),
-          MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0));
-    }
+    // if (usesExternalOdmeter) {
+    //   baseDrivetrain.moveWithPercentInputRelativeToField(MathUtil.clamp(forward, -1.0, 1.0),
+    //       MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0), odometer);
+    // } else {
+    //   baseDrivetrain.moveWithPercentInput(MathUtil.clamp(forward, -1.0, 1.0),
+    //       MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0));
+    // }
+    baseDrivetrain.move(10.0, 0, 0);
   }
 
   // Called once the command ends or is interrupted.
