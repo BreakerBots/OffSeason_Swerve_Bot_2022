@@ -48,11 +48,11 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
      * constructs a new Swerve Drive Spetialties MK4I (inverted) swerve drive
      * module, implaments the BreakerSwerveModule Interface
      * 
-     * @param driveMotor  - The TalonFX motor that moves the module's wheel linearly
+     * @param driveMotor  - The TalonFX motor that moves the module's wheel linearly.
      * @param turnMotor   - The TalonFX motor that actuates module's wheel angle and
-     *                    changes the direction it is faceing
+     *                    changes the direction it is facing.
      * @param turnEncoder - The CTRE CANcoder magnetic encoder that the module uses
-     *                    to detirman wheel angle
+     *                    to determine wheel angle.
      * @param config      - The BreakerSwerveDriveConfig object that holds all
      *                    constants for your drivetrain
      */
