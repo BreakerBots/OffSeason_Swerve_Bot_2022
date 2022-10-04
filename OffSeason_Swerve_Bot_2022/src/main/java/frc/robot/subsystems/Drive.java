@@ -80,7 +80,6 @@ public class Drive extends SubsystemBase {
         backRightModule.setDeviceName(" Back_Right_Module ");
 
         drivetrain = new BreakerSwerveDrive(config, pigeon2, frontLeftModule, frontRightModule, backLeftModule, backRightModule);
-        frontRightModule.setModuleTarget(new Rotation2d(0.0), 2.5);
     }
 
     public BreakerSwerveDrive getBaseDrivetrain() {
