@@ -109,8 +109,8 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
     @Override
     public void setModuleTarget(Rotation2d tgtAngle, double speedMetersPerSec) {
         turnMotor.set(TalonFXControlMode.Position, tgtAngle.getDegrees());
-        driveMotor.set(TalonFXControlMode.Velocity, getMetersPerSecToFalconRSU(speedMetersPerSec));//,
-                //DemandType.ArbitraryFeedForward, ffProvider.getArbitraryFeedforwardValue(speedMetersPreSec));
+        driveMotor.set(TalonFXControlMode.Velocity, getMetersPerSecToFalconRSU(speedMetersPerSec),
+                DemandType.ArbitraryFeedForward, ffProvider.getArbitraryFeedforwardValue(speedMetersPerSec));
     }
 
     @Override

@@ -15,14 +15,16 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.RobotContainer;
-import frc.robot.BreakerLib.devices.sensors.IMU.BreakerPigeon2;
+import frc.robot.BreakerLib.devices.sensors.IMU.BreakerGenericGyro;
+import frc.robot.BreakerLib.devices.sensors.IMU.BreakerGenericIMU;
+import frc.robot.BreakerLib.devices.sensors.IMU.CTRE.BreakerPigeon2;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveConfig;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 
 public class BreakerSwerveDrivePoseEstimator implements BreakerGenericOdometer {
-    private BreakerPigeon2 pigeon2;
+    private BreakerGenericGyro gyro;
     private BreakerSwerveDriveConfig config;
     private SwerveDrivePoseEstimator poseEstimator;
     private double lastUpdateTimestamp = Timer.getFPGATimestamp();
@@ -31,11 +33,11 @@ public class BreakerSwerveDrivePoseEstimator implements BreakerGenericOdometer {
     private BreakerMovementState2d prevMovementState = new BreakerMovementState2d();
     private BreakerMovementState2d curMovementState = new BreakerMovementState2d();
 
-    public BreakerSwerveDrivePoseEstimator(BreakerPigeon2 pigeon2, Pose2d initialPose, BreakerSwerveDriveConfig config,
+    public BreakerSwerveDrivePoseEstimator(BreakerGenericGyro gyro, Pose2d initialPose, BreakerSwerveDriveConfig config,
             double[] stateModelStanderdDeveation, double gyroStandardDeveation, double[] visionStanderdDeveation) {
-        this.pigeon2 = pigeon2;
+        this.gyro = gyro;
         this.config = config;
-        poseEstimator = new SwerveDrivePoseEstimator(Rotation2d.fromDegrees(pigeon2.getRawAngles()[0]), initialPose,
+        poseEstimator = new SwerveDrivePoseEstimator(Rotation2d.fromDegrees(gyro.getRawAngles()[0]), initialPose,
                 config.getKinematics(),
                 new MatBuilder<>(Nat.N3(), Nat.N1()).fill(stateModelStanderdDeveation[0],
                         stateModelStanderdDeveation[1], stateModelStanderdDeveation[2]),
@@ -46,7 +48,7 @@ public class BreakerSwerveDrivePoseEstimator implements BreakerGenericOdometer {
 
     public Pose2d update(SwerveModuleState... moduleStates) {
         prevPose = getOdometryPoseMeters();
-        Pose2d pose = poseEstimator.update(Rotation2d.fromDegrees(pigeon2.getRawAngles()[0]), moduleStates);
+        Pose2d pose = poseEstimator.update(Rotation2d.fromDegrees(gyro.getRawAngles()[0]), moduleStates);
         updateChassisSpeeds();
         lastUpdateTimestamp = Timer.getFPGATimestamp();
         return pose;
@@ -77,7 +79,7 @@ public class BreakerSwerveDrivePoseEstimator implements BreakerGenericOdometer {
 
     @Override
     public void setOdometryPosition(Pose2d newPose) {
-        poseEstimator.resetPosition(newPose, Rotation2d.fromDegrees(pigeon2.getRawAngles()[0]));
+        poseEstimator.resetPosition(newPose, Rotation2d.fromDegrees(gyro.getRawAngles()[0]));
     }
 
     @Override

@@ -10,7 +10,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.BreakerLib.devices.sensors.IMU.BreakerPigeon2;
+import frc.robot.BreakerLib.devices.sensors.IMU.BreakerGenericIMU;
+import frc.robot.BreakerLib.devices.sensors.IMU.CTRE.BreakerPigeon2;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
@@ -27,7 +28,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
 
   private BreakerGenericSwerveModule[] swerveModules;
 
-  private BreakerPigeon2 pigeon2;
+  private BreakerGenericIMU imu;
 
   private SwerveDriveOdometry odometer;
 
@@ -39,11 +40,11 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
    * @param config - the confiuration values for the drivetrain's charicteristics and behavor, passed in as a "BreakerSwerveDriveConfig" object
    * @param swerveModules - The four swerve drive modules that make up the drivetrain, must be passed in the same order shown below
    */
-  public BreakerSwerveDrive(BreakerSwerveDriveConfig config, BreakerPigeon2 pigeon2, BreakerGenericSwerveModule... swerveModules) {
-    odometer = new SwerveDriveOdometry(config.getKinematics(), Rotation2d.fromDegrees(pigeon2.getRawAngles()[0]));
+  public BreakerSwerveDrive(BreakerSwerveDriveConfig config, BreakerGenericIMU imu, BreakerGenericSwerveModule... swerveModules) {
+    odometer = new SwerveDriveOdometry(config.getKinematics(), Rotation2d.fromDegrees(imu.getRawAngles()[0]));
     this.config = config;
     this.swerveModules = swerveModules;
-    this.pigeon2 = pigeon2;
+    this.imu = imu;
     deviceName = "Swerve_Drivetrain";
   }
 
@@ -140,7 +141,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
 
   @Override
   public void updateOdometry() {
-    odometer.updateWithTime(Timer.getFPGATimestamp(), Rotation2d.fromDegrees(pigeon2.getRawAngles()[0]), getSwerveModuleStates());
+    odometer.updateWithTime(Timer.getFPGATimestamp(), Rotation2d.fromDegrees(imu.getRawAngles()[0]), getSwerveModuleStates());
     //calculateMovementState((Timer.getFPGATimestamp() - prevOdometryUpdateTimestamp) * 1000);
     prevOdometryUpdateTimestamp = Timer.getFPGATimestamp();
   }
@@ -181,7 +182,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
 
   @Override
   public void setOdometryPosition(Pose2d newPose) {
-   odometer.resetPosition(newPose, Rotation2d.fromDegrees(pigeon2.getRawAngles()[0]));
+   odometer.resetPosition(newPose, Rotation2d.fromDegrees(imu.getRawAngles()[0]));
   }
 
   @Override

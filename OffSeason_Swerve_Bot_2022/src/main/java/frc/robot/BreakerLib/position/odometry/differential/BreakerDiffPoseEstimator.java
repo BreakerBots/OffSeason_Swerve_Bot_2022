@@ -14,14 +14,16 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.BreakerLib.devices.sensors.IMU.BreakerPigeon2;
+import frc.robot.BreakerLib.devices.sensors.IMU.BreakerGenericGyro;
+import frc.robot.BreakerLib.devices.sensors.IMU.BreakerGenericIMU;
+import frc.robot.BreakerLib.devices.sensors.IMU.CTRE.BreakerPigeon2;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 
 /** Add your docs here. */
 public class BreakerDiffPoseEstimator implements BreakerGenericOdometer {
-    private BreakerPigeon2 pigeon2;
+    private BreakerGenericGyro gyro;
     private DifferentialDrivePoseEstimator poseEstimator;
     private Pose2d currentPose;
     private double lastUpdateTimestamp = Timer.getFPGATimestamp();
@@ -29,10 +31,10 @@ public class BreakerDiffPoseEstimator implements BreakerGenericOdometer {
     private ChassisSpeeds fieldRelativeChassisSpeeds = new ChassisSpeeds();
     private BreakerMovementState2d prevMovementState = new BreakerMovementState2d();
     private BreakerMovementState2d curMovementState = new BreakerMovementState2d();
-    public BreakerDiffPoseEstimator(BreakerPigeon2 pigeon2, Pose2d initialPose, double[] stateModelStanderdDeveation, double[] encoderAndGyroStandardDeveation, double[] visionStanderdDeveation) {
+    public BreakerDiffPoseEstimator(BreakerGenericGyro gyro, Pose2d initialPose, double[] stateModelStanderdDeveation, double[] encoderAndGyroStandardDeveation, double[] visionStanderdDeveation) {
         currentPose = initialPose;
-        this.pigeon2 = pigeon2;
-        poseEstimator = new DifferentialDrivePoseEstimator(Rotation2d.fromDegrees(pigeon2.getRawAngles()[0]), initialPose,
+        this.gyro = gyro;
+        poseEstimator = new DifferentialDrivePoseEstimator(Rotation2d.fromDegrees(gyro.getRawAngles()[0]), initialPose,
             new MatBuilder<>(Nat.N5(), Nat.N1()).fill(stateModelStanderdDeveation[0], stateModelStanderdDeveation[1], stateModelStanderdDeveation[2], stateModelStanderdDeveation[3], stateModelStanderdDeveation[4]), // State measurement standard deviations. X, Y, theta., 
             new MatBuilder<>(Nat.N3(), Nat.N1()).fill(encoderAndGyroStandardDeveation[0], encoderAndGyroStandardDeveation[1], encoderAndGyroStandardDeveation[2]), // Local measurement standard deviations. Left encoder, right encoder, gyro.
             new MatBuilder<>(Nat.N3(), Nat.N1()).fill(visionStanderdDeveation[0], visionStanderdDeveation[1], visionStanderdDeveation[2])); // Global measurement standard deviations. X, Y, and theta.4
@@ -40,7 +42,7 @@ public class BreakerDiffPoseEstimator implements BreakerGenericOdometer {
 
     public Pose2d update(BreakerDiffDriveState currentDriveState) {
         prevPose = getOdometryPoseMeters();
-        currentPose = poseEstimator.update(Rotation2d.fromDegrees(pigeon2.getRawAngles()[0]), currentDriveState.getWheelSpeeds(), currentDriveState.getLeftDriveDistanceMeters(), currentDriveState.getRightDriveDistanceMeters());
+        currentPose = poseEstimator.update(Rotation2d.fromDegrees(gyro.getRawAngles()[0]), currentDriveState.getWheelSpeeds(), currentDriveState.getLeftDriveDistanceMeters(), currentDriveState.getRightDriveDistanceMeters());
         updateChassisSpeeds();
         lastUpdateTimestamp = Timer.getFPGATimestamp();
         return currentPose;
@@ -64,7 +66,7 @@ public class BreakerDiffPoseEstimator implements BreakerGenericOdometer {
     }
 
     public void setOdometryPosition(Pose2d newPose) {
-        poseEstimator.resetPosition(newPose, Rotation2d.fromDegrees(pigeon2.getRawAngles()[0]));
+        poseEstimator.resetPosition(newPose, Rotation2d.fromDegrees(gyro.getRawAngles()[0]));
     }
 
     @Override
