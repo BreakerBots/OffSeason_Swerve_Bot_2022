@@ -1,6 +1,4 @@
-package frc.robot.BreakerLib.util.math;
-
-import javax.xml.crypto.dsig.keyinfo.KeyInfo;
+package frc.robot.BreakerLib.util.math; 
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -12,13 +10,13 @@ import frc.robot.BreakerLib.physics.Breaker3AxisForces;
 import frc.robot.BreakerLib.physics.BreakerVector2;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 
-//easily accessible conversion equations
+/** Easily accessible conversion equations and math utilities. */
 public class BreakerMath {
 
     private static double prevTime = 0;
 
     /**
-     * Constrains an angle value in degrees within +- 360 degrees.
+     * Constrains an angle value in degrees within +- 180 degrees.
      * 
      * @param deg Angle value in degrees.
      * 
@@ -32,12 +30,24 @@ public class BreakerMath {
      * Constrains an angle value in degrees within +- desired constraint, in degrees
      * 
      * @param deg        Angle value in degrees.
-     * @param constraint Degree value to constrain angle within.
+     * @param constraint Degree value to constrain angle within. Should be > 0.
      * 
-     * @return Angle value within -constraint to +constraint degrees.
+     * @return Angle value within -constraint and +constraint degrees.
      */
     public static final double angleModulus(double deg, double constraint) {
         return MathUtil.inputModulus(deg, -constraint, constraint);
+    }
+
+    /**Constrains an angle value in degrees within a minimum and maximum angle.
+     * 
+     * @param deg Angle value in degrees.
+     * @param minAngle Minimum angle value.
+     * @param maxAngle Maximum angle value.
+     * 
+     * @return Angle value between minAngle and maxAngle.
+     */
+    public static final double angleModulus(double deg, double minAngle, double maxAngle) {
+        return MathUtil.inputModulus(deg, minAngle, maxAngle);
     }
 
     /** Calculates radians per second from rotations per minute. */

@@ -9,22 +9,22 @@ import frc.robot.BreakerLib.position.geometry.BreakerRotation3d;
 
 /** FRC gyroscope interface. */
 public interface BreakerGenericGyro {
-  /** @return Pitch angle in degrees. */
+  /** @return Pitch angle within +-180 degrees. */
   public abstract double getPitchDegrees();
 
-  /** @return Yaw angle in degrees. */
+  /** @return Yaw angle within +-180 degrees. */
   public abstract double getYawDegrees();
 
-  /** @return Roll angle in degrees. */
+  /** @return Roll angle within +-180 degrees. */
   public abstract double getRollDegrees();
 
-  /** @return Pitch angle as {@link Rotation2d}. */
+  /** @return Pitch angle as {@link Rotation2d} within +-180 degrees. */
   public abstract Rotation2d getPitchRotation2d();
 
-  /** @return Yaw angle as {@link Rotation2d}. */
+  /** @return Yaw angle as {@link Rotation2d} within +-180 degrees. */
   public abstract Rotation2d getYawRotation2d();
 
-  /** @return Roll angle as {@link Rotation2d}. */
+  /** @return Roll angle as {@link Rotation2d} within +-180 degrees. */
   public abstract Rotation2d getRollRotation2d();
 
   /** Pitch, yaw, and roll as Rotation3d, all within +- 180 degrees. */
