@@ -7,24 +7,24 @@ package frc.robot.BreakerLib.devices.sensors.IMU;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.BreakerLib.position.geometry.BreakerRotation3d;
 
-/** Add your docs here. */
+/** FRC gyroscope interface. */
 public interface BreakerGenericGyro {
-    /** Returns pitch angle within +- 180 degrees */
+  /** @return Pitch angle in degrees. */
   public abstract double getPitchDegrees();
 
-  /** Returns yaw angle within +- 180 degrees */
+  /** @return Yaw angle in degrees. */
   public abstract double getYawDegrees();
 
-  /** Returns roll angle within +- 180 degrees */
+  /** @return Roll angle in degrees. */
   public abstract double getRollDegrees();
 
-  /** Pitch within +- 180 degrees as Rotation2d. */
+  /** @return Pitch angle as {@link Rotation2d}. */
   public abstract Rotation2d getPitchRotation2d();
 
-  /** Yaw within +- 180 degrees as Rotation2d. */
+  /** @return Yaw angle as {@link Rotation2d}. */
   public abstract Rotation2d getYawRotation2d();
 
-  /** Roll within +- 180 degrees as Rotation2d. */
+  /** @return Roll angle as {@link Rotation2d}. */
   public abstract Rotation2d getRollRotation2d();
 
   /** Pitch, yaw, and roll as Rotation3d, all within +- 180 degrees. */
@@ -43,17 +43,18 @@ public interface BreakerGenericGyro {
   /** Sets yaw to given angle. */
   public abstract void set(double angle);
 
-  /** Returns angular velocitys in degrees per sec*/
+  /** Returns angular velocitys in degrees per sec */
   public abstract double[] getRawGyroRates();
 
-  /** angular velocity pitch.(deg/sec) */
+  /** @return Angular velocity pitch.(deg/sec) */
   public abstract double getPitchRate();
 
- /** angular velocity yaw.(deg/sec) */
+  /** @return Angular velocity yaw.(deg/sec) */
   public abstract double getYawRate();
 
-  /** angular velocity roll.(deg/sec) */
+  /** @return Angular velocity roll.(deg/sec) */
   public abstract double getRollRate();
 
+  /** @return Pitch, yaw, and roll as {@link BreakerRotation3d} */
   public abstract BreakerRotation3d getRawRotation3d();
 }

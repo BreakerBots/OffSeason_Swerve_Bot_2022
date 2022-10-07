@@ -6,5 +6,5 @@ package frc.robot.BreakerLib.devices.sensors.IMU;
 
 import frc.robot.BreakerLib.devices.BreakerGenericDeviceBase;
 
-/** Add your docs here. */
+/** Generic IMU interface featuring both accelerometer and gyro functionality. */
 public abstract class BreakerGenericIMU extends BreakerGenericDeviceBase implements BreakerGenericGyro, BreakerGenericAccelerometer {}

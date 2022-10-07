@@ -4,21 +4,21 @@
 
 package frc.robot.BreakerLib.devices.sensors.IMU;
 
-/** Add your docs here. */
+/** FRC accelerometer interface. */
 public interface BreakerGenericAccelerometer {
-     /**
+  /**
    * Returns array of raw accelerometer values.
    * <p>
    * x = 0, y = 1, z = 2.
    */
   public short[] getRawAccelerometerVals();
 
-  /** Unbiased Accelerometer x-value in m/s^2 */
+  /** @return Unbiased accelerometer x-value in m/s^2 */
   public double getRawAccelX();
 
-  /** Unbiased Accelerometer x-value in m/s^2 */
+  /** @return Unbiased accelerometer y-value in m/s^2 */
   public double getRawAccelY();
 
-  /** Unbiased Accelerometer x-value in m/s^2 */
+  /** @return Unbiased accelerometer z-value in m/s^2 */
   public double getRawAccelZ();
 }
