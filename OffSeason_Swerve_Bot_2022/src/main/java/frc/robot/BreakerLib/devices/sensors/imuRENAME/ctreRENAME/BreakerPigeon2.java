@@ -1,13 +1,13 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-package frc.robot.BreakerLib.devices.sensors.IMU.CTRE;
+package frc.robot.BreakerLib.devices.sensors.imuRENAME.ctreRENAME;
 
 import com.ctre.phoenix.sensors.Pigeon2_Faults;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.BreakerLib.devices.sensors.IMU.BreakerGenericIMU;
+import frc.robot.BreakerLib.devices.sensors.imuRENAME.BreakerGenericIMU;
 import frc.robot.BreakerLib.position.geometry.BreakerRotation3d;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
