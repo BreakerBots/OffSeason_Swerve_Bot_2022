@@ -39,11 +39,11 @@ public class RobotContainer {
             new BreakerRobotStartConfig(5104, "BreakerBots", "Offseason SwerveBot", 2022, "V1.2alpha",
                 "Roman Abrahamson, and Yousif Alkhalaf")));
 
-    controllerSys.configAnalogInputDeadbands(new BreakerXboxControllerDeadbandConfig(0.05, 0.05, 0.05, 0.05, 0.05, 0.05));
+    //controllerSys.configAnalogInputDeadbands(new BreakerXboxControllerDeadbandConfig(0.05, 0.05, 0.05, 0.05, 0.05, 0.05));
 
     configureButtonBindings();
-    // drivetrainSys.getBaseDrivetrain()
-    //     .setDefaultCommand(new BreakerSwerveDriveController(drivetrainSys.getBaseDrivetrain(), drivetrainSys.getBaseDrivetrain(), controllerSys));
+    drivetrainSys.getBaseDrivetrain()
+        .setDefaultCommand(new BreakerSwerveDriveController(drivetrainSys.getBaseDrivetrain(), controllerSys));
   }
 
   /**

@@ -24,6 +24,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveConfig;
 import frc.robot.BreakerLib.util.BreakerArbitraryFeedforwardProvider;
 import frc.robot.BreakerLib.util.BreakerCTREUtil;
@@ -108,9 +109,13 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
 
     @Override
     public void setModuleTarget(Rotation2d tgtAngle, double speedMetersPerSec) {
+        SmartDashboard.putNumber(deviceName + " ANGLE IN", tgtAngle.getDegrees());
+        SmartDashboard.putNumber(deviceName +" SPEED IN", getMetersPerSecToFalconRSU(speedMetersPerSec));
         turnMotor.set(TalonFXControlMode.Position, tgtAngle.getDegrees());
         driveMotor.set(TalonFXControlMode.Velocity, getMetersPerSecToFalconRSU(speedMetersPerSec),
                 DemandType.ArbitraryFeedForward, ffProvider.getArbitraryFeedforwardValue(speedMetersPerSec));
+        SmartDashboard.putNumber(deviceName + "ANGLE OUT", getModuleState().angle.getDegrees());
+        SmartDashboard.putNumber(deviceName + "SPEED OUT", getModuleState().speedMetersPerSecond);
     }
 
     @Override
