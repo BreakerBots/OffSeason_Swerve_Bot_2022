@@ -13,7 +13,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.kauailabs.navx.frc.AHRS.SerialDataType;
 
 /** Breaker NavX gyro. Calibration must be called manually. */
-public class BreakerAHRS extends BreakerGenericIMU{
+public class BreakerAHRS extends BreakerGenericIMU {
 
     private AHRS imu;
 
@@ -86,7 +86,7 @@ public class BreakerAHRS extends BreakerGenericIMU{
 
     @Override
     public double[] getRawAngles() {
-        return new double[] {getPitchDegrees(), getYawDegrees(), getRollDegrees()};
+        return new double[] { getPitchDegrees(), getYawDegrees(), getRollDegrees() };
     }
 
     /** Resets yaw to 0 */
@@ -95,7 +95,10 @@ public class BreakerAHRS extends BreakerGenericIMU{
         imu.reset();
     }
 
-    /** Calibrates the IMU. Do this when the robot won't be moving, like when the robot is turned on. */
+    /**
+     * Calibrates the IMU. Do this when the robot won't be moving, like when the
+     * robot is turned on.
+     */
     public void calibrate() {
         imu.calibrate();
     }
@@ -117,56 +120,80 @@ public class BreakerAHRS extends BreakerGenericIMU{
 
     @Override
     public double[] getRawGyroRates() {
-        // TODO Auto-generated method stub
-        return null;
+        return new double[] {imu.getRawGyroX(), imu.getRawGyroY(), imu.getRawGyroZ()};
+    }    
+
+    /** Does nothing. */
+    @Override
+    public double getRawPitch() {
+        return 0;
+    }
+
+    @Override
+    public double getRawPitchRate() {
+        return imu.getRawGyroX();
+    }
+
+    /** Does nothing. */
+    @Override
+    public double getRawYaw() {
+        return 0;
+    }
+
+    @Override
+    public double getRawYawRate() {
+        return imu.getRawGyroY();
+    }
+
+    /** Does nothing. */
+    @Override
+    public double getRawRoll() {
+        return 0;
+    }
+
+    @Override
+    public double getRawRollRate() {
+        return imu.getRawGyroZ();
     }
 
     @Override
     public double getPitchRate() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getRawPitchRate();
     }
 
     @Override
     public double getYawRate() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getRawYawRate();
     }
 
     @Override
     public double getRollRate() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getRawRollRate();
     }
 
     @Override
     public BreakerRotation3d getRawRotation3d() {
-        // TODO Auto-generated method stub
-        return null;
+        return new BreakerRotation3d(getPitchRotation2d(), getYawRotation2d(), getRollRotation2d());
     }
 
     @Override
-    public short[] getRawAccelerometerVals() {
-        // TODO Auto-generated method stub
-        return null;
+    public double[] getRawAccelerometerVals() {
+        return new double[] {getRawAccelX(), getRawAccelY(), getRawAccelZ()};
     }
 
     @Override
     public double getRawAccelX() {
-        // TODO Auto-generated method stub
-        return 0;
+        return imu.getRawAccelX();
     }
 
     @Override
     public double getRawAccelY() {
-        // TODO Auto-generated method stub
-        return 0;
+        return imu.getRawAccelY();
     }
 
     @Override
     public double getRawAccelZ() {
-        // TODO Auto-generated method stub
-        return 0;
+        return imu.getRawAccelZ();
     }
 
     @Override
@@ -178,13 +205,13 @@ public class BreakerAHRS extends BreakerGenericIMU{
     @Override
     public void overrideAutomaticPowerManagement(DevicePowerMode manualPowerMode) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void returnToAutomaticPowerManagement() {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -202,7 +229,7 @@ public class BreakerAHRS extends BreakerGenericIMU{
     @Override
     public void runSelfTest() {
         // TODO Auto-generated method stub
-        
+
     }
-    
+
 }

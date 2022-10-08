@@ -11,7 +11,7 @@ public interface BreakerGenericAccelerometer {
    * <p>
    * x = 0, y = 1, z = 2.
    */
-  public short[] getRawAccelerometerVals();
+  public double[] getRawAccelerometerVals();
 
   /** @return Unbiased accelerometer x-value in m/s^2 */
   public double getRawAccelX();

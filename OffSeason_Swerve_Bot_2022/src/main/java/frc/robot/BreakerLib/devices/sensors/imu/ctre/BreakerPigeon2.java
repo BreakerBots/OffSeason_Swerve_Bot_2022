@@ -133,7 +133,7 @@ public class BreakerPigeon2 extends BreakerGenericIMU {
 
   @Override
   public double getYawRate() {
-    return  getRawYawRate();
+    return getRawYawRate();
   }
 
   @Override
@@ -142,7 +142,15 @@ public class BreakerPigeon2 extends BreakerGenericIMU {
   }
 
   @Override
-  public short[] getRawAccelerometerVals() {
+  public double[] getRawAccelerometerVals() {
+    double[] newVals = new double[3];
+    for (int i = 0; i < 3; i++) {
+      newVals[i] = (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[i], 14) * 0.000508);
+    }
+    return newVals;
+  }
+
+  public short[] getRawAccelerometerValsShort() {
     short[] accelVals = new short[3];
     pigeon.getBiasedAccelerometer(accelVals);
     return accelVals;
@@ -150,17 +158,17 @@ public class BreakerPigeon2 extends BreakerGenericIMU {
 
   @Override
   public double getRawAccelX() {
-    return (BreakerMath.fixedToFloat(getRawAccelerometerVals()[0], 14) * 0.000508);
+    return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[0], 14) * 0.000508);
   }
 
   @Override
   public double getRawAccelY() {
-    return (BreakerMath.fixedToFloat(getRawAccelerometerVals()[1], 14) * 0.000508);
+    return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[1], 14) * 0.000508);
   }
 
   @Override
   public double getRawAccelZ() {
-    return (BreakerMath.fixedToFloat(getRawAccelerometerVals()[2], 14) * 0.000508);
+    return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[2], 14) * 0.000508);
   }
 
   public int getPigeonUpTime() {
@@ -230,11 +238,4 @@ public class BreakerPigeon2 extends BreakerGenericIMU {
     // TODO Auto-generated method stub
   }
 
-
-
- 
-
-  
 }
-  
-
