@@ -1,13 +1,13 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-package frc.robot.BreakerLib.devices.sensors.imuRENAME.ctreRENAME;
+package frc.robot.BreakerLib.devices.sensors.imu.ctre;
 
 import com.ctre.phoenix.sensors.Pigeon2_Faults;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.BreakerLib.devices.sensors.imuRENAME.BreakerGenericIMU;
+import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
 import frc.robot.BreakerLib.position.geometry.BreakerRotation3d;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
@@ -24,53 +24,41 @@ public class BreakerPigeon2 extends BreakerGenericIMU {
     deviceName = "Pigeon2_IMU (" + deviceID + ") ";
   }
 
-  /** Returns pitch angle within +- 180 degrees */
   @Override
   public double getPitchDegrees() {
     return BreakerMath.angleModulus(pigeon.getPitch());
   }
 
-  /** Returns yaw angle within +- 180 degrees */
   @Override
   public double getYawDegrees() {
     return BreakerMath.angleModulus(pigeon.getYaw());
   }
 
-  /** Returns roll angle within +- 180 degrees */
   @Override
   public double getRollDegrees() {
     return BreakerMath.angleModulus(pigeon.getRoll());
   }
 
-  /** Pitch within +- 180 degrees as Rotation2d. */
   @Override
   public Rotation2d getPitchRotation2d() {
     return Rotation2d.fromDegrees(getPitchDegrees());
   }
 
-  /** Yaw within +- 180 degrees as Rotation2d. */
   @Override
   public Rotation2d getYawRotation2d() {
     return Rotation2d.fromDegrees(getYawDegrees());
   }
 
-  /** Roll within +- 180 degrees as Rotation2d. */
   @Override
   public Rotation2d getRollRotation2d() {
     return Rotation2d.fromDegrees(getRollDegrees());
   }
 
-  /** Pitch, yaw, and roll as Rotation3d, all within +- 180 degrees. */
   @Override
   public BreakerRotation3d getRotation3d() {
     return new BreakerRotation3d(getPitchRotation2d(), getYawRotation2d(), getRollRotation2d());
   }
 
-  /**
-   * Returns raw yaw, pitch, and roll angles in an array.
-   * <p>
-   * yaw = 0, pitch = 1, roll = 2.
-   */
   @Override
   public double[] getRawAngles() {
     double[] RawYPR = new double[3];
@@ -78,49 +66,51 @@ public class BreakerPigeon2 extends BreakerGenericIMU {
     return RawYPR;
   }
 
-  /** Resets yaw to 0 degrees */
+  /** Does nothing. */
+  @Override
+  public void setPitch(double value) {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public void setYaw(double value) {
+    pigeon.setYaw(0);
+  }
+
+  /** Does nothing. */
+  @Override
+  public void setRoll(double value) {
+
+  }
+
+  /** Sets yaw to 0 */
   @Override
   public void reset() {
     pigeon.setYaw(0);
   }
 
-  /** Sets yaw to given angle. */
-  @Override
-  public void set(double angle) {
-    pigeon.setYaw(angle);
-  }
-
-  /** Returns angular velocity based on given index in degrees per sec*/
-  @Override
   public double[] getRawGyroRates() {
     double[] rawRates = new double[3];
     pigeon.getRawGyro(rawRates);
     return rawRates;
   }
 
-  /** angular velocity pitch (deg/sec). */
   @Override
   public double getPitchRate() {
     return getRawGyroRates()[0];
   }
 
-  /** angular velocity yaw. (deg/sec)*/
   @Override
   public double getYawRate() {
     return getRawGyroRates()[1];
   }
 
-  /** angular velocity roll.(deg/sec) */
   @Override
   public double getRollRate() {
     return getRawGyroRates()[2];
   }
 
-  /**
-   * Returns array of raw accelerometer values.
-   * <p>
-   * x = 0, y = 1, z = 2.
-   */
   @Override
   public short[] getRawAccelerometerVals() {
     short[] accelVals = new short[3];
@@ -143,8 +133,8 @@ public class BreakerPigeon2 extends BreakerGenericIMU {
     return (BreakerMath.fixedToFloat(getRawAccelerometerVals()[2], 14) * 0.000508);
   }
 
-  /** How long the Pigeon has been running for, in seconds. Maxes out at 255 sec.*/
   public int getPigeonUpTime() {
+
     return pigeon.getUpTime();
   }
 
@@ -159,8 +149,7 @@ public class BreakerPigeon2 extends BreakerGenericIMU {
     faultStr = null;
     health = DeviceHealth.NOMINAL;
     Pigeon2_Faults curFaults = new Pigeon2_Faults();
-    pigeon.getFaults(curFaults);
-    
+
     if (curFaults.HardwareFault) {
       health = DeviceHealth.INOPERABLE;
       faultStr += " HARDWARE_FAULT ";
@@ -204,12 +193,12 @@ public class BreakerPigeon2 extends BreakerGenericIMU {
   @Override
   public void overrideAutomaticPowerManagement(DevicePowerMode manualPowerMode) {
     // TODO Auto-generated method stub
-    
   }
 
   @Override
   public void returnToAutomaticPowerManagement() {
     // TODO Auto-generated method stub
-    
   }
 }
+  
+

@@ -2,9 +2,9 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.devices.sensors.imuRENAME;
+package frc.robot.BreakerLib.devices.sensors.accelerometer;
 
-/** FRC accelerometer interface. */
+/** FRC 3-axis accelerometer interface. */
 public interface BreakerGenericAccelerometer {
   /**
    * Returns array of raw accelerometer values.
