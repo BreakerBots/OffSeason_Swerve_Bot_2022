@@ -134,6 +134,11 @@ public class BreakerAHRS extends BreakerGenericIMU {
         return imu.getRawGyroX();
     }
 
+    @Override
+    public double getPitchRate() {
+        return getRawPitchRate();
+    }
+
     /** Does nothing. */
     @Override
     public double getRawYaw() {
@@ -145,6 +150,11 @@ public class BreakerAHRS extends BreakerGenericIMU {
         return imu.getRawGyroY();
     }
 
+    @Override
+    public double getYawRate() {
+        return getRawYawRate();
+    }
+
     /** Does nothing. */
     @Override
     public double getRawRoll() {
@@ -154,16 +164,6 @@ public class BreakerAHRS extends BreakerGenericIMU {
     @Override
     public double getRawRollRate() {
         return imu.getRawGyroZ();
-    }
-
-    @Override
-    public double getPitchRate() {
-        return getRawPitchRate();
-    }
-
-    @Override
-    public double getYawRate() {
-        return getRawYawRate();
     }
 
     @Override
