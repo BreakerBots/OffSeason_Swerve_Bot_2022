@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
@@ -29,6 +30,7 @@ import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDrive
 import frc.robot.BreakerLib.util.BreakerArbitraryFeedforwardProvider;
 import frc.robot.BreakerLib.util.BreakerCTREUtil;
 import frc.robot.BreakerLib.util.math.BreakerMath;
+import frc.robot.BreakerLib.util.math.BreakerUnits;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
@@ -58,7 +60,7 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
      *                    constants for your drivetrain
      */
     public BreakerMK4iSwerveModule(WPI_TalonFX driveMotor, WPI_TalonFX turnMotor, WPI_CANCoder turnEncoder,
-            BreakerSwerveDriveConfig config) {
+            BreakerSwerveDriveConfig config, boolean invertTurnOutput, boolean turnSensorPhase) {
         this.config = config;
         this.turnMotor = turnMotor;
         this.driveMotor = driveMotor;
@@ -85,15 +87,18 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
         BreakerCTREUtil.checkError(turnMotor.configAllSettings(turnConfig),
                 " Failed to config swerve module turn motor ");
         turnMotor.selectProfileSlot(0, 0);
-        turnMotor.set(ControlMode.Position, turnEncoder.getAbsolutePosition());
+        turnMotor.setSensorPhase(turnSensorPhase);
+        turnMotor.setInverted(invertTurnOutput);
+        turnMotor.setNeutralMode(NeutralMode.Brake);
+        turnMotor.set(ControlMode.Position, 0);
 
         TalonFXConfiguration driveConfig = new TalonFXConfiguration();
         driveConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
-        driveConfig.slot1.kP = config.getModuleVelkP();
-        driveConfig.slot1.kI = config.getModuleVelkI();
-        driveConfig.slot1.kD = config.getModuleVelKd();
-        driveConfig.slot1.kF = config.getModuleVelKf();
-        driveConfig.slot1.closedLoopPeakOutput = 1.0;
+        driveConfig.slot0.kP = config.getModuleVelkP();
+        driveConfig.slot0.kI = config.getModuleVelkI();
+        driveConfig.slot0.kD = config.getModuleVelKd();
+        driveConfig.slot0.kF = config.getModuleVelKf();
+        driveConfig.slot0.closedLoopPeakOutput = 1.0;
         driveConfig.peakOutputForward = 1.0;
         driveConfig.peakOutputReverse = -1.0;
         driveConfig.voltageCompSaturation = 12.0;
@@ -111,7 +116,7 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
     public void setModuleTarget(Rotation2d tgtAngle, double speedMetersPerSec) {
         SmartDashboard.putNumber(deviceName + " ANGLE IN", tgtAngle.getDegrees());
         SmartDashboard.putNumber(deviceName +" SPEED IN", getMetersPerSecToFalconRSU(speedMetersPerSec));
-        turnMotor.set(TalonFXControlMode.Position, tgtAngle.getDegrees());
+        turnMotor.set(TalonFXControlMode.Position, BreakerUnits.degreesToCANCoderNativeUnits(tgtAngle.getDegrees()));
         driveMotor.set(TalonFXControlMode.Velocity, getMetersPerSecToFalconRSU(speedMetersPerSec),
                 DemandType.ArbitraryFeedForward, ffProvider.getArbitraryFeedforwardValue(speedMetersPerSec));
         SmartDashboard.putNumber(deviceName + "ANGLE OUT", getModuleState().angle.getDegrees());

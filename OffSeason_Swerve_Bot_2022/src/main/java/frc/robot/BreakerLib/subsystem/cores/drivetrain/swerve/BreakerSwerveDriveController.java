@@ -176,9 +176,9 @@ public class BreakerSwerveDriveController extends CommandBase {
       horizontal = horizontalSpeedPercentSupplier.getAsDouble();
       turn = turnSpeedPercentSupplier.getAsDouble();
     } else { /** Use controller inputs */
-      forward = controller.getLeftX();
+      forward = -controller.getLeftX();
       horizontal = controller.getLeftY();
-      turn = controller.getRightX();
+      turn = -controller.getRightX();
     }
 
     if (usesCurves) {
@@ -191,9 +191,8 @@ public class BreakerSwerveDriveController extends CommandBase {
       baseDrivetrain.moveWithPercentInputRelativeToField(MathUtil.clamp(forward, -1.0, 1.0),
           MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0), odometer);
     } else {
-      // baseDrivetrain.moveWithPercentInput(MathUtil.clamp(forward, -1.0, 1.0),
-      // MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0));
-      baseDrivetrain.moveWithPercentInput(forward, horizontal, turn);
+      baseDrivetrain.moveWithPercentInput(MathUtil.clamp(forward, -1.0, 1.0),
+          MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0));
     }
   }
 

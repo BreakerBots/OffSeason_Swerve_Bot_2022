@@ -12,12 +12,12 @@ import frc.robot.BreakerLib.util.BreakerCTREUtil;
 
 /** Factory for producing CANcoders. */
 public class BreakerCANCoderFactory {
-    public static WPI_CANCoder createCANCoder(int deviceID, AbsoluteSensorRange absoluteSensorRange, double absoluteOffsetDegress, boolean invertEncoder) {
+    public static WPI_CANCoder createCANCoder(int deviceID, AbsoluteSensorRange absoluteSensorRange, double absoluteOffsetDegress, boolean encoderDirection) {
         WPI_CANCoder encoder = new WPI_CANCoder(deviceID);
         CANCoderConfiguration config = new CANCoderConfiguration();
             config.absoluteSensorRange = absoluteSensorRange;
             config.magnetOffsetDegrees = absoluteOffsetDegress;
-            config.sensorDirection = invertEncoder;
+            config.sensorDirection = encoderDirection;
         BreakerCTREUtil.checkError(encoder.configAllSettings(config, 0), " CANCoder factory config fail ");
         return encoder;
     }

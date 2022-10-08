@@ -139,6 +139,10 @@ public class BreakerUnits {
         return shortDefaultUnits;
     }
 
+    public static double degreesToCANCoderNativeUnits(double degrees) {
+        return degrees / 0.087890625;
+    }
+
     public static double convertShortDistanceToDefaultUnit(ShortDistanceUnits imputUnits, double imputVal) {
         switch (imputUnits) {
             case CENTIMETER:

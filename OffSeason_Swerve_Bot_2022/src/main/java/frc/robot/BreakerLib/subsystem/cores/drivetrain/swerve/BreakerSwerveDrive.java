@@ -56,7 +56,8 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   public void setRawModuleStates(SwerveModuleState... targetModuleStates) {
     this.targetModuleStates = targetModuleStates;
     for (int i = 0; i < swerveModules.length; i ++) {
-      swerveModules[i].setModuleTarget(targetModuleStates[i]);
+      SwerveModuleState optimizedState = SwerveModuleState.optimize(targetModuleStates[i], Rotation2d.fromDegrees(swerveModules[i].getModuleAbsoluteAngle()));
+      swerveModules[i].setModuleTarget(optimizedState);
     }
   }
 
