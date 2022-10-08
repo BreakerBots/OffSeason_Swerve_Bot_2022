@@ -15,7 +15,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.RobotContainer;
-import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericGyro;
+import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGeneric3AxisGyro;
+import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGenericGyro;
 import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
 import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
@@ -37,7 +38,7 @@ public class BreakerSwerveDrivePoseEstimator implements BreakerGenericOdometer {
             double[] stateModelStanderdDeveation, double gyroStandardDeveation, double[] visionStanderdDeveation) {
         this.gyro = gyro;
         this.config = config;
-        poseEstimator = new SwerveDrivePoseEstimator(Rotation2d.fromDegrees(gyro.getRawAngles()[0]), initialPose,
+        poseEstimator = new SwerveDrivePoseEstimator(Rotation2d.fromDegrees(gyro.getRawYaw()), initialPose,
                 config.getKinematics(),
                 new MatBuilder<>(Nat.N3(), Nat.N1()).fill(stateModelStanderdDeveation[0],
                         stateModelStanderdDeveation[1], stateModelStanderdDeveation[2]),
@@ -48,7 +49,7 @@ public class BreakerSwerveDrivePoseEstimator implements BreakerGenericOdometer {
 
     public Pose2d update(SwerveModuleState... moduleStates) {
         prevPose = getOdometryPoseMeters();
-        Pose2d pose = poseEstimator.update(Rotation2d.fromDegrees(gyro.getRawAngles()[0]), moduleStates);
+        Pose2d pose = poseEstimator.update(Rotation2d.fromDegrees(gyro.getRawYaw()), moduleStates);
         updateChassisSpeeds();
         lastUpdateTimestamp = Timer.getFPGATimestamp();
         return pose;
@@ -79,7 +80,7 @@ public class BreakerSwerveDrivePoseEstimator implements BreakerGenericOdometer {
 
     @Override
     public void setOdometryPosition(Pose2d newPose) {
-        poseEstimator.resetPosition(newPose, Rotation2d.fromDegrees(gyro.getRawAngles()[0]));
+        poseEstimator.resetPosition(newPose, Rotation2d.fromDegrees(gyro.getRawYaw()));
     }
 
     @Override

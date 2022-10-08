@@ -66,6 +66,21 @@ public class BreakerPigeon2 extends BreakerGenericIMU {
     return RawYPR;
   }
 
+  @Override
+  public double getRawYaw() {
+    return getRawAngles()[0];
+  }
+
+  @Override
+  public double getRawPitch() {
+    return getRawAngles()[1];
+  }
+
+  @Override
+  public double getRawRoll() {
+    return getRawAngles()[2];
+  }
+
   /** Does nothing. */
   @Override
   public void setPitch(double value) {
@@ -97,18 +112,33 @@ public class BreakerPigeon2 extends BreakerGenericIMU {
   }
 
   @Override
-  public double getPitchRate() {
+  public double getRawPitchRate() {
     return getRawGyroRates()[0];
   }
 
   @Override
-  public double getYawRate() {
+  public double getRawRollRate() {
     return getRawGyroRates()[1];
   }
 
   @Override
-  public double getRollRate() {
+  public double getRawYawRate() {
     return getRawGyroRates()[2];
+  }
+
+  @Override
+  public double getPitchRate() {
+    return getRawPitchRate();
+  }
+
+  @Override
+  public double getYawRate() {
+    return  getRawYawRate();
+  }
+
+  @Override
+  public double getRollRate() {
+    return getRawRollRate();
   }
 
   @Override
@@ -199,6 +229,12 @@ public class BreakerPigeon2 extends BreakerGenericIMU {
   public void returnToAutomaticPowerManagement() {
     // TODO Auto-generated method stub
   }
+
+
+
+ 
+
+  
 }
   
 

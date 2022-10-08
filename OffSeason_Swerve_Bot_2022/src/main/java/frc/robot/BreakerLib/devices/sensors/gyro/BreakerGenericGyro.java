@@ -5,85 +5,28 @@
 package frc.robot.BreakerLib.devices.sensors.gyro;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.BreakerLib.position.geometry.BreakerRotation3d;
 
-/** FRC 3-axis gyroscope interface. */
+/** A base interface for all single axis gyroscopes and gyroscopes capable of Yaw readings */
 public interface BreakerGenericGyro {
 
-  /** @return Pitch angle within +-180 degrees. */
-  public abstract double getPitchDegrees();
+    /** @return Yaw angle within +-180 degrees. */
+    public abstract double getYawDegrees();
 
-  /** @return Yaw angle within +-180 degrees. */
-  public abstract double getYawDegrees();
+    /** @return Yaw angle as {@link Rotation2d} within +-180 degrees. */
+    public abstract Rotation2d getYawRotation2d();
 
-  /** @return Roll angle within +-180 degrees. */
-  public abstract double getRollDegrees();
+    /** Sets yaw to angle value. */
+    public abstract void setYaw(double value);
 
-  /** @return Pitch angle as {@link Rotation2d} within +-180 degrees. */
-  public abstract Rotation2d getPitchRotation2d();
+    /** @return Angular velocity yaw.(deg/sec) */
+    public abstract double getYawRate();
 
-  /** @return Yaw angle as {@link Rotation2d} within +-180 degrees. */
-  public abstract Rotation2d getYawRotation2d();
+    /** Resets all angles to 0 degrees */
+    public abstract void reset();
 
-  /** @return Roll angle as {@link Rotation2d} within +-180 degrees. */
-  public abstract Rotation2d getRollRotation2d();
+    public abstract double getRawYaw();
 
-  /** Pitch, yaw, and roll as Rotation3d, all within +- 180 degrees. */
-  public abstract BreakerRotation3d getRotation3d();
+    public abstract double getRawYawRate();
+    
 
-  /**
-   * Returns raw yaw, pitch, and roll angles in an array.
-   * <p>
-   * yaw = 0, pitch = 1, roll = 2.
-   */
-  public abstract double[] getRawAngles();
-
-  /** Resets all angles to 0 degrees */
-  public abstract void reset();
-
-  /** Sets desired angle to given angle.
-   * 
-   * @param value Angle value in degrees.
-   * @param angleNum 0 = pitch, 1 = yaw, 2 = roll. Defaults to yaw. 
-   */
-  public default void set(double value, int angleNum) {
-    switch (angleNum) {
-      case 0:
-        setPitch(value);
-        break;
-      case 2:
-        setRoll(value);
-        break;
-      default:
-        setYaw(value);
-        break;
-    }
-  }
-
-
-  /** Sets pitch to angle value. */
-  public abstract void setPitch(double value);
-
-  /** Sets yaw to angle value. */
-  public abstract void setYaw(double value);
-
-  /** Sets roll to angle value. */
-  public abstract void setRoll(double value);
-
-  /** Returns angular velocities in degrees per sec.
-   *  x=0, y=1, z=2.
-   */
-  public abstract double[] getRawGyroRates();
-
-  /** @return Angular velocity pitch.(deg/sec) */
-  public abstract double getPitchRate();
-
-  /** @return Angular velocity yaw.(deg/sec) */
-  public abstract double getYawRate();
-
-  /** @return Angular velocity roll.(deg/sec) */
-  public abstract double getRollRate();
-
-  /** @return Pitch, yaw, and roll as {@link BreakerRotation3d} */
-  public abstract BreakerRotation3d getRawRotation3d();
 }

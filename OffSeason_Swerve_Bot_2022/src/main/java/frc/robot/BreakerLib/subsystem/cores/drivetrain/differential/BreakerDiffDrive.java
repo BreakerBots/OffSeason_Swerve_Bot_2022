@@ -19,6 +19,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGenericGyro;
 import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
 import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
@@ -45,7 +46,7 @@ public class BreakerDiffDrive extends BreakerGenericDrivetrain {
   private DifferentialDrive diffDrive;
   private BreakerDiffDriveConfig driveConfig;
 
-  private BreakerGenericIMU imu;
+  private BreakerGenericGyro imu;
   private DifferentialDriveOdometry driveOdometer;
   private BreakerMovementState2d prevMovementState = new BreakerMovementState2d();
   private BreakerMovementState2d curMovementState = new BreakerMovementState2d();
@@ -68,7 +69,7 @@ public class BreakerDiffDrive extends BreakerGenericDrivetrain {
    * @param driveConfig Config for drivetrain.
    */
   public BreakerDiffDrive(WPI_TalonFX[] leftMotors, WPI_TalonFX[] rightMotors, boolean invertL, boolean invertR,
-      BreakerGenericIMU imu, BreakerDiffDriveConfig driveConfig) {
+      BreakerGenericGyro imu, BreakerDiffDriveConfig driveConfig) {
 
     // Left motors.
     this.leftMotors = leftMotors;
@@ -85,7 +86,7 @@ public class BreakerDiffDrive extends BreakerGenericDrivetrain {
     rightDrive.setInverted(invertR);
 
     diffDrive = new DifferentialDrive(leftDrive, rightDrive);
-    driveOdometer = new DifferentialDriveOdometry(Rotation2d.fromDegrees(imu.getRawAngles()[0]));
+    driveOdometer = new DifferentialDriveOdometry(Rotation2d.fromDegrees(imu.getRawYaw()));
 
     deviceName = "Differential_Drivetrain";
     this.driveConfig = driveConfig;
@@ -296,7 +297,7 @@ public class BreakerDiffDrive extends BreakerGenericDrivetrain {
 
   @Override
   public void updateOdometry() {
-    driveOdometer.update(Rotation2d.fromDegrees(imu.getRawAngles()[0]), getLeftDriveMeters(),
+    driveOdometer.update(Rotation2d.fromDegrees(imu.getRawYaw()), getLeftDriveMeters(),
         getRightDriveMeters());
     // calculateMovementState((Timer.getFPGATimestamp() -
     // prevOdometryUpdateTimestamp) * 1000);
@@ -338,7 +339,7 @@ public class BreakerDiffDrive extends BreakerGenericDrivetrain {
   @Override
   public void setOdometryPosition(Pose2d newPose) {
     resetDriveEncoders();
-    driveOdometer.resetPosition(newPose, Rotation2d.fromDegrees(imu.getRawAngles()[0]));
+    driveOdometer.resetPosition(newPose, Rotation2d.fromDegrees(imu.getRawYaw()));
   }
 
   @Override

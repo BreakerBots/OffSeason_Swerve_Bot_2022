@@ -14,7 +14,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericGyro;
+import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGeneric3AxisGyro;
+import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGenericGyro;
 import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
 import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
@@ -31,7 +32,7 @@ public class BreakerDiffPoseEstimator implements BreakerGenericOdometer {
     private ChassisSpeeds fieldRelativeChassisSpeeds = new ChassisSpeeds();
     private BreakerMovementState2d prevMovementState = new BreakerMovementState2d();
     private BreakerMovementState2d curMovementState = new BreakerMovementState2d();
-    public BreakerDiffPoseEstimator(BreakerGenericGyro gyro, Pose2d initialPose, double[] stateModelStanderdDeveation, double[] encoderAndGyroStandardDeveation, double[] visionStanderdDeveation) {
+    public BreakerDiffPoseEstimator(BreakerGeneric3AxisGyro gyro, Pose2d initialPose, double[] stateModelStanderdDeveation, double[] encoderAndGyroStandardDeveation, double[] visionStanderdDeveation) {
         currentPose = initialPose;
         this.gyro = gyro;
         poseEstimator = new DifferentialDrivePoseEstimator(Rotation2d.fromDegrees(gyro.getRawAngles()[0]), initialPose,
@@ -42,7 +43,7 @@ public class BreakerDiffPoseEstimator implements BreakerGenericOdometer {
 
     public Pose2d update(BreakerDiffDriveState currentDriveState) {
         prevPose = getOdometryPoseMeters();
-        currentPose = poseEstimator.update(Rotation2d.fromDegrees(gyro.getRawAngles()[0]), currentDriveState.getWheelSpeeds(), currentDriveState.getLeftDriveDistanceMeters(), currentDriveState.getRightDriveDistanceMeters());
+        currentPose = poseEstimator.update(Rotation2d.fromDegrees(gyro.getRawYaw()), currentDriveState.getWheelSpeeds(), currentDriveState.getLeftDriveDistanceMeters(), currentDriveState.getRightDriveDistanceMeters());
         updateChassisSpeeds();
         lastUpdateTimestamp = Timer.getFPGATimestamp();
         return currentPose;
@@ -66,7 +67,7 @@ public class BreakerDiffPoseEstimator implements BreakerGenericOdometer {
     }
 
     public void setOdometryPosition(Pose2d newPose) {
-        poseEstimator.resetPosition(newPose, Rotation2d.fromDegrees(gyro.getRawAngles()[0]));
+        poseEstimator.resetPosition(newPose, Rotation2d.fromDegrees(gyro.getRawYaw()));
     }
 
     @Override
