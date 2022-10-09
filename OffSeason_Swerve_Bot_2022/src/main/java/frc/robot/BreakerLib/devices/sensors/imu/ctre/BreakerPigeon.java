@@ -2,7 +2,9 @@ package frc.robot.BreakerLib.devices.sensors.imu.ctre;
 
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.BreakerLib.devices.sensors.BreakerGenericMagnetometer;
 import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
 import frc.robot.BreakerLib.position.geometry.BreakerRotation3d;
 import frc.robot.BreakerLib.util.math.BreakerMath;
@@ -10,7 +12,7 @@ import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 
-public class BreakerPigeon extends BreakerGenericIMU {
+public class BreakerPigeon extends BreakerGenericIMU implements BreakerGenericMagnetometer {
 
     private WPI_PigeonIMU pigeon;
 
@@ -212,5 +214,34 @@ public class BreakerPigeon extends BreakerGenericIMU {
     @Override
     public void returnToAutomaticPowerManagement() {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    public double[] getRawFieldStrenghts() {
+        short[] rawShorts = new short[]{3};
+        pigeon.getRawMagnetometer(rawShorts);
+        return new double[] {(double) rawShorts[0] * 0.6, (double) rawShorts[1] * 0.6, (double) rawShorts[2] * 0.6};
+    }
+
+    @Override
+    public double[] getBiasedFieldStrenghts() {
+        short[] rawShorts = new short[]{3};
+        pigeon.getBiasedMagnetometer(rawShorts);
+        return new double[] {(double) rawShorts[0] * 0.6, (double) rawShorts[1] * 0.6, (double) rawShorts[2] * 0.6};
+    }
+
+    @Override
+    public double getCompassFieldStrength() {
+        return pigeon.getCompassFieldStrength();
+    }
+
+    @Override
+    public double getCompassHeading() {
+        return MathUtil.angleModulus(pigeon.getCompassHeading());
+    }
+
+    @Override
+    public double getRawCompassHeading() {
+        return pigeon.getCompassHeading();
     }
 }

@@ -1,19 +1,24 @@
 package frc.robot.BreakerLib.devices.sensors.imu.kuailabs;
 
+import com.kauailabs.navx.frc.AHRS;
+import com.kauailabs.navx.frc.AHRS.SerialDataType;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
+import frc.robot.BreakerLib.devices.sensors.BreakerGenericMagnetometer;
 import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
+import frc.robot.BreakerLib.physics.BreakerVector3;
 import frc.robot.BreakerLib.position.geometry.BreakerRotation3d;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
-import com.kauailabs.navx.frc.AHRS;
-import com.kauailabs.navx.frc.AHRS.SerialDataType;
+
 
 /** Breaker NavX gyro. Calibration must be called manually. */
-public class BreakerAHRS extends BreakerGenericIMU {
+public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagnetometer {
 
     private AHRS imu;
 
@@ -89,6 +94,23 @@ public class BreakerAHRS extends BreakerGenericIMU {
         return new double[] { getPitchDegrees(), getYawDegrees(), getRollDegrees() };
     }
 
+    @Override
+    public double getRawYaw() {
+        return imu.getAngle();
+    }
+
+    /** Does nothing. */
+    @Override
+    public double getRawPitch() {
+        return getPitchDegrees();
+    }
+
+    /** Does nothing. */
+    @Override
+    public double getRawRoll() {
+        return getRollDegrees();
+    }
+
     /** Resets yaw to 0 */
     @Override
     public void reset() {
@@ -121,12 +143,6 @@ public class BreakerAHRS extends BreakerGenericIMU {
     @Override
     public double[] getRawGyroRates() {
         return new double[] {imu.getRawGyroX(), imu.getRawGyroY(), imu.getRawGyroZ()};
-    }    
-
-    /** Does nothing. */
-    @Override
-    public double getRawPitch() {
-        return 0;
     }
 
     @Override
@@ -139,12 +155,6 @@ public class BreakerAHRS extends BreakerGenericIMU {
         return getRawPitchRate();
     }
 
-    /** Does nothing. */
-    @Override
-    public double getRawYaw() {
-        return 0;
-    }
-
     @Override
     public double getRawYawRate() {
         return imu.getRawGyroY();
@@ -153,12 +163,6 @@ public class BreakerAHRS extends BreakerGenericIMU {
     @Override
     public double getYawRate() {
         return getRawYawRate();
-    }
-
-    /** Does nothing. */
-    @Override
-    public double getRawRoll() {
-        return 0;
     }
 
     @Override
@@ -228,8 +232,34 @@ public class BreakerAHRS extends BreakerGenericIMU {
 
     @Override
     public void runSelfTest() {
-        // TODO Auto-generated method stub
+    
+    }
 
+    @Override
+    public double[] getRawFieldStrenghts() {
+        double[] strens = {imu.getRawMagX(), imu.getRawMagY(), imu.getRawMagZ()};
+        return strens;
+    }
+
+    @Override
+    public double[] getBiasedFieldStrenghts() {
+        BreakerVector3 fieldVec = new BreakerVector3(imu.getRawMagX(), imu.getRawMagY(), imu.getRawMagZ());
+        return fieldVec.rotate(getRotation3d()).getInterpolatableData();
+    }
+
+    @Override
+    public double getCompassFieldStrength() {
+        return new BreakerVector3(imu.getRawMagX(), imu.getRawMagY(), imu.getRawMagZ()).getMagnitude();
+    }
+
+    @Override
+    public double getCompassHeading() {
+        return MathUtil.angleModulus(imu.getCompassHeading());
+    }
+
+    @Override
+    public double getRawCompassHeading() {
+        return imu.getCompassHeading();
     }
 
 }

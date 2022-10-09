@@ -79,6 +79,10 @@ public class BreakerVector3 implements BreakerInterpolable<BreakerVector3> {
         return forceRotation;
     }
 
+    public BreakerVector3 rotate(BreakerRotation3d rotation) {
+        return BreakerVector3.fromMagnitudeAndForceRotation(magnitude, forceRotation.plus(rotation));
+    }
+
     public BreakerVector3 minus(BreakerVector3 outher) {
         return new BreakerVector3(forceX - outher.forceX, forceY - outher.forceY, forceZ - outher.forceZ);
     }
