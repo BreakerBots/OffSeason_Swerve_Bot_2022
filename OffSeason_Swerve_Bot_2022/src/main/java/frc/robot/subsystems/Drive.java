@@ -49,7 +49,7 @@ public class Drive extends SubsystemBase {
         turnFR = new WPI_TalonFX(FR_ROTATION_ID);
         encoderFR = BreakerCANCoderFactory.createCANCoder(FR_ENCODER_ID, AbsoluteSensorRange.Signed_PlusMinus180, 0.0,
                 true);
-        transFR = FR_TRANSLATION; // Yousif be like
+        transFR = FR_TRANSLATION;
 
         driveBL = new WPI_TalonFX(BL_WHEEL_ID);
         turnBL = new WPI_TalonFX(BL_ROTATION_ID);
