@@ -32,10 +32,10 @@ public class BreakerDiffPoseEstimator implements BreakerGenericOdometer {
     private ChassisSpeeds fieldRelativeChassisSpeeds = new ChassisSpeeds();
     private BreakerMovementState2d prevMovementState = new BreakerMovementState2d();
     private BreakerMovementState2d curMovementState = new BreakerMovementState2d();
-    public BreakerDiffPoseEstimator(BreakerGeneric3AxisGyro gyro, Pose2d initialPose, double[] stateModelStanderdDeveation, double[] encoderAndGyroStandardDeveation, double[] visionStanderdDeveation) {
+    public BreakerDiffPoseEstimator(BreakerGenericGyro gyro, Pose2d initialPose, double[] stateModelStanderdDeveation, double[] encoderAndGyroStandardDeveation, double[] visionStanderdDeveation) {
         currentPose = initialPose;
         this.gyro = gyro;
-        poseEstimator = new DifferentialDrivePoseEstimator(Rotation2d.fromDegrees(gyro.getRawAngles()[0]), initialPose,
+        poseEstimator = new DifferentialDrivePoseEstimator(Rotation2d.fromDegrees(gyro.getRawYaw()), initialPose,
             new MatBuilder<>(Nat.N5(), Nat.N1()).fill(stateModelStanderdDeveation[0], stateModelStanderdDeveation[1], stateModelStanderdDeveation[2], stateModelStanderdDeveation[3], stateModelStanderdDeveation[4]), // State measurement standard deviations. X, Y, theta., 
             new MatBuilder<>(Nat.N3(), Nat.N1()).fill(encoderAndGyroStandardDeveation[0], encoderAndGyroStandardDeveation[1], encoderAndGyroStandardDeveation[2]), // Local measurement standard deviations. Left encoder, right encoder, gyro.
             new MatBuilder<>(Nat.N3(), Nat.N1()).fill(visionStanderdDeveation[0], visionStanderdDeveation[1], visionStanderdDeveation[2])); // Global measurement standard deviations. X, Y, and theta.4

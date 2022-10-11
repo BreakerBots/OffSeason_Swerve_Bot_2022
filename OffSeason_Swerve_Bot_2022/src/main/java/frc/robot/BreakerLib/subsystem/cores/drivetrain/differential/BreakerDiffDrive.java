@@ -65,7 +65,7 @@ public class BreakerDiffDrive extends BreakerGenericDrivetrain {
    * @param rightMotors Array of right Falcon 500 motors.
    * @param invertL     Invert left side of drivetrain.
    * @param invertR     Invert right side of drivetrain.
-   * @param pigeon2     Pigeon 2 IMU.
+   * @param imu     a single axis gyroscope or better.
    * @param driveConfig Config for drivetrain.
    */
   public BreakerDiffDrive(WPI_TalonFX[] leftMotors, WPI_TalonFX[] rightMotors, boolean invertL, boolean invertR,
