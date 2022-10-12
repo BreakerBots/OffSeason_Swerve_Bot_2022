@@ -13,7 +13,7 @@ import frc.robot.BreakerLib.util.math.BreakerMath;
 public class BreakerInterpolableDouble implements BreakerInterpolable<BreakerInterpolableDouble> {
     private double value;
 
-    public BreakerInterpolableDouble(Double value) {
+    public BreakerInterpolableDouble(double value) {
         this.value = value;
     }
 
