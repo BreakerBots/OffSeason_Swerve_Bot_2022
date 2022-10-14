@@ -15,6 +15,7 @@ import frc.robot.BreakerLib.position.geometry.BreakerRotation3d;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
+import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 
 
 /** Breaker NavX gyro. Calibration must be called manually. */
@@ -24,34 +25,42 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
 
     public BreakerAHRS() {
         imu = new AHRS();
+        deviceName = " NavX_AHRS_IMU (SPI: default) ";
     }
 
     public BreakerAHRS(SPI.Port spi_port_id) {
         imu = new AHRS(spi_port_id);
+        deviceName = " NavX_AHRS_IMU (SPI: "+spi_port_id.toString()+") ";
     }
 
     public BreakerAHRS(SPI.Port spi_port_id, byte update_rate_hz) {
         imu = new AHRS(spi_port_id, update_rate_hz);
+        deviceName = " NavX_AHRS_IMU (SPI: "+spi_port_id.toString()+") ";
     }
 
     public BreakerAHRS(SPI.Port spi_port_id, int spi_bitrate, byte update_rate_hz) {
         imu = new AHRS(spi_port_id, spi_bitrate, update_rate_hz);
+        deviceName = " NavX_AHRS_IMU (SPI: "+spi_port_id.toString()+") ";
     }
 
     public BreakerAHRS(I2C.Port i2c_port_id) {
         imu = new AHRS(i2c_port_id);
+        deviceName = " NavX_AHRS_IMU (I2C: "+i2c_port_id.toString()+") ";
     }
 
     public BreakerAHRS(I2C.Port i2c_port_id, byte update_rate_hz) {
         imu = new AHRS(i2c_port_id, update_rate_hz);
+        deviceName = " NavX_AHRS_IMU (I2C: "+i2c_port_id.toString()+") ";
     }
 
     public BreakerAHRS(SerialPort.Port serial_port_id) {
         imu = new AHRS(serial_port_id);
+        deviceName = " NavX_AHRS_IMU (Serial: "+serial_port_id.toString()+") ";
     }
 
     public BreakerAHRS(SerialPort.Port serial_port_id, SerialDataType data_type, byte update_rate_hz) {
         imu = new AHRS(serial_port_id, data_type, update_rate_hz);
+        deviceName = " NavX_AHRS_IMU (Serial: "+serial_port_id.toString()+") ";
     }
 
     @Override
@@ -232,7 +241,20 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
 
     @Override
     public void runSelfTest() {
-    
+        health = DeviceHealth.NOMINAL;
+        faultStr = null;
+        if (!imu.isConnected()) {
+            health = DeviceHealth.INOPERABLE;
+            faultStr += " NOT_CONNECTED ";
+        }
+        if (imu.isMagneticDisturbance()) {
+            health = DeviceHealth.FAULT;
+            faultStr += " MAG_DISTERBANCE ";
+        }
+        if (imu.getTempC() >= 40.0) {
+            health = DeviceHealth.FAULT;
+            faultStr += " EXTREME_TEMP ";
+        }
     }
 
     @Override

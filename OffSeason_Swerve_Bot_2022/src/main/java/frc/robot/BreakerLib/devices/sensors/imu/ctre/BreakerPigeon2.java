@@ -15,14 +15,17 @@ import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
+import frc.robot.BreakerLib.util.test.selftest.SelfTest;
 
 /* CTRE Pigeon IMU 2 implementing the Breaker device interface and Breaker IMU interface. */
 public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericMagnetometer {
   private WPI_Pigeon2 pigeon;
+  private int deviceID;
 
   /** Creates a new PigeonIMU object. */
   public BreakerPigeon2(int deviceID) {
     pigeon = new WPI_Pigeon2(deviceID);
+    this.deviceID = deviceID;
     deviceName = "Pigeon2_IMU (" + deviceID + ") ";
   }
 
@@ -189,6 +192,7 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
     faultStr = null;
     health = DeviceHealth.NOMINAL;
     Pigeon2_Faults curFaults = new Pigeon2_Faults();
+    pigeon.getFaults(curFaults);
 
     if (curFaults.HardwareFault) {
       health = DeviceHealth.INOPERABLE;
@@ -204,11 +208,15 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
     }
     if (curFaults.AccelFault) {
       health = DeviceHealth.INOPERABLE;
-      faultStr += "  ACCEL_FAULT ";
+      faultStr += " ACCEL_FAULT ";
     }
     if (curFaults.UnderVoltage) {
       health = (health != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : health;
       faultStr += " UNDER_6.5V ";
+    }
+    if (SelfTest.checkIsMissingCanID(deviceID)) {
+      health = DeviceHealth.INOPERABLE;
+      faultStr += " DEVICE_NOT_FOUND ";
     }
   }
 

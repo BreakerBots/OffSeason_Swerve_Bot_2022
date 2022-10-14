@@ -1,5 +1,7 @@
 package frc.robot.BreakerLib.devices.sensors.imu.ctre;
 
+import com.ctre.phoenix.sensors.Pigeon2_Faults;
+import com.ctre.phoenix.sensors.PigeonIMU_Faults;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
 import edu.wpi.first.math.MathUtil;
@@ -11,14 +13,17 @@ import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
+import frc.robot.BreakerLib.util.test.selftest.SelfTest;
 
 public class BreakerPigeon extends BreakerGenericIMU implements BreakerGenericMagnetometer {
 
     private WPI_PigeonIMU pigeon;
+    private int deviceID;
 
     /** Creates a new PigeonIMU object. */
     public BreakerPigeon(int deviceID) {
         pigeon = new WPI_PigeonIMU(deviceID);
+        this.deviceID = deviceID;
         deviceName = "Pigeon_IMU (" + deviceID + ") ";
     }
 
@@ -185,7 +190,16 @@ public class BreakerPigeon extends BreakerGenericIMU implements BreakerGenericMa
     public void runSelfTest() {
         faultStr = null;
         health = DeviceHealth.NOMINAL;
-
+        PigeonIMU_Faults curFaults = new PigeonIMU_Faults();
+        pigeon.getFaults(curFaults);
+        if (curFaults.hasAnyFault()) {
+          health = DeviceHealth.INOPERABLE;
+          faultStr += " UNKNOWN_FAULT ";
+        }
+        if (SelfTest.checkIsMissingCanID(deviceID)) {
+            health = DeviceHealth.INOPERABLE;
+            faultStr += " DEVICE_NOT_FOUND ";
+          }
     }
 
     @Override
