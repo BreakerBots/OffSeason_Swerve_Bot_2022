@@ -196,6 +196,12 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
     }
 
     @Override
+    public void setModuleBreakMode(boolean isEnabled) {
+        setDriveMotorBrakeMode(isEnabled);
+        setTurnMotorBreakMode(isEnabled);
+    }
+
+    @Override
     public void runSelfTest() {
         faults = null;
         Faults curTurnFaults = new Faults();

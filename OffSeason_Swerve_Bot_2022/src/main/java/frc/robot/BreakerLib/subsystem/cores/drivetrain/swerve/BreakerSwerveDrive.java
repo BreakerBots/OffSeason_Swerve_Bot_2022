@@ -9,6 +9,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGenericGyro;
@@ -18,6 +20,7 @@ import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.modules.BreakerGenericSwerveModule;
+import frc.robot.BreakerLib.util.BreakerRoboRIO;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
@@ -56,7 +59,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   public void setRawModuleStates(SwerveModuleState... targetModuleStates) {
     this.targetModuleStates = targetModuleStates;
     for (int i = 0; i < swerveModules.length; i ++) {
-      SwerveModuleState optimizedState = SwerveModuleState.optimize(targetModuleStates[i], Rotation2d.fromDegrees(swerveModules[i].getModuleAbsoluteAngle()));
+      SwerveModuleState optimizedState = SwerveModuleState.optimize(targetModuleStates[i], Rotation2d.fromDegrees(swerveModules[i].getModuleRelativeAngle()));
       swerveModules[i].setModuleTarget(optimizedState);
     }
   }
@@ -174,7 +177,12 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   @Override
   public void setDrivetrainBrakeMode(boolean isEnabled) {
     for (BreakerGenericSwerveModule module: swerveModules) {
-      module.setDriveMotorBrakeMode(isEnabled);
+      if (RobotState.isEnabled()) {
+        module.setDriveMotorBrakeMode(isEnabled);
+        module.setTurnMotorBreakMode(true);
+      } else {
+        module.setTurnMotorBreakMode(isEnabled);
+      }
     }
   }
 

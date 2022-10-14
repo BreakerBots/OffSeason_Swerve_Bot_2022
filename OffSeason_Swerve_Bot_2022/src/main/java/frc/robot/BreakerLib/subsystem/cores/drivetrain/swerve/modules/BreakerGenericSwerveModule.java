@@ -42,6 +42,8 @@ public interface BreakerGenericSwerveModule extends BreakerGenericDevice {
 
     public abstract void setTurnMotorBreakMode(boolean isEnabled);
 
+    public abstract void setModuleBreakMode(boolean isEnabled);
+
     /** returns the modules health as an array [0] = overall, [1] = drive motor, [2] = turn motor, [3] = outher if supported (EX: CANCoder)*/
     public abstract DeviceHealth[] getModuleHealths();
 }
