@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.FollowerType;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -57,9 +58,15 @@ public class BreakerFlywheel extends BreakerGenericLoopedDevice implements Break
         talonConfig.slot0.kI = config.getkI();
         talonConfig.slot0.kD = config.getkD();
         talonConfig.slot0.kF = config.getkF();
-
-        BreakerCTREUtil.checkError(lFlyMotor.configAllSettings(talonConfig), " Failed to config swerve module drive motor "); ;
+        talonConfig.slot0.closedLoopPeakOutput = 1.0;
+        talonConfig.peakOutputForward = 1.0;
+        talonConfig.peakOutputReverse = -1.0;
+        talonConfig.voltageCompSaturation = 12.0;
+        talonConfig.statorCurrLimit = new StatorCurrentLimitConfiguration(true, 80.0, 80.0, 1.5);
+        BreakerCTREUtil.checkError(lFlyMotor.configAllSettings(talonConfig),
+                " Failed to config swerve module drive motor ");
         lFlyMotor.selectProfileSlot(0, 0);
+        lFlyMotor.set(ControlMode.Velocity, 0.0);
         
         for (int i = 1; i < motors.length; i++) {
             motors[i].follow(lFlyMotor, FollowerType.AuxOutput1);
