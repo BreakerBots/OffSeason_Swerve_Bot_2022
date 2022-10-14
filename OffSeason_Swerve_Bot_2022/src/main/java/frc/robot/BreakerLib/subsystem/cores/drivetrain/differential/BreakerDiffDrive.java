@@ -299,8 +299,8 @@ public class BreakerDiffDrive extends BreakerGenericDrivetrain {
   public void updateOdometry() {
     driveOdometer.update(Rotation2d.fromDegrees(imu.getRawYaw()), getLeftDriveMeters(),
         getRightDriveMeters());
-    // calculateMovementState((Timer.getFPGATimestamp() -
-    // prevOdometryUpdateTimestamp) * 1000);
+    calculateMovementState((Timer.getFPGATimestamp() -
+    prevOdometryUpdateTimestamp) * 1000);
     prevOdometryUpdateTimestamp = Timer.getFPGATimestamp();
   }
 

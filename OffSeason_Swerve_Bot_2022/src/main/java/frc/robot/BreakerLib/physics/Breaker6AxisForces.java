@@ -14,9 +14,15 @@ public class Breaker6AxisForces {
     }
 
     public Breaker6AxisForces() {
-        this.linearForces = new BreakerVector3();
+        linearForces = new BreakerVector3();
+        angularForces = new BreakerAngularVector3();
+    }
 
     public BreakerAngularVector3 getAngularForces() {
         return angularForces;
+    }
+
+    public BreakerVector3 getLinearForces() {
+        return linearForces;
     }
 }

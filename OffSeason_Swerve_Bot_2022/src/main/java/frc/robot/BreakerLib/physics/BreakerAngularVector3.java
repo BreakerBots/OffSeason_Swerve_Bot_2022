@@ -17,6 +17,12 @@ public class BreakerAngularVector3 {
         this.forceRoll = forceRoll;
     }
 
+    public BreakerAngularVector3() {
+        this.forceYaw = 0;
+        this.forcePitch = 0;
+        this.forceRoll = 0;
+    }
+
     public double getForceYaw() {
         return forceYaw;
     }

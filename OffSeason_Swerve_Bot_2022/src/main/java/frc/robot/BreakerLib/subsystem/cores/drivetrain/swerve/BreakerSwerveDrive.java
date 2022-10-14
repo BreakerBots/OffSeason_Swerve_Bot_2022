@@ -145,7 +145,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   @Override
   public void updateOdometry() {
     odometer.updateWithTime(Timer.getFPGATimestamp(), Rotation2d.fromDegrees(gyro.getRawYaw()), getSwerveModuleStates());
-    //calculateMovementState((Timer.getFPGATimestamp() - prevOdometryUpdateTimestamp) * 1000);
+    calculateMovementState((Timer.getFPGATimestamp() - prevOdometryUpdateTimestamp) * 1000);
     prevOdometryUpdateTimestamp = Timer.getFPGATimestamp();
   }
 
@@ -193,11 +193,11 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
     return curMovementState;
   }
 
-  // private void calculateMovementState(double timeToLastUpdateMiliseconds) {
-  //   ChassisSpeeds speeds = config.getKinematics().toChassisSpeeds(getSwerveModuleStates());
-  //   curMovementState = BreakerMath.movementStateFromChassisSpeedsAndPreviousState(getOdometryPoseMeters(), getFieldRelativeChassisSpeeds(), timeToLastUpdateMiliseconds, prevMovementState);
-  //   prevMovementState = curMovementState;
-  // }
+  private void calculateMovementState(double timeToLastUpdateMiliseconds) {
+    ChassisSpeeds speeds = config.getKinematics().toChassisSpeeds(getSwerveModuleStates());
+    curMovementState = BreakerMath.movementStateFromChassisSpeedsAndPreviousState(getOdometryPoseMeters(), getFieldRelativeChassisSpeeds(), timeToLastUpdateMiliseconds, prevMovementState);
+    prevMovementState = curMovementState;
+  }
 
   public SwerveModuleState[] getTargetModuleStates() {
       return targetModuleStates;
