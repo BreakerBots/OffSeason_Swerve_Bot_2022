@@ -41,26 +41,22 @@ public class Drive extends SubsystemBase {
 
         driveFL = new WPI_TalonFX(FL_WHEEL_ID);
         turnFL = new WPI_TalonFX(FL_ROTATION_ID);
-        encoderFL = BreakerCANCoderFactory.createCANCoder(FL_ENCODER_ID, AbsoluteSensorRange.Signed_PlusMinus180, 0.0,
-                true);
+        encoderFL = BreakerCANCoderFactory.createCANCoder(FL_ENCODER_ID, AbsoluteSensorRange.Signed_PlusMinus180, 0.0, true);
         transFL = FL_TRANSLATION;
 
         driveFR = new WPI_TalonFX(FR_WHEEL_ID);
         turnFR = new WPI_TalonFX(FR_ROTATION_ID);
-        encoderFR = BreakerCANCoderFactory.createCANCoder(FR_ENCODER_ID, AbsoluteSensorRange.Signed_PlusMinus180, 0.0,
-                true);
+        encoderFR = BreakerCANCoderFactory.createCANCoder(FR_ENCODER_ID, AbsoluteSensorRange.Signed_PlusMinus180, 0.0, true);
         transFR = FR_TRANSLATION;
 
         driveBL = new WPI_TalonFX(BL_WHEEL_ID);
         turnBL = new WPI_TalonFX(BL_ROTATION_ID);
-        encoderBL = BreakerCANCoderFactory.createCANCoder(BL_ENCODER_ID, AbsoluteSensorRange.Signed_PlusMinus180, 0.0,
-                false);
+        encoderBL = BreakerCANCoderFactory.createCANCoder(BL_ENCODER_ID, AbsoluteSensorRange.Signed_PlusMinus180, 0.0, false);
         transBL = BL_TRANSLATION;
 
         driveBR = new WPI_TalonFX(BR_WHEEL_ID);
         turnBR = new WPI_TalonFX(BR_ROTATION_ID);
-        encoderBR = BreakerCANCoderFactory.createCANCoder(BR_ENCODER_ID, AbsoluteSensorRange.Signed_PlusMinus180, 0.0,
-                false);
+        encoderBR = BreakerCANCoderFactory.createCANCoder(BR_ENCODER_ID, AbsoluteSensorRange.Signed_PlusMinus180, 0.0, false);
         transBR = BR_TRANSLATION;
 
         config = new BreakerSwerveDriveConfig(4.1148, 4.1148, 4.1148, 2.0, 0.0, 0.01, 0.075, 0.0, 0.0, 0.0, 8.14, 4.0,

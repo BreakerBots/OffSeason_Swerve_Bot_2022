@@ -36,6 +36,14 @@ public class BreakerVector3 implements BreakerInterpolable<BreakerVector3> {
                 new Rotation2d(Math.atan2(forceY, forceX))); // need to check this math
     }
 
+    public BreakerVector3() {
+        forceX = 0;
+        forceY = 0;
+        forceZ = 0;
+        magnitude = 0;
+        forceRotation = new BreakerRotation3d();
+    }
+
     /** Private constructor for BreakerVector3 with all the fixings. */
     private BreakerVector3(double forceX, double forceY, double forceZ, double magnitude,
             BreakerRotation3d forceRotation) {

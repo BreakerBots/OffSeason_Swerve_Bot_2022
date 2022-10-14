@@ -39,6 +39,12 @@ public class BreakerRotation3d implements BreakerInterpolable<BreakerRotation3d>
         roll = new Rotation2d();
     }
 
+    public BreakerRotation3d() {
+        pitch = new Rotation2d();
+        yaw = new Rotation2d();
+        roll = new Rotation2d();
+    }
+
     /**
      * @return the pitch of this BreakerRotation3d.
      */

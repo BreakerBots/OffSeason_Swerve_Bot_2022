@@ -11,10 +11,10 @@ import frc.robot.BreakerLib.physics.BreakerVector2;
 
 /** Represents an objects 2 dimentional (linear: XY / Angular: Y) position (meters & rad), velocity (m & rad/s), acceleration( m & rad/s/s), and jerk (m & rad /s/s/s) at a given time */
 public class BreakerMovementState2d {
-    Pose2d position;
-    Breaker3AxisForces velocity;
-    Breaker3AxisForces acceleration;
-    Breaker3AxisForces jerk;
+    private Pose2d position;
+    private Breaker3AxisForces velocity;
+    private Breaker3AxisForces acceleration;
+    private Breaker3AxisForces jerk;
 
     /**
      * Creates a new BreakerMovementState2d using a given position, velocity, acceleration, and jerk.
@@ -26,6 +26,7 @@ public class BreakerMovementState2d {
      */
     public BreakerMovementState2d(Pose2d position, Breaker3AxisForces velocity, Breaker3AxisForces acceleration, Breaker3AxisForces jerk) {
         this.position = position;
+        this.velocity = velocity;
         this.acceleration = acceleration;
         this.jerk = jerk;
     }
@@ -39,7 +40,21 @@ public class BreakerMovementState2d {
      */
     public BreakerMovementState2d(Pose2d position, Breaker3AxisForces velocity, Breaker3AxisForces acceleration) {
         this.position = position;
+        this.velocity = velocity;
         this.acceleration = acceleration;
+        jerk = new Breaker3AxisForces();
+    }
+
+        /**
+     * Creates a new BreakerMovementState2d using a given position and velocity.
+     * 
+     * @param position
+     * @param velocity
+     */
+    public BreakerMovementState2d(Pose2d position, Breaker3AxisForces velocity) {
+        this.position = position;
+        this.velocity = velocity;
+        acceleration = new Breaker3AxisForces();
         jerk = new Breaker3AxisForces();
     }
 
