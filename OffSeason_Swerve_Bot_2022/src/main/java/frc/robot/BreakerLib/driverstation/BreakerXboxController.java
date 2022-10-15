@@ -33,9 +33,13 @@ public class BreakerXboxController {
     public static final int RIGHT_Y_PORT = 5;
     // Xbox D-Pad angle constants
     public static final int DPAD_UP_ANG = 0;
+    public static final int DPAD_TOP_RIGHT_ANG = 45;
     public static final int DPAD_RIGHT_ANG = 90;
+    public static final int DPAD_BOTTOM_RIGHT_ANG = 135;
     public static final int DPAD_DOWN_ANG = 180;
+    public static final int DPAD_BOTTOM_LEFT_ANG = 225;
     public static final int DPAD_LEFT_ANG = 270;
+    public static final int DPAD_TOP_LEFT_ANG = 315;
 
     private XboxController controller;
 
@@ -51,9 +55,13 @@ public class BreakerXboxController {
     private JoystickButton backButton;
 
     private POVButton dPadUp;
+    private POVButton dPadTopRight;
     private POVButton dPadDown;
+    private POVButton dPadBottomRight;
     private POVButton dPadLeft;
+    private POVButton dPadBottomLeft;
     private POVButton dPadRight;
+    private POVButton dPadTopLeft;
 
     private BreakerXboxControllerDeadbandConfig deadbandConfig = new BreakerXboxControllerDeadbandConfig();
 
@@ -71,9 +79,13 @@ public class BreakerXboxController {
         backButton = new JoystickButton(controller, BACK_PORT);
 
         dPadUp = new POVButton(controller, DPAD_UP_ANG);
+        dPadTopRight = new POVButton(controller, DPAD_TOP_RIGHT_ANG);
         dPadDown = new POVButton(controller, DPAD_DOWN_ANG);
+        dPadBottomRight = new POVButton(controller, DPAD_BOTTOM_RIGHT_ANG);
         dPadLeft = new POVButton(controller, DPAD_LEFT_ANG);
+        dPadBottomLeft = new POVButton(controller, DPAD_BOTTOM_LEFT_ANG);
         dPadRight = new POVButton(controller, DPAD_RIGHT_ANG);
+        dPadTopLeft = new POVButton(controller, DPAD_TOP_LEFT_ANG);
     }
 
     public void setRumble(BreakerControllerRumbleType rumbleType, double rumblePrecent) {
@@ -190,5 +202,22 @@ public class BreakerXboxController {
 
     public POVButton getdPadUP() {
         return dPadUp;
+    }
+
+    public POVButton getdPadTopLeft() {
+        return dPadTopLeft;
+    }
+
+
+    public POVButton getdPadTopRight() {
+        return dPadTopRight;
+    }
+
+    public POVButton getdPadBottomLeft() {
+        return dPadBottomLeft;
+    }
+
+    public POVButton getdPadBottomRight() {
+        return dPadBottomRight;
     }
 }

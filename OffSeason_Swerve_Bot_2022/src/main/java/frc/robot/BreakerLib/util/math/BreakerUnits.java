@@ -113,70 +113,8 @@ public class BreakerUnits {
     public static double falconVelRsuToRadPerSec(double encoderVelRSU) {
         return BreakerMath.radiansPerTick(2048) * (encoderVelRSU * 10);
     }
-
-    public enum ShortDistanceUnits {
-        CENTIMETER,
-        MILLIMETER,
-        INCH
-    }
-
-    public enum LongDistanceUnits {
-        METER,
-        YARD,
-        FOOT
-    }
-
-    public static void setDefaultUnits(ShortDistanceUnits shortUnit, LongDistanceUnits longUnit) {
-        shortDefaultUnits = shortUnit;
-        longDefaultUnits = longUnit;
-    }
-
-    public static LongDistanceUnits getLongDefaultUnits() {
-        return longDefaultUnits;
-    }
-
-    public static ShortDistanceUnits getShortDefaultUnits() {
-        return shortDefaultUnits;
-    }
-
+    
     public static double degreesToCANCoderNativeUnits(double degrees) {
         return degrees / 0.087890625;
-    }
-
-    public static double convertShortDistanceToDefaultUnit(ShortDistanceUnits imputUnits, double imputVal) {
-        switch (imputUnits) {
-            case CENTIMETER:
-                switch (getShortDefaultUnits()) {
-                    case MILLIMETER:
-                        return imputVal * MILLIMETERS_PER_CENTIMETER;
-                    case INCH:
-                        return centimetersToInches(imputVal);
-                    case CENTIMETER:
-                    default:
-                        return imputVal;
-                }
-            case MILLIMETER:
-                switch (getShortDefaultUnits()) {
-                    case CENTIMETER:
-                        return imputVal / MILLIMETERS_PER_CENTIMETER;
-                    case INCH:
-                        return imputVal / MILLIMETERS_PER_INCH;
-                    case MILLIMETER:
-                    default:
-                        return imputVal;
-                }
-            case INCH:
-                switch (getShortDefaultUnits()) {
-                    case MILLIMETER:
-                        return imputVal * MILLIMETERS_PER_INCH;
-                    case CENTIMETER:
-                        return imputVal * MILLIMETERS_PER_CENTIMETER;
-                    case INCH:
-                    default:
-                        return imputVal;
-                }
-            default:
-                return imputVal;
-        }
     }
 }

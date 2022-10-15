@@ -36,7 +36,7 @@ public class RobotContainer {
     BreakerRobotManager.setup(
         drivetrainSys.getBaseDrivetrain(),
         new BreakerRobotConfig(
-            new BreakerRobotStartConfig(5104, "BreakerBots", "Offseason SwerveBot", 2022, "V1.2alpha",
+            new BreakerRobotStartConfig(5104, "BreakerBots", "Offseason SwerveBot", 2022, "V1.4beta",
                 "Roman Abrahamson, and Yousif Alkhalaf")));
 
     //controllerSys.configAnalogInputDeadbands(new BreakerXboxControllerDeadbandConfig(0.05, 0.05, 0.05, 0.05, 0.05, 0.05));

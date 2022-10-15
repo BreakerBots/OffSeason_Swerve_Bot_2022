@@ -15,9 +15,9 @@ public class BreakerDiffDriveController extends CommandBase {
   
   private BreakerXboxController controller;
   private BreakerDiffDrive baseDrivetrain;
-  private boolean usesSuppliers, usesCurves;
+  private boolean usesSuppliers, usesCurves, inputOverride;
   private BreakerGenericPolynomial netSpeedCurve, turnSpeedCurve;
-  private DoubleSupplier netSpeedPrecentSupplier, turnSpeedPrecentSupplier;
+  private DoubleSupplier netSpeedPrecentSupplier, turnSpeedPrecentSupplier, overrideNetSup, overrideTurnSup;
   public BreakerDiffDriveController(BreakerDiffDrive baseDrivetrain, BreakerXboxController controller) {
     this.controller = controller;
     this.baseDrivetrain = baseDrivetrain;
@@ -78,6 +78,16 @@ public class BreakerDiffDriveController extends CommandBase {
       turn = turnSpeedCurve.getSignRelativeValueAtX(turn);
     }
     baseDrivetrain.arcadeDrive(MathUtil.clamp(net, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0));
+  }
+
+  public void overrideInputs(DoubleSupplier netSpeedSupplier, DoubleSupplier turnSpeedSupplier) {
+    inputOverride = true;
+    overrideNetSup = netSpeedSupplier;
+    overrideTurnSup = turnSpeedSupplier;
+  }
+
+  public void endInputOverride() {
+    inputOverride = false;
   }
 
   // Called once the command ends or is interrupted.

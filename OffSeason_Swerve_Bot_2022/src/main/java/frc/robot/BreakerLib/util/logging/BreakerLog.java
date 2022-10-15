@@ -12,7 +12,7 @@ import frc.robot.BreakerLib.util.BreakerRoboRIO;
 import frc.robot.BreakerLib.util.BreakerRoboRIO.RobotMode;
 import frc.robot.BreakerLib.util.robotmanager.BreakerRobotStartConfig;
 
-/** Add your docs here. */
+/** Global log manager for all your data logging and printing needs */
 public class BreakerLog {
 
   private static boolean usesOrchestra = false;
@@ -61,12 +61,12 @@ public class BreakerLog {
     DataLogManager.log(" EVENT: " + event);
   }
 
-  /** Needs justification */
+  /** Internal logging function for breakerlib classes to sepreate automated breakerlib logging form user loging */
   public static void logBreakerLibEvent(String event) {
     DataLogManager.log(" BREAKERLIB INTERNAL EVENT: " + event);
   }
 
-  /** Logs errors... somehow. */
+  /** Logs either exceptions thrown by code, or suer difigned errors either from code or physical errors */
   public static void logError(String error) {
     DataLogManager.log(" ERROR: " + error);
   }
@@ -74,7 +74,7 @@ public class BreakerLog {
     DataLogManager.log(" ERROR: " + e.toString() + " : " + e.getStackTrace().toString());
   }
 
-  /** Logs superstructure(?) events. */
+  /** Logs robot superstructure (physical) events (i.e. intake activated, shooter enabled) */
   public static void logSuperstructureEvent(String event) {
     DataLogManager.log(" ROBOT SUPERSTRUCTURE EVENT: " + event);
   }

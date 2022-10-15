@@ -6,8 +6,8 @@ package frc.robot.BreakerLib.physics;
 
 /** A class that represents vectorizeable forces (EX: velocity, acceleration, etc) acting on an object in the X, and Y linear axise as well as, the yaw angular axis*/
 public class Breaker3AxisForces {
-    BreakerVector2 linearForces;
-    double angularForce;
+    private BreakerVector2 linearForces;
+    private double angularForce;
     public Breaker3AxisForces(BreakerVector2 linearForces, double angularForce) {
         this.linearForces = linearForces;
         this.angularForce = angularForce;
