@@ -69,7 +69,7 @@ public class BreakerRobotConfig {
     public BreakerRobotConfig(BreakerRobotStartConfig startConfig, BreakerFalconOrchestra orchestra,  BreakerAutoPath... autoPaths) {
         this.secondsBetweenSelfChecks = 5;
         this.autologNetworkTables = false;
-        this.selftestServerAddress = "172.22.11.2";
+        this.selftestServerAddress = "10.51.4";
         this.autoRegesterDevices = true;
         this.orchestra = orchestra;
         this.autoPaths = autoPaths;
@@ -81,7 +81,7 @@ public class BreakerRobotConfig {
     public BreakerRobotConfig(BreakerRobotStartConfig startConfig, BreakerFalconOrchestra orchestra) {
         this.secondsBetweenSelfChecks = 5;
         this.autologNetworkTables = false;
-        this.selftestServerAddress = "172.22.11.2";
+        this.selftestServerAddress = "10.51.4";
         this.autoRegesterDevices = true;
         this.orchestra = orchestra;
         this.autoPaths = new BreakerAutoPath[0];
@@ -93,7 +93,7 @@ public class BreakerRobotConfig {
     public BreakerRobotConfig(BreakerRobotStartConfig startConfig, BreakerAutoPath... autoPaths) {
         this.secondsBetweenSelfChecks = 5;
         this.autologNetworkTables = false;
-        this.selftestServerAddress = "172.22.11.2";
+        this.selftestServerAddress = "10.51.4";
         this.autoRegesterDevices = true;
         this.orchestra = new BreakerFalconOrchestra();
         this.autoPaths = autoPaths;
@@ -105,7 +105,7 @@ public class BreakerRobotConfig {
     public BreakerRobotConfig(BreakerRobotStartConfig startConfig) {
         this.secondsBetweenSelfChecks = 5;
         this.autologNetworkTables = false;
-        this.selftestServerAddress = "172.22.11.2";
+        this.selftestServerAddress = "10.51.4";
         this.autoRegesterDevices = true;
         this.orchestra = new BreakerFalconOrchestra();
         this.autoPaths = new BreakerAutoPath[0];
@@ -117,7 +117,7 @@ public class BreakerRobotConfig {
     public BreakerRobotConfig() {
         this.secondsBetweenSelfChecks = 5;
         this.autologNetworkTables = false;
-        this.selftestServerAddress = "172.22.11.2";
+        this.selftestServerAddress = "10.51.4";
         this.autoRegesterDevices = true;
         this.orchestra = new BreakerFalconOrchestra();
         this.autoPaths = new BreakerAutoPath[0];

@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class RobotContainer {
 
   private final BreakerXboxController controllerSys = new BreakerXboxController(0);
-  private final BreakerPigeon2 imuSys = new BreakerPigeon2(0);
+  private final BreakerPigeon2 imuSys = new BreakerPigeon2(5);
   private final Drive drivetrainSys = new Drive(imuSys);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -54,6 +54,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     controllerSys.getdPadRight().whenPressed(new InstantCommand(drivetrainSys.getBaseDrivetrain()::toggleSlowMode));
+    controllerSys.getButtonB().whenPressed(new InstantCommand(imuSys::reset));
   }
 
   /**

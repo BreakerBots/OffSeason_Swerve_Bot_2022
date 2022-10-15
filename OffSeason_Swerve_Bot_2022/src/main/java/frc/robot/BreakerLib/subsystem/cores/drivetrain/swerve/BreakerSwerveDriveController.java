@@ -175,9 +175,9 @@ public class BreakerSwerveDriveController extends CommandBase {
       horizontal = !linearOverride ? horizontalSpeedPercentSupplier.getAsDouble() : overrideForwardSupplier.getAsDouble();
       turn = !turnOverride ? turnSpeedPercentSupplier.getAsDouble() : overrideTurnSupplier.getAsDouble();
     } else { /** Use controller inputs */
-      forward = !linearOverride ? -controller.getLeftX() : overrideForwardSupplier.getAsDouble();
-      horizontal = !linearOverride ? controller.getLeftY() : overrideHorizontalSupplier.getAsDouble();
-      turn = !turnOverride ? -controller.getRightX() :  overrideTurnSupplier.getAsDouble();
+      forward = !linearOverride ? -controller.getLeftY() : overrideForwardSupplier.getAsDouble();
+      horizontal = !linearOverride ? -controller.getLeftX() : overrideHorizontalSupplier.getAsDouble();
+      turn = !turnOverride ? controller.getRightX() :  overrideTurnSupplier.getAsDouble();
     }
 
     if (usesCurves && !(linearOverride || turnOverride)) {
@@ -190,7 +190,7 @@ public class BreakerSwerveDriveController extends CommandBase {
       baseDrivetrain.moveWithPercentInputRelativeToField(MathUtil.clamp(forward, -1.0, 1.0),
           MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0), odometer);
     } else {
-      baseDrivetrain.moveWithPercentInputRelativeToField(MathUtil.clamp(forward, -1.0, 1.0),
+      baseDrivetrain.moveWithPercentInput(MathUtil.clamp(forward, -1.0, 1.0),
           MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0));
     }
   }

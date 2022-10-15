@@ -16,6 +16,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
+import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.CANCoderFaults;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
@@ -60,17 +61,17 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
      *                    constants for your drivetrain
      */
     public BreakerMK4iSwerveModule(WPI_TalonFX driveMotor, WPI_TalonFX turnMotor, WPI_CANCoder turnEncoder,
-            BreakerSwerveDriveConfig config, boolean invertTurnOutput, boolean turnSensorPhase) {
+            BreakerSwerveDriveConfig config, boolean invertDriveOutput, boolean invertTurnOutput, boolean turnSensorPhase) {
         this.config = config;
         this.turnMotor = turnMotor;
         this.driveMotor = driveMotor;
         this.turnEncoder = turnEncoder;
 
-        CANCoderConfiguration encoderConfig = new CANCoderConfiguration();
-        encoderConfig.absoluteSensorRange = AbsoluteSensorRange.Signed_PlusMinus180;
-        encoderConfig.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
-        BreakerCTREUtil.checkError(turnEncoder.configAllSettings(encoderConfig),
-                " Failed to config swerve module turn encoder ");
+        // CANCoderConfiguration encoderConfig = new CANCoderConfiguration();
+        // encoderConfig.absoluteSensorRange = AbsoluteSensorRange.Signed_PlusMinus180;
+        // encoderConfig.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
+        // BreakerCTREUtil.checkError(turnEncoder.configAllSettings(encoderConfig),
+        //         " Failed to config swerve module turn encoder ");
 
         TalonFXConfiguration turnConfig = new TalonFXConfiguration();
         turnConfig.remoteFilter0.remoteSensorDeviceID = turnEncoder.getDeviceID();
@@ -107,6 +108,7 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
                 " Failed to config swerve module drive motor ");
         ;
         driveMotor.selectProfileSlot(1, 0);
+        driveMotor.setInverted(invertDriveOutput);
         driveMotor.set(ControlMode.Velocity, 0.0);
 
         ffProvider = config.getArbitraryFeedforwardProvider();
