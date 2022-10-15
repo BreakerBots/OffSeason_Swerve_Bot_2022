@@ -4,6 +4,7 @@
 
 package frc.robot.BreakerLib.devices.cosmetic.led;
 
+import com.ctre.phoenix.CANifier.LEDChannel;
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdleFaults;

@@ -58,6 +58,7 @@ public class BreakerTimedFlywheelSpinUpTest extends BreakerTestBase {
     }
     avgSpeed.addValue(baseFlywheel.getFlywheelRPM());
     rpmAndTimestamps.add(new Pair<Double,Double>(curVel, curTime));
+    periodicLog("Cur Speed: " + curVel + ", At Target: " + baseFlywheel.flywheelIsAtTargetVel() + ", Stable Time Sec: " + (stableCycles * 0.02));
   }
 
   public BreakerTimedFlywheelSpinUpTestResult getResults() {

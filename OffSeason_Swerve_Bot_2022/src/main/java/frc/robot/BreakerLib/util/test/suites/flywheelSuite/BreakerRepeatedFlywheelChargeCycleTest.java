@@ -49,6 +49,7 @@ public class BreakerRepeatedFlywheelChargeCycleTest extends BreakerTestBase {
       phaseStartTime = time;
       isSpinUp = false;
       baseFlywheel.stopFlywheel();
+      periodicLog("SPINUP - RPM: "+baseFlywheel.getFlywheelRPM());
       curPhase ++;
     } else if (!isSpinUp && (baseFlywheel.getFlywheelRPM() == 0)) {
       double time = Timer.getFPGATimestamp();
@@ -58,6 +59,7 @@ public class BreakerRepeatedFlywheelChargeCycleTest extends BreakerTestBase {
       baseFlywheel.setFlywheelSpeed(targetRPM);
       curPhase ++;
     }
+    periodicLog((isSpinUp ? "SPIN-UP" : "SPIN-DOWN") + "- RPM: " + baseFlywheel.getFlywheelRPM());
   }
 
   // Called once the command ends or is interrupted.

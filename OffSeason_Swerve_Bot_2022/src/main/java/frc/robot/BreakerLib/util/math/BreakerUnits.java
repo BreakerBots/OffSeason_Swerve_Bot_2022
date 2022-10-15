@@ -11,8 +11,6 @@ public class BreakerUnits {
     public static final double MILLIMETERS_PER_CENTIMETER = 10;
     public static final double METERS_PER_YARD = 0.9144;
     public static final double INCHES_PER_YARD = 36;
-    private static ShortDistanceUnits shortDefaultUnits;
-    private static LongDistanceUnits longDefaultUnits;
 
     
 
@@ -113,7 +111,7 @@ public class BreakerUnits {
     public static double falconVelRsuToRadPerSec(double encoderVelRSU) {
         return BreakerMath.radiansPerTick(2048) * (encoderVelRSU * 10);
     }
-    
+
     public static double degreesToCANCoderNativeUnits(double degrees) {
         return degrees / 0.087890625;
     }

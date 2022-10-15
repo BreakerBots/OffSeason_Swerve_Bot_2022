@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
-/** Wrapper for Xinput controllers. */
+/** Wrapper for Xbox controller inputs. */
 public class BreakerXboxController {
 
     // Xbox digital button ports
@@ -207,7 +207,6 @@ public class BreakerXboxController {
     public POVButton getdPadTopLeft() {
         return dPadTopLeft;
     }
-
 
     public POVButton getdPadTopRight() {
         return dPadTopRight;

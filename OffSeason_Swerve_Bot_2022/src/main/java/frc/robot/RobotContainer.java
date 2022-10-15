@@ -39,7 +39,7 @@ public class RobotContainer {
             new BreakerRobotStartConfig(5104, "BreakerBots", "Offseason SwerveBot", 2022, "V1.4beta",
                 "Roman Abrahamson, and Yousif Alkhalaf")));
 
-    //controllerSys.configAnalogInputDeadbands(new BreakerXboxControllerDeadbandConfig(0.05, 0.05, 0.05, 0.05, 0.05, 0.05));
+    controllerSys.configAnalogInputDeadbands(new BreakerXboxControllerDeadbandConfig(0.05, 0.05, 0.05, 0.05, 0.05, 0.05));
 
     configureButtonBindings();
     drivetrainSys.getBaseDrivetrain()
@@ -53,7 +53,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    controllerSys.getdPadRight().whenPressed(new InstantCommand(drivetrainSys.getBaseDrivetrain()::toggleSlowMode), false);
+    controllerSys.getdPadRight().whenPressed(new InstantCommand(drivetrainSys.getBaseDrivetrain()::toggleSlowMode));
   }
 
   /**
