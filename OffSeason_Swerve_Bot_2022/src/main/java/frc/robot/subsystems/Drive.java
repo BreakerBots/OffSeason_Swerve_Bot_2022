@@ -7,11 +7,8 @@ package frc.robot.subsystems;
 import static frc.robot.Constants.*;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.sensors.AbsoluteSensorRange;
-import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
@@ -19,7 +16,6 @@ import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDrive
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveConfig;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.modules.BreakerMK4iSwerveModule;
 import frc.robot.BreakerLib.util.BreakerArbitraryFeedforwardProvider;
-import frc.robot.BreakerLib.util.factory.BreakerCANCoderFactory;
 
 /** Add your docs here. */
 public class Drive extends SubsystemBase {
@@ -72,7 +68,7 @@ public class Drive extends SubsystemBase {
 
         backLeftModule = new BreakerMK4iSwerveModule(driveBL, turnBL, encoderBL, config, 30.0, true, true);
         backLeftModule.setDeviceName(" Back_Left_Module ");
-        
+
         backRightModule = new BreakerMK4iSwerveModule(driveBR, turnBR, encoderBR, config, 90.0, false, true);
         backRightModule.setDeviceName(" Back_Right_Module ");
 

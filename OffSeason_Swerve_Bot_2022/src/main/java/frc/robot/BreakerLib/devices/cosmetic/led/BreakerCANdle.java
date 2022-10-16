@@ -12,6 +12,7 @@ import com.ctre.phoenix.led.RainbowAnimation;
 import com.ctre.phoenix.led.StrobeAnimation;
 
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.BreakerLib.devices.BreakerGenericLoopedDevice;
 import frc.robot.BreakerLib.util.BreakerCTREUtil;
 import frc.robot.BreakerLib.util.BreakerTriplet;
@@ -49,7 +50,7 @@ public class BreakerCANdle extends BreakerGenericLoopedDevice {
         candle.configAllSettings(config.getConfig());
         candle.setLEDs(255, 255, 255);
         enabledStatus = new RainbowAnimation(1, 0.5, numberOfLEDs);
-        errorStatus = new StrobeAnimation(255, 0, 0, 0, 0.5, numberOfLEDs);
+        errorStatus = new StrobeAnimation(255, 0, 0, 0, 0.8, numberOfLEDs);
         deviceName = " CANdle_LED_Controller ("+ canID +") ";
     }
 
@@ -76,7 +77,7 @@ public class BreakerCANdle extends BreakerGenericLoopedDevice {
     }
 
     public void setStaticLED(Color ledColor) {
-        candle.setLEDs(colorToRGB(ledColor)[0], colorToRGB(ledColor)[1], colorToRGB(ledColor)[2]);
+        candle.setLEDs(new Color8Bit(ledColor).red, new Color8Bit(ledColor).green, new Color8Bit(ledColor).blue);
         mode = BreakerCANdleLEDMode.STATIC;
     }
 
@@ -84,12 +85,10 @@ public class BreakerCANdle extends BreakerGenericLoopedDevice {
         candle.setLEDs(red, green, blue);
     }
 
-    private int[] colorToRGB(Color color) {
-        return new int[] { (int) (color.red * 255), (int) (color.blue * 255), (int) (color.green * 255) };
-    }
+    
 
     private void setLED(Color ledColor) {
-        candle.setLEDs(colorToRGB(ledColor)[0], colorToRGB(ledColor)[1], colorToRGB(ledColor)[2]);
+        candle.setLEDs(new Color8Bit(ledColor).red, new Color8Bit(ledColor).green, new Color8Bit(ledColor).blue);
     }
 
     public void setLEDColorSwitch(double switchTimeSec, Color... switchColors) {
