@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveConfig;
 import frc.robot.BreakerLib.util.BreakerArbitraryFeedforwardProvider;
 import frc.robot.BreakerLib.util.BreakerCTREUtil;
+import frc.robot.BreakerLib.util.factory.BreakerCANCoderFactory;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.math.BreakerUnits;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
@@ -61,17 +62,14 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
      *                    constants for your drivetrain
      */
     public BreakerMK4iSwerveModule(WPI_TalonFX driveMotor, WPI_TalonFX turnMotor, WPI_CANCoder turnEncoder,
-            BreakerSwerveDriveConfig config, boolean invertDriveOutput, boolean invertTurnOutput, boolean turnSensorPhase) {
+            BreakerSwerveDriveConfig config, double encoderAbsoluteAngleOffsetDegrees, boolean invertDriveOutput, boolean invertTurnOutput) {
         this.config = config;
         this.turnMotor = turnMotor;
         this.driveMotor = driveMotor;
         this.turnEncoder = turnEncoder;
 
-        // CANCoderConfiguration encoderConfig = new CANCoderConfiguration();
-        // encoderConfig.absoluteSensorRange = AbsoluteSensorRange.Signed_PlusMinus180;
-        // encoderConfig.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
-        // BreakerCTREUtil.checkError(turnEncoder.configAllSettings(encoderConfig),
-        //         " Failed to config swerve module turn encoder ");
+        BreakerCANCoderFactory.configExistingCANCoder(turnEncoder, SensorInitializationStrategy.BootToAbsolutePosition, 
+            AbsoluteSensorRange.Signed_PlusMinus180, encoderAbsoluteAngleOffsetDegrees, false);
 
         TalonFXConfiguration turnConfig = new TalonFXConfiguration();
         turnConfig.remoteFilter0.remoteSensorDeviceID = turnEncoder.getDeviceID();
@@ -88,7 +86,7 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
         BreakerCTREUtil.checkError(turnMotor.configAllSettings(turnConfig),
                 " Failed to config swerve module turn motor ");
         turnMotor.selectProfileSlot(0, 0);
-        turnMotor.setSensorPhase(turnSensorPhase);
+        turnMotor.setSensorPhase(true);
         turnMotor.setInverted(invertTurnOutput);
         turnMotor.setNeutralMode(NeutralMode.Brake);
         turnMotor.set(ControlMode.Position, 0);
