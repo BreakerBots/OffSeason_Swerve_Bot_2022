@@ -12,7 +12,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.BreakerLib.util.math.interpolation.interpolateingmaps.BreakerGenericInterpolatingMap;
 
-/** Add your docs here. */
+/** A calass that acts as aprovider for arbitrary feedfroward demand values used with the Talon motor controller's integrated PID */
 public class BreakerArbitraryFeedforwardProvider {
     private BreakerGenericInterpolatingMap<Double, Double> ffMap;
     private double feedforwardCoeficent, staticFrictionCoeficent; 

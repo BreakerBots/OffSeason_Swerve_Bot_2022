@@ -22,7 +22,7 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
   private WPI_Pigeon2 pigeon;
   private int deviceID;
 
-  /** Creates a new PigeonIMU object. */
+  /** Creates a new PigeonIMU 2 object. */
   public BreakerPigeon2(int deviceID) {
     pigeon = new WPI_Pigeon2(deviceID);
     this.deviceID = deviceID;

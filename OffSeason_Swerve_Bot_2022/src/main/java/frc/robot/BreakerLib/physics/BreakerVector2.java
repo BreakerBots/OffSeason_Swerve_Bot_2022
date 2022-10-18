@@ -13,85 +13,85 @@ import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.math.interpolation.BreakerInterpolable;
 
 /**
- * represents a point with 2 axial vectors of ajustable magnatudes (one paralell
- * with the point's X, and Y axis)
+ * represents a 2 dimentional vector, a uantity with bolth magnatude and direction. Here representd as a total magnatude, angular direction, 
+ * x manatude component, and y magnatude component
  */
 public class BreakerVector2 implements BreakerInterpolable<BreakerVector2> {
-    private Rotation2d forceRotation;
-    private double force;
-    private double forceX;
-    private double forceY;
+    private Rotation2d vectorRotation;
+    private double magnatude;
+    private double magnatudeX;
+    private double magnatudeY;
 
     /**
-     * creates a new BreakerVector2 from the magnatudes of the vectors X and Y
+     * creates a new BreakerVector2 from the magnatudes of the vector's X and Y
      * components
      */
-    public BreakerVector2(double forceX, double forceY) {
-        this.forceX = forceX;
-        this.forceY = forceY;
-        forceRotation = new Rotation2d(Math.atan2(forceY, forceX));
-        force = Math.sqrt(Math.pow(forceX, 2) + Math.pow(forceY, 2));
+    public BreakerVector2(double magnatudeX, double magnatudeY) {
+        this.magnatudeX = magnatudeX;
+        this.magnatudeY = magnatudeY;
+        vectorRotation = new Rotation2d(Math.atan2(magnatudeY, magnatudeX));
+        magnatude = Math.sqrt(Math.pow(magnatudeX, 2) + Math.pow(magnatudeY, 2));
     }
 
-    private BreakerVector2(double forceX, double forceY, double force, Rotation2d forceRotation) {
-        this.forceX = forceX;
-        this.forceY = forceY;
-        this.force = force;
-        this.forceRotation = forceRotation;
+    private BreakerVector2(double magnatudeX, double magnatudeY, double magnatude, Rotation2d vectorRotation) {
+        this.magnatudeX = magnatudeX;
+        this.magnatudeY = magnatudeY;
+        this.magnatude = magnatude;
+        this.vectorRotation = vectorRotation;
     }
 
     /** creates an empty BreakerVector2 with 0's for all values */
     public BreakerVector2() {
-        forceX = 0;
-        forceY = 0;
-        forceRotation = Rotation2d.fromDegrees(0);
-        force = 0;
+     magnatudeX = 0;
+        magnatudeY = 0;
+        vectorRotation = Rotation2d.fromDegrees(0);
+        magnatude = 0;
     }
 
     /**
      * creates a new BreakerVector2 from the vectors Magnatude and the vectors angle
      * in the Yaw angular axis
      */
-    public static BreakerVector2 fromForceAndRotation(Rotation2d forceRotation, double force) {
-        return new BreakerVector2(force * Math.cos(forceRotation.getRadians()),
-                force * Math.sin(forceRotation.getRadians()), force, forceRotation);
+    public static BreakerVector2 fromForceAndRotation(Rotation2d vectorRotation, double magnatude) {
+        return new BreakerVector2(magnatude * Math.cos(vectorRotation.getRadians()),
+                magnatude * Math.sin(vectorRotation.getRadians()), magnatude, vectorRotation);
     }
 
     public double getForce() {
-        return force;
+        return magnatude;
     }
 
-    public Rotation2d getForceRotation() {
-        return forceRotation;
+    public Rotation2d getVectorRotation() {
+        return vectorRotation;
     }
 
-    public double getForceX() {
-        return forceX;
+    public double getMagnatudeX() {
+        return magnatudeX;
     }
 
-    public double getForceY() {
-        return forceY;
+    public double getMagnatudeY() {
+        return magnatudeY;
     }
 
     public BreakerVector2 rotateBy(Rotation2d rotation) {
         double cos = Math.cos(rotation.getRadians());
         double sin = Math.sin(rotation.getRadians());
-        return new BreakerVector2((this.forceX * cos) - (this.forceY * sin), (this.forceX * sin) + (this.forceY * cos));
+        return new BreakerVector2((this.magnatudeX * cos) - (this.magnatudeY * sin), (this.magnatudeX * sin) + (this.magnatudeY * cos));
     }
 
     @Override
     public boolean equals(Object obj) {
-        return (Math.abs(((BreakerVector2) obj).forceX - forceX) < 1E-9)
-                && (Math.abs(((BreakerVector2) obj).forceY - forceY) < 1E-9);
+        return (Math.abs(((BreakerVector2) obj).magnatudeX - magnatudeX) < 1E-9)
+                && (Math.abs(((BreakerVector2) obj).magnatudeY - magnatudeY) < 1E-9);
     }
 
     @Override
     public BreakerVector2 interpolate(double interpolendValue, double highKey, BreakerVector2 highVal,
             double lowKey, BreakerVector2 lowVal) {
-        double interX = BreakerMath.interpolateLinear(interpolendValue, highKey, lowKey, lowVal.getForceX(),
-                highVal.getForceX());
-        double interY = BreakerMath.interpolateLinear(interpolendValue, highKey, lowKey, lowVal.getForceY(),
-                highVal.getForceY());
+        double interX = BreakerMath.interpolateLinear(interpolendValue, highKey, lowKey, lowVal.getMagnatudeX(),
+                highVal.getMagnatudeX());
+        double interY = BreakerMath.interpolateLinear(interpolendValue, highKey, lowKey, lowVal.getMagnatudeY(),
+                highVal.getMagnatudeY());
         return new BreakerVector2(interX, interY);
     }
 
@@ -103,7 +103,7 @@ public class BreakerVector2 implements BreakerInterpolable<BreakerVector2> {
     /** [0] = X, [1] = Y */
     @Override
     public double[] getInterpolatableData() {
-        return new double[] { forceX, forceY };
+        return new double[] { magnatudeX, magnatudeY };
     }
 
     @Override
@@ -113,6 +113,6 @@ public class BreakerVector2 implements BreakerInterpolable<BreakerVector2> {
 
     @Override
     public String toString() {
-       return "Vector Magnatude:" + force + ", X-Magnatude: " + forceX + ", Y-Magnatude: " + forceY + ", Vector Angle: " + forceRotation.toString();
+       return "Vector Magnatude:" + magnatude + ", X-Magnatude: " + magnatudeX + ", Y-Magnatude: " + magnatudeY + ", Vector Angle: " + vectorRotation.toString();
     }
 }

@@ -36,13 +36,13 @@ public class BreakerSwerveDriveConfig {
      * (wheel translations must be imputed in the same order as the swerve moduels
      * themsleves are passed into your BreakerSwerveDrive constructor)
      * 
-     * @param maxForwardVel Max velocity of drive motor.
-     * @param maxSidewaysVel Max veloctiy of drive motor.
-     * @param maxAngVel Max velocity of turning motor.
+     * @param maxForwardVel Max forward velocity of drivetrain in m/s.
+     * @param maxSidewaysVel Max strafe veloctiy of drivetrain in m/s.
+     * @param maxAngVel Max angular velocity of the drivetrain in rad/s.
      * @param moduleAnglekP Swerve module angular kP (for PID)
      * @param moduleAnglekI Swerve module angular kI (for PID)
      * @param moduleAngleKd Swerve module angular kD (for PID)
-     * @param moduleVelkP Swerve module dr
+     * @param moduleVelkP 
      * @param moduleVelkI
      * @param moduleVelKd
      * @param moduleVelKf

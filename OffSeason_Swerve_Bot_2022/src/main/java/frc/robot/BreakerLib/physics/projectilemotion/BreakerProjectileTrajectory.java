@@ -40,19 +40,19 @@ public class BreakerProjectileTrajectory {
     /** Max height of projectile in meters. */
     public double getMaxHeight() {
         return (projectile.getTerminalVelSq() / (2 * BreakerUnits.METERS_PER_SECOND_SQUARED_IN_G)) * Math.log(
-                (Math.pow(initialVels.getForceZ(), 2) + projectile.getTerminalVelSq()) / projectile.getTerminalVelSq());
+                (Math.pow(initialVels.getMagnatudeZ(), 2) + projectile.getTerminalVelSq()) / projectile.getTerminalVelSq());
     }
 
     /** Time that a projectile reaches its maximum height. */
     public double getApogeeTime() {
         return (projectile.getTermanalVelMetersPerSec() / BreakerUnits.METERS_PER_SECOND_SQUARED_IN_G)
-                * Math.atan(initialVels.getForceZ() / projectile.getTermanalVelMetersPerSec());
+                * Math.atan(initialVels.getMagnatudeZ() / projectile.getTermanalVelMetersPerSec());
     }
 
     /** 2D position of target at given time, in seconds (TBD) */
     public Translation2d get2dTranslationAtGivenTime(double time) {
-        double x = getHorizontalDistInGivenAxisAtGivenTime(time, initialVels.getForceX());
-        double y = getHorizontalDistInGivenAxisAtGivenTime(time, initialVels.getForceY());
+        double x = getHorizontalDistInGivenAxisAtGivenTime(time, initialVels.getMagnatudeX());
+        double y = getHorizontalDistInGivenAxisAtGivenTime(time, initialVels.getMagnatudeY());
         return new Translation2d(x, y).plus(launchPoint.get2dPoseComponent().getTranslation());
     }
 
@@ -72,7 +72,7 @@ public class BreakerProjectileTrajectory {
 
     public double getTimeOfFightToTarget(Translation2d targedLocation) {
         return getTimeAtGivenDistance(targedLocation.getDistance(launchPoint.get2dPoseComponent().getTranslation()),
-                Math.hypot(initialVels.getForceX(), initialVels.getForceY()));
+                Math.hypot(initialVels.getMagnatudeX(), initialVels.getMagnatudeY()));
     }
 
     private double getVelInGivenAxisAtGivenTime(double time, double initialForce) {
@@ -81,9 +81,9 @@ public class BreakerProjectileTrajectory {
     }
 
     public BreakerVector3 getForceVectorAtGivenTime(double time) {
-        double x = getVelInGivenAxisAtGivenTime(time, initialVels.getForceX());
-        double y = getVelInGivenAxisAtGivenTime(time, initialVels.getForceY());
-        double z = getVelInGivenAxisAtGivenTime(time, initialVels.getForceZ());
+        double x = getVelInGivenAxisAtGivenTime(time, initialVels.getMagnatudeX());
+        double y = getVelInGivenAxisAtGivenTime(time, initialVels.getMagnatudeY());
+        double z = getVelInGivenAxisAtGivenTime(time, initialVels.getMagnatudeZ());
         return new BreakerVector3(x, y, z);
     }
 
@@ -91,8 +91,8 @@ public class BreakerProjectileTrajectory {
     public Translation2d getMovingLaunchCorrectionAsNewTargetLocation(ChassisSpeeds fieldRelativeSpeeds,
             Translation2d targetLocation) {
         BreakerProjectileTrajectory trajectory = new BreakerProjectileTrajectory(projectile,
-                new BreakerVector3(initialVels.getForceX() + fieldRelativeSpeeds.vxMetersPerSecond,
-                        initialVels.getForceY() + fieldRelativeSpeeds.vyMetersPerSecond, initialVels.getForceZ()),
+                new BreakerVector3(initialVels.getMagnatudeX() + fieldRelativeSpeeds.vxMetersPerSecond,
+                        initialVels.getMagnatudeY() + fieldRelativeSpeeds.vyMetersPerSecond, initialVels.getMagnatudeZ()),
                 launchPoint);
         Translation2d correctedLocation = targetLocation
                 .minus(trajectory.get2dTranslationAtGivenTime(getTimeOfFightToTarget(targetLocation)));
@@ -103,8 +103,8 @@ public class BreakerProjectileTrajectory {
     public BreakerVector3 getMovingLaunchCorrectionAsNewLaunchForces(ChassisSpeeds fieldRelativeSpeeds,
             Translation2d targetLocation) {
         BreakerProjectileTrajectory trajectory = new BreakerProjectileTrajectory(projectile,
-                new BreakerVector3(initialVels.getForceX() + fieldRelativeSpeeds.vxMetersPerSecond,
-                        initialVels.getForceY() + fieldRelativeSpeeds.vyMetersPerSecond, initialVels.getForceZ()),
+                new BreakerVector3(initialVels.getMagnatudeX() + fieldRelativeSpeeds.vxMetersPerSecond,
+                        initialVels.getMagnatudeY() + fieldRelativeSpeeds.vyMetersPerSecond, initialVels.getMagnatudeZ()),
                 launchPoint);
         double baseExpectedImpactTime = getTimeOfFightToTarget(targetLocation);
         BreakerVector3 baseExpectedImpactVec = getForceVectorAtGivenTime(baseExpectedImpactTime);
