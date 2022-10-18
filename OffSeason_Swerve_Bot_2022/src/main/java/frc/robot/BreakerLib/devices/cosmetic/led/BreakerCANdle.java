@@ -54,7 +54,7 @@ public class BreakerCANdle extends BreakerGenericLoopedDevice {
         deviceName = " CANdle_LED_Controller ("+ canID +") ";
     }
 
-    public void setLEDAnimation(Animation animation) {
+    public void setCTREAnimation(Animation animation) {
         candle.animate(animation);
         mode = BreakerCANdleLEDMode.ANIMATION;
     }
