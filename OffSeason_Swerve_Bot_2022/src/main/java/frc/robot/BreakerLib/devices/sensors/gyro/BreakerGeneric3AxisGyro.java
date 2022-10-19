@@ -4,8 +4,9 @@
 
 package frc.robot.BreakerLib.devices.sensors.gyro;
 
+import edu.wpi.first.math.geometry.Quaternion;
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.BreakerLib.position.geometry.BreakerRotation3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 
 /** FRC 3-axis gyroscope interface. */
 public interface BreakerGeneric3AxisGyro extends BreakerGenericGyro {
@@ -28,8 +29,10 @@ public interface BreakerGeneric3AxisGyro extends BreakerGenericGyro {
   /** @return Roll angle as {@link Rotation2d} within +-180 degrees. */
   public abstract Rotation2d getRollRotation2d();
 
+  public abstract Quaternion getQuaternion();
+
   /** Pitch, yaw, and roll as Rotation3d, all within +- 180 degrees. */
-  public abstract BreakerRotation3d getRotation3d();
+  public abstract Rotation3d getRotation3d();
 
   /**
    * @return Raw yaw, pitch, and roll angles in an array.
@@ -101,7 +104,7 @@ public interface BreakerGeneric3AxisGyro extends BreakerGenericGyro {
   public abstract double getRollRate();
 
   /** @return Pitch, yaw, and roll as {@link BreakerRotation3d} */
-  public abstract BreakerRotation3d getRawRotation3d();
+  public abstract Rotation3d getRawRotation3d();
 
   @Override
   public abstract void reset();

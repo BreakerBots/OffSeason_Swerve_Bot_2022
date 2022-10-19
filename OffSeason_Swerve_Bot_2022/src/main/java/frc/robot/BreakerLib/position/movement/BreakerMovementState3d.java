@@ -4,14 +4,14 @@
 
 package frc.robot.BreakerLib.position.movement;
 
+import edu.wpi.first.math.geometry.Pose3d;
 import frc.robot.BreakerLib.physics.Breaker6AxisForces;
 import frc.robot.BreakerLib.physics.BreakerAngularVector3;
 import frc.robot.BreakerLib.physics.BreakerVector3;
-import frc.robot.BreakerLib.position.geometry.BreakerPose3d;
 
 /** Represents an objects 3 dimentional (linear: XYZ / Angular: YPR) position, velocity, acceleration, and jerk at a given time */
 public class BreakerMovementState3d {
-    private BreakerPose3d position;
+    private Pose3d position;
     private Breaker6AxisForces velocity;
     private Breaker6AxisForces acceleration;
     private Breaker6AxisForces jerk;
@@ -24,7 +24,7 @@ public class BreakerMovementState3d {
      * @param acceleration
      * @param jerk
      */
-    public BreakerMovementState3d(BreakerPose3d position, Breaker6AxisForces velocity, Breaker6AxisForces acceleration, Breaker6AxisForces jerk) {
+    public BreakerMovementState3d(Pose3d position, Breaker6AxisForces velocity, Breaker6AxisForces acceleration, Breaker6AxisForces jerk) {
         this.position = position;
         this.velocity = velocity;
         this.acceleration = acceleration;
@@ -38,7 +38,7 @@ public class BreakerMovementState3d {
      * @param velocity
      * @param acceleration
      */
-    public BreakerMovementState3d(BreakerPose3d position, Breaker6AxisForces velocity, Breaker6AxisForces acceleration) {
+    public BreakerMovementState3d(Pose3d position, Breaker6AxisForces velocity, Breaker6AxisForces acceleration) {
         this.position = position;
         this.velocity = velocity;
         this.acceleration = acceleration;
@@ -52,7 +52,7 @@ public class BreakerMovementState3d {
      * @param velocity
      * @param acceleration
      */
-    public BreakerMovementState3d(BreakerPose3d position, Breaker6AxisForces velocity) {
+    public BreakerMovementState3d(Pose3d position, Breaker6AxisForces velocity) {
         this.position = position;
         this.velocity = velocity;
         acceleration = new Breaker6AxisForces();
@@ -62,7 +62,7 @@ public class BreakerMovementState3d {
     /**
      * @return the position component of this BreakerMovementState3d.
      */
-    public BreakerPose3d getPositionComponent() {
+    public Pose3d getPositionComponent() {
         return position;
     }
 

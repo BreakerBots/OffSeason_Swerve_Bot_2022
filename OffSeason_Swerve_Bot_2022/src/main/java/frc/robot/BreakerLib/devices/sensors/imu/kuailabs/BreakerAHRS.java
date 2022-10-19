@@ -4,14 +4,15 @@ import com.kauailabs.navx.frc.AHRS;
 import com.kauailabs.navx.frc.AHRS.SerialDataType;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Quaternion;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.BreakerLib.devices.sensors.BreakerGenericMagnetometer;
 import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
 import frc.robot.BreakerLib.physics.BreakerVector3;
-import frc.robot.BreakerLib.position.geometry.BreakerRotation3d;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
@@ -94,8 +95,8 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
     }
 
     @Override
-    public BreakerRotation3d getRotation3d() {
-        return new BreakerRotation3d(getPitchRotation2d(), getYawRotation2d(), getRollRotation2d());
+    public Rotation3d getRotation3d() {
+        return new Rotation3d(getPitchRotation2d().getRadians(), getYawRotation2d().getRadians(), getRollRotation2d().getRadians());
     }
 
     @Override
@@ -185,8 +186,8 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
     }
 
     @Override
-    public BreakerRotation3d getRawRotation3d() {
-        return new BreakerRotation3d(getPitchRotation2d(), getYawRotation2d(), getRollRotation2d());
+    public Rotation3d getRawRotation3d() {
+        return new Rotation3d(getPitchRotation2d().getRadians(), getYawRotation2d().getRadians(), getRollRotation2d().getRadians());
     }
 
     @Override
@@ -282,6 +283,11 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
     @Override
     public double getRawCompassHeading() {
         return imu.getCompassHeading();
+    }
+
+    @Override
+    public Quaternion getQuaternion() {
+        return new Quaternion(imu.getQuaternionW(), imu.getQuaternionX(), imu.getQuaternionY(), imu.getQuaternionZ());
     }
 
 }

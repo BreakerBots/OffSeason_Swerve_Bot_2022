@@ -5,7 +5,7 @@
 package frc.robot.BreakerLib.physics;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.BreakerLib.position.geometry.BreakerRotation3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.math.interpolation.BreakerInterpolable;
 
@@ -19,7 +19,7 @@ public class BreakerVector3 implements BreakerInterpolable<BreakerVector3> {
     private double magnatudeY;
     private double magnatudeZ;
     private double magnitude;
-    private BreakerRotation3d vectorRotation;
+    private Rotation3d vectorRotation;
 
     /** Creates a BreakerVector3 based on given x, y, and z forces.
      * 
@@ -32,8 +32,8 @@ public class BreakerVector3 implements BreakerInterpolable<BreakerVector3> {
         this.magnatudeY = magnatudeY;
         this.magnatudeZ = magnatudeZ;
         magnitude = Math.sqrt(Math.pow(magnatudeX, 2) + Math.pow(magnatudeY, 2) + Math.pow(magnatudeZ, 2));
-        vectorRotation = new BreakerRotation3d(new Rotation2d(Math.atan2(magnatudeZ, (Math.sqrt(magnatudeX*magnatudeX+magnatudeY*magnatudeY)))),
-                new Rotation2d(Math.atan2(magnatudeY, magnatudeX))); // need to check this math
+        vectorRotation = new Rotation3d(0.0, Math.atan2(magnatudeZ, (Math.sqrt(magnatudeX*magnatudeX+magnatudeY*magnatudeY))),
+                Math.atan2(magnatudeY, magnatudeX)); // need to check this math
     }
 
     public BreakerVector3() {
@@ -41,12 +41,12 @@ public class BreakerVector3 implements BreakerInterpolable<BreakerVector3> {
         magnatudeY = 0;
         magnatudeZ = 0;
         magnitude = 0;
-        vectorRotation = new BreakerRotation3d();
+        vectorRotation = new Rotation3d();
     }
 
     /** Private constructor for BreakerVector3 with all the fixings. */
     private BreakerVector3(double magnatudeX, double magnatudeY, double magnatudeZ, double magnitude,
-            BreakerRotation3d vectorRotation) {
+            Rotation3d vectorRotation) {
         this.magnatudeX = magnatudeX;
         this.magnatudeY = magnatudeY;
         this.magnatudeZ = magnatudeZ;
@@ -60,10 +60,10 @@ public class BreakerVector3 implements BreakerInterpolable<BreakerVector3> {
      * @param magnitude     Total force of the vector.
      * @param vectorRotation Rotation of forces.
      */
-    public static BreakerVector3 fromMagnitudeAndvectorRotation(double magnitude, BreakerRotation3d vectorRotation) {
-        double x = magnitude * (Math.cos(vectorRotation.getYaw().getRadians()) * Math.cos(vectorRotation.getPitch().getRadians()));
-        double y = magnitude * (Math.sin(vectorRotation.getYaw().getRadians()) * Math.cos(vectorRotation.getPitch().getRadians()));
-        double z = magnitude * (Math.sin(vectorRotation.getPitch().getRadians()));
+    public static BreakerVector3 fromMagnitudeAndvectorRotation(double magnitude, Rotation3d vectorRotation) {
+        double x = magnitude * (Math.cos(vectorRotation.getZ()) * Math.cos(vectorRotation.getY()));
+        double y = magnitude * (Math.sin(vectorRotation.getZ()) * Math.cos(vectorRotation.getY()));
+        double z = magnitude * (Math.sin(vectorRotation.getY()));
         return new BreakerVector3(x, y, z, magnitude, vectorRotation);
     }
 
@@ -83,11 +83,11 @@ public class BreakerVector3 implements BreakerInterpolable<BreakerVector3> {
         return magnitude;
     }
 
-    public BreakerRotation3d getVectorRotation() {
+    public Rotation3d getVectorRotation() {
         return vectorRotation;
     }
 
-    public BreakerVector3 rotate(BreakerRotation3d rotation) {
+    public BreakerVector3 rotate(Rotation3d rotation) {
         return BreakerVector3.fromMagnitudeAndvectorRotation(magnitude, vectorRotation.plus(rotation));
     }
 

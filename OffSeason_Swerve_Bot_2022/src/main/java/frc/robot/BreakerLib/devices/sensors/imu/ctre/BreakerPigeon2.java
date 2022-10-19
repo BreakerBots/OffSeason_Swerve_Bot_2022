@@ -7,10 +7,11 @@ import com.ctre.phoenix.sensors.Pigeon2_Faults;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Quaternion;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import frc.robot.BreakerLib.devices.sensors.BreakerGenericMagnetometer;
 import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
-import frc.robot.BreakerLib.position.geometry.BreakerRotation3d;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
@@ -60,8 +61,8 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
   }
 
   @Override
-  public BreakerRotation3d getRotation3d() {
-    return new BreakerRotation3d(getPitchRotation2d(), getYawRotation2d(), getRollRotation2d());
+  public Rotation3d getRotation3d() {
+      return new Rotation3d(Math.toRadians(getRollDegrees()), Math.toRadians(getPitchDegrees()),  Math.toRadians(getYawDegrees()));
   }
 
   @Override
@@ -182,9 +183,9 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
   }
 
   @Override
-  public BreakerRotation3d getRawRotation3d() {
-    return new BreakerRotation3d(Rotation2d.fromDegrees(getRawAngles()[1]), Rotation2d.fromDegrees(getRawAngles()[0]),
-        Rotation2d.fromDegrees(getRawAngles()[2]));
+    public Rotation3d getRawRotation3d() {
+        return new Rotation3d(Math.toRadians(getRawAngles()[2]), Math.toRadians(getRawAngles()[1]),
+        Math.toRadians(getRawAngles()[0]));
   }
 
   @Override
@@ -275,6 +276,13 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
   @Override
   public double getRawCompassHeading() {
       return pigeon.getCompassHeading();
+  }
+
+  @Override
+  public Quaternion getQuaternion() {
+      double[] quat = new double[4];
+      pigeon.get6dQuaternion(quat);
+      return new Quaternion(quat[0], quat[1], quat[2], quat[3]);
   }
 
 }

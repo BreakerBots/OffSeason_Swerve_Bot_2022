@@ -13,11 +13,20 @@ import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 
 /** Add your docs here. */
 public class BreakerPhotonTarget {
-    public BreakerPhotonTarget(BreakerPhotonCamera camera, Pose3d targetPose, int feducicalID) {
+    private BreakerPhotonCamera camera;
+    private Pose3d targetPose;
+    private boolean isFiducical = true, isSupplied = false;
+    private int feducialID;
+
+    private double maxCordnateDev;
+    private BreakerGenericOdometer odometer;
+
+    private Supplier<PhotonTrackedTarget> assignedTargetSupplier;
+    public BreakerPhotonTarget(BreakerPhotonCamera camera, Pose3d targetPose, int fiducicalID) {
         
     }
 
-    public BreakerPhotonTarget(BreakerPhotonCamera camera, Pose3d targetPose, BreakerGenericOdometer odometer) {
+    public BreakerPhotonTarget(BreakerPhotonCamera camera, Pose3d targetPose, double maxCordnateDev, BreakerGenericOdometer odometer) {
         
     }
 

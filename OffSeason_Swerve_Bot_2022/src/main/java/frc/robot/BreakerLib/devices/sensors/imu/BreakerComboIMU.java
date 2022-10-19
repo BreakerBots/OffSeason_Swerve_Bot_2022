@@ -1,9 +1,10 @@
 package frc.robot.BreakerLib.devices.sensors.imu;
 
+import edu.wpi.first.math.geometry.Quaternion;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import frc.robot.BreakerLib.devices.sensors.accelerometer.BreakerGenericAccelerometer;
 import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGeneric3AxisGyro;
-import frc.robot.BreakerLib.position.geometry.BreakerRotation3d;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 
@@ -58,7 +59,7 @@ public class BreakerComboIMU extends BreakerGenericIMU {
     }
 
     @Override
-    public BreakerRotation3d getRotation3d() {
+    public Rotation3d getRotation3d() {
         return gyro.getRotation3d();
     }
 
@@ -133,7 +134,7 @@ public class BreakerComboIMU extends BreakerGenericIMU {
     }
 
     @Override
-    public BreakerRotation3d getRawRotation3d() {
+    public Rotation3d getRawRotation3d() {
         return gyro.getRawRotation3d();
     }
 
@@ -197,6 +198,11 @@ public class BreakerComboIMU extends BreakerGenericIMU {
     public void runSelfTest() {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public Quaternion getQuaternion() {
+        return gyro.getQuaternion();
     }
 
 }
