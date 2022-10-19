@@ -31,6 +31,7 @@ public class BreakerFiducialPhotonTarget extends SubsystemBase {
     private BreakerPhotonCamera camera;
     private Pose3d targetPose;
     private boolean assignedTargetFound = false;
+    private boolean assignedTargetFoundInCycle = false; 
     private int fiducicalID;
 
     public BreakerFiducialPhotonTarget(BreakerPhotonCamera camera, Pose3d targetPose, int fiducicalID) {
@@ -40,10 +41,12 @@ public class BreakerFiducialPhotonTarget extends SubsystemBase {
     }
 
     private void findAssignedFiducial() {
+        assignedTargetFoundInCycle = false;
         for (PhotonTrackedTarget prospTgt: camera.getAllRawTrackedTargets()) {
             if (prospTgt.getFiducialId() == fiducicalID) {
                 assignedTarget = prospTgt;
                 assignedTargetFound = true;
+                assignedTargetFoundInCycle = true;
                 lastDataUpdate = Timer.getFPGATimestamp();
             }
         }
@@ -104,8 +107,21 @@ public class BreakerFiducialPhotonTarget extends SubsystemBase {
         return assignedTargetFound;
     }
 
+    /** If assigned target was found in the most recent cycle */
+    public boolean isAssignedTargetVisable() {
+        return assignedTargetFound && assignedTargetFoundInCycle;
+    }
+
     public double getDistance() {
         return assignedTarget.getCameraToTarget().getTranslation().toTranslation2d().getNorm();
+    }
+
+    public int getFiducialID() {
+        return fiducicalID;
+    }
+
+    public double getPoseAmbiguity() {
+        return assignedTarget.getPoseAmbiguity();
     }
 
     // public Transform3d get3dTransfromFromCamera() {

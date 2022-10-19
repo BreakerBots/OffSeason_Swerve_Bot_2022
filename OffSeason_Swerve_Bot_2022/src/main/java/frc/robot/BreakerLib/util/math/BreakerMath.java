@@ -102,10 +102,6 @@ public class BreakerMath {
         return ticks / ticksPerInch;
     }
 
-    public static double rollingAvg(double avg, double newVal) {
-        return (avg + newVal) / 2.0;
-    }
-
     public static double getAvg(double lastAvg, double newVal, int cycleCount) {
         return (((lastAvg * (cycleCount - 1)) + newVal) / cycleCount);
     }
@@ -259,6 +255,21 @@ public class BreakerMath {
                 (robotRelativeSpeeds.vxMetersPerSecond * cos) - (robotRelativeSpeeds.vyMetersPerSecond * sin),
                 (robotRelativeSpeeds.vxMetersPerSecond * sin) + (robotRelativeSpeeds.vyMetersPerSecond * cos),
                 robotRelativeSpeeds.omegaRadiansPerSecond);
+    }
+
+    public static double getWeightedAvg(double[] valuesToAvg, double[] weights) {
+        double numer = 0;
+        double denom = 0;
+        for (int i = 0; i < valuesToAvg.length; i++) {
+            double weaght = i < weights.length ? weights[i] : 1.0;
+            numer += valuesToAvg[i] * weaght;
+        }
+
+        for (int i = 0; i < valuesToAvg.length; i++) {
+            denom += i < weights.length ? weights[i] : 1.0;
+        }
+        
+        return numer / denom;
     }
 
 }
