@@ -24,7 +24,7 @@ import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 
 /** Add your docs here. */
-public class BreakerFiducialTarget extends SubsystemBase {
+public class BreakerFiducialPhotonTarget extends SubsystemBase {
     private PhotonTrackedTarget assignedTarget;
     private double lastDataUpdate = Timer.getFPGATimestamp();
 
@@ -33,7 +33,7 @@ public class BreakerFiducialTarget extends SubsystemBase {
     private boolean assignedTargetFound = false;
     private int fiducicalID;
 
-    public BreakerFiducialTarget(BreakerPhotonCamera camera, Pose3d targetPose, int fiducicalID) {
+    public BreakerFiducialPhotonTarget(BreakerPhotonCamera camera, Pose3d targetPose, int fiducicalID) {
         this.camera = camera;
         this.targetPose = targetPose;
         this.fiducicalID = fiducicalID;
