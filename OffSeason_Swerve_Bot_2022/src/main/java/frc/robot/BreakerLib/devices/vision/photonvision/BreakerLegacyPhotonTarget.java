@@ -26,7 +26,7 @@ import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.math.BreakerUnits;
 
 /**
- * Tracks and identifies pre-defined targets with target data from photon
+ * Tracks and identifies pre-defined non-fiducial targets with target data from photon
  * camera.
  */
 public class BreakerLegacyPhotonTarget extends SubsystemBase {

@@ -122,6 +122,10 @@ public class BreakerPhotonCamera extends BreakerGenericDeviceBase {
         return new Transform2d(cameraPositionRelativeToRobot.getTranslation().toTranslation2d(), cameraPositionRelativeToRobot.getRotation().toRotation2d());
     }
 
+    public Transform3d get3dCamPositionRelativeToRobot() {
+        return cameraPositionRelativeToRobot;
+    }
+
     public void updateCamPositionRelativeToRobot(Transform3d newTransform) {
         cameraPositionRelativeToRobot = newTransform;
         cameraMountPitch = Math.toDegrees(newTransform.getRotation().getY());
