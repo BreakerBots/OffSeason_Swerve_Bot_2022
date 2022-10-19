@@ -9,6 +9,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
 import frc.robot.BreakerLib.devices.BreakerGenericDevice;
 import frc.robot.BreakerLib.devices.BreakerGenericDeviceBase;
@@ -24,11 +25,11 @@ public class BreakerPhotonCamera extends BreakerGenericDeviceBase {
 
     private PhotonCamera camera;
     private final String cameraName;
-    private double cameraAngle; // Mounting angle
-    private double cameraHeightIns; // Height relative to ground. MAKE THIS METERS?
+    private double cameraMountPitch; // Mounting angle
+    private double cameraHeightMeters; // Height relative to ground. MAKE THIS METERS?
     private double verticalFOV;
     private double horizontalFOV;
-    private BreakerTransform3d cameraPositionRelativeToRobot; // Height relative to ground, all else relative to robot position.
+    private Transform3d cameraPositionRelativeToRobot; // Height relative to ground, all else relative to robot position.
 
     /**
      * Creates a new camera that uses a PhotonVision-based computer vision
@@ -42,14 +43,13 @@ public class BreakerPhotonCamera extends BreakerGenericDeviceBase {
      *                                      relative to the ground).
      */
     public BreakerPhotonCamera(String cameraName, double verticalFOV, double horizontalFOV,
-            BreakerTransform3d cameraPositionRelativeToRobot) {
+            Transform3d cameraPositionRelativeToRobot) {
         camera = new PhotonCamera(cameraName);
         this.cameraName = cameraName;
         deviceName = cameraName;
         this.cameraPositionRelativeToRobot = cameraPositionRelativeToRobot;
-        this.cameraAngle = cameraPositionRelativeToRobot.getRotationComponent().getPitch().getDegrees();
-        this.cameraHeightIns = Units
-                .metersToInches(cameraPositionRelativeToRobot.getTranslationComponent().getMetersZ());
+        this.cameraMountPitch = cameraPositionRelativeToRobot.getRotation().getY();
+        this.cameraHeightMeters = cameraPositionRelativeToRobot.getZ();
         this.verticalFOV = verticalFOV;
         this.horizontalFOV = horizontalFOV;
     }
@@ -100,14 +100,14 @@ public class BreakerPhotonCamera extends BreakerGenericDeviceBase {
         return getLatestRawResult().getBestTarget();
     }
 
-    /** Height is relative to ground. */
-    public double getCameraHeightIns() {
-        return cameraHeightIns;
+    /** Height is relative to ground in meters. */
+    public double getCameraHeight() {
+        return cameraHeightMeters;
     }
 
-    /** Returns pitch of camera. */
-    public double getCameraAngle() {
-        return cameraAngle;
+    /** Returns pitch of camera in degrees. */
+    public double getCameraPitch() {
+        return cameraMountPitch;
     }
 
     public double getVerticalFOV() {
@@ -120,13 +120,13 @@ public class BreakerPhotonCamera extends BreakerGenericDeviceBase {
 
     /** 2d pose of camera relative to robot. */
     public Transform2d getCamPositionRelativeToRobot() {
-        return cameraPositionRelativeToRobot.get2dTransformationComponent();
+        return new Transform2d(cameraPositionRelativeToRobot.getTranslation().toTranslation2d(), cameraPositionRelativeToRobot.getRotation().toRotation2d());
     }
 
-    public void updateCamPositionRelativeToRobot(BreakerTransform3d newTransform) {
+    public void updateCamPositionRelativeToRobot(Transform3d newTransform) {
         cameraPositionRelativeToRobot = newTransform;
-        cameraAngle = newTransform.getRotationComponent().getPitch().getDegrees();
-        cameraHeightIns = Units.metersToInches(newTransform.getTranslationComponent().getMetersZ());
+        cameraMountPitch = Math.toDegrees(newTransform.getRotation().getY());
+        cameraHeightMeters = newTransform.getTranslation().getZ();
     }
 
     @Override
