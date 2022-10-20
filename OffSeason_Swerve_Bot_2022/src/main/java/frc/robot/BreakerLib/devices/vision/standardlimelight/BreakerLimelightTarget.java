@@ -77,6 +77,6 @@ public class BreakerLimelightTarget {
     }
 
     public double getTargetDistance() {
-      return (targetOffsetHasBeenSet ? (BreakerMath.getHypotenuse((getRawTargetDistance() + targetOffsetDistZ), targetOffsetDistX)) : getRawTargetDistance());
+      return (targetOffsetHasBeenSet ? (Math.hypot((getRawTargetDistance() + targetOffsetDistZ), targetOffsetDistX)) : getRawTargetDistance());
     }  
   }

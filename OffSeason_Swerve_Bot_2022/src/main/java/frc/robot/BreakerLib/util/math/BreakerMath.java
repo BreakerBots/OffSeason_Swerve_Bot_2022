@@ -73,10 +73,6 @@ public class BreakerMath {
         return diffTime;
     }
 
-    public static double getHypotenuse(double sideA, double sideB) {
-        return Math.sqrt(Math.pow(sideA, 2) + Math.pow(sideB, 2));
-    }
-
     // Not necessary. Also misspelled smh
     // public static double getCircumferenceFromRadus(double radius) {
     // return (2 * radius) * Math.PI;

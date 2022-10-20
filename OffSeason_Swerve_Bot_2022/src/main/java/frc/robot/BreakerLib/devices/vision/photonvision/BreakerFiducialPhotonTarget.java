@@ -5,23 +5,17 @@
 package frc.robot.BreakerLib.devices.vision.photonvision;
 
 import java.util.List;
-import java.util.function.Supplier;
 
-import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.targeting.TargetCorner;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
-import frc.robot.BreakerLib.util.math.BreakerMath;
+
 
 /** Add your docs here. */
 public class BreakerFiducialPhotonTarget extends SubsystemBase {
@@ -29,25 +23,37 @@ public class BreakerFiducialPhotonTarget extends SubsystemBase {
     private double lastDataUpdate = Timer.getFPGATimestamp();
 
     private BreakerPhotonCamera camera;
+    private BreakerPhotonCamera[] cameras;
     private Pose3d targetPose;
     private boolean assignedTargetFound = false;
     private boolean assignedTargetFoundInCycle = false; 
     private int fiducicalID;
 
-    public BreakerFiducialPhotonTarget(BreakerPhotonCamera camera, Pose3d targetPose, int fiducicalID) {
-        this.camera = camera;
+    /**
+     * 
+     * @param fiducicalID - The numeric id of the Fidicial Marker, this is tied to the tag's pattern and is constant
+     * @param targetPose - the 3 dimentional orientation of the target relative the the field origin
+     * @param cameras - Any and all cameras that will be used to track the target
+     */
+    public BreakerFiducialPhotonTarget(int fiducicalID, Pose3d targetPose, BreakerPhotonCamera... cameras) {
         this.targetPose = targetPose;
         this.fiducicalID = fiducicalID;
+        this.cameras = cameras;
     }
 
     private void findAssignedFiducial() {
         assignedTargetFoundInCycle = false;
-        for (PhotonTrackedTarget prospTgt: camera.getAllRawTrackedTargets()) {
-            if (prospTgt.getFiducialId() == fiducicalID) {
-                assignedTarget = prospTgt;
-                assignedTargetFound = true;
-                assignedTargetFoundInCycle = true;
-                lastDataUpdate = Timer.getFPGATimestamp();
+        for (BreakerPhotonCamera cam: cameras) {
+            if (cam.hasTargets()) {
+                for (PhotonTrackedTarget prospTgt: cam.getAllRawTrackedTargets()) {
+                    if (prospTgt.getFiducialId() == fiducicalID) {
+                        assignedTarget = prospTgt;
+                        assignedTargetFound = true;
+                        assignedTargetFoundInCycle = true;
+                        lastDataUpdate = Timer.getFPGATimestamp();
+                        camera = cam;
+                    }
+                }
             }
         }
     }
@@ -77,14 +83,22 @@ public class BreakerFiducialPhotonTarget extends SubsystemBase {
         return getRobotPose3d().toPose2d();
     }
 
-        /** Assigned target yaw */
+    /** Assigned target camera relative yaw */
     public double getYaw() {
         return assignedTarget.getYaw();
     }
 
-    /** Assigned target pitch */
+    /** Assigned target camera relative pitch */
     public double getPitch() {
         return assignedTarget.getPitch();
+    }
+ 
+    public double getRobotRelativeYaw() {
+        return Rotation2d.fromDegrees(getYaw()).minus(camera.getCamPositionRelativeToRobot().getRotation()).getDegrees();
+    }
+
+    public double getRobotRelativePitch() {
+        return Rotation2d.fromDegrees(getYaw()).minus(new Rotation2d(camera.get3dCamPositionRelativeToRobot().getRotation().getY())).getDegrees();
     }
 
     /** Assigned target skew */
@@ -124,18 +138,8 @@ public class BreakerFiducialPhotonTarget extends SubsystemBase {
         return assignedTarget.getPoseAmbiguity();
     }
 
-    // public Transform3d get3dTransfromFromCamera() {
-    //     return assignedTarget.getCameraToTarget();
-    // }
-
-    // public Transform2d getTransformFromCamera() {
-    //     return new Transform2d(assignedTarget.getCameraToTarget().getTranslation().toTranslation2d(), assignedTarget.getCameraToTarget().getRotation().toRotation2d());
-    // }
-
     @Override
     public void periodic() {
-        if (camera.hasTargets()) {
-            findAssignedFiducial();
-        }
+        findAssignedFiducial();
     }
 }
