@@ -6,5 +6,5 @@ package frc.robot.BreakerLib.util;
 
 /** Add your docs here. */
 public class BreakerLibVersion {
-    public static final String Version = "V22.7";
+    public static final String Version = "V22.8";
 }
