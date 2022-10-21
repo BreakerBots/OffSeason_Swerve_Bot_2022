@@ -20,10 +20,4 @@ public class BreakerPolynomial implements BreakerGenericPolynomial {
         return total;
     }
 
-    @Override
-    public double getSignRelativeValueAtX(double xValue) {
-        boolean tn = xValue < 0;
-        xValue = Math.abs(xValue);
-        return xValue * (tn ? -1 : 1);
-    }
 }

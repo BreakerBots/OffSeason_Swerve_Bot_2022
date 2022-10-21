@@ -39,8 +39,8 @@ public class BreakerVisionPoseFilter {
         for (int i = 0; i < positioningTargets.length; i++) {
             BreakerFiducialPhotonTarget tgt = positioningTargets[i];
             if (tgt.isAssignedTargetVisable()) {
-                double weight = MathUtil.clamp(Math.pow(trustCoef,(-trustCoef)*tgt.getPoseAmbiguity()), 0.0, 1.0);
                 if (tgt.getPoseAmbiguity() <= maxUncertanty) {
+                    double weight = MathUtil.clamp(Math.pow(trustCoef,(-trustCoef)*tgt.getPoseAmbiguity()), 0.0, 1.0);
                     weights.add(weight);
                     predictedPoses.add(tgt.getRobotPose3d());
                 }
@@ -85,8 +85,8 @@ public class BreakerVisionPoseFilter {
         for (int i = 0; i < positioningTargets.length; i++) {
             BreakerFiducialPhotonTarget tgt = positioningTargets[i];
             if (tgt.isAssignedTargetVisable()) {
-                double weight = MathUtil.clamp(Math.pow(trustCoef,(-trustCoef)*tgt.getPoseAmbiguity()), 0.0, 1.0);
                 if (tgt.getPoseAmbiguity() <= maxUncertanty) {
+                    double weight = MathUtil.clamp(Math.pow(trustCoef,(-trustCoef)*tgt.getPoseAmbiguity()), 0.0, 1.0);
                     weights.add(weight);
                     predictedPoses.add(tgt.getRobotPose());
                 }

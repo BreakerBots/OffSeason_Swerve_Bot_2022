@@ -7,5 +7,7 @@ package frc.robot.BreakerLib.util.math.polynomials;
 /** Add your docs here. */
 public interface BreakerGenericPolynomial {
     public abstract double getValueAtX(double xValue);
-    public abstract double getSignRelativeValueAtX(double xValue);
+    public default double getSignRelativeValueAtX(double xValue) {
+        return getValueAtX(Math.abs(xValue)) * (xValue < 0 ? -1 : 1);
+    }
 }

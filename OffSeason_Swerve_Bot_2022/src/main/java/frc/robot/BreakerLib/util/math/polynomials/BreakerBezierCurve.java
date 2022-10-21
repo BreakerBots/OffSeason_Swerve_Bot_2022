@@ -46,14 +46,4 @@ public class BreakerBezierCurve implements BreakerGenericPolynomial {
         xValue = (((1 - xValue) * p(xValue, y0, y1, y2)) + (xValue * p(xValue, y1, y2, y3)));
         return xValue;
     }
-
-    @Override
-    public double getSignRelativeValueAtX(double xValue) {
-        boolean tn = xValue < 0;
-        xValue = Math.abs(xValue);
-        xValue = (1 - xValue);
-        xValue = 1 - (((1 - xValue) * p(xValue, x0, x1, x2)) + (xValue * p(xValue, x1, x2, x3)));
-        xValue = (((1 - xValue) * p(xValue, y0, y1, y2)) + (xValue * p(xValue, y1, y2, y3)));
-      return xValue * (tn ? -1 : 1);
-    }
 }

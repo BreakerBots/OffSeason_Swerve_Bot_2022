@@ -20,10 +20,4 @@ public class BreakerExponential implements BreakerGenericPolynomial {
         return (a * Math.pow(b, xValue + c)) + d;
     }
 
-    @Override
-    public double getSignRelativeValueAtX(double xValue) {
-        double val = getValueAtX(Math.abs(xValue));
-        return val * (xValue < 0 ? -1 : 1);
-    }
-
 }
