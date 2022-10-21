@@ -6,7 +6,7 @@ package frc.robot.BreakerLib.util.math.polynomials;
 
 import edu.wpi.first.math.geometry.Translation2d;
 
-/** A controllable bezier spline */
+/** A controllable bezier spline: https://www.desmos.com/calculator/da8zwxpgzo */
 public class BreakerBezierCurve implements BreakerGenericPolynomial {
     public double x0, y0;
     public double x1, y1;
