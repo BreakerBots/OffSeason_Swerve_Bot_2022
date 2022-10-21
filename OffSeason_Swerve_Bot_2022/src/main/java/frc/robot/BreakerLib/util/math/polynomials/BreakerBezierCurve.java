@@ -6,7 +6,7 @@ package frc.robot.BreakerLib.util.math.polynomials;
 
 import edu.wpi.first.math.geometry.Translation2d;
 
-/** Beeeeeezier curves! */
+/** A controllable bezier spline */
 public class BreakerBezierCurve implements BreakerGenericPolynomial {
     public double x0, y0;
     public double x1, y1;
