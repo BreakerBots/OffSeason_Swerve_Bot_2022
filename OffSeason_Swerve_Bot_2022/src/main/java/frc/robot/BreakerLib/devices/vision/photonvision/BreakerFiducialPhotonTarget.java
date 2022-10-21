@@ -43,22 +43,31 @@ public class BreakerFiducialPhotonTarget extends SubsystemBase {
 
     private void findAssignedFiducial() {
         assignedTargetFoundInCycle = false;
+        PhotonTrackedTarget bestTgt = assignedTarget;
+        BreakerPhotonCamera bestCam = camera;
         for (BreakerPhotonCamera cam: cameras) {
             if (cam.hasTargets()) {
                 for (PhotonTrackedTarget prospTgt: cam.getAllRawTrackedTargets()) {
                     if (prospTgt.getFiducialId() == fiducicalID) {
-                        assignedTarget = prospTgt;
                         assignedTargetFound = true;
-                        assignedTargetFoundInCycle = true;
-                        lastDataUpdate = Timer.getFPGATimestamp();
-                        camera = cam;
+                        if (!assignedTargetFoundInCycle) { // runs only if bestTgt has not been assigned this cycle
+                            bestTgt = prospTgt;
+                            bestCam = cam;
+                            assignedTargetFoundInCycle = true;
+                        } else if (prospTgt.getPoseAmbiguity() < bestTgt.getPoseAmbiguity()) { // runso only if bestTgt has been assined this cycle, checks if new tgt is better
+                            bestTgt = prospTgt;
+                            bestCam = cam;
+                        }
+                        lastDataUpdate = Timer.getFPGATimestamp(); // used for data age, shoud only be assigned once per cycle
                     }
                 }
             }
         }
+        assignedTarget = bestTgt;
+        camera = bestCam;
     }
 
-    public double getLastTargetFooundTimestamp() {
+    public double getLastTargetFoundTimestamp() {
         return lastDataUpdate;
     }
 

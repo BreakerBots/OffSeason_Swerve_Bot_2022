@@ -5,19 +5,16 @@
 package frc.robot.BreakerLib.devices.vision.photonvision;
 
 import org.photonvision.PhotonCamera;
+import org.photonvision.common.hardware.VisionLEDMode;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.util.Units;
-import frc.robot.BreakerLib.devices.BreakerGenericDevice;
 import frc.robot.BreakerLib.devices.BreakerGenericDeviceBase;
-import frc.robot.BreakerLib.util.power.BreakerPowerChannel;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
-import frc.robot.BreakerLib.util.test.selftest.SelfTest;
 
 /** Photon camera */
 public class BreakerPhotonCamera extends BreakerGenericDeviceBase {
@@ -26,8 +23,6 @@ public class BreakerPhotonCamera extends BreakerGenericDeviceBase {
     private final String cameraName;
     private double cameraMountPitch; // Mounting angle
     private double cameraHeightMeters; // Height relative to ground. MAKE THIS METERS?
-    private double verticalFOV;
-    private double horizontalFOV;
     private Transform3d cameraPositionRelativeToRobot; // Height relative to ground, all else relative to robot position.
 
     /**
@@ -41,16 +36,13 @@ public class BreakerPhotonCamera extends BreakerGenericDeviceBase {
      *                                      camera position (Z translation is
      *                                      relative to the ground).
      */
-    public BreakerPhotonCamera(String cameraName, double verticalFOV, double horizontalFOV,
-            Transform3d cameraPositionRelativeToRobot) {
+    public BreakerPhotonCamera(String cameraName, Transform3d cameraPositionRelativeToRobot) {
         camera = new PhotonCamera(cameraName);
         this.cameraName = cameraName;
         deviceName = cameraName;
         this.cameraPositionRelativeToRobot = cameraPositionRelativeToRobot;
         this.cameraMountPitch = cameraPositionRelativeToRobot.getRotation().getY();
         this.cameraHeightMeters = cameraPositionRelativeToRobot.getZ();
-        this.verticalFOV = verticalFOV;
-        this.horizontalFOV = horizontalFOV;
     }
 
     /** Overall raw result from photon camera. */
@@ -109,14 +101,6 @@ public class BreakerPhotonCamera extends BreakerGenericDeviceBase {
         return cameraMountPitch;
     }
 
-    public double getVerticalFOV() {
-        return verticalFOV;
-    }
-
-    public double getHorizontalFOV() {
-        return horizontalFOV;
-    }
-
     /** 2d pose of camera relative to robot. */
     public Transform2d getCamPositionRelativeToRobot() {
         return new Transform2d(cameraPositionRelativeToRobot.getTranslation().toTranslation2d(), cameraPositionRelativeToRobot.getRotation().toRotation2d());
@@ -130,6 +114,14 @@ public class BreakerPhotonCamera extends BreakerGenericDeviceBase {
         cameraPositionRelativeToRobot = newTransform;
         cameraMountPitch = Math.toDegrees(newTransform.getRotation().getY());
         cameraHeightMeters = newTransform.getTranslation().getZ();
+    }
+
+    public void setLEDMode(VisionLEDMode ledMode) {
+        camera.setLED(ledMode);
+    }
+
+    public VisionLEDMode getCurrentLEDMode() {
+        return camera.getLEDMode();
     }
 
     @Override
