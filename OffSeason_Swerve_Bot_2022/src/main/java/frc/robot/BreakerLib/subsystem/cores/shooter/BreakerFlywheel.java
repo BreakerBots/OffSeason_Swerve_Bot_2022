@@ -69,7 +69,7 @@ public class BreakerFlywheel extends BreakerGenericLoopedDevice implements Break
         lFlyMotor.set(ControlMode.Velocity, 0.0);
         
         for (int i = 1; i < motors.length; i++) {
-            motors[i].follow(lFlyMotor, FollowerType.AuxOutput1);
+            motors[i].follow(lFlyMotor, FollowerType.PercentOutput);
         }
 
         testSuite = new BreakerFlywheelTestSuite(this);
