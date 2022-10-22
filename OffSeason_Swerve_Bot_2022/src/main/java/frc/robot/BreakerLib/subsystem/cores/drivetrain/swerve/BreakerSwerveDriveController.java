@@ -10,7 +10,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.BreakerLib.driverstation.BreakerXboxController;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
-import frc.robot.BreakerLib.util.math.polynomials.BreakerGenericPolynomial;
+import frc.robot.BreakerLib.util.math.mathfunctions.BreakerGenericMathFunction;
 
 /** Controller object for the {@link BreakerSwerveDrive} drivetrain. */
 public class BreakerSwerveDriveController extends CommandBase {
@@ -19,7 +19,7 @@ public class BreakerSwerveDriveController extends CommandBase {
   private BreakerSwerveDrive baseDrivetrain;
   private BreakerGenericOdometer odometer;
   private boolean usesSuppliers, usesCurves, usesExternalOdmeter, turnOverride, linearOverride;
-  private BreakerGenericPolynomial linearSpeedCurve, turnSpeedCurve;
+  private BreakerGenericMathFunction linearSpeedCurve, turnSpeedCurve;
   private DoubleSupplier forwardSpeedPercentSupplier, horizontalSpeedPercentSupplier, turnSpeedPercentSupplier, overrideForwardSupplier, overrideHorizontalSupplier, overrideTurnSupplier;
 
   /**
@@ -46,7 +46,7 @@ public class BreakerSwerveDriveController extends CommandBase {
    * @param turnSpeedCurve   Turn speed curve.
    */
   public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerXboxController controller,
-      BreakerGenericPolynomial linearSpeedCurve, BreakerGenericPolynomial turnSpeedCurve) {
+      BreakerGenericMathFunction linearSpeedCurve, BreakerGenericMathFunction turnSpeedCurve) {
     this.controller = controller;
     this.linearSpeedCurve = linearSpeedCurve;
     this.turnSpeedCurve = turnSpeedCurve;
@@ -81,7 +81,7 @@ public class BreakerSwerveDriveController extends CommandBase {
 
   public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, DoubleSupplier forwardSpeedPrecentSupplier,
       DoubleSupplier horizontalSpeedPrecentSupplier, DoubleSupplier turnSpeedPrecentSupplier,
-      BreakerGenericPolynomial linearSpeedCurve, BreakerGenericPolynomial turnSpeedCurve) {
+      BreakerGenericMathFunction linearSpeedCurve, BreakerGenericMathFunction turnSpeedCurve) {
     this.forwardSpeedPercentSupplier = forwardSpeedPrecentSupplier;
     this.horizontalSpeedPercentSupplier = horizontalSpeedPrecentSupplier;
     this.turnSpeedPercentSupplier = turnSpeedPrecentSupplier;
@@ -114,8 +114,8 @@ public class BreakerSwerveDriveController extends CommandBase {
   }
 
   public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer,
-      BreakerXboxController controller, BreakerGenericPolynomial linearSpeedCurve,
-      BreakerGenericPolynomial turnSpeedCurve) {
+      BreakerXboxController controller, BreakerGenericMathFunction linearSpeedCurve,
+      BreakerGenericMathFunction turnSpeedCurve) {
     this.controller = controller;
     this.linearSpeedCurve = linearSpeedCurve;
     this.turnSpeedCurve = turnSpeedCurve;
@@ -143,8 +143,8 @@ public class BreakerSwerveDriveController extends CommandBase {
 
   public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer,
       DoubleSupplier forwardSpeedPrecentSupplier, DoubleSupplier horizontalSpeedPrecentSupplier,
-      DoubleSupplier turnSpeedPrecentSupplier, BreakerGenericPolynomial linearSpeedCurve,
-      BreakerGenericPolynomial turnSpeedCurve) {
+      DoubleSupplier turnSpeedPrecentSupplier, BreakerGenericMathFunction linearSpeedCurve,
+      BreakerGenericMathFunction turnSpeedCurve) {
     this.forwardSpeedPercentSupplier = forwardSpeedPrecentSupplier;
     this.horizontalSpeedPercentSupplier = horizontalSpeedPrecentSupplier;
     this.turnSpeedPercentSupplier = turnSpeedPrecentSupplier;

@@ -9,14 +9,14 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.BreakerLib.driverstation.BreakerXboxController;
-import frc.robot.BreakerLib.util.math.polynomials.BreakerGenericPolynomial;
+import frc.robot.BreakerLib.util.math.mathfunctions.BreakerGenericMathFunction;
 
 public class BreakerDiffDriveController extends CommandBase {
   
   private BreakerXboxController controller;
   private BreakerDiffDrive baseDrivetrain;
   private boolean usesSuppliers, usesCurves, inputOverride;
-  private BreakerGenericPolynomial netSpeedCurve, turnSpeedCurve;
+  private BreakerGenericMathFunction netSpeedCurve, turnSpeedCurve;
   private DoubleSupplier netSpeedPrecentSupplier, turnSpeedPrecentSupplier, overrideNetSup, overrideTurnSup;
   public BreakerDiffDriveController(BreakerDiffDrive baseDrivetrain, BreakerXboxController controller) {
     this.controller = controller;
@@ -26,7 +26,7 @@ public class BreakerDiffDriveController extends CommandBase {
     addRequirements(baseDrivetrain);
   }
 
-  public BreakerDiffDriveController(BreakerDiffDrive baseDrivetrain, BreakerXboxController controller, BreakerGenericPolynomial netSpeedCurve, BreakerGenericPolynomial turnSpeedCurve) {
+  public BreakerDiffDriveController(BreakerDiffDrive baseDrivetrain, BreakerXboxController controller, BreakerGenericMathFunction netSpeedCurve, BreakerGenericMathFunction turnSpeedCurve) {
     this.controller = controller;
     this.netSpeedCurve = netSpeedCurve;
     this.turnSpeedCurve = turnSpeedCurve;
@@ -45,7 +45,7 @@ public class BreakerDiffDriveController extends CommandBase {
     addRequirements(baseDrivetrain);
   }
 
-  public BreakerDiffDriveController(BreakerDiffDrive baseDrivetrain, DoubleSupplier netSpeedPrecentSupplier, DoubleSupplier turnSpeedPrecentSupplier, BreakerGenericPolynomial netSpeedCurve, BreakerGenericPolynomial turnSpeedCurve) {
+  public BreakerDiffDriveController(BreakerDiffDrive baseDrivetrain, DoubleSupplier netSpeedPrecentSupplier, DoubleSupplier turnSpeedPrecentSupplier, BreakerGenericMathFunction netSpeedCurve, BreakerGenericMathFunction turnSpeedCurve) {
     this.netSpeedPrecentSupplier = netSpeedPrecentSupplier;
     this.turnSpeedPrecentSupplier = turnSpeedPrecentSupplier;
     this.netSpeedCurve = netSpeedCurve;

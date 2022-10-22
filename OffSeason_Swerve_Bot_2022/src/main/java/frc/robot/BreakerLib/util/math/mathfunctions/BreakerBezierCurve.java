@@ -2,12 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.util.math.polynomials;
+package frc.robot.BreakerLib.util.math.mathfunctions;
 
 import edu.wpi.first.math.geometry.Translation2d;
 
 /** A controllable bezier spline: https://www.desmos.com/calculator/da8zwxpgzo */
-public class BreakerBezierCurve implements BreakerGenericPolynomial {
+public class BreakerBezierCurve implements BreakerGenericMathFunction {
     public double x0, y0;
     public double x1, y1;
     public double x2, y2;
