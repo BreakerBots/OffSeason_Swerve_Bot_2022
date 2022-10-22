@@ -5,26 +5,20 @@
 package frc.robot.BreakerLib.util.math.mathfunctions;
 
 /** Add your docs here. */
-public class BreakerMonomial {
+public class BreakerMonomial extends BreakerMathFunction {
     private double coeficent = 1;
     private double degree = 0;
     
     public BreakerMonomial(double constant) {
+        super((Double x) -> (constant));
         coeficent = constant;
         degree = 0;
     }
     
     public BreakerMonomial(double coeficent, double degree) {
+        super((Double x) -> (coeficent * Math.pow(x, degree)));
         this.coeficent = coeficent;
         this.degree = degree;
-    }
-
-    public double getValueAtX(double xValue) {
-        return coeficent * Math.pow(xValue, degree);
-    }
-
-    public BreakerMonomial multiply(BreakerMonomial outher) {
-        return new BreakerMonomial(coeficent * outher.getCoeficent(), degree + outher.getDegree());
     }
 
     public double getCoeficent() {

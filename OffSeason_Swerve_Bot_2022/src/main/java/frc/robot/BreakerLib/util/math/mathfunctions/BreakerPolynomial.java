@@ -5,43 +5,9 @@
 package frc.robot.BreakerLib.util.math.mathfunctions;
 
 /** Add your docs here. */
-public class BreakerPolynomial implements BreakerGenericMathFunction {
-    public BreakerMonomial[] monomials;
+public class BreakerPolynomial extends BreakerMathFunction {
     public BreakerPolynomial(BreakerMonomial...monomials) {
-        this.monomials = monomials;
+        super((Double x) -> {Double total = 0.0; for (BreakerMonomial mon: monomials) {total += mon.getValueAtX(x);} return total;});
+        
     }
-
-    @Override
-    public double getValueAtX(double xValue) {
-        double total = 0;
-        for (BreakerMonomial mon: monomials) {
-            total += mon.getValueAtX(xValue);
-        }
-        return total;
-    }
-
-    @Override
-    public BreakerGenericMathFunction add(BreakerGenericMathFunction funcToAdd) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public BreakerGenericMathFunction subtract(BreakerGenericMathFunction funcToSubtract) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public BreakerGenericMathFunction multiply(BreakerGenericMathFunction multipul) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public BreakerGenericMathFunction devide(BreakerGenericMathFunction dividend) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

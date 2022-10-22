@@ -8,61 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** Add your docs here. */
-public class BreakerQuadratic implements BreakerGenericMathFunction {
-    BreakerPolynomial quad;
+public class BreakerQuadratic extends BreakerMathFunction {
     public BreakerQuadratic(double a, double b, double c) {
-        quad = new BreakerPolynomial(new BreakerMonomial(a, 2.0), new BreakerMonomial(b, 1.0), new BreakerMonomial(c));
-    }
-
-    public BreakerQuadratic(BreakerPolynomial polynomial) {
-        List<BreakerMonomial> monomialsToAdd = new ArrayList<>();
-        for (BreakerMonomial mon: polynomial.monomials) {
-            if(mon.getDegree() <= 2.0) {
-                monomialsToAdd.add(mon);
-            }
-        }
-        quad = new BreakerPolynomial(monomialsToAdd.toArray(new BreakerMonomial[monomialsToAdd.size()]));
+        super((Double x) -> (a * (x * x) + b * x + c));
     }
 
     public BreakerQuadratic() {
-        quad = new BreakerPolynomial(new BreakerMonomial(1.0, 2.0));
-    }
-
-    @Override
-    public double getValueAtX(double xValue) {
-        return quad.getValueAtX(xValue);
-    }
-
-    @Override
-    public double getSignRelativeValueAtX(double xValue) {
-        return quad.getSignRelativeValueAtX(xValue);
-    }
-
-    public BreakerPolynomial getBasePolynomial() {
-        return quad;
-    }
-
-    @Override
-    public BreakerGenericMathFunction add(BreakerGenericMathFunction funcToAdd) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public BreakerGenericMathFunction subtract(BreakerGenericMathFunction funcToSubtract) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public BreakerGenericMathFunction multiply(BreakerGenericMathFunction multipul) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public BreakerGenericMathFunction devide(BreakerGenericMathFunction dividend) {
-        // TODO Auto-generated method stub
-        return null;
+        super((Double x) -> (x * x));
     }
 }
