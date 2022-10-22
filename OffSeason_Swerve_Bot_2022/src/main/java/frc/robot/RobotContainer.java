@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.sensors.Pigeon2;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
@@ -40,6 +42,8 @@ public class RobotContainer {
                 "Roman Abrahamson, and Yousif Alkhalaf")));
 
     controllerSys.configAnalogInputDeadbands(new BreakerXboxControllerDeadbandConfig(0.05, 0.05, 0.05, 0.05, 0.05, 0.05));
+
+    imuSys.reset();
 
     configureButtonBindings();
     drivetrainSys.getBaseDrivetrain()

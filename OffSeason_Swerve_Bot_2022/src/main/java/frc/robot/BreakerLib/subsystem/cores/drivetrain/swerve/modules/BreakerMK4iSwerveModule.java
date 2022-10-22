@@ -4,6 +4,8 @@
 
 package frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.modules;
 
+import java.io.ObjectInputStream.GetField;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
@@ -115,10 +117,12 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
     @Override
     public void setModuleTarget(Rotation2d tgtAngle, double speedMetersPerSec) {
         SmartDashboard.putNumber(deviceName + " ANGLE IN", tgtAngle.getDegrees());
-        SmartDashboard.putNumber(deviceName +" SPEED IN", getMetersPerSecToFalconRSU(speedMetersPerSec));
+        SmartDashboard.putNumber(deviceName +" SPEED IN", speedMetersPerSec);
+
         turnMotor.set(TalonFXControlMode.Position, BreakerUnits.degreesToCANCoderNativeUnits(tgtAngle.getDegrees()));
         driveMotor.set(TalonFXControlMode.Velocity, getMetersPerSecToFalconRSU(speedMetersPerSec),
                 DemandType.ArbitraryFeedForward, ffProvider.getArbitraryFeedforwardValue(speedMetersPerSec));
+                
         SmartDashboard.putNumber(deviceName + "ANGLE OUT", getModuleState().angle.getDegrees());
         SmartDashboard.putNumber(deviceName + "SPEED OUT", getModuleState().speedMetersPerSecond);
     }

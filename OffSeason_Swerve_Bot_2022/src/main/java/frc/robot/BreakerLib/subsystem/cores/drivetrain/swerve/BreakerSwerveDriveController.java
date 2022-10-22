@@ -190,7 +190,7 @@ public class BreakerSwerveDriveController extends CommandBase {
       baseDrivetrain.moveWithPercentInputRelativeToField(MathUtil.clamp(forward, -1.0, 1.0),
           MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0), odometer);
     } else {
-      baseDrivetrain.moveWithPercentInput(MathUtil.clamp(forward, -1.0, 1.0),
+      baseDrivetrain.moveWithPercentInputRelativeToField(MathUtil.clamp(forward, -1.0, 1.0),
           MathUtil.clamp(horizontal, -1.0, 1.0), MathUtil.clamp(turn, -1.0, 1.0));
     }
   }
