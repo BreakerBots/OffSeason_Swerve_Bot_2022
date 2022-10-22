@@ -41,4 +41,28 @@ public class BreakerQuadratic implements BreakerGenericMathFunction {
     public BreakerPolynomial getBasePolynomial() {
         return quad;
     }
+
+    @Override
+    public BreakerGenericMathFunction add(BreakerGenericMathFunction funcToAdd) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public BreakerGenericMathFunction subtract(BreakerGenericMathFunction funcToSubtract) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public BreakerGenericMathFunction multiply(BreakerGenericMathFunction multipul) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public BreakerGenericMathFunction devide(BreakerGenericMathFunction dividend) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

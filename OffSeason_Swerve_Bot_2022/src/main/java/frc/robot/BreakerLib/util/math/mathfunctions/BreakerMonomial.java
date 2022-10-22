@@ -11,6 +11,7 @@ public class BreakerMonomial {
     
     public BreakerMonomial(double constant) {
         coeficent = constant;
+        degree = 0;
     }
     
     public BreakerMonomial(double coeficent, double degree) {

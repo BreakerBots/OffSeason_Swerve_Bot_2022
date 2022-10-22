@@ -20,4 +20,28 @@ public class BreakerPolynomial implements BreakerGenericMathFunction {
         return total;
     }
 
+    @Override
+    public BreakerGenericMathFunction add(BreakerGenericMathFunction funcToAdd) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public BreakerGenericMathFunction subtract(BreakerGenericMathFunction funcToSubtract) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public BreakerGenericMathFunction multiply(BreakerGenericMathFunction multipul) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public BreakerGenericMathFunction devide(BreakerGenericMathFunction dividend) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

@@ -268,4 +268,9 @@ public class BreakerMath {
         return numer / denom;
     }
 
+    public static double root(double num, double root) {
+        return Math.pow(num, 1.0 / root);
+    }
+
+
 }

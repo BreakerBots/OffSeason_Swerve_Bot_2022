@@ -10,4 +10,12 @@ public interface BreakerGenericMathFunction {
     public default double getSignRelativeValueAtX(double xValue) {
         return getValueAtX(Math.abs(xValue)) * (xValue < 0 ? -1 : 1);
     }
+
+    public abstract BreakerGenericMathFunction add(BreakerGenericMathFunction funcToAdd);
+
+    public abstract BreakerGenericMathFunction subtract(BreakerGenericMathFunction funcToSubtract);
+
+    public abstract BreakerGenericMathFunction multiply(BreakerGenericMathFunction multipul);
+
+    public abstract BreakerGenericMathFunction devide(BreakerGenericMathFunction dividend);
 }

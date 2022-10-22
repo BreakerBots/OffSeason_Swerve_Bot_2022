@@ -46,4 +46,28 @@ public class BreakerBezierCurve implements BreakerGenericMathFunction {
         xValue = (((1 - xValue) * p(xValue, y0, y1, y2)) + (xValue * p(xValue, y1, y2, y3)));
         return xValue;
     }
+
+    @Override
+    public BreakerGenericMathFunction add(BreakerGenericMathFunction funcToAdd) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public BreakerGenericMathFunction subtract(BreakerGenericMathFunction funcToSubtract) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public BreakerGenericMathFunction multiply(BreakerGenericMathFunction multipul) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public BreakerGenericMathFunction devide(BreakerGenericMathFunction dividend) {
+      // TODO Auto-generated method stub
+      return null;
+    }
 }
