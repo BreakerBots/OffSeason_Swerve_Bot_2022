@@ -30,12 +30,6 @@ public interface BreakerGenericSwerveModule extends BreakerGenericDevice {
 
     public abstract SwerveModuleState getModuleState();
 
-    public abstract boolean atAngleSetpoint();
-
-    public abstract boolean atVelSetpoint();
-
-    public abstract boolean atSetModuleState();
-
     public abstract void runModuleSelfCheck();
 
     public abstract void setDriveMotorBrakeMode(boolean isEnabled);

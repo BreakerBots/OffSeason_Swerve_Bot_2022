@@ -166,7 +166,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
     faultStr = null;
     health = DeviceHealth.NOMINAL;
     for (BreakerGenericSwerveModule module: swerveModules) {
-      module.runModuleSelfCheck();
+      module.runSelfTest();
       if (module.hasFault()) {
         faultStr += " " + module.getDeviceName() + ": " + module.getFaults() + " ";
         health = health != DeviceHealth.INOPERABLE ? module.getHealth() : health;

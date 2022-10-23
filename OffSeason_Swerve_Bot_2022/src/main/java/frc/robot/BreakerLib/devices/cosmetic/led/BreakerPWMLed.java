@@ -150,8 +150,7 @@ public class BreakerPWMLed extends SubsystemBase implements BreakerGenericLEDDri
                 for (int i = animationStartIndex; i <= animationEndIndex; i++) {
                     buff.setLED(i, curAnimation.getColorAtIndex(Timer.getFPGATimestamp() - curAnimationStartTime, interalIndex++));
                 }
-            }
-            if (isDefault) {
+            } else if (isDefault) {
                 for (int i = 0; i < stripLength; i++) {
                     buff = defaultRobotModeAnims.get(BreakerRoboRIO.getCurrentRobotMode()).getBuffer(Timer.getFPGATimestamp() - curAnimationStartTime);
                 }

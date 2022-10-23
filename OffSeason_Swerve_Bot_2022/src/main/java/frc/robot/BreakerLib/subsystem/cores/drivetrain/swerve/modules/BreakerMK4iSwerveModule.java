@@ -45,7 +45,6 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
     private BreakerArbitraryFeedforwardProvider ffProvider;
     private BreakerSwerveDriveConfig config;
     private String faults = null, deviceName = "Swerve_Module_(SDS_MK4I)";
-    private PIDController drivePID, anglePID;
     private WPI_TalonFX turnMotor, driveMotor;
     private WPI_CANCoder turnEncoder;
     private DeviceHealth turnMotorHealth = DeviceHealth.NOMINAL, driveMotorHealth = DeviceHealth.NOMINAL,
@@ -122,7 +121,7 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
         turnMotor.set(TalonFXControlMode.Position, BreakerUnits.degreesToCANCoderNativeUnits(tgtAngle.getDegrees()));
         driveMotor.set(TalonFXControlMode.Velocity, getMetersPerSecToFalconRSU(speedMetersPerSec),
                 DemandType.ArbitraryFeedForward, ffProvider.getArbitraryFeedforwardValue(speedMetersPerSec));
-                
+
         SmartDashboard.putNumber(deviceName + "ANGLE OUT", getModuleState().angle.getDegrees());
         SmartDashboard.putNumber(deviceName + "SPEED OUT", getModuleState().speedMetersPerSecond);
     }
@@ -152,26 +151,6 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
     @Override
     public SwerveModuleState getModuleState() {
         return new SwerveModuleState(getModuleVelMetersPerSec(), Rotation2d.fromDegrees(getModuleRelativeAngle()));
-    }
-
-    @Override
-    public boolean atAngleSetpoint() {
-        return anglePID.atSetpoint();
-    }
-
-    @Override
-    public boolean atVelSetpoint() {
-        return drivePID.atSetpoint();
-    }
-
-    @Override
-    public boolean atSetModuleState() {
-        return (atAngleSetpoint() && atVelSetpoint());
-    }
-
-    @Override
-    public void runModuleSelfCheck() {
-
     }
 
     /**

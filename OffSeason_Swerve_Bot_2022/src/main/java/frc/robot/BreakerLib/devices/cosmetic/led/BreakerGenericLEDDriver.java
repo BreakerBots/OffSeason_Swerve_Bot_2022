@@ -15,6 +15,7 @@ import frc.robot.BreakerLib.util.BreakerRoboRIO.RobotMode;
 public interface BreakerGenericLEDDriver {
     public static final Color BREAKER_RED = new Color(new Color8Bit(196, 30, 58));
     public static final Color BREAKER_GOLD = new Color(new Color8Bit(253, 181, 21));
+    public static final BreakerAnimation DEFAULT_ENABLED_ANIMATION = Object foo = new Object();
 
     public abstract void setAllLEDs(int r, int g, int b);
     public default void setAllLEDs(Color ledColor) {
