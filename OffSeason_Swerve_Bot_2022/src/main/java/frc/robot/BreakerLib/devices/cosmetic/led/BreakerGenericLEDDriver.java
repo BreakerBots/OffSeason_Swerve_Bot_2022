@@ -9,13 +9,13 @@ import com.ctre.phoenix.led.ColorFlowAnimation;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.BreakerLib.devices.cosmetic.led.animations.BreakerAnimation;
+import frc.robot.BreakerLib.devices.cosmetic.led.animations.BreakerStaticAnimation;
 import frc.robot.BreakerLib.util.BreakerRoboRIO.RobotMode;
 
 /** Add your docs here. */
 public interface BreakerGenericLEDDriver {
     public static final Color BREAKER_RED = new Color(new Color8Bit(196, 30, 58));
     public static final Color BREAKER_GOLD = new Color(new Color8Bit(253, 181, 21));
-    public static final BreakerAnimation DEFAULT_ENABLED_ANIMATION = Object foo = new Object();
 
     public abstract void setAllLEDs(int r, int g, int b);
     public default void setAllLEDs(Color ledColor) {

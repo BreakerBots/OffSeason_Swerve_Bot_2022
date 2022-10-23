@@ -4,7 +4,7 @@
 
 package frc.robot.BreakerLib.util.test.selftest;
 
-/** Add your docs here. */
+/** Interface for all devises capable of automated self testing */
 public interface BreakerSelfTestable {
     public abstract void runSelfTest();
 
