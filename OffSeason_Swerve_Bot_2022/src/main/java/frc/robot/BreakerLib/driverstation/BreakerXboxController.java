@@ -200,7 +200,7 @@ public class BreakerXboxController {
         return dPadRight;
     }
 
-    public POVButton getdPadUP() {
+    public POVButton getdPadUp() {
         return dPadUp;
     }
 

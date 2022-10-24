@@ -6,6 +6,9 @@ package frc.robot;
 
 import com.ctre.phoenix.sensors.Pigeon2;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
@@ -38,12 +41,12 @@ public class RobotContainer {
     BreakerRobotManager.setup(
         drivetrainSys.getBaseDrivetrain(),
         new BreakerRobotConfig(
-            new BreakerRobotStartConfig(5104, "BreakerBots", "Offseason SwerveBot", 2022, "V1.4beta",
+            new BreakerRobotStartConfig(5104, "BreakerBots", "Offseason SwerveBot", 2022, "V1.5",
                 "Roman Abrahamson, and Yousif Alkhalaf")));
 
-    controllerSys.configAnalogInputDeadbands(new BreakerXboxControllerDeadbandConfig(0.05, 0.05, 0.05, 0.05, 0.05, 0.05));
+    controllerSys.configAnalogInputDeadbands(new BreakerXboxControllerDeadbandConfig(0.01, 0.01, 0.01, 0.01));
 
-    imuSys.reset();
+    drivetrainSys.getBaseDrivetrain().resetOdometryPosition();;
 
     configureButtonBindings();
     drivetrainSys.getBaseDrivetrain()
@@ -58,7 +61,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     controllerSys.getdPadRight().whenPressed(new InstantCommand(drivetrainSys.getBaseDrivetrain()::toggleSlowMode));
-    controllerSys.getButtonB().whenPressed(new InstantCommand(imuSys::reset));
+    controllerSys.getButtonB().whenPressed(new InstantCommand(() -> {drivetrainSys.getBaseDrivetrain().setOdometryRotation(new Rotation2d());}));
+    controllerSys.getButtonX().whenPressed(new InstantCommand(drivetrainSys.getBaseDrivetrain()::toggleSlowMode));
   }
 
   /**

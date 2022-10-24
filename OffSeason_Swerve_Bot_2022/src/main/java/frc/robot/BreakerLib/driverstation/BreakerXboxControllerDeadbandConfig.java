@@ -16,6 +16,15 @@ public class BreakerXboxControllerDeadbandConfig {
         this.rightTriggerAxis = rightTriggerAxis;
     }
 
+    public BreakerXboxControllerDeadbandConfig(double leftX, double leftY, double rightX, double rightY) {
+        this.leftX = leftX;
+        this.leftY = leftY;
+        this.rightX = rightX;
+        this.rightY = rightY;
+        leftTriggerAxis = 0.0;
+        rightTriggerAxis = 0.0;
+    }
+
     public BreakerXboxControllerDeadbandConfig() {}
     
     public double getLeftTriggerAxis() {
