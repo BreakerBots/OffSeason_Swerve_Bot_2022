@@ -61,16 +61,16 @@ public class Drive extends SubsystemBase {
         config.setSlowModeMultipliers(0.5, 0.5);
 
         frontLeftModule = new BreakerMK4iSwerveModule(driveFL, turnFL, encoderFL, config, 55.0, true, true);
-        frontLeftModule.setDeviceName(" Front_Left_Module ");
+        frontLeftModule.setDeviceName(" FL_Module ");
 
         frontRightModule = new BreakerMK4iSwerveModule(driveFR, turnFR, encoderFR, config, 21.0, false, true);
-        frontRightModule.setDeviceName(" Front_Right_Module ");
+        frontRightModule.setDeviceName(" FR_Module ");
 
         backLeftModule = new BreakerMK4iSwerveModule(driveBL, turnBL, encoderBL, config, 30.0, true, true);
-        backLeftModule.setDeviceName(" Back_Left_Module ");
+        backLeftModule.setDeviceName(" BL_Module ");
 
         backRightModule = new BreakerMK4iSwerveModule(driveBR, turnBR, encoderBR, config, -175.0, false, true);
-        backRightModule.setDeviceName(" Back_Right_Module ");
+        backRightModule.setDeviceName(" BR_Module ");
 
         drivetrain = new BreakerSwerveDrive(config, pigeon2, frontLeftModule, frontRightModule, backLeftModule, backRightModule);
     }
