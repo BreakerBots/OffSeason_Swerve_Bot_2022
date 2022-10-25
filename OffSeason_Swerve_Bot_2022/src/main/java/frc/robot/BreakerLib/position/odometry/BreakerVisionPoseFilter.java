@@ -16,31 +16,39 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import frc.robot.BreakerLib.devices.vision.photonvision.BreakerFiducialPhotonTarget;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 
-/** Add your docs here. */
+/** Weighted average for vision-based pose predictions. */
 public class BreakerVisionPoseFilter {
     private BreakerFiducialPhotonTarget[] positioningTargets;
     private double trustCoef, maxUncertanty;
-    /**Fiters all predcted poses from visable Fiducial targets through a weaighted average. Weaights calculated by: 
+
+    /**
+     * Fiters all predcted poses from visable Fiducial targets through a weaighted
+     * average. Weaights calculated by:
      * trustCoef ^ ((-trustCoef) * poseUncertanty)
      * 
-     * @param trustCoef - higher values mean more uncertan values are truested less
-     * @param maxUncertanty - the highest uncirtanty value (0-1) that will still be considered in the pose calculation
-     * @param positioningTargets - the fiducial targets for positioning
+     * @param trustCoef          - Higher values mean more uncertain values are
+     *                           trusted less.
+     * @param maxUncertanty      - The highest uncertainty value (0-1) that will
+     *                           still be considered in the pose calculation.
+     * @param positioningTargets - The fiducial targets for positioning.
      */
-    public BreakerVisionPoseFilter(double trustCoef, double maxUncertanty, BreakerFiducialPhotonTarget... positioningTargets) {
+    public BreakerVisionPoseFilter(double trustCoef, double maxUncertanty,
+            BreakerFiducialPhotonTarget... positioningTargets) {
         this.positioningTargets = positioningTargets;
         this.trustCoef = MathUtil.clamp(trustCoef, 1, Double.MAX_VALUE);
         this.maxUncertanty = maxUncertanty;
     }
 
+    /** @return Robot pose with weighted average applied. */
     public Pose3d getFilteredRobotPose3d() {
         List<Double> weights = new ArrayList<>();
         List<Pose3d> predictedPoses = new ArrayList<>();
         for (int i = 0; i < positioningTargets.length; i++) {
             BreakerFiducialPhotonTarget tgt = positioningTargets[i];
-            if (tgt.isAssignedTargetVisable()) {
+            if (tgt.isAssignedTargetVisible()) {
                 if (tgt.getPoseAmbiguity() <= maxUncertanty) {
-                    double weight = MathUtil.clamp(Math.pow(trustCoef,(-trustCoef)*tgt.getPoseAmbiguity()), 0.0, 1.0);
+                    double weight = MathUtil.clamp(Math.pow(trustCoef, (-trustCoef) * tgt.getPoseAmbiguity()), 0.0,
+                            1.0);
                     weights.add(weight);
                     predictedPoses.add(tgt.getRobotPose3d());
                 }
@@ -51,9 +59,9 @@ public class BreakerVisionPoseFilter {
         double[] xArr = new double[predictedPoses.size()];
         double[] yArr = new double[predictedPoses.size()];
         double[] zArr = new double[predictedPoses.size()];
-        double[] yAngArr = new double[predictedPoses.size()]; //in rad
-        double[] pAngArr = new double[predictedPoses.size()]; //in rad
-        double[] rAngArr = new double[predictedPoses.size()]; //in rad
+        double[] yAngArr = new double[predictedPoses.size()]; // in rad
+        double[] pAngArr = new double[predictedPoses.size()]; // in rad
+        double[] rAngArr = new double[predictedPoses.size()]; // in rad
 
         for (int i = 0; i < weights.size(); i++) {
             weightArr[i] = weights.get(i);
@@ -84,9 +92,10 @@ public class BreakerVisionPoseFilter {
         List<Pose2d> predictedPoses = new ArrayList<>();
         for (int i = 0; i < positioningTargets.length; i++) {
             BreakerFiducialPhotonTarget tgt = positioningTargets[i];
-            if (tgt.isAssignedTargetVisable()) {
+            if (tgt.isAssignedTargetVisible()) {
                 if (tgt.getPoseAmbiguity() <= maxUncertanty) {
-                    double weight = MathUtil.clamp(Math.pow(trustCoef,(-trustCoef)*tgt.getPoseAmbiguity()), 0.0, 1.0);
+                    double weight = MathUtil.clamp(Math.pow(trustCoef, (-trustCoef) * tgt.getPoseAmbiguity()), 0.0,
+                            1.0);
                     weights.add(weight);
                     predictedPoses.add(tgt.getRobotPose());
                 }
@@ -96,8 +105,8 @@ public class BreakerVisionPoseFilter {
         double[] weightArr = new double[weights.size()];
         double[] xArr = new double[predictedPoses.size()];
         double[] yArr = new double[predictedPoses.size()];
-        double[] yAngArr = new double[predictedPoses.size()]; //in rad
-        
+        double[] yAngArr = new double[predictedPoses.size()]; // in rad
+
         for (int i = 0; i < weights.size(); i++) {
             weightArr[i] = weights.get(i);
 
@@ -113,5 +122,4 @@ public class BreakerVisionPoseFilter {
         return new Pose2d(x, y, new Rotation2d(yaw));
     }
 
-    
 }

@@ -56,8 +56,8 @@ public class Drive extends SubsystemBase {
         encoderBR = new WPI_CANCoder(BR_ENCODER_ID);
         transBR = BR_TRANSLATION;
 
-        config = new BreakerSwerveDriveConfig(4.1148, 4.1148, 16.1148, 2.0, 0.0, 0.01, 0.075, 0.0, 0.0, 0.0, 8.14, 4.0,
-                new BreakerArbitraryFeedforwardProvider(2.0, 0.1), transFL, transFR, transBL, transBR);
+        config = new BreakerSwerveDriveConfig(4.1148, 4.1148, 16.1148, 2.0, 0.0, 0.01, 0.35, 0.0, 0.0, 0.0, 8.14, 4.0,
+                new BreakerArbitraryFeedforwardProvider(2.75, 0.2), transFL, transFR, transBL, transBR);
         config.setSlowModeMultipliers(0.5, 0.5);
 
         frontLeftModule = new BreakerMK4iSwerveModule(driveFL, turnFL, encoderFL, config, 55.0, true, true);

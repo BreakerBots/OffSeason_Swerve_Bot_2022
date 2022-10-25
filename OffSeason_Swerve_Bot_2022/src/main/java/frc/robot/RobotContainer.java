@@ -44,7 +44,7 @@ public class RobotContainer {
             new BreakerRobotStartConfig(5104, "BreakerBots", "Offseason SwerveBot", 2022, "V1.5",
                 "Roman Abrahamson, and Yousif Alkhalaf")));
 
-    controllerSys.configAnalogInputDeadbands(new BreakerXboxControllerDeadbandConfig(0.01, 0.01, 0.01, 0.01));
+    controllerSys.configAnalogInputDeadbands(new BreakerXboxControllerDeadbandConfig(0.06, 0.06, 0.06, 0.06));
 
     drivetrainSys.getBaseDrivetrain().resetOdometryPosition();;
 
