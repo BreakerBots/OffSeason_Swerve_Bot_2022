@@ -11,4 +11,8 @@ public class BreakerCubic extends BreakerMathFunction {
     public BreakerCubic(double a, double b, double c, double d) {
         super((Double x) -> (a*(x*x*x) + b*(x*x) + c*x + d));
     }
+
+    public BreakerCubic() {
+        super((Double x) -> (x*x*x));
+    }
 }
