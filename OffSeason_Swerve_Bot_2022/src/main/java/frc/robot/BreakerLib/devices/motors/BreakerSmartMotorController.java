@@ -112,25 +112,6 @@ public class BreakerSmartMotorController implements MotorController {
         }
     }
 
-    public void configClosedLoopControl(SlotConfiguration config, int slot) {
-        switch(controllerType) {
-            case CTRE:
-                ctreController.configureSlot(config, slot, 50);
-                break;
-            case SPARK_MAX:
-                SparkMaxPIDController pid = sparkMax.getPIDController();
-                pid.setP(config.kP, slot);
-                pid.setI(config.kI, slot);
-                pid.setD(config.kD, slot);
-                pid.setFF(config.kF, slot);
-                pid.setIMaxAccum(config.maxIntegralAccumulator, slot);
-                pid.setOutputRange(-config.closedLoopPeakOutput, config.closedLoopPeakOutput, slot);
-                 
-                sparkMax.burnFlash();
-                break;
-        } 
-    }
-
     @Override
     public void set(double speed) {
         this.speed = speed;
