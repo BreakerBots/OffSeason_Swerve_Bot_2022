@@ -125,6 +125,7 @@ public class BreakerSmartMotorController implements MotorController {
                 pid.setFF(config.kF, slot);
                 pid.setIMaxAccum(config.maxIntegralAccumulator, slot);
                 pid.setOutputRange(-config.closedLoopPeakOutput, config.closedLoopPeakOutput, slot);
+                 
                 sparkMax.burnFlash();
                 break;
         } 
