@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 
+import edu.wpi.first.math.Pair;
 import frc.robot.BreakerLib.devices.BreakerGenericDeviceBase;
 import frc.robot.BreakerLib.util.BreakerTriplet;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
@@ -72,11 +73,11 @@ public class BreakerBinaryCTREMotor extends BreakerGenericDeviceBase {
         health = DeviceHealth.NOMINAL;
         Faults faultObj = new Faults();
         motor.getFaults(faultObj);
-        if (faultObj.hasAnyFault() || SelfTest.checkIsMissingCanID(motor.getDeviceID())) {
-            BreakerTriplet<DeviceHealth, String, Boolean> trip = BreakerCTREUtil
-                    .getMotorHealthFaultsAndConnectionStatus(faultObj, motor.getDeviceID());
-            faultStr = trip.getMiddle();
-            health = trip.getLeft();
+        if (faultObj.hasAnyFault()) {
+            Pair<DeviceHealth, String> pair = BreakerCTREUtil
+                    .getMotorHealthAndFaults(faultObj);
+            faultStr = pair.getSecond();
+            health = pair.getFirst();
         }
     }
 

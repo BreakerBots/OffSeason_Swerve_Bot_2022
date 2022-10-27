@@ -100,27 +100,27 @@ public class BreakerCTREUtil {
 
 
   /** Get motor faults, fault name, and connection status. */
-  public static BreakerTriplet<DeviceHealth, String, Boolean> getMotorHealthFaultsAndConnectionStatus(
-      Faults motorFaults, int deviceID) {
-    HashMap<Integer, Pair<DeviceHealth, String>> map = new HashMap<>();
-    map.put(0, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " device_under_6.5v "));
-    map.put(1, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " device_limit_switch_hit "));
-    map.put(2, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " device_limit_switch_hit "));
-    map.put(3, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " device_limit_switch_hit "));
-    map.put(4, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " device_limit_switch_hit "));
-    map.put(5, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " hardware_failure "));
-    map.put(6, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " device_activated_or_reset_while_robot_on "));
-    map.put(9, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " device_activated_or_reset_while_robot_on "));
-    map.put(7, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " sensor_overflow "));
-    map.put(8, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " sensor_out_of_phase "));
-    map.put(10, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " remote_sensor_not_detected "));
-    map.put(11, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " API_or_firmware_error "));
-    map.put(12, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " supply_voltage_above_rated_max "));
-    map.put(13, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " unstable_supply_voltage "));
-    return GetDeviceHealthFaultsAndConnectionStatus(motorFaults.toBitfield(), deviceID, map);
-  }
+  // public static BreakerTriplet<DeviceHealth, String, Boolean> getMotorHealthFaultsAndConnectionStatus(
+  //     Faults motorFaults, int deviceID) {
+  //   HashMap<Integer, Pair<DeviceHealth, String>> map = new HashMap<>();
+  //   map.put(0, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " device_under_6.5v "));
+  //   map.put(1, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " device_limit_switch_hit "));
+  //   map.put(2, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " device_limit_switch_hit "));
+  //   map.put(3, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " device_limit_switch_hit "));
+  //   map.put(4, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " device_limit_switch_hit "));
+  //   map.put(5, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " hardware_failure "));
+  //   map.put(6, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " device_activated_or_reset_while_robot_on "));
+  //   map.put(9, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " device_activated_or_reset_while_robot_on "));
+  //   map.put(7, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " sensor_overflow "));
+  //   map.put(8, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " sensor_out_of_phase "));
+  //   map.put(10, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " remote_sensor_not_detected "));
+  //   map.put(11, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " API_or_firmware_error "));
+  //   map.put(12, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " supply_voltage_above_rated_max "));
+  //   map.put(13, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " unstable_supply_voltage "));
+  //   return GetDeviceHealthFaultsAndConnectionStatus(motorFaults.toBitfield(), deviceID, map);
+  // }
 
-  public static Pair<DeviceHealth, String> getCANdleFaultsAndHealthEffects(CANdleFaults faults) {
+  public static Pair<DeviceHealth, String> getCANdleHealthAndFaults(CANdleFaults faults) {
     HashMap<Integer, Pair<DeviceHealth, String>> map = new HashMap<>();
     map.put(0, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " short_circut "));
     map.put(1, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " thermal_fault "));
@@ -130,17 +130,17 @@ public class BreakerCTREUtil {
     return BreakerVendorUtil.getDeviceHealthAndFaults(faults.toBitfield(), map);
   }
 
-  /** Gets CANdle faults, name, and connection status. */
-  public static BreakerTriplet<DeviceHealth, String, Boolean> getCANdelHealthFaultsAndConnectionStatus(
-      CANdleFaults faults, int deviceID) {
-    HashMap<Integer, Pair<DeviceHealth, String>> map = new HashMap<>();
-    map.put(0, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " short_circut "));
-    map.put(1, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " thermal_fault "));
-    map.put(2, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " software_fuse "));
-    map.put(8, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " API_error "));
-    map.put(9, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " hardware_failure "));
-    return GetDeviceHealthFaultsAndConnectionStatus(faults.toBitfield(), deviceID, map);
-  }
+  // /** Gets CANdle faults, name, and connection status. */
+  // public static BreakerTriplet<DeviceHealth, String, Boolean> getCANdelHealthFaultsAndConnectionStatus(
+  //     CANdleFaults faults, int deviceID) {
+  //   HashMap<Integer, Pair<DeviceHealth, String>> map = new HashMap<>();
+  //   map.put(0, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " short_circut "));
+  //   map.put(1, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " thermal_fault "));
+  //   map.put(2, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " software_fuse "));
+  //   map.put(8, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " API_error "));
+  //   map.put(9, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " hardware_failure "));
+  //   return GetDeviceHealthFaultsAndConnectionStatus(faults.toBitfield(), deviceID, map);
+  // }
 
   /** Gets CANdle faults as a String. */
   public static String getCANdleFaultsAsString(CANdleFaults faults) {
@@ -177,14 +177,14 @@ public class BreakerCTREUtil {
   }
 
   /** Get device health, faults, and connection status. */
-  public static BreakerTriplet<DeviceHealth, String, Boolean> GetDeviceHealthFaultsAndConnectionStatus(
-      long faultBitField, int deviceID,
-      HashMap<Integer, Pair<DeviceHealth, String>> fieldPlacesHealthEffectsAndFaultMessages) {
-    Pair<DeviceHealth, String> healthAndMsgs = BreakerVendorUtil.getDeviceHealthAndFaults(faultBitField,
-        fieldPlacesHealthEffectsAndFaultMessages);
-    boolean isMissing = SelfTest.checkIsMissingCanID(deviceID);
-    String messages = isMissing ? healthAndMsgs.getSecond() + " device_not_found_on_bus " : healthAndMsgs.getSecond();
-    return new BreakerTriplet<DeviceHealth, String, Boolean>(
-        isMissing ? DeviceHealth.INOPERABLE : healthAndMsgs.getFirst(), messages, isMissing);
-  }
+  // public static BreakerTriplet<DeviceHealth, String, Boolean> GetDeviceHealthFaultsAndConnectionStatus(
+  //     long faultBitField, int deviceID,
+  //     HashMap<Integer, Pair<DeviceHealth, String>> fieldPlacesHealthEffectsAndFaultMessages) {
+  //   Pair<DeviceHealth, String> healthAndMsgs = BreakerVendorUtil.getDeviceHealthAndFaults(faultBitField,
+  //       fieldPlacesHealthEffectsAndFaultMessages);
+  //   boolean isMissing = SelfTest.checkIsMissingCanID(deviceID);
+  //   String messages = isMissing ? healthAndMsgs.getSecond() + " device_not_found_on_bus " : healthAndMsgs.getSecond();
+  //   return new BreakerTriplet<DeviceHealth, String, Boolean>(
+  //       isMissing ? DeviceHealth.INOPERABLE : healthAndMsgs.getFirst(), messages, isMissing);
+  // }
 }

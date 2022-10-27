@@ -34,11 +34,11 @@ public class BreakerRobotManager {
     public static void setup(BreakerGenericDrivetrain baseDrivetrain, BreakerRobotConfig robotConfig) {
         if (robotConfig.UsesOrchestra()) {
             BreakerLog.startLog(robotConfig.getAutologNetworkTables(), robotConfig.getOrchestra());
-            test = new SelfTest(robotConfig.getSecondsBetweenSelfChecks(), robotConfig.getSelftestServerAddress(),
+            test = new SelfTest(robotConfig.getSecondsBetweenSelfChecks(),
                     robotConfig.getOrchestra(), robotConfig.getAutoRegesterDevices());
         } else {
             BreakerLog.startLog(robotConfig.getAutologNetworkTables());
-            test = new SelfTest(robotConfig.getSecondsBetweenSelfChecks(), robotConfig.getSelftestServerAddress(),
+            test = new SelfTest(robotConfig.getSecondsBetweenSelfChecks(),
                     robotConfig.getAutoRegesterDevices());
         }
         BreakerRobotManager.baseDrivetrain = baseDrivetrain;
