@@ -22,7 +22,7 @@ import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.differential.BreakerDiffDrive;
 import frc.robot.BreakerLib.util.logging.BreakerLog;
 
-/** OUR version of a differential drive ramsete command. */
+/** BreakerLib wrapper for WPILib's differential drive ramsete command. */
 public class BreakerRamsete extends CommandBase implements BreakerGenericTrajectoryFollower {
 
     private RamseteCommand ramsete;
