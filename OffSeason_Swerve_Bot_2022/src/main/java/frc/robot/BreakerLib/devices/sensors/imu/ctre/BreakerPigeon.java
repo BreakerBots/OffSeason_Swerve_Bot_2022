@@ -1,6 +1,5 @@
 package frc.robot.BreakerLib.devices.sensors.imu.ctre;
 
-import com.ctre.phoenix.sensors.Pigeon2_Faults;
 import com.ctre.phoenix.sensors.PigeonIMU_Faults;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 

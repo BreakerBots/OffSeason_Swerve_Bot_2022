@@ -18,50 +18,93 @@ import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 
-
 /** Breaker NavX gyro. Calibration must be called manually. */
 public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagnetometer {
 
     private AHRS imu;
 
+    /** AHRS with default SPI port and update rate. */
     public BreakerAHRS() {
         imu = new AHRS();
         deviceName = " NavX_AHRS_IMU (SPI: default) ";
     }
 
+    /**
+     * AHRS with specified SPI port and default update rate.
+     * 
+     * @param spi_port_id SPI ID.
+     */
     public BreakerAHRS(SPI.Port spi_port_id) {
         imu = new AHRS(spi_port_id);
-        deviceName = " NavX_AHRS_IMU (SPI: "+spi_port_id.toString()+") ";
+        deviceName = " NavX_AHRS_IMU (SPI: " + spi_port_id.toString() + ") ";
     }
 
+    /**
+     * AHRS with specified SPI port and update rate.
+     * 
+     * @param spi_port_id    SPI ID.
+     * @param update_rate_hz Update rate of AHRS as byte.
+     */
     public BreakerAHRS(SPI.Port spi_port_id, byte update_rate_hz) {
         imu = new AHRS(spi_port_id, update_rate_hz);
-        deviceName = " NavX_AHRS_IMU (SPI: "+spi_port_id.toString()+") ";
+        deviceName = " NavX_AHRS_IMU (SPI: " + spi_port_id.toString() + ") ";
     }
 
+    /**
+     * AHRS with specified SPI port, SPI bitrate, and update rate.
+     * 
+     * @param spi_port_id    SPI ID.
+     * @param spi_bitrate    Maximum of 2,000,000.
+     * @param update_rate_hz Update rate of AHRS as byte.
+     */
     public BreakerAHRS(SPI.Port spi_port_id, int spi_bitrate, byte update_rate_hz) {
         imu = new AHRS(spi_port_id, spi_bitrate, update_rate_hz);
-        deviceName = " NavX_AHRS_IMU (SPI: "+spi_port_id.toString()+") ";
+        deviceName = " NavX_AHRS_IMU (SPI: " + spi_port_id.toString() + ") ";
     }
 
+    /**
+     * AHRS with I2C port.
+     * 
+     * @param i2c_port_id I2C serial ID.
+     */
     public BreakerAHRS(I2C.Port i2c_port_id) {
         imu = new AHRS(i2c_port_id);
-        deviceName = " NavX_AHRS_IMU (I2C: "+i2c_port_id.toString()+") ";
+        deviceName = " NavX_AHRS_IMU (I2C: " + i2c_port_id.toString() + ") ";
     }
 
+    /**
+     * AHRS with I2C port and custom update rate.
+     * 
+     * @param i2c_port_id    I2C serial ID.
+     * @param update_rate_hz Update rate of AHRS as byte.
+     */
     public BreakerAHRS(I2C.Port i2c_port_id, byte update_rate_hz) {
         imu = new AHRS(i2c_port_id, update_rate_hz);
-        deviceName = " NavX_AHRS_IMU (I2C: "+i2c_port_id.toString()+") ";
+        deviceName = " NavX_AHRS_IMU (I2C: " + i2c_port_id.toString() + ") ";
     }
 
+    /**
+     * AHRS with serial port (TTL UART or USB Serial interface).
+     * 
+     * @param serial_port_id Desired SerialPort.
+     */
     public BreakerAHRS(SerialPort.Port serial_port_id) {
         imu = new AHRS(serial_port_id);
-        deviceName = " NavX_AHRS_IMU (Serial: "+serial_port_id.toString()+") ";
+        deviceName = " NavX_AHRS_IMU (Serial: " + serial_port_id.toString() + ") ";
     }
 
+    /**
+     * AHRS with serial port (TTL UART or USB Serial interface), custom data type,
+     * and custom update rate.
+     * 
+     * @param serial_port_id Desired SerialPort.
+     * @param data_type      Either {@link SerialDataType.kProcessedData} or
+     *                       {@link SerialDataType.kRawData}.
+     * @param update_rate_hz Update rate of AHRS as byte.
+     */
     public BreakerAHRS(SerialPort.Port serial_port_id, SerialDataType data_type, byte update_rate_hz) {
         imu = new AHRS(serial_port_id, data_type, update_rate_hz);
-        deviceName = " NavX_AHRS_IMU (Serial: "+serial_port_id.toString()+") ";
+        deviceName = " NavX_AHRS_IMU (Serial: " + serial_port_id.toString() + ") ";
     }
 
     @Override
@@ -96,7 +139,8 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
 
     @Override
     public Rotation3d getRotation3d() {
-        return new Rotation3d(getPitchRotation2d().getRadians(), getYawRotation2d().getRadians(), getRollRotation2d().getRadians());
+        return new Rotation3d(getPitchRotation2d().getRadians(), getYawRotation2d().getRadians(),
+                getRollRotation2d().getRadians());
     }
 
     @Override
@@ -152,7 +196,7 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
 
     @Override
     public double[] getRawGyroRates() {
-        return new double[] {imu.getRawGyroX(), imu.getRawGyroY(), imu.getRawGyroZ()};
+        return new double[] { imu.getRawGyroX(), imu.getRawGyroY(), imu.getRawGyroZ() };
     }
 
     @Override
@@ -187,12 +231,13 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
 
     @Override
     public Rotation3d getRawRotation3d() {
-        return new Rotation3d(getPitchRotation2d().getRadians(), getYawRotation2d().getRadians(), getRollRotation2d().getRadians());
+        return new Rotation3d(getPitchRotation2d().getRadians(), getYawRotation2d().getRadians(),
+                getRollRotation2d().getRadians());
     }
 
     @Override
     public double[] getRawAccelerometerVals() {
-        return new double[] {getRawAccelX(), getRawAccelY(), getRawAccelZ()};
+        return new double[] { getRawAccelX(), getRawAccelY(), getRawAccelZ() };
     }
 
     @Override
@@ -260,7 +305,7 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
 
     @Override
     public double[] getRawFieldStrenghts() {
-        double[] strens = {imu.getRawMagX(), imu.getRawMagY(), imu.getRawMagZ()};
+        double[] strens = { imu.getRawMagX(), imu.getRawMagY(), imu.getRawMagZ() };
         return strens;
     }
 
