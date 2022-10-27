@@ -63,8 +63,8 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
      * constructs a new Swerve Drive Spetialties MK4I (inverted) swerve drive
      * module, implaments the BreakerSwerveModule Interface
      * 
-     * @param driveMotor  - The TalonFX motor that moves the module's wheel linearly.
-     * @param turnMotor   - The TalonFX motor that actuates module's wheel angle and
+     * @param driveMotor  - The SparkMax motor controller conected to a NEO motor that moves the module's wheel linearly.
+     * @param turnMotor   - The SparkMax motor controller conected to a NEO motor that actuates module's wheel angle and
      *                    changes the direction it is facing.
      * @param turnEncoder - The CTRE CANcoder magnetic encoder that the module uses
      *                    to determine wheel angle.
@@ -82,13 +82,18 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
 
         BreakerCANCoderFactory.configExistingCANCoder(turnEncoder, SensorInitializationStrategy.BootToAbsolutePosition, 
             AbsoluteSensorRange.Signed_PlusMinus180, encoderAbsoluteAngleOffsetDegrees, false);
-            
+        
+        turnMotor.setInverted(invertTurnOutput);
+        turnMotor.setSmartCurrentLimit(80);
+
         SparkMaxPIDController drivePID = driveMotor.getPIDController();
             drivePID.setP(config.getModuleVelkP());
             drivePID.setI(config.getModuleVelkI());
             drivePID.setD(config.getModuleVelKd());
             drivePID.setFF(config.getModuleVelKf());
 
+        driveMotor.setSmartCurrentLimit(80);
+        driveMotor.setInverted(invertDriveOutput);
 
         ffProvider = config.getArbitraryFeedforwardProvider();
     }
