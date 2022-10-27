@@ -26,12 +26,12 @@ import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.position.odometry.differential.BreakerDiffDriveState;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
-import frc.robot.BreakerLib.util.BreakerCTREUtil;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.math.BreakerUnits;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
+import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
 
 /** Differential drivetrain that uses Falcon 500 motors. */
 public class BreakerDiffDrive extends BreakerGenericDrivetrain {

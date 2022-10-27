@@ -16,9 +16,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.fasterxml.jackson.databind.JsonSerializable.Base;
 
-import edu.wpi.first.cscore.CameraServerCvJNI.Helper;   
-import frc.robot.BreakerLib.util.BreakerCTREUtil;
+import edu.wpi.first.cscore.CameraServerCvJNI.Helper;
 import frc.robot.BreakerLib.util.BreakerTriplet;
+import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
 
 /** a higher level object for use in user susystems that makes BreakerLib's self test clases easier to implament for subsystem-scale classes */
 public class SystemDiagnostics extends BreakerSelfTestableBase {

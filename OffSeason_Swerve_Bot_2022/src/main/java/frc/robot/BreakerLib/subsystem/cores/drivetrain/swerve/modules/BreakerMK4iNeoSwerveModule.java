@@ -23,7 +23,14 @@ import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.CANCoderFaults;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.FaultID;
+import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -31,21 +38,23 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveConfig;
 import frc.robot.BreakerLib.util.BreakerArbitraryFeedforwardProvider;
-import frc.robot.BreakerLib.util.BreakerCTREUtil;
 import frc.robot.BreakerLib.util.factory.BreakerCANCoderFactory;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.math.BreakerUnits;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
+import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
+import frc.robot.BreakerLib.util.test.vendorutil.BreakerREVUtil;
 
 /** Add your docs here. */
-public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
+public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
 
     private BreakerArbitraryFeedforwardProvider ffProvider;
     private BreakerSwerveDriveConfig config;
     private String faults = null, deviceName = "Swerve_Module_(SDS_MK4I)";
-    private WPI_TalonFX turnMotor, driveMotor;
+    private CANSparkMax turnMotor, driveMotor;
+    private PIDController turnPID;
     private WPI_CANCoder turnEncoder;
     private DeviceHealth turnMotorHealth = DeviceHealth.NOMINAL, driveMotorHealth = DeviceHealth.NOMINAL,
             overallHealth = DeviceHealth.NOMINAL, encoderHealth = DeviceHealth.NOMINAL;
@@ -62,53 +71,24 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
      * @param config      - The BreakerSwerveDriveConfig object that holds all
      *                    constants for your drivetrain
      */
-    public BreakerMK4iSwerveModule(WPI_TalonFX driveMotor, WPI_TalonFX turnMotor, WPI_CANCoder turnEncoder,
+    public BreakerMK4iNeoSwerveModule(CANSparkMax driveMotor, CANSparkMax turnMotor, WPI_CANCoder turnEncoder,
             BreakerSwerveDriveConfig config, double encoderAbsoluteAngleOffsetDegrees, boolean invertDriveOutput, boolean invertTurnOutput) {
         this.config = config;
         this.turnMotor = turnMotor;
         this.driveMotor = driveMotor;
         this.turnEncoder = turnEncoder;
 
+        turnPID = new PIDController(config.getModuleAnglekP(), config.getModuleAnglekI(), config.getModuleAngleKd());
+
         BreakerCANCoderFactory.configExistingCANCoder(turnEncoder, SensorInitializationStrategy.BootToAbsolutePosition, 
             AbsoluteSensorRange.Signed_PlusMinus180, encoderAbsoluteAngleOffsetDegrees, false);
+            
+        SparkMaxPIDController drivePID = driveMotor.getPIDController();
+            drivePID.setP(config.getModuleVelkP());
+            drivePID.setI(config.getModuleVelkI());
+            drivePID.setD(config.getModuleVelKd());
+            drivePID.setFF(config.getModuleVelKf());
 
-        TalonFXConfiguration turnConfig = new TalonFXConfiguration();
-        turnConfig.remoteFilter0.remoteSensorDeviceID = turnEncoder.getDeviceID();
-        turnConfig.remoteFilter0.remoteSensorSource = RemoteSensorSource.CANCoder;
-        turnConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.RemoteSensor0;
-        turnConfig.slot0.kP = config.getModuleAnglekP();
-        turnConfig.slot0.kI = config.getModuleAnglekI();
-        turnConfig.slot0.kD = config.getModuleAngleKd();
-        turnConfig.slot0.closedLoopPeakOutput = 1.0;
-        turnConfig.peakOutputForward = 1.0;
-        turnConfig.peakOutputReverse = -1.0;
-        turnConfig.voltageCompSaturation = 12.0;
-        turnConfig.statorCurrLimit = new StatorCurrentLimitConfiguration(true, 80.0, 80.0, 1.5);
-        BreakerCTREUtil.checkError(turnMotor.configAllSettings(turnConfig),
-                " Failed to config swerve module turn motor ");
-        turnMotor.selectProfileSlot(0, 0);
-        turnMotor.setSensorPhase(true);
-        turnMotor.setInverted(invertTurnOutput);
-        turnMotor.setNeutralMode(NeutralMode.Brake);
-        turnMotor.set(ControlMode.Position, 0);
-
-        TalonFXConfiguration driveConfig = new TalonFXConfiguration();
-        driveConfig.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
-        driveConfig.slot0.kP = config.getModuleVelkP();
-        driveConfig.slot0.kI = config.getModuleVelkI();
-        driveConfig.slot0.kD = config.getModuleVelKd();
-        driveConfig.slot0.kF = config.getModuleVelKf();
-        driveConfig.slot0.closedLoopPeakOutput = 1.0;
-        driveConfig.peakOutputForward = 1.0;
-        driveConfig.peakOutputReverse = -1.0;
-        driveConfig.voltageCompSaturation = 12.0;
-        driveConfig.statorCurrLimit = new StatorCurrentLimitConfiguration(true, 80.0, 80.0, 1.5);
-        BreakerCTREUtil.checkError(driveMotor.configAllSettings(driveConfig),
-                " Failed to config swerve module drive motor ");
-        ;
-        driveMotor.selectProfileSlot(1, 0);
-        driveMotor.setInverted(invertDriveOutput);
-        driveMotor.set(ControlMode.Velocity, 0.0);
 
         ffProvider = config.getArbitraryFeedforwardProvider();
     }
@@ -118,9 +98,8 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
         SmartDashboard.putNumber(deviceName + " ANGLE IN", tgtAngle.getDegrees());
         SmartDashboard.putNumber(deviceName +" SPEED IN", speedMetersPerSec);
 
-        turnMotor.set(TalonFXControlMode.Position, BreakerUnits.degreesToCANCoderNativeUnits(tgtAngle.getDegrees()));
-        driveMotor.set(TalonFXControlMode.Velocity, getMetersPerSecToFalconRSU(speedMetersPerSec),
-                DemandType.ArbitraryFeedForward, ffProvider.getArbitraryFeedforwardValue(speedMetersPerSec));
+        turnMotor.set(turnPID.calculate(turnEncoder.getPosition(), tgtAngle.getDegrees()));
+        driveMotor.getPIDController().setReference(getMetersPerSecToNativeVelUnits(speedMetersPerSec), CANSparkMax.ControlType.kVelocity, 0, ffProvider.getArbitraryFeedforwardValue(speedMetersPerSec), ArbFFUnits.kPercentOut);
 
         SmartDashboard.putNumber(deviceName + "ANGLE OUT", getModuleState().angle.getDegrees());
         SmartDashboard.putNumber(deviceName + "SPEED OUT", getModuleState().speedMetersPerSecond);
@@ -138,14 +117,12 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
 
     @Override
     public double getModuleVelMetersPerSec() {
-        return Units.inchesToMeters(BreakerMath.ticksToInches(driveMotor.getSelectedSensorVelocity() * 10,
-                BreakerMath.getTicksPerInch(2048, config.getDriveMotorGearRatioToOne(), config.getWheelDiameter())));
+        return Units.inchesToMeters((driveMotor.getEncoder().getVelocity() * (config.getWheelDiameter() * Math.PI)) / 60.0);
     }
 
     @Override
-    public double getMetersPerSecToFalconRSU(double speedMetersPerSec) {
-        return (speedMetersPerSec / 10) * Units.inchesToMeters(
-                BreakerMath.getTicksPerInch(2048, config.getDriveMotorGearRatioToOne(), config.getWheelDiameter()));
+    public double getMetersPerSecToNativeVelUnits(double speedMetersPerSec) {
+        return Units.metersToInches(speedMetersPerSec * 60.0) / (config.getWheelDiameter() * Math.PI);
     }
 
     @Override
@@ -169,13 +146,13 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
 
     @Override
     public void setDriveMotorBrakeMode(boolean isEnabled) {
-        driveMotor.setNeutralMode(isEnabled ? NeutralMode.Brake : NeutralMode.Coast);
+        driveMotor.setIdleMode(isEnabled ? IdleMode.kBrake : IdleMode.kCoast);
 
     }
 
     @Override
     public void setTurnMotorBreakMode(boolean isEnabled) {
-        turnMotor.setNeutralMode(isEnabled ? NeutralMode.Brake : NeutralMode.Coast);
+        turnMotor.setIdleMode(isEnabled ? IdleMode.kBrake : IdleMode.kCoast);
     }
 
     @Override
@@ -187,66 +164,30 @@ public class BreakerMK4iSwerveModule implements BreakerGenericSwerveModule {
     @Override
     public void runSelfTest() {
         faults = null;
-        Faults curTurnFaults = new Faults();
-        Faults curDriveFaults = new Faults();
-        CANCoderFaults curEncoderFaults = new CANCoderFaults();
-        turnMotor.getFaults(curTurnFaults);
-        driveMotor.getFaults(curDriveFaults);
-        turnEncoder.getFaults(curEncoderFaults);
-        if (curDriveFaults.HardwareFailure) {
-            driveMotorHealth = DeviceHealth.INOPERABLE;
-            faults += " DRIVE_MOTOR_FAIL ";
+        turnMotorHealth = DeviceHealth.NOMINAL; 
+        driveMotorHealth = DeviceHealth.NOMINAL;
+        overallHealth = DeviceHealth.NOMINAL;
+        encoderHealth = DeviceHealth.NOMINAL;
+        if (driveMotor.getFaults() != 0) {
+            Pair<DeviceHealth, String> driveFs = BreakerREVUtil.getSparkMaxHealthAndFaults(driveMotor.getFaults());
+            faults += " Drive_Motor(" + driveFs.getSecond() + ")" ;
+            driveMotorHealth = driveFs.getFirst();
         }
-        if (curTurnFaults.HardwareFailure) {
-            turnMotorHealth = DeviceHealth.INOPERABLE;
-            faults += " TURN_MOTOR_FAIL ";
+        if (turnMotor.getFaults() != 0) {
+            Pair<DeviceHealth, String> turnFs = BreakerREVUtil.getSparkMaxHealthAndFaults(turnMotor.getFaults());
+            faults += " Turn_Motor(" + turnFs.getSecond() + ")" ;
+            turnMotorHealth = turnFs.getFirst();
         }
-        if (curTurnFaults.HardwareFailure ^ curDriveFaults.HardwareFailure) {
-            overallHealth = (overallHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : overallHealth;
-        } else if (curTurnFaults.HardwareFailure && curDriveFaults.HardwareFailure) {
+        CANCoderFaults encoderFaults = new CANCoderFaults();
+        turnEncoder.getFaults(encoderFaults);
+        if (encoderFaults.hasAnyFault()) {
+            Pair<DeviceHealth, String> encodeFs = BreakerCTREUtil.getCANCoderHealthAndFaults(encoderFaults);
+            faults += " Turn_Encoder(" + encodeFs.getSecond() + ")";
+            encoderHealth = encodeFs.getFirst();
+        }
+
+        if (driveMotorHealth != DeviceHealth.NOMINAL || turnMotorHealth != DeviceHealth.NOMINAL || encoderHealth != DeviceHealth.NOMINAL) {
             overallHealth = DeviceHealth.INOPERABLE;
-        }
-        if (curTurnFaults.SupplyUnstable) {
-            faults += " TURN_MOTOR_UNSTABLE_SUPPLY ";
-            turnMotorHealth = (turnMotorHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : turnMotorHealth;
-        }
-        if (curDriveFaults.SupplyUnstable) {
-            faults += " DRIVE_MOTOR_UNSTABLE_SUPPLY ";
-            driveMotorHealth = (driveMotorHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : driveMotorHealth;
-        }
-        if (curTurnFaults.UnderVoltage) {
-            faults += " TURN_MOTOR_UNDER_6.5V ";
-            turnMotorHealth = (turnMotorHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : turnMotorHealth;
-        }
-        if (curDriveFaults.UnderVoltage) {
-            faults += " DRIVE_MOTOR_UNDER_6.5V ";
-            driveMotorHealth = (driveMotorHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : driveMotorHealth;
-        }
-        if (curTurnFaults.SensorOutOfPhase) {
-            faults += " TURN_SENSOR_OUT_OF_PHASE ";
-            turnMotorHealth = (turnMotorHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : turnMotorHealth;
-        }
-        if (curDriveFaults.SensorOutOfPhase) {
-            faults += " DRIVE_SENSOR_OUT_OF_PHASE ";
-            driveMotorHealth = (driveMotorHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : driveMotorHealth;
-        }
-        if (curEncoderFaults.HardwareFault) {
-            faults += " ABSOLUTE_ENCODER_FAIL ";
-            overallHealth = (overallHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : overallHealth;
-            encoderHealth = DeviceHealth.INOPERABLE;
-        }
-        if (curEncoderFaults.MagnetTooWeak) {
-            faults += " ABSOLUTE_ENCODER_WEAK_MAG ";
-            encoderHealth = (encoderHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : encoderHealth;
-            overallHealth = (overallHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : overallHealth;
-        }
-        if (!curDriveFaults.HardwareFailure && !curTurnFaults.HardwareFailure && !curTurnFaults.SupplyUnstable
-                && !curDriveFaults.SupplyUnstable && !curEncoderFaults.MagnetTooWeak
-                && !curEncoderFaults.HardwareFault) {
-            faults = null;
-            driveMotorHealth = DeviceHealth.NOMINAL;
-            turnMotorHealth = DeviceHealth.NOMINAL;
-            overallHealth = DeviceHealth.NOMINAL;
         }
     }
 

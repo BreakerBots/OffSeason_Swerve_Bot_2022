@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDrive;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveConfig;
-import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.modules.BreakerMK4iSwerveModule;
+import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.modules.BreakerMK4iFalconSwerveModule;
 import frc.robot.BreakerLib.util.BreakerArbitraryFeedforwardProvider;
 
 /** Add your docs here. */
@@ -32,7 +32,7 @@ public class Drive extends SubsystemBase {
 
     private Translation2d transFL, transFR, transBL, transBR;
 
-    private BreakerMK4iSwerveModule frontLeftModule, frontRightModule, backLeftModule, backRightModule;
+    private BreakerMK4iFalconSwerveModule frontLeftModule, frontRightModule, backLeftModule, backRightModule;
 
     public Drive(BreakerPigeon2 pigeon2) {
 
@@ -60,16 +60,16 @@ public class Drive extends SubsystemBase {
                 new BreakerArbitraryFeedforwardProvider(2.75, 0.2), transFL, transFR, transBL, transBR);
         config.setSlowModeMultipliers(0.5, 0.5);
 
-        frontLeftModule = new BreakerMK4iSwerveModule(driveFL, turnFL, encoderFL, config, 55.0, true, true);
+        frontLeftModule = new BreakerMK4iFalconSwerveModule(driveFL, turnFL, encoderFL, config, 55.0, true, true);
         frontLeftModule.setDeviceName(" FL_Module ");
 
-        frontRightModule = new BreakerMK4iSwerveModule(driveFR, turnFR, encoderFR, config, 21.0, false, true);
+        frontRightModule = new BreakerMK4iFalconSwerveModule(driveFR, turnFR, encoderFR, config, 21.0, false, true);
         frontRightModule.setDeviceName(" FR_Module ");
 
-        backLeftModule = new BreakerMK4iSwerveModule(driveBL, turnBL, encoderBL, config, 30.0, true, true);
+        backLeftModule = new BreakerMK4iFalconSwerveModule(driveBL, turnBL, encoderBL, config, 30.0, true, true);
         backLeftModule.setDeviceName(" BL_Module ");
 
-        backRightModule = new BreakerMK4iSwerveModule(driveBR, turnBR, encoderBR, config, -175.0, false, true);
+        backRightModule = new BreakerMK4iFalconSwerveModule(driveBR, turnBR, encoderBR, config, -175.0, false, true);
         backRightModule.setDeviceName(" BR_Module ");
 
         drivetrain = new BreakerSwerveDrive(config, pigeon2, frontLeftModule, frontRightModule, backLeftModule, backRightModule);

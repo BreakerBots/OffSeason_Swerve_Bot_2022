@@ -26,7 +26,7 @@ public interface BreakerGenericSwerveModule extends BreakerGenericDevice {
     
     public abstract double getModuleVelMetersPerSec();
 
-    public abstract double getMetersPerSecToFalconRSU(double speedMetersPerSec);
+    public abstract double getMetersPerSecToNativeVelUnits(double speedMetersPerSec);
 
     public abstract SwerveModuleState getModuleState();
 

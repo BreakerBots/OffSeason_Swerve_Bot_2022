@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.util;
+package frc.robot.BreakerLib.util.test.vendorutil;
 
 import java.util.HashMap;
 
@@ -11,11 +11,15 @@ import com.ctre.phoenix.led.CANdleFaults;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
+import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderFaults;
 
 import edu.wpi.first.math.Pair;
+import frc.robot.BreakerLib.util.BreakerTriplet;
 import frc.robot.BreakerLib.util.logging.BreakerLog;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.selftest.SelfTest;
+import frc.robot.BreakerLib.util.test.vendorutil.BreakerVendorUtil;
 
 /** Util class for CTRE motors. */
 public class BreakerCTREUtil {
@@ -81,8 +85,19 @@ public class BreakerCTREUtil {
     map.put(11, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " API_or_firmware_error "));
     map.put(12, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " supply_voltage_above_rated_max "));
     map.put(13, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " unstable_supply_voltage "));
-    return getDeviceHealthAndFaults(motorFaults.toBitfield(), map);
+    return BreakerVendorUtil.getDeviceHealthAndFaults(motorFaults.toBitfield(), map);
   }
+
+    /** Get motor fault and name. */
+    public static Pair<DeviceHealth, String> getCANCoderHealthAndFaults(CANCoderFaults encoderFaults) {
+      HashMap<Integer, Pair<DeviceHealth, String>> map = new HashMap<>();
+      map.put(0, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " hardware_failure "));
+      map.put(4, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " magnet_too_weak "));
+      return BreakerVendorUtil.getDeviceHealthAndFaults(encoderFaults.toBitfield(), map);
+    }
+
+
+
 
   /** Get motor faults, fault name, and connection status. */
   public static BreakerTriplet<DeviceHealth, String, Boolean> getMotorHealthFaultsAndConnectionStatus(
@@ -112,7 +127,7 @@ public class BreakerCTREUtil {
     map.put(2, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " software_fuse "));
     map.put(8, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " API_error "));
     map.put(9, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " hardware_failure "));
-    return getDeviceHealthAndFaults(faults.toBitfield(), map);
+    return BreakerVendorUtil.getDeviceHealthAndFaults(faults.toBitfield(), map);
   }
 
   /** Gets CANdle faults, name, and connection status. */
@@ -161,74 +176,11 @@ public class BreakerCTREUtil {
     return work.toString();
   }
 
-  /** Returns device health as {@link DeviceHealth} values. */
-  public static DeviceHealth getDeviceFaultsAsHealth(long faultBitField,
-      HashMap<Integer, DeviceHealth> fieldPlacesAndHealthEffects) {
-    DeviceHealth health = DeviceHealth.NOMINAL;
-    if (faultBitField != 0) {
-      long fieldMask = 1; // masks all but selected bit
-      for (int fieldPlace = 0; fieldPlace < fieldPlacesAndHealthEffects.size(); fieldPlace++) {
-        if (((faultBitField & fieldMask) != 0) && fieldPlacesAndHealthEffects.containsKey(fieldPlace)) { // Checks for
-                                                                                                         // 1s in
-                                                                                                         // bitfield
-                                                                                                         // that
-                                                                                                         // signifies
-                                                                                                         // error
-          health = health != DeviceHealth.INOPERABLE ? fieldPlacesAndHealthEffects.get(fieldPlace) : health;
-        }
-        fieldMask <<= 1; // Scrolls to next bit.
-      }
-    }
-    return health;
-  }
-
-  /** Gets device health and faults. */
-  public static Pair<DeviceHealth, String> getDeviceHealthAndFaults(long faultBitField,
-      HashMap<Integer, Pair<DeviceHealth, String>> fieldPlacesHealthEffectsAndFaultMessages) {
-    StringBuilder work = new StringBuilder();
-    if (faultBitField != 0) {
-      long fieldMask = 1; // masks all but selected bit
-      for (int fieldPlace = 0; fieldPlace < fieldPlacesHealthEffectsAndFaultMessages.size(); fieldPlace++) {
-        if (((faultBitField & fieldMask) != 0) && fieldPlacesHealthEffectsAndFaultMessages.containsKey(fieldPlace)) { // Checks
-                                                                                                                      // for
-                                                                                                                      // 1s
-                                                                                                                      // in
-                                                                                                                      // bitfield
-                                                                                                                      // that
-                                                                                                                      // signifies
-                                                                                                                      // error
-          work.append(fieldPlacesHealthEffectsAndFaultMessages.get(fieldPlace).getSecond());
-        }
-        fieldMask <<= 1; // Scrolls to next bit.
-      }
-    }
-    DeviceHealth health = DeviceHealth.NOMINAL;
-    if (faultBitField != 0) {
-      long fieldMask = 1; // masks all but selected bit
-      for (int fieldPlace = 0; fieldPlace < fieldPlacesHealthEffectsAndFaultMessages.size(); fieldPlace++) {
-        if (((faultBitField & fieldMask) != 0) && fieldPlacesHealthEffectsAndFaultMessages.containsKey(fieldPlace)) { // Checks
-                                                                                                                      // for
-                                                                                                                      // 1s
-                                                                                                                      // in
-                                                                                                                      // bitfield
-                                                                                                                      // that
-                                                                                                                      // signifies
-                                                                                                                      // error
-          health = health != DeviceHealth.INOPERABLE
-              ? fieldPlacesHealthEffectsAndFaultMessages.get(fieldPlace).getFirst()
-              : health;
-        }
-        fieldMask <<= 1; // Scrolls to next bit.
-      }
-    }
-    return new Pair<DeviceHealth, String>(health, work.toString());
-  }
-
   /** Get device health, faults, and connection status. */
   public static BreakerTriplet<DeviceHealth, String, Boolean> GetDeviceHealthFaultsAndConnectionStatus(
       long faultBitField, int deviceID,
       HashMap<Integer, Pair<DeviceHealth, String>> fieldPlacesHealthEffectsAndFaultMessages) {
-    Pair<DeviceHealth, String> healthAndMsgs = getDeviceHealthAndFaults(faultBitField,
+    Pair<DeviceHealth, String> healthAndMsgs = BreakerVendorUtil.getDeviceHealthAndFaults(faultBitField,
         fieldPlacesHealthEffectsAndFaultMessages);
     boolean isMissing = SelfTest.checkIsMissingCanID(deviceID);
     String messages = isMissing ? healthAndMsgs.getSecond() + " device_not_found_on_bus " : healthAndMsgs.getSecond();

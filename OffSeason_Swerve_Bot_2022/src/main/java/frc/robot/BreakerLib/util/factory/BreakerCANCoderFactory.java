@@ -10,7 +10,7 @@ import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 
-import frc.robot.BreakerLib.util.BreakerCTREUtil;
+import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
 
 /** Factory for producing CANcoders. */
 public class BreakerCANCoderFactory {

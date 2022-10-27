@@ -17,13 +17,13 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.BreakerLib.devices.BreakerGenericLoopedDevice;
 import frc.robot.BreakerLib.devices.cosmetic.led.animations.BreakerAnimation;
-import frc.robot.BreakerLib.util.BreakerCTREUtil;
 import frc.robot.BreakerLib.util.BreakerRoboRIO.RobotMode;
 import frc.robot.BreakerLib.util.BreakerTriplet;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.selftest.SelfTest;
+import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
 
 /** CTRE LED controller */
 public class BreakerCANdle extends BreakerGenericLoopedDevice implements BreakerGenericLEDDriver{
