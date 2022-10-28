@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGenericGyro;
+import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.vendorutil.BreakerREVUtil;
 
 /** Add your docs here. */
@@ -23,8 +24,27 @@ public class BreakerNeoDiffDrive extends BreakerGenericDiffDrive {
 
     @Override
     public void runSelfTest() {
-        
-        
+        faultStr = null;
+        health = DeviceHealth.NOMINAL;
+
+        StringBuilder work = new StringBuilder();
+        for (CANSparkMax motorL : leftMotors) {
+            short faults = motorL.getFaults();
+            if ((int) faults != 0) {
+                health = DeviceHealth.FAULT;
+                work.append(" MOTOR ID (" + motorL.getDeviceId() + ") FAULTS: ");
+                work.append(BreakerREVUtil.getSparkMaxHealthAndFaults(faults).getSecond());
+            }
+        }
+        for (CANSparkMax motorR : rightMotors) {
+            short faults = motorR.getFaults();
+            if ((int) faults != 0) {
+                health = DeviceHealth.FAULT;
+                work.append(" MOTOR ID (" + motorR.getDeviceId() + ") FAULTS: ");
+                work.append(BreakerREVUtil.getSparkMaxHealthAndFaults(faults).getSecond());
+            }
+        }
+        faultStr = work.toString();
     }
 
     @Override
