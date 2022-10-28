@@ -28,7 +28,8 @@ import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 
-/** Add your docs here. */
+/** Base infastracture class from which all differential drivetrain types must inherit from. 
+* Examples include {@link BreakerFalconDiffDrive} and {@link BreakerNeoDiffDrive} */
 public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
     private MotorControllerGroup leftDrive;
   
@@ -40,7 +41,7 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
     private DoubleSupplier leftTickSupplier, leftRPMSupplier;
     private DoubleSupplier rightTickSupplier, rightRPMSupplier;
   
-    private BreakerGenericGyro imu;
+    private BreakerGenericGyro gyro;
     private DifferentialDriveOdometry driveOdometer;
     private BreakerMovementState2d prevMovementState = new BreakerMovementState2d();
     private BreakerMovementState2d curMovementState = new BreakerMovementState2d();
@@ -52,12 +53,22 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
     private boolean isAutoPowerManaged = true;
     private DevicePowerMode powerMode = DevicePowerMode.FULL_POWER_MODE;
 
-    /** Base infastracture class from which all differential drivetrain types must inherit from. 
-     * Examples include {@link BreakerFalconDiffDrive} and {@link BreakerNeoDiffDrive}
+    /** Creates a new instance of the BreakerDiffDrive backround infestructure
+     * 
+     * @param leftMotors An array of all MotorController objects that controll the left drivetrain's movement
+     * @param leftTickSupplier A Double (double obj wrapper) supplier that provides the current number of ticks observed by the drive's left side encoder
+     * @param leftRPMSupplier A Double (double obj wrapper) supplier that provides the current velocity in RPM observed by the drives left side
+     * @param invertL A boolean value representing weter or not to invert the motor outputs and sensor phases of the left side motors and encoder
+     * @param rightMotors An array of all MotorController objects that controll the right drivetrain's movement
+     * @param rightTickSupplier A Double (double obj wrapper) supplier that provides the current number of ticks observed by the drive's right side encoder
+     * @param rightRPMSupplier A Double (double obj wrapper) supplier that provides the current velocity in RPM observed by the drives right side
+     * @param invertR A boolean value representing weter or not to invert the motor outputs and sensor phases of the right side motors and encoder
+     * @param gyro A {@link BreakerGenericGyro} representing a single axis gyro, mostly used for auto functionality
+     * @param driveConfing A {@link BreakerDiffDriveConfig} representing the configerable values of this drivetrain's kinimatics and control values
      */
     protected BreakerDiffDrive(MotorController[] leftMotors, DoubleSupplier leftTickSupplier, DoubleSupplier leftRPMSupplier, boolean invertL,
         MotorController[] rightMotors, DoubleSupplier rightTickSupplier, DoubleSupplier rightRPMSupplier, boolean invertR,
-        BreakerGenericGyro imu, BreakerDiffDriveConfig driveConfig) {
+        BreakerGenericGyro gyro, BreakerDiffDriveConfig driveConfig) {
 
         this.invertL = invertL;
         this.invertR = invertR;
@@ -74,11 +85,11 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
         
         diffDrive = new DifferentialDrive(leftDrive, rightDrive);
 
-        driveOdometer = new DifferentialDriveOdometry(Rotation2d.fromDegrees(imu.getRawYaw()));
+        driveOdometer = new DifferentialDriveOdometry(Rotation2d.fromDegrees(gyro.getRawYaw()));
 
         deviceName = "Differential_Drivetrain";
         this.driveConfig = driveConfig;
-        this.imu = imu;
+        this.gyro = gyro;
      
     }
 
@@ -263,7 +274,7 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
 
   @Override
   public void updateOdometry() {
-    driveOdometer.update(Rotation2d.fromDegrees(imu.getRawYaw()), getLeftDriveMeters(),
+    driveOdometer.update(Rotation2d.fromDegrees(gyro.getRawYaw()), getLeftDriveMeters(),
         getRightDriveMeters());
     calculateMovementState((Timer.getFPGATimestamp() -
     prevOdometryUpdateTimestamp) * 1000);
@@ -279,7 +290,7 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
   @Override
   public void setOdometryPosition(Pose2d newPose) {
     resetDriveEncoders();
-    driveOdometer.resetPosition(newPose, Rotation2d.fromDegrees(imu.getRawYaw()));
+    driveOdometer.resetPosition(newPose, Rotation2d.fromDegrees(gyro.getRawYaw()));
   }
 
   @Override

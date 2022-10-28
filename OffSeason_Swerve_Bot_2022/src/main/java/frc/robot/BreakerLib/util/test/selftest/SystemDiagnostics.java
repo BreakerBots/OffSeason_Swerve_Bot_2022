@@ -21,7 +21,7 @@ import edu.wpi.first.math.Pair;
 import frc.robot.BreakerLib.util.BreakerTriplet;
 import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
 
-/** a higher level object for use in user susystems that makes BreakerLib's self test clases easier to implament for subsystem-scale classes */
+/** A higher level object for use in user susystems that makes BreakerLib's self test clases easier to implament for subsystem-scale classes */
 public class SystemDiagnostics extends BreakerSelfTestableBase {
     private List<BaseMotorController> motorControllers = new ArrayList<>();
     private List<BreakerSelfTestable> devices = new ArrayList<>();

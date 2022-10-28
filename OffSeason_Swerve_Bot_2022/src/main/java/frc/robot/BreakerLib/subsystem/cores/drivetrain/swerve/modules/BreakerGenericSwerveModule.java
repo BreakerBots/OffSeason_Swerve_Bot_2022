@@ -18,12 +18,16 @@ public interface BreakerGenericSwerveModule extends BreakerGenericDevice {
         setModuleTarget(targetModuleState.angle, targetModuleState.speedMetersPerSecond);
     }
 
+    /** Method defined in module code to handle angle and velocity control of the module */
     public abstract void setModuleTarget(Rotation2d targetAngle, double targetVelocityMetersPerSecond);
 
+    /** @return the absolute (+/- 180 deg) angle of the module in degrees*/
     public abstract double getModuleAbsoluteAngle();
 
+    /** @return the relative (with rollover, 180 -> 181) angle of the module in degrees*/
     public abstract double getModuleRelativeAngle();
     
+    /** @return the velocity of the moudle's drive wheel in meters per second*/
     public abstract double getModuleVelMetersPerSec();
 
     public abstract double getMetersPerSecToNativeVelUnits(double speedMetersPerSec);

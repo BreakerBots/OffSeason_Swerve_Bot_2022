@@ -22,8 +22,10 @@ import frc.robot.BreakerLib.devices.cosmetic.music.BreakerSounds;
 import frc.robot.BreakerLib.util.BreakerJSONUtil;
 import frc.robot.BreakerLib.util.logging.BreakerLog;
 
+/** Core class of BreakerLib's SelfTest fuctionality, handilg periodic passive (unless user configured outherwise) 
+ * diagnostic self tests of all manualy or automaticly regestered {@link BreakerSelfTestable} compatable devices, or devices regestered
+ *  through an instance of the {@link SystemDiagnostics} class  */
 public class SelfTest extends SubsystemBase {
-  /** Creates a new SelfTest. */
   private int cycleCount;
   private static String lastSystemCheck;
   private static List<BreakerSelfTestable> devices = new ArrayList<BreakerSelfTestable>();
@@ -34,24 +36,28 @@ public class SelfTest extends SubsystemBase {
   private static boolean autoRegesterDevices = true;
   private static boolean selfTestEnabled = true;
 
+  /** Configures an enables a SelfTest check cycle */
   public SelfTest(double secondsBetweenPeriodicSelfChecks) {
     SelfTest.cyclesbetweenPerSelfCecks = (int) (secondsBetweenPeriodicSelfChecks * 50);
     SelfTest.usesOrchestra = false;
     SelfTest.autoRegesterDevices = true;
   }
 
+  /** Configures an enables a SelfTest check cycle */
   public SelfTest(double secondsBetweenPeriodicSelfChecks, boolean autoRegesterDevices) {
     SelfTest.cyclesbetweenPerSelfCecks = (int) (secondsBetweenPeriodicSelfChecks * 50);
     SelfTest.usesOrchestra = false;
     SelfTest.autoRegesterDevices = autoRegesterDevices;
   }
 
+  /** Configures an enables a SelfTest check cycle */
   public SelfTest(double secondsBetweenPeriodicSelfChecks, BreakerFalconOrchestra orchestra) {
     SelfTest.cyclesbetweenPerSelfCecks = (int) (secondsBetweenPeriodicSelfChecks * 50);
     SelfTest.orchestra = orchestra;
     SelfTest.usesOrchestra = true;
   }
 
+  /** Configures an enables a SelfTest check cycle */
   public SelfTest(double secondsBetweenPeriodicSelfChecks, BreakerFalconOrchestra orchestra, boolean autoRegesterDevices) {
     SelfTest.cyclesbetweenPerSelfCecks = (int) (secondsBetweenPeriodicSelfChecks * 50);
     SelfTest.orchestra = orchestra;
@@ -86,16 +92,25 @@ public class SelfTest extends SubsystemBase {
     }
   }
 
+  /** Maunualy adds a {@link BreakerSelfTestable} compatable device to the SelfTest queue. 
+   * WARNING: If this is done to a device that has allready been added 
+   * (including automatic additions, if enabled), will be checked twice, 
+   * possably with signifcant runtime expence  */
   public static void addDevice(BreakerSelfTestable device) {
     devices.add(device);
   }
 
+  /** Maunualy adds multipul {@link BreakerSelfTestable} compatable devices to the SelfTest queue. 
+   * WARNING: If this is done to a device that has allready been added 
+   * (including automatic additions, if enabled), will be checked twice, 
+   * possably with signifcant runtime expence  */
   public static void addDevices(BreakerSelfTestable... devicesToAdd) {
     for (BreakerSelfTestable div: devicesToAdd) {
       devices.add(div);
     }
   }
 
+  /** @return the logged fault string result of the most recent self check cycle  */
   public static String getLastSelfCheck() {
     return lastSystemCheck;
   }

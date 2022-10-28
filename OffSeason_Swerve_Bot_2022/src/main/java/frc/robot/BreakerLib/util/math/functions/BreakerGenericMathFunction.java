@@ -4,7 +4,7 @@
 
 package frc.robot.BreakerLib.util.math.functions;
 
-/** Add your docs here. */
+/** A interface for all BreakerLib classes that represent pure mathmatical funcions (or equations) such as Bezier Curves or Quadratic functions*/
 public interface BreakerGenericMathFunction {
     public abstract double getValueAtX(double xValue);
     public default double getSignRelativeValueAtX(double xValue) {

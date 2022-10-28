@@ -61,7 +61,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     controllerSys.getdPadRight().whenPressed(new InstantCommand(drivetrainSys.getBaseDrivetrain()::toggleSlowMode));
-    controllerSys.getButtonB().whenPressed(new InstantCommand(() -> {drivetrainSys.getBaseDrivetrain().setOdometryRotation(new Rotation2d());}));
+    controllerSys.getButtonB().whenPressed(new InstantCommand(drivetrainSys.getBaseDrivetrain()::resetOdometryRotation));
     controllerSys.getButtonX().whenPressed(new InstantCommand(drivetrainSys.getBaseDrivetrain()::toggleSlowMode));
   }
 
