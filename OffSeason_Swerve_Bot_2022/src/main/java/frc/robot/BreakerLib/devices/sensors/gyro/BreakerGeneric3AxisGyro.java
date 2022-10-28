@@ -14,16 +14,11 @@ public interface BreakerGeneric3AxisGyro extends BreakerGenericGyro {
   /** @return Pitch angle within +-180 degrees. */
   public abstract double getPitchDegrees();
 
-  @Override
-  public abstract double getYawDegrees();
-
   /** @return Roll angle within +-180 degrees. */
   public abstract double getRollDegrees();
 
   /** @return Pitch angle as {@link Rotation2d} within +-180 degrees. */
   public abstract Rotation2d getPitchRotation2d();
-
-  public abstract Rotation2d getYawRotation2d();
 
   /** @return Roll angle as {@link Rotation2d} within +-180 degrees. */
   public abstract Rotation2d getRollRotation2d();
@@ -42,8 +37,6 @@ public interface BreakerGeneric3AxisGyro extends BreakerGenericGyro {
 
   /** @return Raw pitch value without modulus. */
   public abstract double getRawPitch();
-
-  public abstract double getRawYaw();
 
   /** @return Raw roll value without modulus. */
   public abstract double getRawRoll();
@@ -71,8 +64,6 @@ public interface BreakerGeneric3AxisGyro extends BreakerGenericGyro {
   /** Sets pitch to angle value. */
   public abstract void setPitch(double value);
 
-  public abstract void setYaw(double value);
-
   /** Sets roll to angle value. */
   public abstract void setRoll(double value);
 
@@ -85,15 +76,11 @@ public interface BreakerGeneric3AxisGyro extends BreakerGenericGyro {
   /** @return Raw angular velocity pitch. (deg/sec) */
   public abstract double getRawPitchRate();
 
-  public abstract double getRawYawRate();
-
   /** @return Raw angular velocity roll. (deg/sec) */
   public abstract double getRawRollRate();
 
   /** @return Biased angular velocity pitch. (deg/sec) */
   public abstract double getPitchRate();
-
-  public abstract double getYawRate();
 
   /** @return Biased angular velocity roll. (deg/sec) */
   public abstract double getRollRate();

@@ -28,6 +28,12 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
     deviceName = "Pigeon2_IMU (" + deviceID + ") ";
   }
 
+   /** Creates a new PigeonIMU 2 object. */
+   public BreakerPigeon2(int deviceID, String busName) {
+    pigeon = new WPI_Pigeon2(deviceID, busName);
+    deviceName = "Pigeon2_IMU (" + deviceID + ") ";
+  }
+
   @Override
   public double getPitchDegrees() {
     return BreakerMath.angleModulus(pigeon.getPitch());
@@ -177,6 +183,7 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
 
   /** @return Pigeon's runtime in seconds (max of 255) */
   public int getPigeonUpTime() {
+
     return pigeon.getUpTime();
   }
 
