@@ -29,7 +29,7 @@ import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 
 /** Add your docs here. */
-public abstract class BreakerGenericDiffDrive extends BreakerGenericDrivetrain {
+public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
     private MotorControllerGroup leftDrive;
   
     private MotorControllerGroup rightDrive;
@@ -51,7 +51,10 @@ public abstract class BreakerGenericDiffDrive extends BreakerGenericDrivetrain {
   
     private boolean isAutoPowerManaged = true;
     private DevicePowerMode powerMode = DevicePowerMode.FULL_POWER_MODE;
-    protected BreakerGenericDiffDrive(MotorController[] leftMotors, DoubleSupplier leftTickSupplier, DoubleSupplier leftRPMSupplier, boolean invertL,
+
+    /** Base infastracture class from which all differential drivetrain types must inherit from. {@link BreakerFalconDiffDrive} {@link BreakerNeoDiffDrive}
+     */
+    protected BreakerDiffDrive(MotorController[] leftMotors, DoubleSupplier leftTickSupplier, DoubleSupplier leftRPMSupplier, boolean invertL,
         MotorController[] rightMotors, DoubleSupplier rightTickSupplier, DoubleSupplier rightRPMSupplier, boolean invertR,
         BreakerGenericGyro imu, BreakerDiffDriveConfig driveConfig) {
 

@@ -15,7 +15,7 @@ import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
 
 /** Add your docs here. */
-public class BreakerFalconDiffDrive extends BreakerGenericDiffDrive {
+public class BreakerFalconDiffDrive extends BreakerDiffDrive {
     private WPI_TalonFX[] leftMotors;
     private WPI_TalonFX[] rightMotors;
 
@@ -34,22 +34,22 @@ public class BreakerFalconDiffDrive extends BreakerGenericDiffDrive {
 
         StringBuilder work = new StringBuilder();
         for (WPI_TalonFX motorL : leftMotors) {
-        Faults motorFaults = new Faults();
-        motorL.getFaults(motorFaults);
-        if (motorFaults.hasAnyFault()) {
-            health = DeviceHealth.FAULT;
-            work.append(" MOTOR ID (" + motorL.getDeviceID() + ") FAULTS: ");
-            work.append(BreakerCTREUtil.getMotorFaultsAsString(motorFaults));
-        }
+            Faults motorFaults = new Faults();
+            motorL.getFaults(motorFaults);
+            if (motorFaults.hasAnyFault()) {
+                health = DeviceHealth.FAULT;
+                work.append(" MOTOR ID (" + motorL.getDeviceID() + ") FAULTS: ");
+                work.append(BreakerCTREUtil.getMotorFaultsAsString(motorFaults));
+            }
         }
         for (WPI_TalonFX motorR : rightMotors) {
-        Faults motorFaults = new Faults();
-        motorR.getFaults(motorFaults);
-        if (motorFaults.hasAnyFault()) {
-            health = DeviceHealth.FAULT;
-            work.append(" MOTOR ID (" + motorR.getDeviceID() + ") FAULTS: ");
-            work.append(BreakerCTREUtil.getMotorFaultsAsString(motorFaults));
-        }
+            Faults motorFaults = new Faults();
+            motorR.getFaults(motorFaults);
+            if (motorFaults.hasAnyFault()) {
+                health = DeviceHealth.FAULT;
+                work.append(" MOTOR ID (" + motorR.getDeviceID() + ") FAULTS: ");
+                work.append(BreakerCTREUtil.getMotorFaultsAsString(motorFaults));
+            }
         }
         faultStr = work.toString();
         

@@ -14,7 +14,7 @@ import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.vendorutil.BreakerREVUtil;
 
 /** Add your docs here. */
-public class BreakerNeoDiffDrive extends BreakerGenericDiffDrive {
+public class BreakerNeoDiffDrive extends BreakerDiffDrive {
     private CANSparkMax[] leftMotors, rightMotors;
     public BreakerNeoDiffDrive(CANSparkMax[] leftMotors, boolean invertL, CANSparkMax[] rightMotors, boolean invertR, 
         BreakerGenericGyro imu, BreakerDiffDriveConfig driveConfig) {
