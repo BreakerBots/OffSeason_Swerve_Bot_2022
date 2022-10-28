@@ -13,13 +13,22 @@ import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGenericGyro;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.vendorutil.BreakerREVUtil;
 
-/** Add your docs here. */
+/** A {@link BreakerDiffDrive} instance with SparkMax driven Neo motors */
 public class BreakerNeoDiffDrive extends BreakerDiffDrive {
     private CANSparkMax[] leftMotors, rightMotors;
+    /** Creates a new Differential (tank drive) drivetrain instance.
+     * 
+     * @param leftMotors an array of the {@link CANSparkMax} motor controlers that controll the drive's left side
+     * @param invertL a boolean the determens wheather or not to invert the left drive motor output and encoder readings
+     * @param rightMotors an array of the {@link CANSparkMax} motor controlers that controll the drive's right side
+     * @param invertR a boolean the determens wheather or not to invert the left drive motor output and encoder readings
+     * @param gyro a {@link BreakerGenericGyro} yaw reading capable gyroscope or IMU
+     * @param driveConfig A {@link BreakerDiffDriveConfig} representing the configerable values of this drivetrain's kinimatics and control values
+     */
     public BreakerNeoDiffDrive(CANSparkMax[] leftMotors, boolean invertL, CANSparkMax[] rightMotors, boolean invertR, 
-        BreakerGenericGyro imu, BreakerDiffDriveConfig driveConfig) {
+        BreakerGenericGyro gyro, BreakerDiffDriveConfig driveConfig) {
         super(leftMotors, () -> ((Double)(leftMotors[0].getEncoder().getPosition() / driveConfig.getEncoderTicks())), () -> ((Double)leftMotors[0].getEncoder().getVelocity()), invertL, rightMotors,  () -> ((Double)(leftMotors[0].getEncoder().getPosition() / driveConfig.getEncoderTicks())), () -> ((Double)leftMotors[0].getEncoder().getVelocity()), invertR,
-                imu, driveConfig);
+                gyro, driveConfig);
     }
 
     @Override

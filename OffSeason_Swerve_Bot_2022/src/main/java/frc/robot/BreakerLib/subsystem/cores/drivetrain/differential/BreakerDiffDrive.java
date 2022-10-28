@@ -28,7 +28,7 @@ import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 
-/** Base infastracture class from which all differential drivetrain types must inherit from. 
+/** Base infastracture class from which all differential drivetrain types must inherit. 
 * Examples include {@link BreakerFalconDiffDrive} and {@link BreakerNeoDiffDrive} */
 public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
     private MotorControllerGroup leftDrive;

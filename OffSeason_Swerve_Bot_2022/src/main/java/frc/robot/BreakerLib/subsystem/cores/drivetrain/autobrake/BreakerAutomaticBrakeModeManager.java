@@ -9,7 +9,7 @@ import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
 import frc.robot.BreakerLib.util.BreakerRoboRIO;
 
 /**
- * Handles brake mode on your Falcon 500 drivetrain automatically according to
+ * =Automaticly handles break mode switching for your drivetrain based on the robot's current mode according to
  * given config.
  */
 public class BreakerAutomaticBrakeModeManager extends SubsystemBase {

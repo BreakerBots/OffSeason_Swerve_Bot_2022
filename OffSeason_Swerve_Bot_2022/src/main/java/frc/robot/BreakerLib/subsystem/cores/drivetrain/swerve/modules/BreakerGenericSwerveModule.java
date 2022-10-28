@@ -27,7 +27,7 @@ public interface BreakerGenericSwerveModule extends BreakerGenericDevice {
     /** @return the relative (with rollover, 180 -> 181) angle of the module in degrees*/
     public abstract double getModuleRelativeAngle();
     
-    /** @return the velocity of the moudle's drive wheel in meters per second*/
+    /** @return the velocity of the module's drive wheel in meters per second*/
     public abstract double getModuleVelMetersPerSec();
 
     public abstract double getMetersPerSecToNativeVelUnits(double speedMetersPerSec);
