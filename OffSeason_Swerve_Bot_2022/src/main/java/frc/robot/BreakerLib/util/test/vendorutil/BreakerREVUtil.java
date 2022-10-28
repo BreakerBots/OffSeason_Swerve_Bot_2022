@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.FaultID;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.Pair;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
@@ -15,6 +16,12 @@ import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 
 /** Add your docs here. */
 public class BreakerREVUtil {
+
+    public static void setBrakeMode(boolean isEnabled, CANSparkMax... motors) {
+        for (CANSparkMax motor : motors) {
+          motor.setIdleMode((isEnabled ? IdleMode.kBrake : IdleMode.kCoast));
+        }
+      }
 
     public static Pair<DeviceHealth, String> getSparkMaxHealthAndFaults(short motorFaults) {
         HashMap<Integer, Pair<DeviceHealth, String>> map = new HashMap<>();
