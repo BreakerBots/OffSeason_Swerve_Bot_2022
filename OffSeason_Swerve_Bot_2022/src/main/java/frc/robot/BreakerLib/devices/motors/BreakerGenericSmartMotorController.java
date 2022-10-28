@@ -35,4 +35,7 @@ public interface BreakerGenericSmartMotorController extends MotorController, Bre
 
     /** ticks per sec */
     public abstract double getSelectedSensorVelocity();
+
+    /** ticks per sec */
+    public abstract double getSelectedSensorVelocityRPM();
 }
