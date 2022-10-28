@@ -175,8 +175,8 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
     return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[2], 14) * 0.000508);
   }
 
+  /** @return Pigeon's runtime in seconds (max of 255) */
   public int getPigeonUpTime() {
-
     return pigeon.getUpTime();
   }
 
