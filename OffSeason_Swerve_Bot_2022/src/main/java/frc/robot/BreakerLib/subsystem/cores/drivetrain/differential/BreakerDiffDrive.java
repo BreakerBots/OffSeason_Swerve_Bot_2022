@@ -52,7 +52,8 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
     private boolean isAutoPowerManaged = true;
     private DevicePowerMode powerMode = DevicePowerMode.FULL_POWER_MODE;
 
-    /** Base infastracture class from which all differential drivetrain types must inherit from. {@link BreakerFalconDiffDrive} {@link BreakerNeoDiffDrive}
+    /** Base infastracture class from which all differential drivetrain types must inherit from. 
+     * Examples include {@link BreakerFalconDiffDrive} and {@link BreakerNeoDiffDrive}
      */
     protected BreakerDiffDrive(MotorController[] leftMotors, DoubleSupplier leftTickSupplier, DoubleSupplier leftRPMSupplier, boolean invertL,
         MotorController[] rightMotors, DoubleSupplier rightTickSupplier, DoubleSupplier rightRPMSupplier, boolean invertR,
