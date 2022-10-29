@@ -4,7 +4,7 @@
 
 package frc.robot.BreakerLib.util.test.suites;
 
-/** Add your docs here. */
+/** A parameterieed interface that provides a standardinxed metod for retriveing a test suite instance from compatable classes */
 public interface BreakerGenericTestSuiteImplementation<T> {
     public abstract T getTestSuite();
 }

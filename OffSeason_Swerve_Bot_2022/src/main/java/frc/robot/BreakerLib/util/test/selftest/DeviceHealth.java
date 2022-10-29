@@ -8,8 +8,8 @@ package frc.robot.BreakerLib.util.test.selftest;
 public enum DeviceHealth {
     /** Device is functioning entirely or mostly within expected perameters. */
     NOMINAL,
-    /** Device has encountered one or more problems but can still function. */
+    /** Device has encountered one or more problems but can still likely function or recover. */
     FAULT,
-    /** Device has encounterd one or more fatal errors, meaning the device is no longer in working condition. */
+    /** Device has encounterd one or more fatal errors, meaning the device is no longer in working condition and likely will remain as such untill repared. */
     INOPERABLE
 }

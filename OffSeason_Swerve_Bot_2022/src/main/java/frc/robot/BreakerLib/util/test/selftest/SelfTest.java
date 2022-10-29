@@ -65,20 +65,28 @@ public class SelfTest extends SubsystemBase {
     SelfTest.autoRegesterDevices = autoRegesterDevices;
   }
 
+  /** Enables or dissables the periodic self test diagnstic check cycle */
   public static void setSelfTestEnabled(boolean isEnabled) {
     selfTestEnabled = isEnabled;
   }
 
+  /** @return if the periodic self test diagnstic check cycle is enabled */
   public static boolean isSelfTestEnabled() {
       return selfTestEnabled;
   }
 
+  /** Automaticly adds a {@link BreakerSelfTestable} compatable device to the SelfTest queue if automatic registration is enabled.
+   * <br><br>WARNING: should only be used in BreakerLib internal classes and is toggled based on user config of selftest.
+     */
   public static void autoRegisterDevice(BreakerSelfTestable device) {
     if (autoRegesterDevices) {
       devices.add(device);
     }
   }
 
+  /** Automaticly adds multipul {@link BreakerSelfTestable} compatable devices to the SelfTest queue if automatic registration is enabled.
+   * <br><br>WARNING: should only be used in BreakerLib internal classes and is toggled based on user config of selftest.
+     */
   public static void autoRegesterDevices(BreakerSelfTestable... devices) {
     if (autoRegesterDevices) {
       addDevices(devices);
@@ -93,7 +101,7 @@ public class SelfTest extends SubsystemBase {
   }
 
   /** Maunualy adds a {@link BreakerSelfTestable} compatable device to the SelfTest queue. 
-   * WARNING: If this is done to a device that has allready been added 
+   * <br><br>WARNING: If this is done to a device that has allready been added 
    * (including automatic additions, if enabled), will be checked twice, 
    * possably with signifcant runtime expence  */
   public static void addDevice(BreakerSelfTestable device) {
@@ -101,7 +109,7 @@ public class SelfTest extends SubsystemBase {
   }
 
   /** Maunualy adds multipul {@link BreakerSelfTestable} compatable devices to the SelfTest queue. 
-   * WARNING: If this is done to a device that has allready been added 
+   * <br><br>WARNING: If this is done to a device that has allready been added 
    * (including automatic additions, if enabled), will be checked twice, 
    * possably with signifcant runtime expence  */
   public static void addDevices(BreakerSelfTestable... devicesToAdd) {
