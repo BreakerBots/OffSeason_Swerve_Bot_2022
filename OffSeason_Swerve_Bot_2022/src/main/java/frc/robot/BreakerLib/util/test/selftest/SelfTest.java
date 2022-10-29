@@ -22,8 +22,10 @@ import frc.robot.BreakerLib.devices.cosmetic.music.BreakerSounds;
 import frc.robot.BreakerLib.util.BreakerJSONUtil;
 import frc.robot.BreakerLib.util.logging.BreakerLog;
 
+/** Core class of BreakerLib's SelfTest fuctionality, handilg periodic passive (unless user configured outherwise) 
+ * diagnostic self tests of all manualy or automaticly regestered {@link BreakerSelfTestable} compatable devices, or devices regestered
+ *  through an instance of the {@link SystemDiagnostics} class  */
 public class SelfTest extends SubsystemBase {
-  /** Creates a new SelfTest. */
   private int cycleCount;
   private static String lastSystemCheck;
   private static List<BreakerSelfTestable> devices = new ArrayList<BreakerSelfTestable>();
@@ -31,71 +33,60 @@ public class SelfTest extends SubsystemBase {
   private static boolean lastCheckPassed = true;
   private static BreakerFalconOrchestra orchestra;
   private static boolean usesOrchestra = false;
-  private static String robotHostAddressDNS;
-  private static List<Integer> retrivedDevicesCAN = new ArrayList<>();
-  private static List<Integer> independentlyRegesteredDevicesCAN = new ArrayList<>();
-  private static List<Integer> independentlyRegesteredMissingIDs = new ArrayList<>();
   private static boolean autoRegesterDevices = true;
   private static boolean selfTestEnabled = true;
 
-  public SelfTest(double secondsBetweenPeriodicSelfChecks, String robotHostAddressDNS) {
+  /** Configures an enables a SelfTest check cycle */
+  public SelfTest(double secondsBetweenPeriodicSelfChecks) {
     SelfTest.cyclesbetweenPerSelfCecks = (int) (secondsBetweenPeriodicSelfChecks * 50);
     SelfTest.usesOrchestra = false;
-    SelfTest.robotHostAddressDNS = robotHostAddressDNS;
     SelfTest.autoRegesterDevices = true;
   }
 
-  public SelfTest(double secondsBetweenPeriodicSelfChecks, String robotHostAddressDNS, boolean autoRegesterDevices) {
+  /** Configures an enables a SelfTest check cycle */
+  public SelfTest(double secondsBetweenPeriodicSelfChecks, boolean autoRegesterDevices) {
     SelfTest.cyclesbetweenPerSelfCecks = (int) (secondsBetweenPeriodicSelfChecks * 50);
     SelfTest.usesOrchestra = false;
-    SelfTest.robotHostAddressDNS = robotHostAddressDNS;
     SelfTest.autoRegesterDevices = autoRegesterDevices;
   }
 
-  public SelfTest(double secondsBetweenPeriodicSelfChecks,  String robotHostAddressDNS, BreakerFalconOrchestra orchestra) {
+  /** Configures an enables a SelfTest check cycle */
+  public SelfTest(double secondsBetweenPeriodicSelfChecks, BreakerFalconOrchestra orchestra) {
     SelfTest.cyclesbetweenPerSelfCecks = (int) (secondsBetweenPeriodicSelfChecks * 50);
     SelfTest.orchestra = orchestra;
     SelfTest.usesOrchestra = true;
-    SelfTest.robotHostAddressDNS = robotHostAddressDNS;
   }
 
-  public SelfTest(double secondsBetweenPeriodicSelfChecks,  String robotHostAddressDNS, BreakerFalconOrchestra orchestra, boolean autoRegesterDevices) {
+  /** Configures an enables a SelfTest check cycle */
+  public SelfTest(double secondsBetweenPeriodicSelfChecks, BreakerFalconOrchestra orchestra, boolean autoRegesterDevices) {
     SelfTest.cyclesbetweenPerSelfCecks = (int) (secondsBetweenPeriodicSelfChecks * 50);
     SelfTest.orchestra = orchestra;
     SelfTest.usesOrchestra = true;
-    SelfTest.robotHostAddressDNS = robotHostAddressDNS;
     SelfTest.autoRegesterDevices = autoRegesterDevices;
   }
 
+  /** Enables or dissables the periodic self test diagnstic check cycle */
   public static void setSelfTestEnabled(boolean isEnabled) {
     selfTestEnabled = isEnabled;
   }
 
+  /** @return if the periodic self test diagnstic check cycle is enabled */
   public static boolean isSelfTestEnabled() {
       return selfTestEnabled;
   }
 
-  private static void retriveDeviceListCAN() {
-    try {    
-      JsonNode response = BreakerJSONUtil.readJsonFromURL("http://"+ robotHostAddressDNS +":1250/?action=getdevices").get("DeviceArray");
-      Iterator<JsonNode> iter = response.elements();
-      retrivedDevicesCAN.clear();
-      while (iter.hasNext()) {
-        JsonNode divNode = iter.next();
-        retrivedDevicesCAN.add(divNode.get("uniqID").asInt());
-      }
-    } catch (Exception e) {
-      BreakerLog.logError(e);
-    }
-    
-  }
-
+  /** Automaticly adds a {@link BreakerSelfTestable} compatable device to the SelfTest queue if automatic registration is enabled.
+   * <br><br>WARNING: should only be used in BreakerLib internal classes and is toggled based on user config of selftest.
+     */
   public static void autoRegisterDevice(BreakerSelfTestable device) {
     if (autoRegesterDevices) {
       devices.add(device);
     }
   }
 
+  /** Automaticly adds multipul {@link BreakerSelfTestable} compatable devices to the SelfTest queue if automatic registration is enabled.
+   * <br><br>WARNING: should only be used in BreakerLib internal classes and is toggled based on user config of selftest.
+     */
   public static void autoRegesterDevices(BreakerSelfTestable... devices) {
     if (autoRegesterDevices) {
       addDevices(devices);
@@ -109,38 +100,31 @@ public class SelfTest extends SubsystemBase {
     }
   }
 
+  /** Maunualy adds a {@link BreakerSelfTestable} compatable device to the SelfTest queue. 
+   * <br><br>WARNING: If this is done to a device that has allready been added 
+   * (including automatic additions, if enabled), will be checked twice, 
+   * possably with signifcant runtime expence  */
   public static void addDevice(BreakerSelfTestable device) {
     devices.add(device);
   }
 
+  /** Maunualy adds multipul {@link BreakerSelfTestable} compatable devices to the SelfTest queue. 
+   * <br><br>WARNING: If this is done to a device that has allready been added 
+   * (including automatic additions, if enabled), will be checked twice, 
+   * possably with signifcant runtime expence  */
   public static void addDevices(BreakerSelfTestable... devicesToAdd) {
     for (BreakerSelfTestable div: devicesToAdd) {
       devices.add(div);
     }
   }
 
-  /** for CAN devices like moters that are not allredy automaticly tested by a BreakerLib class */
-  public static void regesterGenericCANDevice(int deviceID) {
-    independentlyRegesteredDevicesCAN.add(deviceID);
-  }
-
-  /** for CAN devices like moters that are not allredy automaticly tested by a BreakerLib class */
-  public static void regesterGenericCANDevices(int... deviceIDs) {
-    for (int id: deviceIDs) {
-      independentlyRegesteredDevicesCAN.add(id);
-    }
-  }
-
+  /** @return the logged fault string result of the most recent self check cycle  */
   public static String getLastSelfCheck() {
     return lastSystemCheck;
   }
 
   public static boolean getLastSelfCheckPassed() {
     return lastCheckPassed;
-  }
-
-  public static boolean checkIsMissingCanID(int deviceID) {
-    return retrivedDevicesCAN.contains(deviceID);
   }
 
   public static boolean getAutoRegesterDevicesIsEnabled() {
@@ -156,21 +140,11 @@ public class SelfTest extends SubsystemBase {
         faultDevices.add(device);
       }
     }
-    if (!independentlyRegesteredMissingIDs.isEmpty()) {
-      for (int id: independentlyRegesteredDevicesCAN) {
-        if (checkIsMissingCanID(id)) {
-          independentlyRegesteredMissingIDs.add(id);
-        }
-      }
-    }
-    if (!faultDevices.isEmpty() || !independentlyRegesteredMissingIDs.isEmpty()) {
+    if (!faultDevices.isEmpty()) {
       work.append(" SELF CHECK FAILED - FAULTS FOUND: \n");
       lastCheckPassed = false;
       for (BreakerSelfTestable faultDiv: faultDevices) {
         work.append(" | " + faultDiv.getDeviceName() + "-" + faultDiv.getFaults() + " | ");
-      }
-      for (int id: independentlyRegesteredMissingIDs) {
-        work.append(" | CAN device (ID: " + id + ") - NOT_FOUND_ON_BUS | ");
       }
       runAlarm();
     } else {
@@ -184,7 +158,6 @@ public class SelfTest extends SubsystemBase {
   @Override
   public void periodic() {
     if ((cycleCount ++ % cyclesbetweenPerSelfCecks == 0) && selfTestEnabled) {
-      retriveDeviceListCAN();
       runSelfCheck();
     }
   }

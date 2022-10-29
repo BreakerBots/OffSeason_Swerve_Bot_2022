@@ -12,6 +12,7 @@ import com.ctre.phoenix.sensors.WPI_CANCoder;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
+import frc.robot.BreakerLib.subsystem.cores.drivetrain.differential.BreakerDiffDrive;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDrive;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveConfig;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.modules.BreakerMK4iFalconSwerveModule;
@@ -60,10 +61,10 @@ public class Drive extends SubsystemBase {
                 new BreakerArbitraryFeedforwardProvider(2.75, 0.2), transFL, transFR, transBL, transBR);
         config.setSlowModeMultipliers(0.5, 0.5);
 
-        frontLeftModule = new BreakerMK4iFalconSwerveModule(driveFL, turnFL, encoderFL, config, 55.0, true, true);
+        frontLeftModule = new BreakerMK4iFalconSwerveModule(driveFL, turnFL, encoderFL, config, 119.0, true, true);
         frontLeftModule.setDeviceName(" FL_Module ");
 
-        frontRightModule = new BreakerMK4iFalconSwerveModule(driveFR, turnFR, encoderFR, config, 21.0, false, true);
+        frontRightModule = new BreakerMK4iFalconSwerveModule(driveFR, turnFR, encoderFR, config, -70, false, true);
         frontRightModule.setDeviceName(" FR_Module ");
 
         backLeftModule = new BreakerMK4iFalconSwerveModule(driveBL, turnBL, encoderBL, config, 30.0, true, true);

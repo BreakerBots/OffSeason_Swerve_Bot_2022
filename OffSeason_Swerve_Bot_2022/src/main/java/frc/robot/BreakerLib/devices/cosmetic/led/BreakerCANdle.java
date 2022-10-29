@@ -13,6 +13,7 @@ import com.ctre.phoenix.led.StrobeAnimation;
 
 import org.opencv.features2d.FlannBasedMatcher;
 
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.BreakerLib.devices.BreakerGenericLoopedDevice;
@@ -29,12 +30,16 @@ import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
 public class BreakerCANdle extends BreakerGenericLoopedDevice implements BreakerGenericLEDDriver{
 
     private CANdle candle;
-    private int canID;
     private boolean isOn = false, isActiveBAnim, isDefault;
 
     public BreakerCANdle(int canID, int numberOfLEDs, BreakerCANdleConfig config) {
         candle = new CANdle(canID);
-        this.canID = canID;
+        candle.configAllSettings(config.getConfig());
+        deviceName = " CANdle_LED_Controller ("+ canID +") ";
+    }
+
+    public BreakerCANdle(int canID, String busName, int numberOfLEDs, BreakerCANdleConfig config) {
+        candle = new CANdle(canID, busName);
         candle.configAllSettings(config.getConfig());
         deviceName = " CANdle_LED_Controller ("+ canID +") ";
     }
@@ -54,10 +59,10 @@ public class BreakerCANdle extends BreakerGenericLoopedDevice implements Breaker
         health = DeviceHealth.NOMINAL;
         CANdleFaults faultsC = new CANdleFaults();
         candle.getFaults(faultsC);
-        if (faultsC.hasAnyFault() || SelfTest.checkIsMissingCanID(canID)) {
-            BreakerTriplet<DeviceHealth, String, Boolean> faultData = BreakerCTREUtil.getCANdelHealthFaultsAndConnectionStatus(faultsC, canID);
-            faultStr = faultData.getMiddle();
-            health = faultData.getLeft();
+        if (faultsC.hasAnyFault()) {
+            Pair<DeviceHealth, String> faultData = BreakerCTREUtil.getCANdleHealthAndFaults(faultsC);
+            faultStr = faultData.getSecond();
+            health = faultData.getFirst();
         } else {
             health = DeviceHealth.NOMINAL;
         }

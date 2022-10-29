@@ -108,66 +108,52 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
         deviceName = " NavX_AHRS_IMU (Serial: " + serial_port_id.toString() + ") ";
     }
 
-    @Override
     public double getPitchDegrees() {
         return BreakerMath.angleModulus(imu.getPitch());
     }
 
-    @Override
     public double getYawDegrees() {
         return BreakerMath.angleModulus(imu.getYaw());
     }
 
-    @Override
     public double getRollDegrees() {
         return BreakerMath.angleModulus(imu.getRoll());
     }
 
-    @Override
     public Rotation2d getPitchRotation2d() {
         return Rotation2d.fromDegrees(getPitchDegrees());
     }
 
-    @Override
     public Rotation2d getYawRotation2d() {
         return Rotation2d.fromDegrees(getYawDegrees());
     }
 
-    @Override
     public Rotation2d getRollRotation2d() {
         return Rotation2d.fromDegrees(getRollDegrees());
     }
 
-    @Override
     public Rotation3d getRotation3d() {
         return new Rotation3d(getPitchRotation2d().getRadians(), getYawRotation2d().getRadians(),
                 getRollRotation2d().getRadians());
     }
 
-    @Override
     public double[] getRawAngles() {
         return new double[] { getPitchDegrees(), getYawDegrees(), getRollDegrees() };
     }
 
-    @Override
     public double getRawYaw() {
-        return imu.getAngle();
+        return imu.getRawGyroZ();
     }
 
-    /** Does nothing. */
-    @Override
     public double getRawPitch() {
-        return getPitchDegrees();
+        return imu.getRawGyroX();
     }
 
-    /** Does nothing. */
-    @Override
     public double getRawRoll() {
-        return getRollDegrees();
+        return imu.getRawGyroY();
     }
 
     /** Resets yaw to 0 */
-    @Override
     public void reset() {
         imu.reset();
     }
@@ -181,67 +167,57 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
     }
 
     /** Does nothing. */
-    @Override
+
     public void setPitch(double value) {
     }
 
     /** Does nothing. */
-    @Override
+
     public void setYaw(double value) {
     }
 
     /** Does nothing. */
-    @Override
+
     public void setRoll(double value) {
     }
 
-    @Override
     public double[] getRawGyroRates() {
         return new double[] { imu.getRawGyroX(), imu.getRawGyroY(), imu.getRawGyroZ() };
     }
 
-    @Override
     public double getRawPitchRate() {
         return imu.getRawGyroX();
     }
 
-    @Override
     public double getPitchRate() {
         return getRawPitchRate();
     }
 
-    @Override
     public double getRawYawRate() {
         return imu.getRawGyroY();
     }
 
-    @Override
     public double getYawRate() {
         return getRawYawRate();
     }
 
-    @Override
     public double getRawRollRate() {
         return imu.getRawGyroZ();
     }
 
-    @Override
     public double getRollRate() {
         return getRawRollRate();
     }
 
-    @Override
     public Rotation3d getRawRotation3d() {
         return new Rotation3d(getPitchRotation2d().getRadians(), getYawRotation2d().getRadians(),
                 getRollRotation2d().getRadians());
     }
 
-    @Override
     public double[] getRawAccelerometerVals() {
         return new double[] { getRawAccelX(), getRawAccelY(), getRawAccelZ() };
     }
 
-    @Override
     public double getRawAccelX() {
         return imu.getRawAccelX();
     }
@@ -254,37 +230,31 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
         return imu.getRawAccelZ();
     }
 
-    @Override
     public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
     public void overrideAutomaticPowerManagement(DevicePowerMode manualPowerMode) {
         // TODO Auto-generated method stub
 
     }
 
-    @Override
     public void returnToAutomaticPowerManagement() {
         // TODO Auto-generated method stub
 
     }
 
-    @Override
     public boolean isUnderAutomaticControl() {
         // TODO Auto-generated method stub
         return false;
     }
 
-    @Override
     public DevicePowerMode getPowerMode() {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
     public void runSelfTest() {
         health = DeviceHealth.NOMINAL;
         faultStr = null;
@@ -302,34 +272,28 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
         }
     }
 
-    @Override
     public double[] getRawFieldStrenghts() {
         double[] strens = { imu.getRawMagX(), imu.getRawMagY(), imu.getRawMagZ() };
         return strens;
     }
 
-    @Override
     public double[] getBiasedFieldStrenghts() {
         BreakerVector3 fieldVec = new BreakerVector3(imu.getRawMagX(), imu.getRawMagY(), imu.getRawMagZ());
         return fieldVec.rotate(getRotation3d()).getInterpolatableData();
     }
 
-    @Override
     public double getCompassFieldStrength() {
         return new BreakerVector3(imu.getRawMagX(), imu.getRawMagY(), imu.getRawMagZ()).getMagnitude();
     }
 
-    @Override
     public double getCompassHeading() {
         return MathUtil.angleModulus(imu.getCompassHeading());
     }
 
-    @Override
     public double getRawCompassHeading() {
         return imu.getCompassHeading();
     }
 
-    @Override
     public Quaternion getQuaternion() {
         return new Quaternion(imu.getQuaternionW(), imu.getQuaternionX(), imu.getQuaternionY(), imu.getQuaternionZ());
     }

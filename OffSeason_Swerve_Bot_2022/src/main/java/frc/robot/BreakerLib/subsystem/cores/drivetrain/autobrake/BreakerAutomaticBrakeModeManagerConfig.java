@@ -21,6 +21,7 @@ public class BreakerAutomaticBrakeModeManagerConfig {
         this.baseDrivetrain = baseDrivetrain;
     }
 
+    /** Team 5104 default configuration, with all braking disabled allong with the robot for ease of transport but enabled outherwise */
     public BreakerAutomaticBrakeModeManagerConfig(BreakerGenericDrivetrain baseDrivetrain) {
         this.breakInAuto = true;
         this.breakInDisabled = false;

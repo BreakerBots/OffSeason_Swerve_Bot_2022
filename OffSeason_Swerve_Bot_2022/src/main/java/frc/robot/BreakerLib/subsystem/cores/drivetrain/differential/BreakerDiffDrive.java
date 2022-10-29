@@ -4,8 +4,7 @@
 
 package frc.robot.BreakerLib.subsystem.cores.drivetrain.differential;
 
-import com.ctre.phoenix.motorcontrol.Faults;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -18,82 +17,83 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGenericGyro;
-import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
-import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.position.odometry.differential.BreakerDiffDriveState;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
 import frc.robot.BreakerLib.util.math.BreakerMath;
-import frc.robot.BreakerLib.util.math.BreakerUnits;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
-import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
-import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
 
-/** Differential drivetrain that uses Falcon 500 motors. */
-public class BreakerDiffDrive extends BreakerGenericDrivetrain {
-  private WPI_TalonFX leftLead;
-  private WPI_TalonFX[] leftMotors;
-  private MotorControllerGroup leftDrive;
+/** Base infastracture class from which all differential drivetrain types must inherit. 
+* Examples include {@link BreakerFalconDiffDrive} and {@link BreakerNeoDiffDrive} */
+public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
+    private MotorControllerGroup leftDrive;
+  
+    private MotorControllerGroup rightDrive;
+  
+    private DifferentialDrive diffDrive;
+    private BreakerDiffDriveConfig driveConfig;
 
-  private WPI_TalonFX rightLead;
-  private WPI_TalonFX[] rightMotors;
-  private MotorControllerGroup rightDrive;
+    private DoubleSupplier leftTickSupplier, leftRPMSupplier;
+    private DoubleSupplier rightTickSupplier, rightRPMSupplier;
+  
+    private BreakerGenericGyro gyro;
+    private DifferentialDriveOdometry driveOdometer;
+    private BreakerMovementState2d prevMovementState = new BreakerMovementState2d();
+    private BreakerMovementState2d curMovementState = new BreakerMovementState2d();
+    private double prevOdometryUpdateTimestamp = 0;
+  
+    private boolean invertL;
+    private boolean invertR;
+  
+    private boolean isAutoPowerManaged = true;
+    private DevicePowerMode powerMode = DevicePowerMode.FULL_POWER_MODE;
 
-  private DifferentialDrive diffDrive;
-  private BreakerDiffDriveConfig driveConfig;
+    /** Creates a new instance of the BreakerDiffDrive backround infestructure
+     * 
+     * @param leftMotors An array of all MotorController objects that controll the left drivetrain's movement
+     * @param leftTickSupplier A Double (double obj wrapper) supplier that provides the current number of ticks observed by the drive's left side encoder
+     * @param leftRPMSupplier A Double (double obj wrapper) supplier that provides the current velocity in RPM observed by the drives left side
+     * @param invertL A boolean value representing weter or not to invert the motor outputs and sensor phases of the left side motors and encoder
+     * @param rightMotors An array of all MotorController objects that controll the right drivetrain's movement
+     * @param rightTickSupplier A Double (double obj wrapper) supplier that provides the current number of ticks observed by the drive's right side encoder
+     * @param rightRPMSupplier A Double (double obj wrapper) supplier that provides the current velocity in RPM observed by the drives right side
+     * @param invertR A boolean value representing weter or not to invert the motor outputs and sensor phases of the right side motors and encoder
+     * @param gyro A {@link BreakerGenericGyro} representing a single axis gyro, mostly used for auto functionality
+     * @param driveConfing A {@link BreakerDiffDriveConfig} representing the configerable values of this drivetrain's kinimatics and control values
+     */
+    protected BreakerDiffDrive(MotorController[] leftMotors, DoubleSupplier leftTickSupplier, DoubleSupplier leftRPMSupplier, boolean invertL,
+        MotorController[] rightMotors, DoubleSupplier rightTickSupplier, DoubleSupplier rightRPMSupplier, boolean invertR,
+        BreakerGenericGyro gyro, BreakerDiffDriveConfig driveConfig) {
 
-  private BreakerGenericGyro imu;
-  private DifferentialDriveOdometry driveOdometer;
-  private BreakerMovementState2d prevMovementState = new BreakerMovementState2d();
-  private BreakerMovementState2d curMovementState = new BreakerMovementState2d();
-  private double prevOdometryUpdateTimestamp = 0;
+        this.invertL = invertL;
+        this.invertR = invertR;
 
-  private boolean invertL;
-  private boolean invertR;
+        leftDrive = new MotorControllerGroup(leftMotors);
+        leftDrive.setInverted(invertL);
+        this.leftTickSupplier = leftTickSupplier;
+        this.leftRPMSupplier = leftRPMSupplier;
 
-  private boolean isAutoPowerManaged = true;
-  private DevicePowerMode powerMode = DevicePowerMode.FULL_POWER_MODE;
+        rightDrive = new MotorControllerGroup(rightMotors);
+        rightDrive.setInverted(invertR);
+        this.rightTickSupplier = rightTickSupplier;
+        this.rightRPMSupplier = rightRPMSupplier;
+        
+        diffDrive = new DifferentialDrive(leftDrive, rightDrive);
 
-  /**
-   * Creates a new BreakerDiffDrive.
-   * 
-   * @param leftMotors  Array of left Falcon 500 motors.
-   * @param rightMotors Array of right Falcon 500 motors.
-   * @param invertL     Invert left side of drivetrain.
-   * @param invertR     Invert right side of drivetrain.
-   * @param imu     a single axis gyroscope or better.
-   * @param driveConfig Config for drivetrain.
-   */
-  public BreakerDiffDrive(WPI_TalonFX[] leftMotors, WPI_TalonFX[] rightMotors, boolean invertL, boolean invertR,
-      BreakerGenericGyro imu, BreakerDiffDriveConfig driveConfig) {
+        driveOdometer = new DifferentialDriveOdometry(Rotation2d.fromDegrees(gyro.getRawYaw()));
 
-    // Left motors.
-    this.leftMotors = leftMotors;
-    this.invertL = invertL;
-    leftLead = leftMotors[0];
-    leftDrive = new MotorControllerGroup(leftMotors);
-    leftDrive.setInverted(invertL);
+        deviceName = "Differential_Drivetrain";
+        this.driveConfig = driveConfig;
+        this.gyro = gyro;
+     
+    }
 
-    // Right motors.
-    this.rightMotors = rightMotors;
-    this.invertR = invertR;
-    rightLead = rightMotors[0];
-    rightDrive = new MotorControllerGroup(rightMotors);
-    rightDrive.setInverted(invertR);
-
-    diffDrive = new DifferentialDrive(leftDrive, rightDrive);
-    driveOdometer = new DifferentialDriveOdometry(Rotation2d.fromDegrees(imu.getRawYaw()));
-
-    deviceName = "Differential_Drivetrain";
-    this.driveConfig = driveConfig;
-    this.imu = imu;
-  }
-
-  /**
+     /**
    * Arcade driving controls (movement separated by axis). Slow mode is enabled.
    * 
    * @param netSpeed  Logitudinal (forward and backward) speed.
@@ -157,32 +157,25 @@ public class BreakerDiffDrive extends BreakerGenericDrivetrain {
     leftDrive.setVoltage(leftVoltage);
     rightDrive.setVoltage(rightVoltage);
     diffDrive.feed();
-    System.out.println("LV: " + leftVoltage + " RV: " + rightVoltage);
   }
 
   // Both sides of drivetrain.
 
   /** Resets drivetrain encoders. */
-  public void resetDriveEncoders() {
-    leftLead.setSelectedSensorPosition(0);
-    rightLead.setSelectedSensorPosition(0);
-  }
+  public abstract void resetDriveEncoders();
 
   /**
    * Turns the Falcon 500's builtin brake mode on or off for the drivetrain.
    * 
    * @param isEnabled Enable or disable brake mode.
    */
-  public void setDrivetrainBrakeMode(boolean isEnabled) {
-    BreakerCTREUtil.setBrakeMode(isEnabled, leftMotors);
-    BreakerCTREUtil.setBrakeMode(isEnabled, rightMotors);
-  }
+  public abstract void setDrivetrainBrakeMode(boolean isEnabled);
 
   // Left motors.
 
   /** Returns left motor ticks. */
   public double getLeftDriveTicks() {
-    return invertL ? -leftLead.getSelectedSensorPosition() : leftLead.getSelectedSensorPosition();
+    return invertL ? -leftTickSupplier.getAsDouble() : leftTickSupplier.getAsDouble();
   }
 
   /** Returns left motor ticks converted into inches. */
@@ -195,21 +188,17 @@ public class BreakerDiffDrive extends BreakerGenericDrivetrain {
     return Units.inchesToMeters(getLeftDriveInches());
   }
 
-  /** Returns left motor velocity in raw sensor units (ticks per 100ms). */
-  public double getLeftDriveVelocityRSU() {
-    return invertL ? -leftLead.getSelectedSensorVelocity() : leftLead.getSelectedSensorVelocity();
+  /** Returns left motor velocity in raw sensor units. */
+  public double getLeftDriveVelocityRPM() {
+    return invertL ? -leftRPMSupplier.getAsDouble() : leftRPMSupplier.getAsDouble() ;
   }
 
-  /** Returns an instance of the drivetrain's left side lead motor */
-  public WPI_TalonFX getLeftLeadMotor() {
-    return leftLead;
-  }
 
   // Right motors.
 
   /** Returns right motor ticks. */
   public double getRightDriveTicks() {
-    return invertR ? -rightLead.getSelectedSensorPosition() : rightLead.getSelectedSensorPosition();
+    return invertR ? -rightTickSupplier.getAsDouble() : rightTickSupplier.getAsDouble();
   }
 
   /** Returns right motor ticks converted into inches. */
@@ -223,13 +212,8 @@ public class BreakerDiffDrive extends BreakerGenericDrivetrain {
   }
 
   /** Returns right motor velocity in raw sensor units (ticks per 100ms). */
-  public double getRightDriveVelocityRSU() {
-    return invertR ? -rightLead.getSelectedSensorVelocity() : rightLead.getSelectedSensorVelocity();
-  }
-
-  /** Returns an instance of the drivetrain's right side lead motor */
-  public WPI_TalonFX getRightLeadMotor() {
-    return rightLead;
+  public double getRightDriveVelocityRPM() {
+    return invertR ? -rightRPMSupplier.getAsDouble() : rightRPMSupplier.getAsDouble();
   }
 
   // Controllers and kinematics.
@@ -273,8 +257,9 @@ public class BreakerDiffDrive extends BreakerGenericDrivetrain {
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(
-        BreakerUnits.inchesToMeters((getLeftDriveVelocityRSU() / driveConfig.getTicksPerInch()) * 10),
-        BreakerUnits.inchesToMeters((getRightDriveVelocityRSU() / driveConfig.getTicksPerInch()) * 10));
+        Units.inchesToMeters(((getLeftDriveVelocityRPM() * driveConfig.getEncoderTicks()) / driveConfig.getTicksPerInch()) / 60),
+        Units.inchesToMeters(((getRightDriveVelocityRPM() * driveConfig.getEncoderTicks()) / driveConfig.getTicksPerInch()) / 60)
+    );
   }
 
   public BreakerDiffDriveState getDiffDriveState() {
@@ -287,17 +272,9 @@ public class BreakerDiffDrive extends BreakerGenericDrivetrain {
     prevMovementState = curMovementState;
   }
 
-  public WPI_TalonFX[] getLeftMotors() {
-    return leftMotors;
-  }
-
-  public WPI_TalonFX[] getRightMotors() {
-    return rightMotors;
-  }
-
   @Override
   public void updateOdometry() {
-    driveOdometer.update(Rotation2d.fromDegrees(imu.getRawYaw()), getLeftDriveMeters(),
+    driveOdometer.update(Rotation2d.fromDegrees(gyro.getRawYaw()), getLeftDriveMeters(),
         getRightDriveMeters());
     calculateMovementState((Timer.getFPGATimestamp() -
     prevOdometryUpdateTimestamp) * 1000);
@@ -309,37 +286,11 @@ public class BreakerDiffDrive extends BreakerGenericDrivetrain {
     return driveOdometer.getPoseMeters();
   }
 
-  @Override
-  public void runSelfTest() {
-    faultStr = null;
-    health = DeviceHealth.NOMINAL;
-
-    StringBuilder work = new StringBuilder();
-    for (WPI_TalonFX motorL : leftMotors) {
-      Faults motorFaults = new Faults();
-      motorL.getFaults(motorFaults);
-      if (motorFaults.hasAnyFault()) {
-        health = DeviceHealth.FAULT;
-        work.append(" MOTOR ID (" + motorL.getDeviceID() + ") FAULTS: ");
-        work.append(BreakerCTREUtil.getMotorFaultsAsString(motorFaults));
-      }
-    }
-    for (WPI_TalonFX motorR : rightMotors) {
-      Faults motorFaults = new Faults();
-      motorR.getFaults(motorFaults);
-      if (motorFaults.hasAnyFault()) {
-        health = DeviceHealth.FAULT;
-        work.append(" MOTOR ID (" + motorR.getDeviceID() + ") FAULTS: ");
-        work.append(BreakerCTREUtil.getMotorFaultsAsString(motorFaults));
-      }
-    }
-    faultStr = work.toString();
-  }
 
   @Override
   public void setOdometryPosition(Pose2d newPose) {
     resetDriveEncoders();
-    driveOdometer.resetPosition(newPose, Rotation2d.fromDegrees(imu.getRawYaw()));
+    driveOdometer.resetPosition(newPose, Rotation2d.fromDegrees(gyro.getRawYaw()));
   }
 
   @Override
@@ -399,4 +350,5 @@ public class BreakerDiffDrive extends BreakerGenericDrivetrain {
   public void periodic() {
     updateOdometry();
   }
+
 }

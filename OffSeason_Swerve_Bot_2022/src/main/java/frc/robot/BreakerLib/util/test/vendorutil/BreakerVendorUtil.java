@@ -9,7 +9,7 @@ import java.util.HashMap;
 import edu.wpi.first.math.Pair;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 
-/** Add your docs here. */
+/** This class privides util methods for uses across devices from multipul vendors such as bit-field fault search methods and more */
 public class BreakerVendorUtil {
 
      /** Returns device health as {@link DeviceHealth} values. */

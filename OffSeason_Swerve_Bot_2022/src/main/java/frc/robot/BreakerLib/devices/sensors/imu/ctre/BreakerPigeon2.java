@@ -22,12 +22,16 @@ import frc.robot.BreakerLib.util.test.selftest.SelfTest;
 /* CTRE Pigeon IMU 2 implementing the Breaker device interface and Breaker IMU interface. */
 public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericMagnetometer {
   private WPI_Pigeon2 pigeon;
-  private int deviceID;
 
   /** Creates a new PigeonIMU 2 object. */
   public BreakerPigeon2(int deviceID) {
     pigeon = new WPI_Pigeon2(deviceID);
-    this.deviceID = deviceID;
+    deviceName = "Pigeon2_IMU (" + deviceID + ") ";
+  }
+
+   /** Creates a new PigeonIMU 2 object. */
+   public BreakerPigeon2(int deviceID, String busName) {
+    pigeon = new WPI_Pigeon2(deviceID, busName);
     deviceName = "Pigeon2_IMU (" + deviceID + ") ";
   }
 
@@ -181,6 +185,7 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
         return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[2], 14) * 0.000508);
     }
 
+  /** @return Pigeon's runtime in seconds (max of 255) */
   public int getPigeonUpTime() {
 
     return pigeon.getUpTime();
@@ -218,10 +223,6 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
     if (curFaults.UnderVoltage) {
       health = (health != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : health;
       faultStr += " UNDER_6.5V ";
-    }
-    if (SelfTest.checkIsMissingCanID(deviceID)) {
-      health = DeviceHealth.INOPERABLE;
-      faultStr += " DEVICE_NOT_FOUND ";
     }
   }
 

@@ -6,7 +6,8 @@ package frc.robot.BreakerLib.util.math.functions;
 
 import java.util.function.Function;
 
-/** Add your docs here. */
+/** A base implamentation of the {@link BreakerGenericMathFunction} interface as wrapper around the 
+ * java.util.function.Function functional interface */
 public class BreakerMathFunction implements BreakerGenericMathFunction {
     private Function<Double, Double> mathFunction;
     public BreakerMathFunction(Function<Double, Double> mathFunction) {

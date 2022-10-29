@@ -61,7 +61,7 @@ public class BreakerLog {
     DataLogManager.log(" EVENT: " + event);
   }
 
-  /** Internal logging function for breakerlib classes to sepreate automated breakerlib logging form user loging */
+  /** Internal logging function for breakerlib classes to sepreate automated breakerlib logging from user loging */
   public static void logBreakerLibEvent(String event) {
     DataLogManager.log(" BREAKERLIB INTERNAL EVENT: " + event);
   }

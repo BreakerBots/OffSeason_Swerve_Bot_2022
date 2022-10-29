@@ -79,16 +79,15 @@ public interface BreakerGeneric3AxisGyro extends BreakerGenericGyro {
   /** @return Raw angular velocity roll. (deg/sec) */
   public abstract double getRawRollRate();
 
-  /** @return Angular velocity pitch. (deg/sec) */
+  /** @return Biased angular velocity pitch. (deg/sec) */
   public abstract double getPitchRate();
 
-  /** @return Angular velocity roll. (deg/sec) */
+  /** @return Biased angular velocity roll. (deg/sec) */
   public abstract double getRollRate();
 
-  /** @return Pitch, yaw, and roll as {@link BreakerRotation3d} */
+  /** @return Pitch, yaw, and roll as {@link Rotation3d} */
   public abstract Rotation3d getRawRotation3d();
 
-  @Override
   public abstract void reset();
 
 }

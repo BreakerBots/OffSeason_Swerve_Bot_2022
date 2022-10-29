@@ -199,10 +199,6 @@ public class BreakerPigeon extends BreakerGenericIMU implements BreakerGenericMa
           health = DeviceHealth.INOPERABLE;
           faultStr += " UNKNOWN_FAULT ";
         }
-        if (SelfTest.checkIsMissingCanID(deviceID)) {
-            health = DeviceHealth.INOPERABLE;
-            faultStr += " DEVICE_NOT_FOUND ";
-          }
     }
 
     @Override

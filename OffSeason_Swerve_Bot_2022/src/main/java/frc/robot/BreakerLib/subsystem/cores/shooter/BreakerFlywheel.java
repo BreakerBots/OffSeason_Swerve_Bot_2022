@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.Pair;
 import frc.robot.BreakerLib.devices.BreakerGenericLoopedDevice;
 import frc.robot.BreakerLib.util.BreakerArbitraryFeedforwardProvider;
 import frc.robot.BreakerLib.util.BreakerTriplet;
@@ -145,10 +146,10 @@ public class BreakerFlywheel extends BreakerGenericLoopedDevice implements Break
        for (WPI_TalonFX mot: motors) {
            Faults motFaults = new Faults();
            mot.getFaults(motFaults);
-           BreakerTriplet<DeviceHealth, String, Boolean> trip = BreakerCTREUtil.getMotorHealthFaultsAndConnectionStatus(motFaults, mot.getDeviceID());
-           if (trip.getLeft() != DeviceHealth.NOMINAL) {
-               faultStr += trip.getMiddle();
-               health = health != DeviceHealth.NOMINAL ? trip.getLeft() : health;
+           Pair<DeviceHealth, String> faultData = BreakerCTREUtil.getMotorHealthAndFaults(motFaults);
+           if (faultData.getFirst() != DeviceHealth.NOMINAL) {
+               faultStr += faultData.getSecond();
+               health = health != DeviceHealth.NOMINAL ? faultData.getFirst() : health;
            }
        }
     }

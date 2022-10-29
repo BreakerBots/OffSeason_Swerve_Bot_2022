@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.BreakerLib.util.logging.BreakerLog;
 
-/** Add your docs here. */
+/** A base class extended by all tests found in a given system's "TestSuite" implamentation */
 public class BreakerTestBase extends CommandBase {
     private BreakerTestSuiteDataLogType logType;
     private String startString;

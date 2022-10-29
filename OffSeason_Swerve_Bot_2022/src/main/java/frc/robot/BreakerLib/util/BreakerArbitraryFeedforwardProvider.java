@@ -5,6 +5,7 @@
 package frc.robot.BreakerLib.util;
 
 import java.util.function.DoubleSupplier;
+import java.util.function.Function;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
@@ -16,13 +17,13 @@ import frc.robot.BreakerLib.util.math.interpolation.interpolateingmaps.BreakerGe
 public class BreakerArbitraryFeedforwardProvider {
     private BreakerGenericInterpolatingMap<Double, Double> ffMap;
     private double feedforwardCoeficent, staticFrictionCoeficent; 
-    private DoubleSupplier ffSupplier;
+    private Function<Double, Double> ffFunc;
     private SimpleMotorFeedforward ffClass;
     private FFType ffType;
     private enum FFType{
         MAP_SUP,
         COEFS,
-        SUPPLIER,
+        FUNC,
         FF_CLASS
     }
 
@@ -37,9 +38,14 @@ public class BreakerArbitraryFeedforwardProvider {
         ffType = FFType.COEFS;
     }
 
+    public BreakerArbitraryFeedforwardProvider(Function<Double, Double> ffFunc) {
+        this.ffFunc = ffFunc;
+        ffType = FFType.FUNC;
+    }
+
     public BreakerArbitraryFeedforwardProvider(DoubleSupplier ffSupplier) {
-        this.ffSupplier = ffSupplier;
-        ffType = FFType.SUPPLIER;
+        ffFunc = (Double x) -> (ffSupplier.getAsDouble());
+        ffType = FFType.FUNC;
     }
 
     public BreakerArbitraryFeedforwardProvider(SimpleMotorFeedforward ffClass) {
@@ -56,8 +62,8 @@ public class BreakerArbitraryFeedforwardProvider {
             case MAP_SUP:
                 feedForward = ffMap.getInterpolatedValue(curSpeed);
                 break;
-            case SUPPLIER:
-                feedForward = ffSupplier.getAsDouble();
+            case FUNC:
+                feedForward = ffFunc.apply(curSpeed);
                 break;
             case FF_CLASS:
                 feedForward = ffClass.calculate(curSpeed) / RobotController.getBatteryVoltage();
