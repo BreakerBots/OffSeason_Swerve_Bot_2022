@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import frc.robot.BreakerLib.devices.sensors.BreakerGenericMagnetometer;
 import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
 import frc.robot.BreakerLib.physics.BreakerVector3;
@@ -245,12 +246,10 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
         return imu.getRawAccelX();
     }
 
-    @Override
     public double getRawAccelY() {
         return imu.getRawAccelY();
     }
 
-    @Override
     public double getRawAccelZ() {
         return imu.getRawAccelZ();
     }
@@ -333,6 +332,16 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
     @Override
     public Quaternion getQuaternion() {
         return new Quaternion(imu.getQuaternionW(), imu.getQuaternionX(), imu.getQuaternionY(), imu.getQuaternionZ());
+    }
+
+    @Override
+    /** Does nothing. Use getRange() to check accelerometer ranges. */
+    public void setRange(Range range) {
+    }
+
+    /** Accelerometer range in Gs. */
+    public short getRange() {
+        return imu.getAccelFullScaleRangeG();
     }
 
 }

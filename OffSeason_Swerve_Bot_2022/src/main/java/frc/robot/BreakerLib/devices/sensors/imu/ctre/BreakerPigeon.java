@@ -7,6 +7,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Quaternion;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import frc.robot.BreakerLib.devices.sensors.BreakerGenericMagnetometer;
 import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
 import frc.robot.BreakerLib.util.math.BreakerMath;
@@ -160,16 +161,19 @@ public class BreakerPigeon extends BreakerGenericIMU implements BreakerGenericMa
     }
 
     @Override
+    /** @return Biased accelerometer x-value in m/s^2. */
     public double getRawAccelX() {
         return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[0], 14) * 0.000508);
     }
 
     @Override
+    /** @return Biased accelerometer y-value in m/s^2. */
     public double getRawAccelY() {
         return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[1], 14) * 0.000508);
     }
 
     @Override
+    /** @return Biased accelerometer z-value in m/s^2. */
     public double getRawAccelZ() {
         return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[2], 14) * 0.000508);
     }
@@ -263,5 +267,10 @@ public class BreakerPigeon extends BreakerGenericIMU implements BreakerGenericMa
         double[] quat = new double[4];
         pigeon.get6dQuaternion(quat);
         return new Quaternion(quat[0], quat[1], quat[2], quat[3]);
+    }
+
+    @Override
+    /** Does nothing. Range is 2 Gs.*/
+    public void setRange(Range range) {
     }
 }
