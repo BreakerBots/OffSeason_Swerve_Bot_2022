@@ -9,7 +9,7 @@ import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
 import frc.robot.BreakerLib.util.BreakerRoboRIO;
 
 /**
- * =Automaticly handles break mode switching for your drivetrain based on the robot's current mode according to
+ * Automaticly handles break mode switching for your drivetrain based on the robot's current mode according to
  * given config.
  */
 public class BreakerAutomaticBrakeModeManager extends SubsystemBase {

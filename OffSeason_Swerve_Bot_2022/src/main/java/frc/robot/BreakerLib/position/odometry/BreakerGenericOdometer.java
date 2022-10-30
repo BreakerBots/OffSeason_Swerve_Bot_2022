@@ -34,13 +34,18 @@ public interface BreakerGenericOdometer {
     setOdometryRotation(new Rotation2d());
   }
 
+  /** @return Base odometer object. */
   public abstract Object getBaseOdometer();
 
+  /** @return Odometery pose in meters. */
   public abstract Pose2d getOdometryPoseMeters();
 
+  /** @return Movement state of object. */
   public abstract BreakerMovementState2d getMovementState();
   
+  /** @return Chassis speeds relative to robot. */
   public abstract ChassisSpeeds getRobotRelativeChassisSpeeds();
-    
+  
+  /** @return Chassis speeds relative to field. */
   public abstract ChassisSpeeds getFieldRelativeChassisSpeeds();
 }

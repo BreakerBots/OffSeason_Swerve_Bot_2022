@@ -8,7 +8,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import frc.robot.BreakerLib.util.BreakerArbitraryFeedforwardProvider;
 
-/** Add your docs here. */
+/** Config class for {@link BreakerSwerveDrive}. */
 public class BreakerSwerveDriveConfig {
 
     private double maxForwardVel;
@@ -31,10 +31,8 @@ public class BreakerSwerveDriveConfig {
     private SwerveDriveKinematics kinematics;
 
     /**
-     * The overall configuration for a Breaker Swerve Driven holding all constants,
+     * The overall configuration for a Breaker swerve drivetrain holding all constants,
      * must be passed in.
-     * (wheel translations must be imputed in the same order as the swerve moduels
-     * themsleves are passed into your BreakerSwerveDrive constructor)
      * 
      * @param maxForwardVel                  Max forward strafe velocity of drivetrain in
      *                                       m/s.
@@ -53,9 +51,7 @@ public class BreakerSwerveDriveConfig {
      * @param driveMotorGearRatioToOne       Gear ratio of swerve modules.
      * @param wheelDiameter                  In inches.
      * @param wheelPositionsRelativeToCenter Translation2ds assigned to each module
-     *                                       in following order: 1st = front left,
-     *                                       2nd = front right, 3rd = back left, 4th
-     *                                       = back right.
+     *                                       in order of modules added to BreakerSwerveDrive object.
      */
     public BreakerSwerveDriveConfig(double maxForwardVel, double maxSidewaysVel, double maxAngVel,
             double moduleAnglekP, double moduleAnglekI, double moduleAngleKd, double moduleVelkP,

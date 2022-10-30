@@ -9,32 +9,24 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGenericGyro;
-import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
-import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.modules.BreakerGenericSwerveModule;
-import frc.robot.BreakerLib.util.BreakerRoboRIO;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 
 /**
- * Swerve drive object which takes in four swerve modules.
- * <p>
- * Module order: 0 = front left, 1 = front right, 2 = back left, 3 = back right.
+ * BreakerLib swerve drive class.
  */
 public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   private BreakerSwerveDriveConfig config;
-  
-  /** [0] = frontLeft, [1] = frontRight, [2] = backLeft, [3] = backRight */
+
   private SwerveModuleState[] targetModuleStates;
 
   private BreakerGenericSwerveModule[] swerveModules;
@@ -55,9 +47,9 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
    * @param config        The configuration values for the drivetrain's
    *                      characteristics and behavior, passed in as a
    *                      "BreakerSwerveDriveConfig" object
-   * @param swerveModules The four swerve drive modules that make up the
-   *                      drivetrain. Refer to module order in Javadoc for
-   *                      swerve drive class.
+   * @param swerveModules The swerve drive modules that make up the
+   *                      drivetrain. Should be passed in the same oreder as the
+   *                      translations in your {@link BreakerSwerveDriveConfig}
    */
   public BreakerSwerveDrive(BreakerSwerveDriveConfig config, BreakerGenericGyro gyro,
       BreakerGenericSwerveModule... swerveModules) {
@@ -69,10 +61,10 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   }
 
   /**
-   * sets each module to match a target module state in the order they were passed
-   * in
+   * Sets each module to match a target module state in the order they were passed
+   * in.
    * <p>
-   * NOTE: not affected by drive slow mode
+   * NOTE: Not affected by slow mode.
    */
   public void setRawModuleStates(SwerveModuleState... targetModuleStates) {
     this.targetModuleStates = targetModuleStates;
@@ -84,16 +76,16 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   }
 
   /**
-   * Standard drivetrain movement command, specifies robot velocity in each axis
-   * including robot rotation (radian per second).
+   * Standard drivetrain movement command. Specifies robot velocity in each axis
+   * including robot rotation (rad/sec).
    * <p>
    * NOTE: All values are relative to the robot's orientation.
    * 
    * @param robotRelativeVelocities ChassisSpeeds object representing the robots
    *                                velocities in each axis relative to its local
-   *                                refrence frame
-   * @param useSlowMode             wether or not to apply the set slow mode
-   *                                multiplier to the given speeds
+   *                                reference frame.
+   * @param useSlowMode             Whether or not to apply the set slow mode
+   *                                multiplier to the given speeds.
    */
   public void move(ChassisSpeeds robotRelativeVelocities, boolean useSlowMode) {
     if (useSlowMode) {
@@ -106,13 +98,14 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
 
   /**
    * Standard drivetrain movement command, specifies robot velocity in each axis
-   * including robot rotation (radian per second).
+   * including robot rotation (rad/sec). Slow mode is active based on whener or
+   * not the user has globaly enabled slow mode.
    * <p>
    * NOTE: All values are relative to the robot's orientation.
    * 
    * @param robotRelativeVelocities ChassisSpeeds object representing the robots
    *                                velocities in each axis relative to its local
-   *                                refrence frame
+   *                                reference frame.
    */
   public void move(ChassisSpeeds robotRelativeVelocities) {
     move(robotRelativeVelocities, slowModeActive);
@@ -123,6 +116,10 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
    * including robot rotation (radian per second).
    * <p>
    * NOTE: All values are relative to the robot's orientation.
+   * 
+   * @param forwardVelMetersPerSec    Forward movement velocity in m/s.
+   * @param horizontalVelMetersPerSec Sideways movement velocity in m/s.
+   * @param radPerSec                 Rotation speed in rad/sec.
    */
   public void move(double forwardVelMetersPerSec, double horizontalVelMetersPerSec, double radPerSec) {
     move(new ChassisSpeeds(forwardVelMetersPerSec, horizontalVelMetersPerSec, radPerSec));
@@ -133,20 +130,28 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
    * including robot rotation (radian per second).
    * <p>
    * NOTE: All values are relative to the robot's orientation.
+   * 
+   * @param forwardVelMetersPerSec    Forward movement velocity in m/s.
+   * @param horizontalVelMetersPerSec Sideways movement velocity in m/s.
+   * @param radPerSec                 Rotation speed in rad/sec.
+   * @param useSlowMode               Whether slow mode will be applied or not.
    */
   public void move(double forwardVelMetersPerSec, double horizontalVelMetersPerSec, double radPerSec,
       boolean useSlowMode) {
     move(new ChassisSpeeds(forwardVelMetersPerSec, horizontalVelMetersPerSec, radPerSec), useSlowMode);
   }
 
-  /** sets the target velocity of the robot to 0 in all axies */
+  /** Sets the target velocity of the robot to 0 in all axes. */
   public void stop() {
     move(0, 0, 0);
   }
 
   /**
-   * Equivlent to the "move()" method but with speeds being passed in as a
-   * percentage of maximum represented as a decimal (1.0 to -1.0)
+   * Movement with speeds passed in as a percentage.
+   * 
+   * @param forwardPercent    Forward speed % (-1 to 1).
+   * @param horizontalPercent Sideways speed % (-1 to 1).
+   * @param turnPercent       Turn speed % (-1 to 1).
    */
   public void moveWithPercentInput(double forwardPercent, double horizontalPercent, double turnPercent) {
     move((forwardPercent * config.getMaxForwardVel()), (horizontalPercent * config.getMaxSidewaysVel()),
@@ -154,8 +159,11 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   }
 
   /**
-   * effectivly equivlent to the "move()" mothod but with all vleocitys being
-   * passed in as movements relative to the field
+   * Movement with velocity values relative to field.
+   * 
+   * @param forwardVelMetersPerSec Forward velocity relative to field (m/s).
+   * @param horizontalVelMetersPerSec Sideways velocity relative to field (m/s).
+   * @param radPerSec Rotation velocity relative to field (rad/sec).
    */
   public void moveRelativeToField(double forwardVelMetersPerSec, double horizontalVelMetersPerSec, double radPerSec) {
     ChassisSpeeds robotRelSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(forwardVelMetersPerSec,
@@ -165,9 +173,12 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   }
 
   /**
-   * effectivly equivlent to the "move()" mothod but with all vleocitys being
-   * passed in as movements relative to the field (this version of the method is
-   * for use with a custom odometry source)
+   * Movement with velocities relative to field. Use if using a separate odometry source.
+   * 
+   * @param forwardVelMetersPerSec Forward velocity relative to field (m/s).
+   * @param horizontalVelMetersPerSec Sideways velocity relative to field (m/s).
+   * @param radPerSec Rotation velocity relative to field (rad/sec).
+   * @param odometer {@link BreakerGenericOdometer} to determine field relative position.
    */
   public void moveRelativeToField(double forwardVelMetersPerSec, double horizontalVelMetersPerSec, double radPerSec,
       BreakerGenericOdometer odometer) {
@@ -178,9 +189,11 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   }
 
   /**
-   * effectivly equivlent to the "moveRelativeToField()" method but with speeds
-   * being passed in as a percentage of maximum represented as a decimal (1.0 to
-   * -1.0)
+   * Movement with velocity percents relative to field.
+   * 
+   * @param forwardPercent Forward speed percent (-1 to 1).
+   * @param horizontalPercent Horizontal speed percent (-1 to 1).
+   * @param turnPercent Rotation speed percent (-1 to 1).
    */
   public void moveWithPercentInputRelativeToField(double forwardPercent, double horizontalPercent, double turnPercent) {
     double fwdV = forwardPercent * config.getMaxForwardVel();
@@ -190,9 +203,12 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   }
 
   /**
-   * effectivly equivlent to the "moveRelativeToField()" method but with speeds
-   * being passed in as a percentage of maximum represented as a decimal (1.0 to
-   * -1.0) (this version of the method is for use with a custom odometry source)
+   * Movement with velocity percents relative to field. Use if using a separate odometry source.
+   * 
+   * @param forwardPercent Forward speed percent (-1 to 1).
+   * @param horizontalPercent Horizontal speed percent (-1 to 1).
+   * @param turnPercent Rotation speed percent (-1 to 1).
+   * @param odometer {@link BreakerGenericOdometer} to determine field relative position.
    */
   public void moveWithPercentInputRelativeToField(double forwardPercent, double horizontalPercent, double turnPercent,
       BreakerGenericOdometer odometer) {
@@ -202,6 +218,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
     moveRelativeToField(fwdV, horzV, thetaV, odometer);
   }
 
+  /** @return States of swerve modules. */
   public SwerveModuleState[] getSwerveModuleStates() {
     SwerveModuleState[] moduleStates = new SwerveModuleState[swerveModules.length];
     for (int i = 0; i < swerveModules.length; i++) {
@@ -294,12 +311,12 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
         odometer.getOdometryPoseMeters().getRotation());
   }
 
-  /** sets the angle all field relative movement is offset by (default is 0) */
+  /** Sets the angle all field relative movement is offset by (default is 0). */
   public void setFieldRelativeMovementAngleOffset(Rotation2d angleOffset) {
     fieldRelativeMovementAngleOffset = angleOffset;
   }
 
-  /** returns the angle all field relative movement is offset by (default is 0) */
+  /** @return The angle all field relative movement is offset by (default is 0). */
   public Rotation2d getFieldRelativeMovementAngleOffset() {
     return fieldRelativeMovementAngleOffset;
   }

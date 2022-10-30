@@ -4,13 +4,10 @@
 
 package frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.modules;
 
-import java.io.ObjectInputStream.GetField;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
@@ -18,13 +15,10 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
-import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.CANCoderFaults;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
@@ -39,7 +33,7 @@ import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
 
-/** Add your docs here. */
+/** Swerve Drive Specialties' MK4i swerve module. */
 public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule {
 
     private BreakerArbitraryFeedforwardProvider ffProvider;
@@ -51,8 +45,8 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
             overallHealth = DeviceHealth.NOMINAL, encoderHealth = DeviceHealth.NOMINAL;
 
     /**
-     * constructs a new Swerve Drive Spetialties MK4I (inverted) swerve drive
-     * module, implaments the BreakerSwerveModule Interface
+     * Constructs a new Swerve Drive Specialties MK4i (inverted) swerve drive
+     * module, implements the {@link BreakerSwerveModule} interface
      * 
      * @param driveMotor  - The TalonFX motor that moves the module's wheel linearly.
      * @param turnMotor   - The TalonFX motor that actuates module's wheel angle and
