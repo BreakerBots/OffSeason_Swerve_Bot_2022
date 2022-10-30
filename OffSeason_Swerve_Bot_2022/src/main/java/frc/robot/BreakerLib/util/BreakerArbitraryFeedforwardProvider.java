@@ -13,14 +13,17 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.BreakerLib.util.math.interpolation.interpolateingmaps.BreakerGenericInterpolatingMap;
 
-/** A calass that acts as aprovider for arbitrary feedfroward demand values used with the Talon motor controller's integrated PID */
+/** A class that acts as a provider for arbitrary feedforward demand values used with the Talon motor controller's integrated PID. */
 public class BreakerArbitraryFeedforwardProvider {
+
     private BreakerGenericInterpolatingMap<Double, Double> ffMap;
     private double feedforwardCoeficent, staticFrictionCoeficent; 
     private Function<Double, Double> ffFunc;
     private SimpleMotorFeedforward ffClass;
-    private FFType ffType;
-    private enum FFType{
+
+    private FeedForwardType ffType;
+
+    private enum FeedForwardType{
         MAP_SUP,
         COEFS,
         FUNC,
@@ -29,28 +32,28 @@ public class BreakerArbitraryFeedforwardProvider {
 
     public BreakerArbitraryFeedforwardProvider(BreakerGenericInterpolatingMap<Double, Double> speedToFeedforwardValMap) {
         ffMap = speedToFeedforwardValMap;
-        ffType = FFType.MAP_SUP;
+        ffType = FeedForwardType.MAP_SUP;
     }
 
     public BreakerArbitraryFeedforwardProvider(double feedforwardCoeficent, double staticFrictionCoeficent) {
         this.feedforwardCoeficent = feedforwardCoeficent;
         this.staticFrictionCoeficent = staticFrictionCoeficent;
-        ffType = FFType.COEFS;
+        ffType = FeedForwardType.COEFS;
     }
 
     public BreakerArbitraryFeedforwardProvider(Function<Double, Double> ffFunc) {
         this.ffFunc = ffFunc;
-        ffType = FFType.FUNC;
+        ffType = FeedForwardType.FUNC;
     }
 
     public BreakerArbitraryFeedforwardProvider(DoubleSupplier ffSupplier) {
         ffFunc = (Double x) -> (ffSupplier.getAsDouble());
-        ffType = FFType.FUNC;
+        ffType = FeedForwardType.FUNC;
     }
 
     public BreakerArbitraryFeedforwardProvider(SimpleMotorFeedforward ffClass) {
         this.ffClass = ffClass;
-        ffType = FFType.FF_CLASS;
+        ffType = FeedForwardType.FF_CLASS;
     }
 
     public double getArbitraryFeedforwardValue(double curSpeed) {

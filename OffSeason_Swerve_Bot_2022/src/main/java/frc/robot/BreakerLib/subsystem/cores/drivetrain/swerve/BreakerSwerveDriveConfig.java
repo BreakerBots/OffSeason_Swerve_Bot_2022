@@ -36,20 +36,26 @@ public class BreakerSwerveDriveConfig {
      * (wheel translations must be imputed in the same order as the swerve moduels
      * themsleves are passed into your BreakerSwerveDrive constructor)
      * 
-     * @param maxForwardVel Max forward velocity of drivetrain in m/s.
-     * @param maxSidewaysVel Max strafe veloctiy of drivetrain in m/s.
-     * @param maxAngVel Max angular velocity of the drivetrain in rad/s.
-     * @param moduleAnglekP Swerve module angular kP (for PID)
-     * @param moduleAnglekI Swerve module angular kI (for PID)
-     * @param moduleAngleKd Swerve module angular kD (for PID)
-     * @param moduleVelkP 
-     * @param moduleVelkI
-     * @param moduleVelKd
-     * @param moduleVelKf
+     * @param maxForwardVel                  Max forward strafe velocity of drivetrain in
+     *                                       m/s.
+     * @param maxSidewaysVel                 Max horizontal strafe velocity of drivetrain in
+     *                                       m/s.
+     * @param maxAngVel                      Max angular velocity of the drivetrain
+     *                                       in rad/s.
+     * @param moduleAnglekP                  Swerve module angular kP (for PID).
+     * @param moduleAnglekI                  Swerve module angular kI (for PID).
+     * @param moduleAngleKd                  Swerve module angular kD (for PID).
+     * @param moduleVelkP                    Swerve module drive kP (for PIDF).
+     * @param moduleVelkI                    Swerve module drive kI (for PIDF).
+     * @param moduleVelKd                    Swerve module drive kD (for PIDF).
+     * @param moduleVelKf                    Swerve module drive kF (for PIDF).
      * @param arbitraryFeedforwardProvider
-     * @param driveMotorGearRatioToOne
+     * @param driveMotorGearRatioToOne       Gear ratio of swerve modules.
      * @param wheelDiameter                  In inches.
-     * @param wheelPositionsRelativeToCenter
+     * @param wheelPositionsRelativeToCenter Translation2ds assigned to each module
+     *                                       in following order: 1st = front left,
+     *                                       2nd = front right, 3rd = back left, 4th
+     *                                       = back right.
      */
     public BreakerSwerveDriveConfig(double maxForwardVel, double maxSidewaysVel, double maxAngVel,
             double moduleAnglekP, double moduleAnglekI, double moduleAngleKd, double moduleVelkP,
