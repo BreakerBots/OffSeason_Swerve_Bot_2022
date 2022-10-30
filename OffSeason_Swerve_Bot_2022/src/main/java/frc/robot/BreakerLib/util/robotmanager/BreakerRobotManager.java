@@ -21,7 +21,6 @@ public class BreakerRobotManager {
     private static BreakerAutoManager autoManager;
     private static BreakerAutomaticBrakeModeManager breakModeManager;
     private static BreakerGenericDrivetrain baseDrivetrain;
-    private static final BreakerRobotManager robotManager = new BreakerRobotManager();
 
     private BreakerRobotManager() {
     }

@@ -21,7 +21,7 @@ public interface BreakerGenericGyro {
     /** @return Biased angular velocity yaw.(deg/sec) */
     public abstract double getYawRate();
 
-    /** Resets yaw angle to 0 degrees */
+    /** Resets all angles avalible to 0 degrees */
     public abstract void reset();
 
     /** @return Raw yaw value without modulus. */

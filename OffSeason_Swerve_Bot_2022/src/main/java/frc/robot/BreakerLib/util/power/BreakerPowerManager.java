@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import javax.swing.text.html.parser.Entity;
 
 import edu.wpi.first.hal.simulation.PowerDistributionDataJNI;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.PerpetualCommand;
@@ -29,7 +30,7 @@ public class BreakerPowerManager extends SubsystemBase {
     private static final double fullBattetyNominalVoltage = 12.7;
     private static List<BreakerPowerChannel> channelList = BreakerPowerUtil.getNewPowerChannelList(distributor.getType());
     private static TreeMap<BreakerPowerManageable, BreakerPowerManagementConfig> devicesAndConfigs = new TreeMap<>();
-    private static boolean activePowerManagementIsEnabled = true;
+    private static boolean activePowerManagementIsEnabled = false;
     private static BreakerRunningAverage runningVoltAverage = new BreakerRunningAverage(250);
     protected static BreakerRunningAverage runningPrecentageAverage = new BreakerRunningAverage(250);
     private BreakerPowerManager manager = new BreakerPowerManager();
@@ -88,13 +89,13 @@ public class BreakerPowerManager extends SubsystemBase {
 
     private static double getRemainingBatteryPercentageVoltageEst() {
         runningVoltAverage.addValue(distributor.getVoltage());
-        return runningVoltAverage.getAverage() / fullBattetyNominalVoltage;
+        return MathUtil.clamp(runningVoltAverage.getAverage() / fullBattetyNominalVoltage, 0.0, 1.0);
     }
 
     // returns the battery's remaing energy as a fractional perentage 0 to 1
     public static double getRemainingBatteryPercentage() {
         double cycleAvg = (getRemainingBatteryPercentageJoulesEst() + getRemainingBatteryPercentageVoltageEst()) / 2;
-        return runningPrecentageAverage.addValue(cycleAvg);
+        return MathUtil.clamp(runningPrecentageAverage.addValue(cycleAvg), 0.0, 1.0);
     }
 
     private void managePower() {
