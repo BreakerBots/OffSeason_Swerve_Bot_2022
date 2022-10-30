@@ -167,17 +167,14 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
     }
 
     /** Does nothing. */
-
     public void setPitch(double value) {
     }
 
     /** Does nothing. */
-
     public void setYaw(double value) {
     }
 
     /** Does nothing. */
-
     public void setRoll(double value) {
     }
 
@@ -298,8 +295,7 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
         return new Quaternion(imu.getQuaternionW(), imu.getQuaternionX(), imu.getQuaternionY(), imu.getQuaternionZ());
     }
 
-    @Override
-    /** Does nothing. Use getRange() to check accelerometer ranges. */
+    /** Does nothing. Use getRange() to check accelerometer range. */
     public void setRange(Range range) {
     }
 

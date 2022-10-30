@@ -60,7 +60,8 @@ public class BreakerPigeon extends BreakerGenericIMU implements BreakerGenericMa
 
     @Override
     public Rotation3d getRotation3d() {
-        return new Rotation3d(Math.toRadians(getRollDegrees()), Math.toRadians(getPitchDegrees()),  Math.toRadians(getYawDegrees()));
+        return new Rotation3d(Math.toRadians(getRollDegrees()), Math.toRadians(getPitchDegrees()),
+                Math.toRadians(getYawDegrees()));
     }
 
     @Override
@@ -144,49 +145,63 @@ public class BreakerPigeon extends BreakerGenericIMU implements BreakerGenericMa
         return getRawRollRate();
     }
 
+    /**
+     * @return Biased accelerometer values. The raw accelerometer vals of
+     *         the Pigeon are not normally accessible.
+     *         <p>
+     *         x = 0, y = 1, z = 2.
+     */
     @Override
     public double[] getRawAccelerometerVals() {
         double[] newVals = new double[3];
 
         for (int i = 0; i < 3; i++) {
-            newVals[i] = (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[i], 14) * 0.000508);
+            newVals[i] = (BreakerMath.fixedToFloat(getBiasedAccelerometerValsShort()[i], 14) * 0.000508);
         }
         return newVals;
     }
 
-    public short[] getRawAccelerometerValsShort() {
+    /**
+     * @return Biased accelerometer values in native short format.
+     *         <p>
+     *         x = 0, y = 1, z = 2.
+     */
+    public short[] getBiasedAccelerometerValsShort() {
         short[] accelVals = new short[3];
         pigeon.getBiasedAccelerometer(accelVals);
         return accelVals;
     }
 
-    @Override
     /** @return Biased accelerometer x-value in m/s^2. */
+    @Override
     public double getRawAccelX() {
-        return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[0], 14) * 0.000508);
+        return (BreakerMath.fixedToFloat(getBiasedAccelerometerValsShort()[0], 14) * 0.000508);
     }
 
-    @Override
     /** @return Biased accelerometer y-value in m/s^2. */
+    @Override
     public double getRawAccelY() {
-        return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[1], 14) * 0.000508);
+        return (BreakerMath.fixedToFloat(getBiasedAccelerometerValsShort()[1], 14) * 0.000508);
     }
 
     @Override
     /** @return Biased accelerometer z-value in m/s^2. */
     public double getRawAccelZ() {
-        return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[2], 14) * 0.000508);
+        return (BreakerMath.fixedToFloat(getBiasedAccelerometerValsShort()[2], 14) * 0.000508);
     }
 
+    /**
+     * @return Amount of time in seconds the Pigeon has been running. Maximum value
+     *         of 255 secs.
+     */
     public int getPigeonUpTime() {
-
         return pigeon.getUpTime();
     }
 
     @Override
     public Rotation3d getRawRotation3d() {
         return new Rotation3d(Math.toRadians(getRawAngles()[2]), Math.toRadians(getRawAngles()[1]),
-        Math.toRadians(getRawAngles()[0]));
+                Math.toRadians(getRawAngles()[0]));
     }
 
     @Override
@@ -196,8 +211,8 @@ public class BreakerPigeon extends BreakerGenericIMU implements BreakerGenericMa
         PigeonIMU_Faults curFaults = new PigeonIMU_Faults();
         pigeon.getFaults(curFaults);
         if (curFaults.hasAnyFault()) {
-          health = DeviceHealth.INOPERABLE;
-          faultStr += " UNKNOWN_FAULT ";
+            health = DeviceHealth.INOPERABLE;
+            faultStr += " UNKNOWN_FAULT ";
         }
     }
 
@@ -231,16 +246,16 @@ public class BreakerPigeon extends BreakerGenericIMU implements BreakerGenericMa
 
     @Override
     public double[] getRawFieldStrenghts() {
-        short[] rawShorts = new short[]{3};
+        short[] rawShorts = new short[] { 3 };
         pigeon.getRawMagnetometer(rawShorts);
-        return new double[] {(double) rawShorts[0] * 0.6, (double) rawShorts[1] * 0.6, (double) rawShorts[2] * 0.6};
+        return new double[] { (double) rawShorts[0] * 0.6, (double) rawShorts[1] * 0.6, (double) rawShorts[2] * 0.6 };
     }
 
     @Override
     public double[] getBiasedFieldStrenghts() {
-        short[] rawShorts = new short[]{3};
+        short[] rawShorts = new short[] { 3 };
         pigeon.getBiasedMagnetometer(rawShorts);
-        return new double[] {(double) rawShorts[0] * 0.6, (double) rawShorts[1] * 0.6, (double) rawShorts[2] * 0.6};
+        return new double[] { (double) rawShorts[0] * 0.6, (double) rawShorts[1] * 0.6, (double) rawShorts[2] * 0.6 };
     }
 
     @Override
@@ -266,7 +281,7 @@ public class BreakerPigeon extends BreakerGenericIMU implements BreakerGenericMa
     }
 
     @Override
-    /** Does nothing. Range is 2 Gs.*/
+    /** Does nothing. Range is 2 Gs. */
     public void setRange(Range range) {
     }
 }

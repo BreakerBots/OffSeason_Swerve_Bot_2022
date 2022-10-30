@@ -8,8 +8,9 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 
 /** FRC 3-axis accelerometer interface. */
 public interface BreakerGenericAccelerometer {
+
   /**
-   * Returns array of raw accelerometer values.
+   * @return Array of raw accelerometer values.
    * <p>
    * x = 0, y = 1, z = 2.
    */
