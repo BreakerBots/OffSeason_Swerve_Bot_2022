@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import javax.swing.text.html.parser.Entity;
 
 import edu.wpi.first.hal.simulation.PowerDistributionDataJNI;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.PerpetualCommand;
@@ -88,7 +89,7 @@ public class BreakerPowerManager extends SubsystemBase {
 
     private static double getRemainingBatteryPercentageVoltageEst() {
         runningVoltAverage.addValue(distributor.getVoltage());
-        return runningVoltAverage.getAverage() / fullBattetyNominalVoltage;
+        return MathUtil.clamp(runningVoltAverage.getAverage() / fullBattetyNominalVoltage, 0, 1);
     }
 
     // returns the battery's remaing energy as a fractional perentage 0 to 1
