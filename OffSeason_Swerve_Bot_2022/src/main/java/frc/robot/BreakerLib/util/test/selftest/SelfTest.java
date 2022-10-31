@@ -5,21 +5,10 @@
 package frc.robot.BreakerLib.util.test.selftest;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
-import edu.wpi.first.math.Pair;
-import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.BreakerLib.devices.cosmetic.music.BreakerFalconOrchestra;
 import frc.robot.BreakerLib.devices.cosmetic.music.BreakerSounds;
-import frc.robot.BreakerLib.util.BreakerJSONUtil;
 import frc.robot.BreakerLib.util.logging.BreakerLog;
 
 /** Core class of BreakerLib's SelfTest fuctionality, handilg periodic passive (unless user configured outherwise) 
@@ -87,7 +76,7 @@ public class SelfTest extends SubsystemBase {
   /** Automaticly adds multipul {@link BreakerSelfTestable} compatable devices to the SelfTest queue if automatic registration is enabled.
    * <br><br>WARNING: should only be used in BreakerLib internal classes and is toggled based on user config of selftest.
      */
-  public static void autoRegesterDevices(BreakerSelfTestable... devices) {
+  public static void autoRegisterDevices(BreakerSelfTestable... devices) {
     if (autoRegesterDevices) {
       addDevices(devices);
     }
@@ -118,19 +107,22 @@ public class SelfTest extends SubsystemBase {
     }
   }
 
-  /** @return the logged fault string result of the most recent self check cycle  */
+  /** @return The logged fault string result of the most recent self check cycle  */
   public static String getLastSelfCheck() {
     return lastSystemCheck;
   }
 
+  /** @return True if the last self check was passes without a fault, false outherwise */
   public static boolean getLastSelfCheckPassed() {
     return lastCheckPassed;
   }
 
+  /** @return True if the {@link SelfTest#autoRegisterDevice()} and {@link SelfTest#autoRegisterDevices()} are enabled by the user, flase outherwise */
   public static boolean getAutoRegesterDevicesIsEnabled() {
     return autoRegesterDevices;
   }
 
+  /** Method that runs this robots Self Check cycle, pereodicly called by this classes pereodic method */
   public static void runSelfCheck() {
     StringBuilder work = new StringBuilder("\n RUNNING SELF CHECK: \n");
     List<BreakerSelfTestable> faultDevices = new ArrayList<BreakerSelfTestable>();

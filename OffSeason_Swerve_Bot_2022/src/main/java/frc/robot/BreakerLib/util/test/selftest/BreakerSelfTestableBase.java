@@ -6,7 +6,7 @@ package frc.robot.BreakerLib.util.test.selftest;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-/** Add your docs here. */
+/** A higher level implamentation of the {@link BreakerSelfTestable} interface */
 public abstract class BreakerSelfTestableBase implements BreakerSelfTestable  {
     protected String faultStr = null, deviceName = " Unknown_Device ";
     protected DeviceHealth health = DeviceHealth.NOMINAL;
