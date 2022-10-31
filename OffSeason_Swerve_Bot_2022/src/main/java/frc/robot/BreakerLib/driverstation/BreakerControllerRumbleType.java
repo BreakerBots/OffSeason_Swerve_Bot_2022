@@ -10,6 +10,6 @@ public enum BreakerControllerRumbleType {
     FINE,
     /** Left Side, harsher "coarse" vibration */
     COARSE,
-    /** Bolth sides, mixed vibration */
+    /** Bolth sides, mixed vibratione */
     MIXED
 }
