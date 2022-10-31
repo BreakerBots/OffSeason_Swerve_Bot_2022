@@ -79,79 +79,103 @@ public class BreakerSwerveDriveConfig {
         kinematics = new SwerveDriveKinematics(wheelPositionsRelativeToCenter);
     }
 
+    /**
+     * Sets slow mode multipliers.
+     * 
+     * @param linearMulitplier Slow mode multiplier for drive motors.
+     * @param turnMultiplier Slow mode multiplier for turn motors.
+     */
     public void setSlowModeMultipliers(double linearMulitplier, double turnMultiplier) {
         slowModeLinearMultiplier = linearMulitplier;
         slowModeTurnMultiplier = turnMultiplier;
     }
 
+    /** @return Kinematics of swerve drivetrain. */
     public SwerveDriveKinematics getKinematics() {
         return kinematics;
     }
 
+    /** @return Max forward velocity of swerve drive in m/s. Usually the same as max sideways velocity. */
     public double getMaxForwardVel() {
         return maxForwardVel;
     }
 
+    /** @return Max sideways velocity of swerve drive in m/s. Usually the same as max forward velocity. */
     public double getMaxSidewaysVel() {
         return maxSidewaysVel;
     }
 
+    /** @return Max angular velocity of swerve drive in rad/s.*/
     public double getMaxAngleVel() {
         return maxAngleVel;
     }
 
+    /** @return Number of swerve modules on swerve drivetrain. */
     public int getNumberOfModules() {
         return moduleNum;
     }
 
+    /** @return kP value from velocity PIDF. */
     public double getModuleVelkP() {
         return moduleVelkP;
     }
 
+    /** @return kI value from velocity PIDF. */
     public double getModuleVelkI() {
         return moduleVelkI;
     }
 
+    /** @return kD value from velocity PIDF. */
     public double getModuleVelKd() {
         return moduleVelKd;
     }
 
+    /** @return kF value from velocity PIDF. */
     public double getModuleVelKf() {
         return moduleVelKf;
     }
 
+    /** @return kP value from angular PID. */
     public double getModuleAnglekP() {
         return moduleAnglekP;
     }
 
+    /** @return kI value from angular PID. */
     public double getModuleAnglekI() {
         return moduleAnglekI;
     }
 
+    /** @return kD value from angular PID. */
     public double getModuleAngleKd() {
         return moduleAngleKd;
     }
 
+    /** @return Gear ratio of drive motors. */
     public double getDriveMotorGearRatioToOne() {
         return driveMotorGearRatioToOne;
     }
 
+    /** @return Diameter of wheels in inches. */
     public double getWheelDiameter() {
         return wheelDiameter;
     }
 
+    /** @return Number of swerve modules. */
     public int getNumberOfSwerveModules() {
         return moduleNum;
     }
 
+    /** @return Slow mode multiplier on drive motors. */
     public double getSlowModeLinearMultiplier() {
         return slowModeLinearMultiplier;
     }
 
+    /** @return Slow mode multiplier on turn motors. */
     public double getSlowModeTurnMultiplier() {
         return slowModeTurnMultiplier;
     }
 
+    /** @return Arbitrary feedforward provider for swerve drive. */
     public BreakerArbitraryFeedforwardProvider getArbitraryFeedforwardProvider() {
         return arbitraryFeedforwardProvider;
     }

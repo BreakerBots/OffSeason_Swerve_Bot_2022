@@ -147,10 +147,6 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
         return new SwerveModuleState(getModuleVelMetersPerSec(), Rotation2d.fromDegrees(getModuleRelativeAngle()));
     }
 
-    /**
-     * returns the modules health as an array [0] = overall, [1] = drive motor, [2]
-     * = turn motor, [3] = CANcoder
-     */
     @Override
     public DeviceHealth[] getModuleHealths() {
         DeviceHealth[] healths = new DeviceHealth[4];
@@ -168,14 +164,14 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
     }
 
     @Override
-    public void setTurnMotorBreakMode(boolean isEnabled) {
+    public void setTurnMotorBrakeMode(boolean isEnabled) {
         turnMotor.setNeutralMode(isEnabled ? NeutralMode.Brake : NeutralMode.Coast);
     }
 
     @Override
-    public void setModuleBreakMode(boolean isEnabled) {
+    public void setModuleBrakeMode(boolean isEnabled) {
         setDriveMotorBrakeMode(isEnabled);
-        setTurnMotorBreakMode(isEnabled);
+        setTurnMotorBrakeMode(isEnabled);
     }
 
     @Override
@@ -259,7 +255,7 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
         return deviceName;
     }
 
-    /** returns the device's overall health */
+    /** @return The device's overall health. */
     @Override
     public boolean hasFault() {
         return overallHealth != DeviceHealth.NOMINAL;

@@ -9,37 +9,72 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.BreakerLib.devices.BreakerGenericDevice;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 
-/** Interface for all Swerve Modules to allwo for easy interchangeablity, this class is meant to surve as an intermedairy between your swerve hardware and the BreakerSwerveDrive class */
+/**
+ * Interface for all Swerve Modules to allwo for easy interchangeablity, this
+ * class is meant to surve as an intermedairy between your swerve hardware and
+ * the BreakerSwerveDrive class
+ */
 public interface BreakerGenericSwerveModule extends BreakerGenericDevice {
 
-    /** default method for setting a swerve module to a given target state, 
-     * automaticly calls the overloded version of this method that independently specifyes angle and speed*/
+    /**
+     * default method for setting a swerve module to a given target state,
+     * automaticly calls the overloded version of this method that independently
+     * specifyes angle and speed
+     */
     public default void setModuleTarget(SwerveModuleState targetModuleState) {
         setModuleTarget(targetModuleState.angle, targetModuleState.speedMetersPerSecond);
     }
 
-    /** Method defined in module code to handle angle and velocity control of the module */
+    /**
+     * Method defined in module code to handle angle and velocity control of the
+     * module
+     */
     public abstract void setModuleTarget(Rotation2d targetAngle, double targetVelocityMetersPerSecond);
 
-    /** @return the absolute (+/- 180 deg) angle of the module in degrees*/
+    /** @return the absolute (+/- 180 deg) angle of the module in degrees */
     public abstract double getModuleAbsoluteAngle();
 
-    /** @return the relative (with rollover, 180 -> 181) angle of the module in degrees*/
+    /**
+     * @return the relative (with rollover, 180 -> 181) angle of the module in
+     *         degrees
+     */
     public abstract double getModuleRelativeAngle();
-    
-    /** @return the velocity of the module's drive wheel in meters per second*/
+
+    /** @return The velocity of the module's drive wheel in meters per second. */
     public abstract double getModuleVelMetersPerSec();
 
+    /** @return The velocity of the module's drive wheel in device's native unit. */
     public abstract double getMetersPerSecToNativeVelUnits(double speedMetersPerSec);
 
+    /** @return Module's {@link SwerveModuleState}. */
     public abstract SwerveModuleState getModuleState();
 
+    /**
+     * Sets brake mode on drive motor.
+     * 
+     * @param isEnabled Whether or not to enable brake mode.
+     */
     public abstract void setDriveMotorBrakeMode(boolean isEnabled);
 
-    public abstract void setTurnMotorBreakMode(boolean isEnabled);
+    /**
+     * Sets brake mode on turn motor.
+     * 
+     * @param isEnabled Whether or not to enable brake mode.
+     */
+    public abstract void setTurnMotorBrakeMode(boolean isEnabled);
 
-    public abstract void setModuleBreakMode(boolean isEnabled);
+    /**
+     * Sets brake mode on drive and turn motors.
+     * 
+     * @param isEnabled Whether or not to enable brake mode.
+     */
+    public abstract void setModuleBrakeMode(boolean isEnabled);
 
-    /** returns the modules health as an array [0] = overall, [1] = drive motor, [2] = turn motor, [3] = outher if supported (EX: CANCoder)*/
+    /**
+     * @return Module's health as an array.
+     *         <p>
+     *         [0] = overall, [1] = drive motor, [2] = turn motor, [3] = other device if
+     *         supported (EX: CANCoder)
+     */
     public abstract DeviceHealth[] getModuleHealths();
 }

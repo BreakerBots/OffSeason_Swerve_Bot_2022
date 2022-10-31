@@ -189,7 +189,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   }
 
   /**
-   * Movement with velocity percents relative to field.
+   * Movement with velocity percents relative to field. Swerve drive's own odometry is used.
    * 
    * @param forwardPercent Forward speed percent (-1 to 1).
    * @param horizontalPercent Horizontal speed percent (-1 to 1).
@@ -262,9 +262,9 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
     for (BreakerGenericSwerveModule module : swerveModules) {
       if (RobotState.isEnabled()) {
         module.setDriveMotorBrakeMode(isEnabled);
-        module.setTurnMotorBreakMode(true);
+        module.setTurnMotorBrakeMode(true);
       } else {
-        module.setTurnMotorBreakMode(isEnabled);
+        module.setTurnMotorBrakeMode(isEnabled);
       }
     }
   }
@@ -285,7 +285,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   }
 
   private void calculateMovementState(double timeToLastUpdateMiliseconds) {
-    ChassisSpeeds speeds = config.getKinematics().toChassisSpeeds(getSwerveModuleStates());
+    // ChassisSpeeds speeds = config.getKinematics().toChassisSpeeds(getSwerveModuleStates());
     curMovementState = BreakerMath.movementStateFromChassisSpeedsAndPreviousState(getOdometryPoseMeters(),
         getFieldRelativeChassisSpeeds(), timeToLastUpdateMiliseconds, prevMovementState);
     prevMovementState = curMovementState;

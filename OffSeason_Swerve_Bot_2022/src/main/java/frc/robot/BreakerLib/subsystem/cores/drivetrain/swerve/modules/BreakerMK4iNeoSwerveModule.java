@@ -5,16 +5,12 @@
 package frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.modules;
 
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
-import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.CANCoderFaults;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax.ControlType;
-import com.revrobotics.CANSparkMax.FaultID;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
 import edu.wpi.first.math.Pair;
@@ -26,15 +22,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveConfig;
 import frc.robot.BreakerLib.util.BreakerArbitraryFeedforwardProvider;
 import frc.robot.BreakerLib.util.factory.BreakerCANCoderFactory;
-import frc.robot.BreakerLib.util.math.BreakerMath;
-import frc.robot.BreakerLib.util.math.BreakerUnits;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
 import frc.robot.BreakerLib.util.test.vendorutil.BreakerREVUtil;
 
-/** Add your docs here. */
+/** MK4i swerve module using Neo motors. */
 public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
 
     private BreakerArbitraryFeedforwardProvider ffProvider;
@@ -47,19 +41,22 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
             overallHealth = DeviceHealth.NOMINAL, encoderHealth = DeviceHealth.NOMINAL;
 
     /**
-     * constructs a new Swerve Drive Spetialties MK4I (inverted) swerve drive
-     * module, implaments the BreakerSwerveModule Interface
+     * Constructs a new Swerve Drive Spetialties MK4i (inverted) swerve drive
+     * module, implements the BreakerSwerveModule interface.
      * 
-     * @param driveMotor  - The SparkMax motor controller conected to a NEO motor that moves the module's wheel linearly.
-     * @param turnMotor   - The SparkMax motor controller conected to a NEO motor that actuates module's wheel angle and
+     * @param driveMotor  - The SparkMax motor controller conected to a NEO motor
+     *                    that moves the module's wheel linearly.
+     * @param turnMotor   - The SparkMax motor controller conected to a NEO motor
+     *                    that actuates module's wheel angle and
      *                    changes the direction it is facing.
-     * @param turnEncoder - The CTRE CANcoder magnetic encoder that the module uses
+     * @param turnEncoder - The CTRE CANCoder magnetic encoder that the module uses
      *                    to determine wheel angle.
      * @param config      - The BreakerSwerveDriveConfig object that holds all
      *                    constants for your drivetrain
      */
     public BreakerMK4iNeoSwerveModule(CANSparkMax driveMotor, CANSparkMax turnMotor, WPI_CANCoder turnEncoder,
-            BreakerSwerveDriveConfig config, double encoderAbsoluteAngleOffsetDegrees, boolean invertDriveOutput, boolean invertTurnOutput) {
+            BreakerSwerveDriveConfig config, double encoderAbsoluteAngleOffsetDegrees, boolean invertDriveOutput,
+            boolean invertTurnOutput) {
         this.config = config;
         this.turnMotor = turnMotor;
         this.driveMotor = driveMotor;
@@ -67,17 +64,17 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
 
         turnPID = new PIDController(config.getModuleAnglekP(), config.getModuleAnglekI(), config.getModuleAngleKd());
 
-        BreakerCANCoderFactory.configExistingCANCoder(turnEncoder, SensorInitializationStrategy.BootToAbsolutePosition, 
-            AbsoluteSensorRange.Signed_PlusMinus180, encoderAbsoluteAngleOffsetDegrees, false);
-        
+        BreakerCANCoderFactory.configExistingCANCoder(turnEncoder, SensorInitializationStrategy.BootToAbsolutePosition,
+                AbsoluteSensorRange.Signed_PlusMinus180, encoderAbsoluteAngleOffsetDegrees, false);
+
         turnMotor.setInverted(invertTurnOutput);
         turnMotor.setSmartCurrentLimit(80);
 
         SparkMaxPIDController drivePID = driveMotor.getPIDController();
-            drivePID.setP(config.getModuleVelkP());
-            drivePID.setI(config.getModuleVelkI());
-            drivePID.setD(config.getModuleVelKd());
-            drivePID.setFF(config.getModuleVelKf());
+        drivePID.setP(config.getModuleVelkP());
+        drivePID.setI(config.getModuleVelkI());
+        drivePID.setD(config.getModuleVelKd());
+        drivePID.setFF(config.getModuleVelKf());
 
         driveMotor.setSmartCurrentLimit(80);
         driveMotor.setInverted(invertDriveOutput);
@@ -88,10 +85,12 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
     @Override
     public void setModuleTarget(Rotation2d tgtAngle, double speedMetersPerSec) {
         SmartDashboard.putNumber(deviceName + " ANGLE IN", tgtAngle.getDegrees());
-        SmartDashboard.putNumber(deviceName +" SPEED IN", speedMetersPerSec);
+        SmartDashboard.putNumber(deviceName + " SPEED IN", speedMetersPerSec);
 
         turnMotor.set(turnPID.calculate(turnEncoder.getPosition(), tgtAngle.getDegrees()));
-        driveMotor.getPIDController().setReference(getMetersPerSecToNativeVelUnits(speedMetersPerSec), CANSparkMax.ControlType.kVelocity, 0, ffProvider.getArbitraryFeedforwardValue(speedMetersPerSec), ArbFFUnits.kPercentOut);
+        driveMotor.getPIDController().setReference(getMetersPerSecToNativeVelUnits(speedMetersPerSec),
+                CANSparkMax.ControlType.kVelocity, 0, ffProvider.getArbitraryFeedforwardValue(speedMetersPerSec),
+                ArbFFUnits.kPercentOut);
 
         SmartDashboard.putNumber(deviceName + "ANGLE OUT", getModuleState().angle.getDegrees());
         SmartDashboard.putNumber(deviceName + "SPEED OUT", getModuleState().speedMetersPerSecond);
@@ -109,7 +108,8 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
 
     @Override
     public double getModuleVelMetersPerSec() {
-        return Units.inchesToMeters((driveMotor.getEncoder().getVelocity() * (config.getWheelDiameter() * Math.PI)) / 60.0);
+        return Units
+                .inchesToMeters((driveMotor.getEncoder().getVelocity() * (config.getWheelDiameter() * Math.PI)) / 60.0);
     }
 
     @Override
@@ -122,10 +122,6 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
         return new SwerveModuleState(getModuleVelMetersPerSec(), Rotation2d.fromDegrees(getModuleRelativeAngle()));
     }
 
-    /**
-     * returns the modules health as an array [0] = overall, [1] = drive motor, [2]
-     * = turn motor, [3] = CANcoder
-     */
     @Override
     public DeviceHealth[] getModuleHealths() {
         DeviceHealth[] healths = new DeviceHealth[4];
@@ -143,31 +139,31 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
     }
 
     @Override
-    public void setTurnMotorBreakMode(boolean isEnabled) {
+    public void setTurnMotorBrakeMode(boolean isEnabled) {
         turnMotor.setIdleMode(isEnabled ? IdleMode.kBrake : IdleMode.kCoast);
     }
 
     @Override
-    public void setModuleBreakMode(boolean isEnabled) {
+    public void setModuleBrakeMode(boolean isEnabled) {
         setDriveMotorBrakeMode(isEnabled);
-        setTurnMotorBreakMode(isEnabled);
+        setTurnMotorBrakeMode(isEnabled);
     }
 
     @Override
     public void runSelfTest() {
         faults = null;
-        turnMotorHealth = DeviceHealth.NOMINAL; 
+        turnMotorHealth = DeviceHealth.NOMINAL;
         driveMotorHealth = DeviceHealth.NOMINAL;
         overallHealth = DeviceHealth.NOMINAL;
         encoderHealth = DeviceHealth.NOMINAL;
         if (driveMotor.getFaults() != 0) {
             Pair<DeviceHealth, String> driveFs = BreakerREVUtil.getSparkMaxHealthAndFaults(driveMotor.getFaults());
-            faults += " Drive_Motor(" + driveFs.getSecond() + ")" ;
+            faults += " Drive_Motor(" + driveFs.getSecond() + ")";
             driveMotorHealth = driveFs.getFirst();
         }
         if (turnMotor.getFaults() != 0) {
             Pair<DeviceHealth, String> turnFs = BreakerREVUtil.getSparkMaxHealthAndFaults(turnMotor.getFaults());
-            faults += " Turn_Motor(" + turnFs.getSecond() + ")" ;
+            faults += " Turn_Motor(" + turnFs.getSecond() + ")";
             turnMotorHealth = turnFs.getFirst();
         }
         CANCoderFaults encoderFaults = new CANCoderFaults();
@@ -178,7 +174,8 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
             encoderHealth = encodeFs.getFirst();
         }
 
-        if (driveMotorHealth != DeviceHealth.NOMINAL || turnMotorHealth != DeviceHealth.NOMINAL || encoderHealth != DeviceHealth.NOMINAL) {
+        if (driveMotorHealth != DeviceHealth.NOMINAL || turnMotorHealth != DeviceHealth.NOMINAL
+                || encoderHealth != DeviceHealth.NOMINAL) {
             overallHealth = DeviceHealth.INOPERABLE;
         }
     }
@@ -198,7 +195,7 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
         return deviceName;
     }
 
-    /** returns the device's overall health */
+    /** @return The device's overall health. */
     @Override
     public boolean hasFault() {
         return overallHealth != DeviceHealth.NOMINAL;
