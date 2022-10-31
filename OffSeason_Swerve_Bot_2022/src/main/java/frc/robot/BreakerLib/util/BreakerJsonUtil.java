@@ -15,7 +15,7 @@ import java.nio.charset.Charset;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-/** Add your docs here. */
+/** A convienent class with wrappers around the jackson JSON reader library's functions for easy access  */
 public class BreakerJSONUtil {
     public static JsonNode readJsonFromURL(String link) throws IOException {
         InputStream input = new URL(link).openStream();

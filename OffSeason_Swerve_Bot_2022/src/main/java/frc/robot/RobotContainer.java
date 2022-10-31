@@ -6,10 +6,12 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
 import frc.robot.BreakerLib.driverstation.BreakerXboxController;
 import frc.robot.BreakerLib.driverstation.BreakerXboxControllerDeadbandConfig;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveController;
+import frc.robot.BreakerLib.util.power.BreakerPowerManager;
 import frc.robot.BreakerLib.util.robotmanager.BreakerRobotConfig;
 import frc.robot.BreakerLib.util.robotmanager.BreakerRobotManager;
 import frc.robot.BreakerLib.util.robotmanager.BreakerRobotStartConfig;
@@ -41,7 +43,7 @@ public class RobotContainer {
 
     controllerSys.configAnalogInputDeadbands(new BreakerXboxControllerDeadbandConfig(0.06, 0.06, 0.06, 0.06));
 
-    drivetrainSys.getBaseDrivetrain().resetOdometryPosition();;
+    drivetrainSys.getBaseDrivetrain().resetOdometryPosition();
 
     configureButtonBindings();
     drivetrainSys.getBaseDrivetrain()

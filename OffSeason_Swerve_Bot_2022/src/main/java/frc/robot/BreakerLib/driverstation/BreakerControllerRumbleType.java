@@ -6,9 +6,10 @@ package frc.robot.BreakerLib.driverstation;
 
 /** Add your docs here. */
 public enum BreakerControllerRumbleType {
-    /** Right Side */
+    /** Right Side, lesh harsh "fine" vibration */
     FINE,
-    /** Left Side */
+    /** Left Side, harsher "coarse" vibration */
     COARSE,
+    /** Bolth sides, mixed vibration */
     MIXED
 }
