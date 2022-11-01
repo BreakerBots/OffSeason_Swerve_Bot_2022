@@ -38,11 +38,6 @@ public class BreakerVisionOdometer extends SubsystemBase implements BreakerGener
     }
 
     @Override
-    public Object getBaseOdometer() {
-        return visionPoseFilter;
-    }
-
-    @Override
     public Pose2d getOdometryPoseMeters() {
         return curPose;
     }

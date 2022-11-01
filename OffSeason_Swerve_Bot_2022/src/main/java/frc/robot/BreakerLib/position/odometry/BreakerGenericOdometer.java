@@ -35,9 +35,6 @@ public interface BreakerGenericOdometer {
     setOdometryRotation(new Rotation2d());
   }
 
-  /** @return Base odometer object. */
-  public abstract Object getBaseOdometer();
-
   /** @return Odometery pose in meters. */
   public abstract Pose2d getOdometryPoseMeters();
 

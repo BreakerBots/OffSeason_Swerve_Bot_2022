@@ -10,15 +10,9 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.RobotContainer;
-import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGeneric3AxisGyro;
 import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGenericGyro;
-import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
-import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveConfig;
@@ -81,11 +75,6 @@ public class BreakerSwerveDrivePoseEstimator implements BreakerGenericOdometer {
     @Override
     public void setOdometryPosition(Pose2d newPose) {
         poseEstimator.resetPosition(newPose, Rotation2d.fromDegrees(gyro.getRawYaw()));
-    }
-
-    @Override
-    public Object getBaseOdometer() {
-        return poseEstimator;
     }
 
     @Override

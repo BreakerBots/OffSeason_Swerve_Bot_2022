@@ -45,11 +45,6 @@ public class BreakerFlywheel extends BreakerGenericLoopedDevice implements Break
     
 
     public BreakerFlywheel(BreakerFlywheelConfig config, WPI_TalonFX... flywheelMotors) {
-        // flySS = new BreakerFlywheelStateSpace(config.getFlywheelMomentOfInertaJKgMetersSq(),
-        //         config.getFlywheelGearRatioToOne(), config.getModelKalmanTrust(),
-        //         config.getEncoderKalmanTrust(), config.getLqrVelocityErrorTolerance(), config.getLqrControlEffort(), flywheelMotors);
-        //this.flyPIDF = flyPIDF;\
-        
         lFlyMotor = flywheelMotors[0];
         motors = flywheelMotors;
 
@@ -104,23 +99,18 @@ public class BreakerFlywheel extends BreakerGenericLoopedDevice implements Break
 
     /** Stops flywheel and kills all assocated controll loops */
     public void killFlywheel() {
-        //flySS.killLoop();
         lFlyMotor.set(ControlMode.Velocity, 0);
         BreakerLog.logSuperstructureEvent("flywheel controll loops disabled");
     }
 
     public void startFlywheel() {
-        //flySS.restartLoop();
         BreakerLog.logSuperstructureEvent("flywheel controll loops enabled");
     }
 
     private void runFlywheel() {
-        //flySS.setSpeedRPM(BreakerUnits.falconRSUtoRPM(flywheelTargetSpU));
-        //double flySetSpd = flyPIDF.calculate(getFlywheelRPM(), flywheelTargetRPM) /** + flySS.getNextPrecentSpeed() */ ;
         double flySetSpd = BreakerUnits.RPMtoFalconRSU(flywheelTargetRPM);
         double feedforward = ffProvider.getArbitraryFeedforwardValue(flywheelTargetRPM);
-        System.out.println("Fly Set Spd: " + flySetSpd + " | Cur spd RPM: " + getFlywheelRPM() + " | X: " + feedforward );
-        lFlyMotor.set(ControlMode.Velocity, flySetSpd, DemandType.ArbitraryFeedForward, 0.0);
+        lFlyMotor.set(ControlMode.Velocity, flySetSpd, DemandType.ArbitraryFeedForward, feedforward);
         accel = getFlywheelRPM() - lastVel;
         lastVel = getFlywheelRPM();
     }

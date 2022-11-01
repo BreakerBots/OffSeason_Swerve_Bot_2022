@@ -11,7 +11,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 /** A controllable bezier spline: https://www.desmos.com/calculator/da8zwxpgzo */
 public class BreakerBezierCurve extends BreakerMathFunction {
   
-    /** creates a new cubeic bezier spline with two control points. (Start(0,0), end(1,1)) */
+    /** creates a new cubic bezier spline with two control points. (Start(0,0), end(1,1)) */
     public BreakerBezierCurve(Translation2d controlPointOne, Translation2d controlPointTwo) {
         super((Double x) -> {
           double x0 = 0.0;
@@ -29,7 +29,7 @@ public class BreakerBezierCurve extends BreakerMathFunction {
         });
     }
 
-    /** creates a new cubeic bezier spline with all four control points available */
+    /** creates a new cubic bezier spline with all four control points available */
     public BreakerBezierCurve(Translation2d startPoint, Translation2d controlPointOne, Translation2d controlPointTwo, Translation2d endPoint) {
         super((Double x) -> {
           double x0 = startPoint.getX();

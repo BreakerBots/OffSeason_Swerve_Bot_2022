@@ -28,7 +28,7 @@ import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
 import frc.robot.BreakerLib.util.test.vendorutil.BreakerREVUtil;
 
-/** MK4i swerve module using Neo motors. */
+/** Swerve Drive Specialties' MK4i swerve module driven by Spark Max motor controllers with Neo motors. */
 public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
 
     private BreakerArbitraryFeedforwardProvider ffProvider;

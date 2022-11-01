@@ -10,8 +10,8 @@ import frc.robot.BreakerLib.devices.BreakerGenericDevice;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 
 /**
- * Interface for all Swerve Modules to allwo for easy interchangeablity, this
- * class is meant to surve as an intermedairy between your swerve hardware and
+ * Interface for all Swerve Modules to allow for easy interchangeablity, this
+ * class is meant to serve as an intermedairy between your swerve hardware and
  * the BreakerSwerveDrive class
  */
 public interface BreakerGenericSwerveModule extends BreakerGenericDevice {

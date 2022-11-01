@@ -14,7 +14,7 @@ import edu.wpi.first.math.Pair;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 
 
-/** Add your docs here. */
+/** Util class for REV devices */
 public class BreakerREVUtil {
 
     public static void setBrakeMode(boolean isEnabled, CANSparkMax... motors) {

@@ -21,7 +21,7 @@ import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.selftest.SelfTest;
 import frc.robot.BreakerLib.util.test.vendorutil.BreakerVendorUtil;
 
-/** Util class for CTRE motors. */
+/** Util class for CTRE devices */
 public class BreakerCTREUtil {
 
   /**

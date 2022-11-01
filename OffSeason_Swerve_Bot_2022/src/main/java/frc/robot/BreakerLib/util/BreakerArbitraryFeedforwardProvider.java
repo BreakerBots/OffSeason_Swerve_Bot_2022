@@ -13,7 +13,7 @@ import frc.robot.BreakerLib.util.math.interpolation.interpolateingmaps.BreakerGe
 
 /**
  * A class that acts as a provider for arbitrary feedforward demand values used
- * with the Talon motor controller's integrated PID.
+ * with the Talon or SparkMax motor controller's integrated PID.
  */
 public class BreakerArbitraryFeedforwardProvider {
 

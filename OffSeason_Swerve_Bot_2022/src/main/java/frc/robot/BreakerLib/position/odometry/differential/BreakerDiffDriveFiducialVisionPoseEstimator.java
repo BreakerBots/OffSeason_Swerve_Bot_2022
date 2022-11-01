@@ -31,11 +31,6 @@ public class BreakerDiffDriveFiducialVisionPoseEstimator extends SubsystemBase i
     }
 
     @Override
-    public Object getBaseOdometer() {
-        return poseEstimator;
-    }
-
-    @Override
     public Pose2d getOdometryPoseMeters() {
         return poseEstimator.getOdometryPoseMeters();
     }

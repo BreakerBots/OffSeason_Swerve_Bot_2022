@@ -121,7 +121,7 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
 
   /**
    * Tank driving controls (movement separated by side of drivetrain). Slow mode
-   * is enabled.
+   * defaults to global setting.
    * 
    * @param leftSpeed  Speed of left motors. -1 to 1.
    * @param rightSpeed Speed of right motors. -1 to 1.
@@ -148,7 +148,7 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
 
   /**
    * Tank driving controls (movement separated by side of drivetrain) utilizing
-   * voltage.
+   * voltage. Not effected by slow mode.
    * 
    * @param leftVoltage  Voltage for left motors. Negative to invert output.
    * @param rightVoltage Voltage for right motors. Negative to invert output.
@@ -296,11 +296,6 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
   public void setOdometryPosition(Pose2d newPose) {
     resetDriveEncoders();
     driveOdometer.resetPosition(newPose, Rotation2d.fromDegrees(gyro.getRawYaw()));
-  }
-
-  @Override
-  public Object getBaseOdometer() {
-    return driveOdometer;
   }
 
   @Override

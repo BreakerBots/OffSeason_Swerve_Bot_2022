@@ -76,11 +76,6 @@ public class BreakerDiffDrivePoseEstimator implements BreakerGenericOdometer {
     }
 
     @Override
-    public Object getBaseOdometer() {
-        return poseEstimator;
-    }
-
-    @Override
     public Pose2d getOdometryPoseMeters() {
         currentPose = poseEstimator.getEstimatedPosition();
         return currentPose;

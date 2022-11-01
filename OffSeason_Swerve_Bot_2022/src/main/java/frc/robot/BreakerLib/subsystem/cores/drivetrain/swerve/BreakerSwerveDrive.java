@@ -270,11 +270,6 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   }
 
   @Override
-  public Object getBaseOdometer() {
-    return odometer;
-  }
-
-  @Override
   public BreakerGenericGyro getBaseGyro() {
       return gyro;
   }

@@ -14,7 +14,7 @@ import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGenericGyro;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
 
-/** Add your docs here. */
+/** A {@link BreakerDiffDrive} instance with TalonFX (Falcon 500) motors */
 public class BreakerFalconDiffDrive extends BreakerDiffDrive {
     private WPI_TalonFX[] leftMotors;
     private WPI_TalonFX[] rightMotors;

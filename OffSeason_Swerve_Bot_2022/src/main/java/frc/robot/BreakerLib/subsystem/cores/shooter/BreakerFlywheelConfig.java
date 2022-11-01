@@ -9,12 +9,6 @@ import frc.robot.BreakerLib.util.BreakerArbitraryFeedforwardProvider;
 
 /** Add your docs here. */
 public class BreakerFlywheelConfig {
-    // private double flywheelMomentOfInertaJKgMetersSq;
-    // private double flywheelGearRatioToOne;
-    // private double modelKalmanTrust;
-    // private double encoderKalmanTrust;
-    // private double lqrVelocityErrorTolerance;
-    // private double lqrControlEffort;
     private double kP;
     private double kI;
     private double kD;
@@ -22,43 +16,6 @@ public class BreakerFlywheelConfig {
     private double velocityTolerence;
     private double acclerationTolerence;
     private BreakerArbitraryFeedforwardProvider arbFFProvider;
-
-
-    // public BreakerFlywheelConfig( double flywheelMomentOfInertaJKgMetersSq, double flywheelGearRatioToOne,
-    //         double modelKalmanDeviation, double encoderKalmanDeveation, 
-    //         double lqrVelocityErrorTolerance, double lqrControlEffort) {
-
-    //     this.flywheelMomentOfInertaJKgMetersSq = flywheelMomentOfInertaJKgMetersSq;
-    //     this.flywheelGearRatioToOne = flywheelGearRatioToOne;
-    //     this.modelKalmanTrust = modelKalmanDeviation;
-    //     this.encoderKalmanTrust = encoderKalmanDeveation;
-    //     this.lqrVelocityErrorTolerance = lqrVelocityErrorTolerance;
-    //     this.lqrControlEffort = lqrControlEffort;
-    // }
-
-    // public double getFlywheelGearRatioToOne() {
-    //     return flywheelGearRatioToOne;
-    // }
-
-    // public double getFlywheelMomentOfInertaJKgMetersSq() {
-    //     return flywheelMomentOfInertaJKgMetersSq;
-    // }
-
-    // public double getEncoderKalmanTrust() {
-    //     return encoderKalmanTrust;
-    // }
-
-    // public double getLqrControlEffort() {
-    //     return lqrControlEffort;
-    // }
-
-    // public double getLqrVelocityErrorTolerance() {
-    //     return lqrVelocityErrorTolerance;
-    // }
-
-    // public double getModelKalmanTrust() {
-    //     return modelKalmanTrust;
-    // }
 
     public BreakerFlywheelConfig(double kP, double kI, double kD, double kF, double velocityTolerence, double accelerationTolerence, BreakerArbitraryFeedforwardProvider arbFFProvider) {
         this.kP = kP;

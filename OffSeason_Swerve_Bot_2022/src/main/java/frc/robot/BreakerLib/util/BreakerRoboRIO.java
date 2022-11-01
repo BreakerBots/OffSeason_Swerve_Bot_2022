@@ -94,7 +94,7 @@ public class BreakerRoboRIO extends SubsystemBase {
         return roboRIO.currentMode;
     }
 
-    /** Checks if the RoboRIO's state has changed since the last cycle. */
+    /** Checks if the robot's operateing mode (EX: disabled, teleop, autonomous, etc) has changed since the last cycle. */
     public static boolean robotModeHasChanged() {
         return roboRIO.currentMode != roboRIO.prevMode;
     }

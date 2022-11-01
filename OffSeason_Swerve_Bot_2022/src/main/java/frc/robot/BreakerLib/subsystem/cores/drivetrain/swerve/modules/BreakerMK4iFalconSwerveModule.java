@@ -33,7 +33,7 @@ import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
 
-/** Swerve Drive Specialties' MK4i swerve module. */
+/** Swerve Drive Specialties' MK4i swerve module driven by Falcon 500 motors. */
 public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule {
 
     private BreakerArbitraryFeedforwardProvider ffProvider;
