@@ -262,6 +262,11 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
     );
   }
 
+  @Override
+  public BreakerGenericGyro getBaseGyro() {
+      return gyro;
+  }
+
   public BreakerDiffDriveState getDiffDriveState() {
     return new BreakerDiffDriveState(getWheelSpeeds(), getLeftDriveMeters(), getRightDriveMeters());
   }

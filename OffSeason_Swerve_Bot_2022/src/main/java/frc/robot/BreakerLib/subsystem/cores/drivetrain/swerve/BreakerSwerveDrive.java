@@ -275,6 +275,11 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   }
 
   @Override
+  public BreakerGenericGyro getBaseGyro() {
+      return gyro;
+  }
+
+  @Override
   public void setOdometryPosition(Pose2d newPose) {
     odometer.resetPosition(newPose, Rotation2d.fromDegrees(gyro.getRawYaw()));
   }

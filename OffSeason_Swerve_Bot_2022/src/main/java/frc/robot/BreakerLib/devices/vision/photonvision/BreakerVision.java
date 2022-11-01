@@ -7,7 +7,7 @@ package frc.robot.BreakerLib.devices.vision.photonvision;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
-import frc.robot.BreakerLib.position.odometry.BreakerVisionPoseFilter;
+import frc.robot.BreakerLib.position.odometry.vision.BreakerVisionPoseFilter;
 
 /** WIP */
 public class BreakerVision {

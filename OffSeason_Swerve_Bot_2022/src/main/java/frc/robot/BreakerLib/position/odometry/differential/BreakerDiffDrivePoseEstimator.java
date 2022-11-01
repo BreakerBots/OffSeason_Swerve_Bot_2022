@@ -23,7 +23,7 @@ import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 
 /** Add your docs here. */
-public class BreakerDiffPoseEstimator implements BreakerGenericOdometer {
+public class BreakerDiffDrivePoseEstimator implements BreakerGenericOdometer {
     private BreakerGenericGyro gyro;
     private DifferentialDrivePoseEstimator poseEstimator;
     private Pose2d currentPose;
@@ -32,7 +32,7 @@ public class BreakerDiffPoseEstimator implements BreakerGenericOdometer {
     private ChassisSpeeds fieldRelativeChassisSpeeds = new ChassisSpeeds();
     private BreakerMovementState2d prevMovementState = new BreakerMovementState2d();
     private BreakerMovementState2d curMovementState = new BreakerMovementState2d();
-    public BreakerDiffPoseEstimator(BreakerGenericGyro gyro, Pose2d initialPose, double[] stateModelStanderdDeveation, double[] encoderAndGyroStandardDeveation, double[] visionStanderdDeveation) {
+    public BreakerDiffDrivePoseEstimator(BreakerGenericGyro gyro, Pose2d initialPose, double[] stateModelStanderdDeveation, double[] encoderAndGyroStandardDeveation, double[] visionStanderdDeveation) {
         currentPose = initialPose;
         this.gyro = gyro;
         poseEstimator = new DifferentialDrivePoseEstimator(Rotation2d.fromDegrees(gyro.getRawYaw()), initialPose,
@@ -49,8 +49,8 @@ public class BreakerDiffPoseEstimator implements BreakerGenericOdometer {
         return currentPose;
     }
 
-    public Pose2d addVisionMeasurment(Pose2d robotPoseFromVision, double visionPipelineLatencySeconds) {
-        poseEstimator.addVisionMeasurement(robotPoseFromVision, Timer.getFPGATimestamp() - visionPipelineLatencySeconds);
+    public Pose2d addVisionMeasurment(Pose2d robotPoseFromVision, double visionDataTimestamp) {
+        poseEstimator.addVisionMeasurement(robotPoseFromVision, visionDataTimestamp);
         currentPose = poseEstimator.getEstimatedPosition();
         return currentPose;
     }
@@ -59,9 +59,9 @@ public class BreakerDiffPoseEstimator implements BreakerGenericOdometer {
         poseEstimator.setVisionMeasurementStdDevs(new MatBuilder<>(Nat.N3(), Nat.N1()).fill(visionStrdDevX, visionStrdDevY, visionStrdDevTheta));
     }
 
-    public Pose2d updateWithVision(BreakerDiffDriveState currentDriveState, Pose2d robotPoseFromVision, double visionPipelineLatencySeconds) {
+    public Pose2d updateWithVision(BreakerDiffDriveState currentDriveState, Pose2d robotPoseFromVision,  double visionDataTimestamp) {
         update(currentDriveState);
-        addVisionMeasurment(robotPoseFromVision, visionPipelineLatencySeconds);
+        addVisionMeasurment(robotPoseFromVision, visionDataTimestamp);
         currentPose = poseEstimator.getEstimatedPosition();
         return currentPose;
     }

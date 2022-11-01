@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.position.odometry;
+package frc.robot.BreakerLib.position.odometry.vision;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +15,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import frc.robot.BreakerLib.devices.vision.photonvision.BreakerFiducialPhotonTarget;
 import frc.robot.BreakerLib.util.math.BreakerMath;
+import frc.robot.BreakerLib.util.math.averages.BreakerAverage;
 
 /** Weighted average for vision-based pose predictions. */
 public class BreakerVisionPoseFilter {
     private BreakerFiducialPhotonTarget[] positioningTargets;
+    private BreakerAverage avgLatency;
     private double trustCoef, maxUncertanty;
 
     /**
@@ -37,12 +39,14 @@ public class BreakerVisionPoseFilter {
         this.positioningTargets = positioningTargets;
         this.trustCoef = MathUtil.clamp(trustCoef, 1, Double.MAX_VALUE);
         this.maxUncertanty = maxUncertanty;
+        avgLatency = new BreakerAverage();
     }
 
     /** @return Robot pose with weighted average applied. */
     public Pose3d getFilteredRobotPose3d() {
         List<Double> weights = new ArrayList<>();
         List<Pose3d> predictedPoses = new ArrayList<>();
+        avgLatency.clear();
         for (int i = 0; i < positioningTargets.length; i++) {
             BreakerFiducialPhotonTarget tgt = positioningTargets[i];
             if (tgt.isAssignedTargetVisible()) {
@@ -51,6 +55,7 @@ public class BreakerVisionPoseFilter {
                             1.0);
                     weights.add(weight);
                     predictedPoses.add(tgt.getRobotPose3d());
+                    avgLatency.addValue(tgt.getTargetDataAge());
                 }
             }
         }
@@ -90,6 +95,7 @@ public class BreakerVisionPoseFilter {
         // note, does not simply convert from 3d pose to conserve CPU time
         List<Double> weights = new ArrayList<>();
         List<Pose2d> predictedPoses = new ArrayList<>();
+        avgLatency.clear();
         for (int i = 0; i < positioningTargets.length; i++) {
             BreakerFiducialPhotonTarget tgt = positioningTargets[i];
             if (tgt.isAssignedTargetVisible()) {
@@ -98,6 +104,7 @@ public class BreakerVisionPoseFilter {
                             1.0);
                     weights.add(weight);
                     predictedPoses.add(tgt.getRobotPose());
+                    avgLatency.addValue(tgt.getTargetDataTimestamp());
                 }
             }
         }
@@ -120,6 +127,19 @@ public class BreakerVisionPoseFilter {
         double yaw = BreakerMath.getWeightedAvg(yAngArr, weightArr);
 
         return new Pose2d(x, y, new Rotation2d(yaw));
+    }
+
+    public boolean isAnyTargetVisable() {
+        for (BreakerFiducialPhotonTarget tgt: positioningTargets) {
+            if (tgt.isAssignedTargetVisible()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public double getDataTimestamp() {
+        return avgLatency.getAverage();
     }
 
 }

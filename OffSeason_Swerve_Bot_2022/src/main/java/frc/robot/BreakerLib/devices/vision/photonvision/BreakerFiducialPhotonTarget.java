@@ -79,6 +79,11 @@ public class BreakerFiducialPhotonTarget extends SubsystemBase {
         return Units.millisecondsToSeconds(camera.getPipelineLatancyMilliseconds()) + timediffsec;
     }
 
+    /** @return The timestamp of the vision data */
+    public double getTargetDataTimestamp() {
+        return Timer.getFPGATimestamp() - getTargetDataAge();
+    }
+
     /** @return 3d pose of camera. */
     public Pose3d getCameraPose3d() {
         return targetPose.transformBy(assignedTarget.getCameraToTarget().inverse());
