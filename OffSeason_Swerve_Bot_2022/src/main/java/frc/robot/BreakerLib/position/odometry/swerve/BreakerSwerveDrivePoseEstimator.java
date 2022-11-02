@@ -49,9 +49,9 @@ public class BreakerSwerveDrivePoseEstimator implements BreakerGenericOdometer {
         return pose;
     }
 
-    public Pose2d addVisionMeasurment(Pose2d robotPoseFromVision, double visionPipelineLatencySeconds) {
+    public Pose2d addVisionMeasurment(Pose2d robotPoseFromVision, double visionDataTimestamp) {
         poseEstimator.addVisionMeasurement(robotPoseFromVision,
-                Timer.getFPGATimestamp() - visionPipelineLatencySeconds);
+                visionDataTimestamp);
         return poseEstimator.getEstimatedPosition();
     }
 
