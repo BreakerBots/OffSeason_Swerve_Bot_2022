@@ -44,7 +44,7 @@ public class BreakerFollowSwerveTrajectory extends CommandBase implements Breake
     private BreakerGenericSwerveRotationSupplier rotationSupplier;
     private boolean usesSupplyedRotation = false;
 
-    BreakerFollowSwerveTrajectory(BreakerFollowSwerveTrajectoryConfig config, boolean stopAtEnd,
+    public BreakerFollowSwerveTrajectory(BreakerFollowSwerveTrajectoryConfig config, boolean stopAtEnd,
             Subsystem requiredSubsystem, BreakerTrajectoryPath... trajectoryPaths) {
         usesSupplyedRotation = false;
         drivetrain = config.getDrivetrain();
@@ -66,7 +66,7 @@ public class BreakerFollowSwerveTrajectory extends CommandBase implements Breake
         trajectoriesToFollow = arr;
     }
    
-    BreakerFollowSwerveTrajectory(BreakerFollowSwerveTrajectoryConfig config, BreakerGenericSwerveRotationSupplier rotationSupplier, boolean stopAtEnd,
+    public BreakerFollowSwerveTrajectory(BreakerFollowSwerveTrajectoryConfig config, BreakerGenericSwerveRotationSupplier rotationSupplier, boolean stopAtEnd,
             Subsystem requiredSubsystem, BreakerTrajectoryPath... trajectoryPaths) {
         usesSupplyedRotation = true;
         drivetrain = config.getDrivetrain();
