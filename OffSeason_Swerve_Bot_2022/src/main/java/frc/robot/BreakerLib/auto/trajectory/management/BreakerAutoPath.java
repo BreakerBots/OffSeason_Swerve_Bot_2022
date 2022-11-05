@@ -6,7 +6,7 @@ package frc.robot.BreakerLib.auto.trajectory.management;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-/** BreakerLib encapsulation of an auto path. */
+/** Represnets a Auto Path, contans the path's base {@link Command} and its name */
 public class BreakerAutoPath {
 
     private Command autoPath;

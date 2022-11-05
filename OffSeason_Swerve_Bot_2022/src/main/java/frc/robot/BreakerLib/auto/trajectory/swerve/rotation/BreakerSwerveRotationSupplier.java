@@ -18,12 +18,22 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import frc.robot.BreakerLib.util.math.interpolation.BreakerInterpolableDouble;
 import frc.robot.BreakerLib.util.math.interpolation.interpolateingmaps.BreakerInterpolatingTreeMap;
 
-/** Add your docs here. */
+/** A class that supplyes a swerve drive trajectory follower with live rotation setpoint targets */
 public class BreakerSwerveRotationSupplier implements BreakerGenericSwerveRotationSupplier {
     private BreakerRotationPoint[] rotationPoints;
     private Function<Double, Rotation2d> externalFunction;
     private BreakerInterpolatingTreeMap<Double, BreakerInterpolableDouble> interMap;
     private boolean  usesFunc;
+    /** Creates a new {@link BreakerSwerveRotationSupplier} with a supplied rotation that defaults to 0 degrees
+    */
+    public BreakerSwerveRotationSupplier() {
+        usesFunc = true;
+        externalFunction = (Double curTime) -> new Rotation2d();
+    }
+
+    /** Creates a new {@link BreakerSwerveRotationSupplier} with an array of time deifined rotation points that will be interpolated 
+     * @param rotationPoints Time defigned rotations to interpolate between
+    */
     public BreakerSwerveRotationSupplier(BreakerRotationPoint... rotationPoints) {
         this.rotationPoints = rotationPoints;
         usesFunc = false;
@@ -32,6 +42,9 @@ public class BreakerSwerveRotationSupplier implements BreakerGenericSwerveRotati
         }
     }
 
+    /** Creates a new {@link BreakerSwerveRotationSupplier} with a List of time deifined rotation points that will be interpolated 
+     * @param rotationPoints List of time defigned rotations to interpolate between
+    */
     public BreakerSwerveRotationSupplier(List<BreakerRotationPoint> rotationPoints) {
         this.rotationPoints = rotationPoints.toArray(new BreakerRotationPoint[rotationPoints.size()]);
         usesFunc = false;
@@ -40,12 +53,18 @@ public class BreakerSwerveRotationSupplier implements BreakerGenericSwerveRotati
         }
     }
 
+    /** Creates a new {@link BreakerSwerveRotationSupplier} with a supplier for the current rotation setpoint
+     * @param rotationPoints A supplier for the current {@link Rotation2d} setpoint
+    */
     public BreakerSwerveRotationSupplier(Supplier<Rotation2d> externalSupplier) {
         this.externalFunction = (Double time) -> (externalSupplier.get());
         usesFunc = true;
     }
 
-    /** function must take an input of time in seconds */
+    /** Creates a new {@link BreakerSwerveRotationSupplier} with a Function that takes in an argument 
+     * of the current elapsed path time in seconds and returns the {@link Rotation2d} setpoint
+     * @param rotationPoints The Function that supplies the curent rotation setpoint
+    */
     public BreakerSwerveRotationSupplier(Function<Double, Rotation2d> externalFunction) {
         this.externalFunction = externalFunction;
         usesFunc = true;

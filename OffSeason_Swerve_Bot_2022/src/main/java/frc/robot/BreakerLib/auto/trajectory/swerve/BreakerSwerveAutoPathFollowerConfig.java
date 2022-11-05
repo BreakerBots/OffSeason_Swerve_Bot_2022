@@ -9,23 +9,19 @@ import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDrive;
 
-/** Add your docs here. */
+/** A config class that represents the inital setup for a {@link BreakerSwerveAutoPathFollower} */
 public class BreakerSwerveAutoPathFollowerConfig {
     private BreakerSwerveDrive drivetrain;
     private HolonomicDriveController driveController;
     private BreakerGenericOdometer odometer;
-    public BreakerSwerveAutoPathFollowerConfig(BreakerSwerveDrive drivetrain, HolonomicDriveController driveController, Pose2d tolerance) {
-        this.drivetrain = drivetrain;
-        this.driveController = driveController;
-        driveController.setTolerance(tolerance);
-        odometer = drivetrain;
+    public BreakerSwerveAutoPathFollowerConfig(BreakerSwerveDrive drivetrain, HolonomicDriveController driveController) {
+        this(drivetrain, drivetrain, driveController);
     }
 
-    public BreakerSwerveAutoPathFollowerConfig(BreakerSwerveDrive drivetrain, BreakerGenericOdometer odometer, HolonomicDriveController driveController, Pose2d tolerance) {
+    public BreakerSwerveAutoPathFollowerConfig(BreakerSwerveDrive drivetrain, BreakerGenericOdometer odometer, HolonomicDriveController driveController) {
         this.drivetrain = drivetrain;
         this.odometer = odometer;
         this.driveController = driveController;
-        driveController.setTolerance(tolerance);
     }
 
     public HolonomicDriveController getDriveController() {

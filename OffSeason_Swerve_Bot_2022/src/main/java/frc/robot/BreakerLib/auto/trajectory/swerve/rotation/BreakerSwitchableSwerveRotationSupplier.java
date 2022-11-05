@@ -9,27 +9,38 @@ import java.util.function.IntSupplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
-/** Add your docs here. */
+/** A {@link BreakerGenericSwerveRotationSupplier} that can switch between multipul {@link BreakerGenericSwerveRotationSupplier} instances */
 public class BreakerSwitchableSwerveRotationSupplier implements BreakerGenericSwerveRotationSupplier {
     private BooleanSupplier boolSwitcher;
     private IntSupplier intSwicher;
     private boolean usesBoolSwicher;
-    private BreakerSwerveRotationSupplier[] rotationSuppliers;
+    private BreakerGenericSwerveRotationSupplier[] rotationSuppliers;
     private double curTime = 0;
 
-    public BreakerSwitchableSwerveRotationSupplier(BooleanSupplier switcher, BreakerSwerveRotationSupplier falseRotationSupplier, BreakerSwerveRotationSupplier trueRotationSupplier) {
-        rotationSuppliers = new BreakerSwerveRotationSupplier[] {falseRotationSupplier, trueRotationSupplier};
+    /** Creates a new {@link BreakerSwitchableSwerveRotationSupplier} that can swich between two {@link BreakerGenericSwerveRotationSupplier}
+     * instance based on the returned value of a BooleanSupplier
+     * @param swicher The BooleanSupplier that's returned value is used to switch between the given {@link BreakerGenericSwerveRotationSupplier} instances
+     * @param falseRotationSupplier The {@link BreakerGenericSwerveRotationSupplier} instance used while the BooleanSupplier returns false
+     * @param trueRotationSupplier The {@link BreakerGenericSwerveRotationSupplier} instance used while the BooleanSupplier returns true
+     */
+    public BreakerSwitchableSwerveRotationSupplier(BooleanSupplier switcher, BreakerGenericSwerveRotationSupplier falseRotationSupplier, BreakerGenericSwerveRotationSupplier trueRotationSupplier) {
+        rotationSuppliers = new BreakerGenericSwerveRotationSupplier[] {falseRotationSupplier, trueRotationSupplier};
         boolSwitcher = switcher;
         usesBoolSwicher = true;
     }
 
+    /** Creates a new {@link BreakerSwitchableSwerveRotationSupplier} that can swich between the elements of a
+     *  {@link BreakerGenericSwerveRotationSupplier} array based on the returned index value of a IntSupplier
+     *  @param swicher The IntSupplier that's returned value is used to indetify the index of the {@link BreakerGenericSwerveRotationSupplier} element in the array to use
+     *  @param rotationSuppliers The {@link BreakerGenericSwerveRotationSupplier} array to switch through
+     */
     public BreakerSwitchableSwerveRotationSupplier(IntSupplier switcher, BreakerSwerveRotationSupplier... rotationSuppliers) {
         this.rotationSuppliers = rotationSuppliers;
         intSwicher = switcher;
         usesBoolSwicher = false;
     }
 
-    private BreakerSwerveRotationSupplier getSwitchedSuppier() {
+    private BreakerGenericSwerveRotationSupplier getSwitchedSuppier() {
         int index = 0;
         if (usesBoolSwicher) {
             index = boolSwitcher.getAsBoolean() ? 0 : 1;
