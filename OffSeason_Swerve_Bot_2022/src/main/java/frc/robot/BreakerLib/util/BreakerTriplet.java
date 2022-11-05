@@ -4,11 +4,12 @@
 
 package frc.robot.BreakerLib.util;
 
-/** Add your docs here. */
+/** Currently unused. */
 public class BreakerTriplet<L, M, R> {
     private L leftValue;
     private M middleValue;
     private R rightValue;
+    
     public BreakerTriplet(L leftValue, M middleValue, R rightValue) {
         this.leftValue = leftValue;
         this.middleValue = middleValue;
