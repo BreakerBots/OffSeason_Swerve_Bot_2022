@@ -40,19 +40,8 @@ public class BreakerSwitchableSwerveRotationSupplier implements BreakerGenericSw
     }
 
     @Override
-    public void setCurrentTime(double currentTime) {
-        curTime = currentTime;
-    }
-
-    @Override
-    public BreakerRotationPoint[] getRotationPoints() {
-        return getSwitchedSuppier().getRotationPoints();
-    }
-
-    @Override
-    public Rotation2d getRotation() {
-        getSwitchedSuppier().setCurrentTime(curTime);
-        return getSwitchedSuppier().getRotation();
+    public Rotation2d getRotation(double currentTime) {
+        return getSwitchedSuppier().getRotation(currentTime);
     }
 
 

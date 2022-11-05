@@ -4,6 +4,7 @@
 
 package frc.robot.BreakerLib.util.robotmanager;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.BreakerLib.auto.trajectory.management.BreakerAutoManager;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.autobrake.BreakerAutomaticBrakeModeManager;
@@ -60,8 +61,8 @@ public class BreakerRobotManager {
         return autoManager;
     }
 
-    public static SequentialCommandGroup getSelectedAutoPath() {
-        return autoManager.getSelectedBaseCommandGroup();
+    public static Command getSelectedAutoPath() {
+        return autoManager.getSelectedAutoPath();
     }
 
     public static void setDrivetrainBreakMode(boolean isEnabled) {

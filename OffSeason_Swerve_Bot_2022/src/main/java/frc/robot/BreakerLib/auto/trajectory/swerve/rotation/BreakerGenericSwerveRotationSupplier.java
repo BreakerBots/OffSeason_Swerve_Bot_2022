@@ -8,9 +8,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 
 /** Add your docs here. */
 public interface BreakerGenericSwerveRotationSupplier {
-    public abstract void setCurrentTime(double currentTime);
 
-    public abstract BreakerRotationPoint[] getRotationPoints();
-
-    public abstract Rotation2d getRotation();
+    public abstract Rotation2d getRotation(double currentTime);
 }

@@ -42,4 +42,7 @@ public abstract class BreakerGenericDrivetrain extends BreakerGenericLoopedDevic
     /** @return The {@link ChassisSpeeds object that represents } */
     public abstract ChassisSpeeds getFieldRelativeChassisSpeeds(BreakerGenericOdometer odometer);
 
+    /** Stops the robot's movement in all axsies */
+    public abstract void stop();
+
 }

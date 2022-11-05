@@ -8,9 +8,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** Why. */
-public interface BreakerConditionalCommand {
+public interface BreakerConditionalEvent {
     public abstract boolean checkCondition(double currentTimeSeconds, Pose2d currentPose);
     public abstract Command getBaseCommand();
-    public abstract void startRunning();
-    public abstract boolean updateAutoRun(double currentTimeSeconds, Pose2d currentPose);
 }

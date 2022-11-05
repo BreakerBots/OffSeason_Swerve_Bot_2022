@@ -5,6 +5,7 @@
 package frc.robot.BreakerLib.subsystem.cores.drivetrain.differential;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.math.BreakerUnits;
@@ -24,6 +25,7 @@ public class BreakerDiffDriveConfig {
     private double feedForwardKa;
     private double slowModeForwardMultiplier = 1;
     private double slowModeTurnMultiplier = 1;
+    private SimpleMotorFeedforward feedforward;
     private PIDController leftPID;
     private PIDController rightPID;
 
@@ -53,6 +55,8 @@ public class BreakerDiffDriveConfig {
         wheelCircumference = BreakerMath.getCircumferenceFromDiameter(wheelDiameter);
         ticksPerInch = BreakerMath.getTicksPerInch(ticksPerEncoderRotation, gearRatioTo1, wheelDiameter);
         getTicksPerWheelRotation = BreakerMath.getTicksPerRotation(ticksPerEncoderRotation, gearRatioTo1);
+
+        feedforward = new SimpleMotorFeedforward(feedForwardKs, feedForwardKv, feedForwardKa);
     }
 
     public void setSlowModeMultipliers(double forwardMult, double turnMult) {
@@ -99,6 +103,10 @@ public class BreakerDiffDriveConfig {
 
     public double getFeedForwardKv() {
         return feedForwardKv;
+    }
+
+    public SimpleMotorFeedforward getFeedForward() {
+        return feedforward;
     }
 
     public double getRobotTrackWidthInches() {

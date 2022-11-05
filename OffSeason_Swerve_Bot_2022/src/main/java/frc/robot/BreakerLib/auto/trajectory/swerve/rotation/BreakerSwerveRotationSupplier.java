@@ -21,14 +21,11 @@ import frc.robot.BreakerLib.util.math.interpolation.interpolateingmaps.BreakerIn
 /** Add your docs here. */
 public class BreakerSwerveRotationSupplier implements BreakerGenericSwerveRotationSupplier {
     private BreakerRotationPoint[] rotationPoints;
-    private Supplier<Rotation2d> externalSupplier;
     private Function<Double, Rotation2d> externalFunction;
     private BreakerInterpolatingTreeMap<Double, BreakerInterpolableDouble> interMap;
-    private boolean usesSupplier, usesFunc;
-    private double currentTime = 0.0;
+    private boolean  usesFunc;
     public BreakerSwerveRotationSupplier(BreakerRotationPoint... rotationPoints) {
         this.rotationPoints = rotationPoints;
-        usesSupplier = false;
         usesFunc = false;
         for (BreakerRotationPoint point: rotationPoints) {
             interMap.put(point.getTimeOfRotation(), new BreakerInterpolableDouble(point.getRotation().getRadians()));
@@ -37,7 +34,6 @@ public class BreakerSwerveRotationSupplier implements BreakerGenericSwerveRotati
 
     public BreakerSwerveRotationSupplier(List<BreakerRotationPoint> rotationPoints) {
         this.rotationPoints = rotationPoints.toArray(new BreakerRotationPoint[rotationPoints.size()]);
-        usesSupplier = false;
         usesFunc = false;
         for (BreakerRotationPoint point: rotationPoints) {
             interMap.put(point.getTimeOfRotation(), new BreakerInterpolableDouble(point.getRotation().getRadians()));
@@ -45,47 +41,22 @@ public class BreakerSwerveRotationSupplier implements BreakerGenericSwerveRotati
     }
 
     public BreakerSwerveRotationSupplier(Supplier<Rotation2d> externalSupplier) {
-        this.externalSupplier = externalSupplier;
-        usesSupplier = true;
-        usesFunc = false;
+        this.externalFunction = (Double time) -> (externalSupplier.get());
+        usesFunc = true;
     }
 
     /** function must take an input of time in seconds */
     public BreakerSwerveRotationSupplier(Function<Double, Rotation2d> externalFunction) {
         this.externalFunction = externalFunction;
-        usesSupplier = false;
         usesFunc = true;
     }
 
     @Override
-    public void setCurrentTime(double currentTime) {
-        this.currentTime = currentTime;
-    }
-
-    @Override
-    public BreakerRotationPoint[] getRotationPoints() {
-        return rotationPoints;
-    }
-
-    @Override
-    public Rotation2d getRotation() {
-        if (usesSupplier) {
-            return externalSupplier.get();
-        } else if (usesFunc) {
+    public Rotation2d getRotation(double currentTime) {
+        if (usesFunc) {
             return externalFunction.apply(currentTime);
         }
         return new Rotation2d(interMap.getInterpolatedValue(currentTime).getValue());
     }
 
-    /** this will be assumed to be first */
-    public BreakerSwerveRotationSupplier concatenate(BreakerSwerveRotationSupplier outher) {
-        List<BreakerRotationPoint> rotationPointList = new ArrayList<>();
-        for (BreakerRotationPoint point: rotationPoints) {
-            rotationPointList.add(point);
-        }
-        for (BreakerRotationPoint point: outher.getRotationPoints()) {
-           rotationPointList.add(new BreakerRotationPoint(point.getRotation(), point.getTimeOfRotation() + rotationPoints[rotationPoints.length - 1].getTimeOfRotation()));
-        }
-        return new BreakerSwerveRotationSupplier(rotationPointList);
-    }
 }

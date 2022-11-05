@@ -159,6 +159,11 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
     diffDrive.feed();
   }
 
+  @Override
+  public void stop() {
+    arcadeDrive(0.0, 0.0);
+  }
+
   // Both sides of drivetrain.
 
   /** Resets drivetrain encoders. */
@@ -260,6 +265,10 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
         Units.inchesToMeters(((getLeftDriveVelocityRPM() * driveConfig.getEncoderTicks()) / driveConfig.getTicksPerInch()) / 60),
         Units.inchesToMeters(((getRightDriveVelocityRPM() * driveConfig.getEncoderTicks()) / driveConfig.getTicksPerInch()) / 60)
     );
+  }
+
+  public BreakerDiffDriveConfig getConfig() {
+      return driveConfig;
   }
 
   @Override

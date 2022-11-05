@@ -4,33 +4,49 @@
 
 package frc.robot.BreakerLib.auto.trajectory.management;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.first.math.trajectory.Trajectory;
-import frc.robot.BreakerLib.auto.trajectory.management.conditionalcommand.BreakerConditionalCommand;
+import frc.robot.BreakerLib.auto.trajectory.management.conditionalcommand.BreakerConditionalEvent;
 
 /** Represents a trajectory and its optionaly attached commands */
 public class BreakerTrajectoryPath {
-    private List<BreakerConditionalCommand> attachedConditionalCommands = new ArrayList<>();
+    private List<BreakerConditionalEvent> attachedConditionalEvents = new ArrayList<>();
     private Trajectory baseTrajectory;
-    public BreakerTrajectoryPath(Trajectory baseTrajectory, BreakerConditionalCommand... conditionalCommands) {
+    private boolean stopAtEnd;
+
+    public BreakerTrajectoryPath(Trajectory baseTrajectory) {
+        this(baseTrajectory, true);
+    }
+
+    public BreakerTrajectoryPath(Trajectory baseTrajectory, BreakerConditionalEvent... conditionalEvents) {
+        this(baseTrajectory, true, conditionalEvents);
+    }
+
+    public BreakerTrajectoryPath(Trajectory baseTrajectory, boolean stopAtEnd) {
         this.baseTrajectory = baseTrajectory;
-        for (BreakerConditionalCommand com: conditionalCommands) {
-            attachedConditionalCommands.add(com);
+        this.stopAtEnd = stopAtEnd;
+        attachedConditionalEvents= new ArrayList<>();
+    }
+
+    public BreakerTrajectoryPath(Trajectory baseTrajectory, boolean stopAtEnd, BreakerConditionalEvent... conditionalEvents) {
+        this.baseTrajectory = baseTrajectory;
+        this.stopAtEnd = stopAtEnd;
+        for (BreakerConditionalEvent com: conditionalEvents) {
+            attachedConditionalEvents.add(com);
         }
     }
 
-    public BreakerTrajectoryPath(Trajectory baseTrajectory) {
-        this.baseTrajectory = baseTrajectory;
-    }
-
-    public List<BreakerConditionalCommand> getAttachedConditionalCommands() {
-        return attachedConditionalCommands;
+    public List<BreakerConditionalEvent> getAttachedConditionalEvents() {
+        return attachedConditionalEvents;
     }
 
     public Trajectory getBaseTrajectory() {
         return baseTrajectory;
+    }
+
+    public boolean stopAtEnd() {
+        return stopAtEnd;
     }
 }

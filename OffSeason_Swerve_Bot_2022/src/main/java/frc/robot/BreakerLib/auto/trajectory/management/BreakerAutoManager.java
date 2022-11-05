@@ -6,6 +6,7 @@ package frc.robot.BreakerLib.auto.trajectory.management;
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.BreakerLib.driverstation.dashboard.BreakerDashboard;
 import frc.robot.BreakerLib.util.logging.BreakerLog;
@@ -48,8 +49,8 @@ public class BreakerAutoManager {
     }
 
     /**Returns base command group autopath from selected BreakerAutoPath. */
-    public SequentialCommandGroup getSelectedBaseCommandGroup() {
+    public Command getSelectedAutoPath() {
         BreakerLog.logBreakerLibEvent(" New Autopath Started: " + getSelected().getPathName()); 
-        return getSelected().getBaseCommandGroup();
+        return getSelected().getBaseAutoPath();
     }
 }
