@@ -6,8 +6,6 @@ package frc.robot.commands;
 
 import java.util.ArrayList;
 
-import com.revrobotics.CANSparkMaxLowLevel.FollowConfig.Config;
-
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -35,14 +33,18 @@ public class TestTrajectoryAutoPath extends SequentialCommandGroup {
   public TestTrajectoryAutoPath(Drive drivetrain) {
     
     BreakerSwerveAutoPathFollowerConfig swerveFollowerConfig = new BreakerSwerveAutoPathFollowerConfig(drivetrain.getBaseDrivetrain(), 
-        new HolonomicDriveController(new PIDController(kp, ki, kd), new PIDController(kp, ki, kd), new ProfiledPIDController(Kp, Ki, Kd, new TrapezoidProfile.Constraints(maxVel, maxAccel))), new Pose2d(x, y, rotation));
+        new HolonomicDriveController(new PIDController(2.0, 0.0, 0.1), new PIDController(2.0, 0.0, 0.1), new ProfiledPIDController(0.000000001, 0.0, 0.0, new TrapezoidProfile.Constraints(0.0, 0.0))));
 
     BreakerTrajectoryPath traj1 = new BreakerTrajectoryPath(TrajectoryGenerator.generateTrajectory(
-        BreakerTrajectoryUtil.toPoseWaypointList(waypoints),
-        new TrajectoryConfig(maxVelocityMetersPerSecond, maxAccelerationMetersPerSecondSq)), true);
+        BreakerTrajectoryUtil.toPoseWaypointList(
+          new Pose2d(), 
+          new Pose2d(1.0, 0.0, new Rotation2d()),
+          new Pose2d(1.0, -1.0, new Rotation2d()
+          )),
+        new TrajectoryConfig(0.5, 0.5)), true);
     
     addCommands(
-      new BreakerStartTrajectoryPath(drivetrain.getBaseDrivetrain(), new Pose2d(0.0, 0.0, drivetrain.getBaseDrivetrain().getOdometryPoseMeters().getRotation())),
+      new BreakerStartTrajectoryPath(drivetrain.getBaseDrivetrain(), new Pose2d()),
       new BreakerSwerveAutoPathFollower(swerveFollowerConfig, traj1)
     );
   }

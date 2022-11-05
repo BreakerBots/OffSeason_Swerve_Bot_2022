@@ -11,7 +11,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.BreakerLib.auto.trajectory.BreakerGenericAutoPathFollower;
 import frc.robot.BreakerLib.auto.trajectory.management.BreakerTrajectoryPath;
 import frc.robot.BreakerLib.auto.trajectory.management.conditionalcommand.BreakerConditionalEvent;
@@ -21,7 +21,7 @@ import frc.robot.BreakerLib.util.logging.BreakerLog;
 
 /** A command that allows a {@link BreakerSwerveDrive} to follow a {@link BreakerTrajectoryPath} */
 public class BreakerSwerveAutoPathFollower extends CommandBase implements BreakerGenericAutoPathFollower {
-  private Timer timer;
+  private final Timer timer = new Timer();
   private BreakerSwerveAutoPathFollowerConfig config;
   private BreakerTrajectoryPath trajectoryPath;
   private BreakerGenericSwerveRotationSupplier rotationSupplier;

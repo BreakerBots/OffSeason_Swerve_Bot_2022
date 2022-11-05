@@ -27,7 +27,7 @@ import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   private BreakerSwerveDriveConfig config;
 
-  private SwerveModuleState[] targetModuleStates;
+  private SwerveModuleState[] prevTargetModuleStates;
 
   private BreakerGenericSwerveModule[] swerveModules;
 
@@ -58,6 +58,10 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
     this.swerveModules = swerveModules;
     this.gyro = gyro;
     deviceName = "Swerve_Drivetrain";
+    prevTargetModuleStates = new SwerveModuleState[swerveModules.length];
+    for (int i = 0; i < prevTargetModuleStates.length; i++) {
+      prevTargetModuleStates[i] = new SwerveModuleState();
+    }
   }
 
   /**
@@ -67,12 +71,16 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
    * NOTE: Not affected by slow mode.
    */
   public void setRawModuleStates(SwerveModuleState... targetModuleStates) {
-    this.targetModuleStates = targetModuleStates;
+    
     for (int i = 0; i < swerveModules.length; i++) {
+      if (targetModuleStates[i].speedMetersPerSecond == 0.0) {
+        targetModuleStates[i].angle = prevTargetModuleStates[i].angle;
+      }
       SwerveModuleState optimizedState = SwerveModuleState.optimize(targetModuleStates[i],
           Rotation2d.fromDegrees(swerveModules[i].getModuleRelativeAngle()));
       swerveModules[i].setModuleTarget(optimizedState);
     }
+    prevTargetModuleStates = targetModuleStates;
   }
 
   /**
@@ -292,7 +300,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   }
 
   public SwerveModuleState[] getTargetModuleStates() {
-    return targetModuleStates;
+    return prevTargetModuleStates;
   }
 
   @Override

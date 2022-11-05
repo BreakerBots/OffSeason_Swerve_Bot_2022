@@ -15,6 +15,7 @@ import frc.robot.BreakerLib.util.power.BreakerPowerManager;
 import frc.robot.BreakerLib.util.robotmanager.BreakerRobotConfig;
 import frc.robot.BreakerLib.util.robotmanager.BreakerRobotManager;
 import frc.robot.BreakerLib.util.robotmanager.BreakerRobotStartConfig;
+import frc.robot.commands.TestTrajectoryAutoPath;
 import frc.robot.subsystems.Drive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -68,6 +69,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return new TestTrajectoryAutoPath(drivetrainSys);
   }
 }
