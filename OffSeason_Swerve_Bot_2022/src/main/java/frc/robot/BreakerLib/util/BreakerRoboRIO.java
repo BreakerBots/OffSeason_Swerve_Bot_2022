@@ -65,40 +65,34 @@ public class BreakerRoboRIO extends SubsystemBase {
         }
     }
 
-    @Override
-    public void periodic() {
-        diffTime = calculateInterCycleTime();
-        updateRobotMode();
-        checkBrownout();
-    }
-
     // Static getters.
 
-    /** Returns time between cycles in seconds. */
+    /** @return Time between cycles in seconds. */
     public static double getInterCycleTimeSeconds() {
         return roboRIO.diffTime;
     }
 
-    /** Returns time as long of microseconds */
+    /** @return RoboRIO time as long of microseconds */
     public static long getRobotTimeMCRS() {
         return RobotController.getFPGATime();
     }
 
-    /** Operating time of robot in seconds. */
+    /** @return Operating time of robot in seconds. */
     public static double getRobotTimeSeconds() {
         return BreakerUnits.microsecondsToSeconds(RobotController.getFPGATime());
     }
 
-    /** Returns current operating mode of robot. */
+    /** @return Current operating mode of robot. */
     public static RobotMode getCurrentRobotMode() {
         return roboRIO.currentMode;
     }
 
-    /** Checks if the robot's operateing mode (EX: disabled, teleop, autonomous, etc) has changed since the last cycle. */
+    /** @return If the robot's operating mode (EX: disabled, teleop, autonomous, etc) has changed since the last cycle. */
     public static boolean robotModeHasChanged() {
         return roboRIO.currentMode != roboRIO.prevMode;
     }
 
+    /** Logs when RoboRIO brownouts begin and end. */
     private void checkBrownout() {
         prevBrownoutState = curBrownoutState;
         curBrownoutState = RobotController.isBrownedOut();
@@ -110,5 +104,12 @@ public class BreakerRoboRIO extends SubsystemBase {
                 BreakerLog.logEvent(" ROBORIO BROWNOUT ENDED! ( #" + brownoutNum + ")");
             }
         }
+    }
+
+    @Override
+    public void periodic() {
+        diffTime = calculateInterCycleTime();
+        updateRobotMode();
+        checkBrownout();
     }
 }
