@@ -41,6 +41,7 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
     private String faults = null, deviceName = "Swerve_Module_(SDS_MK4I)";
     private WPI_TalonFX turnMotor, driveMotor;
     private WPI_CANCoder turnEncoder;
+    private SwerveModuleState targetModuleState;
     private DeviceHealth turnMotorHealth = DeviceHealth.NOMINAL, driveMotorHealth = DeviceHealth.NOMINAL,
             overallHealth = DeviceHealth.NOMINAL, encoderHealth = DeviceHealth.NOMINAL;
 
@@ -118,6 +119,7 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
 
         SmartDashboard.putNumber(deviceName + "ANGLE OUT", getModuleState().angle.getDegrees());
         SmartDashboard.putNumber(deviceName + "SPEED OUT", getModuleState().speedMetersPerSecond);
+        targetModuleState = new SwerveModuleState(speedMetersPerSec, tgtAngle);
     }
 
     @Override
@@ -294,5 +296,10 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
     public void returnToAutomaticPowerManagement() {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public SwerveModuleState getModuleTargetState() {
+        return targetModuleState;
     }
 }

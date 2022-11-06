@@ -37,6 +37,7 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
     private CANSparkMax turnMotor, driveMotor;
     private PIDController turnPID;
     private WPI_CANCoder turnEncoder;
+    private SwerveModuleState targetModuleState;
     private DeviceHealth turnMotorHealth = DeviceHealth.NOMINAL, driveMotorHealth = DeviceHealth.NOMINAL,
             overallHealth = DeviceHealth.NOMINAL, encoderHealth = DeviceHealth.NOMINAL;
 
@@ -80,6 +81,8 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
         driveMotor.setInverted(invertDriveOutput);
 
         ffProvider = config.getArbitraryFeedforwardProvider();
+
+        targetModuleState = new SwerveModuleState();
     }
 
     @Override
@@ -94,6 +97,8 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
 
         SmartDashboard.putNumber(deviceName + "ANGLE OUT", getModuleState().angle.getDegrees());
         SmartDashboard.putNumber(deviceName + "SPEED OUT", getModuleState().speedMetersPerSecond);
+
+        targetModuleState = new SwerveModuleState(speedMetersPerSec, tgtAngle);
     }
 
     @Override
@@ -234,5 +239,10 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
     public void returnToAutomaticPowerManagement() {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public SwerveModuleState getModuleTargetState() {
+        return targetModuleState;
     }
 }

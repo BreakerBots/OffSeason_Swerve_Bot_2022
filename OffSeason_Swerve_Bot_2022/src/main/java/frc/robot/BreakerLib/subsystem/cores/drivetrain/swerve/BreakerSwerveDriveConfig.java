@@ -26,6 +26,8 @@ public class BreakerSwerveDriveConfig {
     private double wheelDiameter;
     private double slowModeLinearMultiplier;
     private double slowModeTurnMultiplier;
+    private double moduleWheelSpeedDeadband;
+    private double maxAttainableModuleWheelSpeed;
     private BreakerArbitraryFeedforwardProvider arbitraryFeedforwardProvider;
 
     private SwerveDriveKinematics kinematics;
@@ -49,14 +51,16 @@ public class BreakerSwerveDriveConfig {
      * @param moduleVelKf                    Swerve module drive kF (for PIDF).
      * @param arbitraryFeedforwardProvider
      * @param driveMotorGearRatioToOne       Gear ratio of swerve modules.
-     * @param wheelDiameter                  In inches.
-     * @param wheelPositionsRelativeToCenter Translation2ds assigned to each module
-     *                                       in order of modules added to BreakerSwerveDrive object.
+     * @param wheelDiameter                  The diameter of your module's wheels in inches.
+     * @param wheelspeedDeadband             The min value (+/-) in m/s^2 that each modules wheel speed can be set too before being ingored
+     * @param maxAttainableModuleWheelSpeed  The physical maximum speed (in m/s^2) your swerve modules are capable of achiving
+     * @param wheelPositionsRelativeToCenter Position of each module relative to the robot's center as Translation2d ojects, must be
+     *                                       in the same order as their respective modules are added to your BreakerSwerveDrive object.
      */
     public BreakerSwerveDriveConfig(double maxForwardVel, double maxSidewaysVel, double maxAngVel,
             double moduleAnglekP, double moduleAnglekI, double moduleAngleKd, double moduleVelkP,
             double moduleVelkI, double moduleVelKd, double moduleVelKf, double driveMotorGearRatioToOne,
-            double wheelDiameter, BreakerArbitraryFeedforwardProvider arbitraryFeedforwardProvider,
+            double wheelDiameter, double moduleWheelSpeedDeadband, double maxAttainableModuleWheelSpeed, BreakerArbitraryFeedforwardProvider arbitraryFeedforwardProvider,
             Translation2d... wheelPositionsRelativeToCenter) {
 
         this.maxForwardVel = maxForwardVel;
@@ -72,6 +76,8 @@ public class BreakerSwerveDriveConfig {
         this.driveMotorGearRatioToOne = driveMotorGearRatioToOne;
         this.moduleVelKf = moduleVelKf;
         this.arbitraryFeedforwardProvider = arbitraryFeedforwardProvider;
+        this.maxAttainableModuleWheelSpeed = maxAttainableModuleWheelSpeed;
+        this.moduleWheelSpeedDeadband = moduleWheelSpeedDeadband;
         slowModeLinearMultiplier = 1;
         slowModeTurnMultiplier = 1;
 
@@ -178,5 +184,13 @@ public class BreakerSwerveDriveConfig {
     /** @return Arbitrary feedforward provider for swerve drive. */
     public BreakerArbitraryFeedforwardProvider getArbitraryFeedforwardProvider() {
         return arbitraryFeedforwardProvider;
+    }
+
+    public double getMaxAttainableModuleWheelSpeed() {
+        return maxAttainableModuleWheelSpeed;
+    }
+
+    public double getModuleWheelSpeedDeadband() {
+        return moduleWheelSpeedDeadband;
     }
 }

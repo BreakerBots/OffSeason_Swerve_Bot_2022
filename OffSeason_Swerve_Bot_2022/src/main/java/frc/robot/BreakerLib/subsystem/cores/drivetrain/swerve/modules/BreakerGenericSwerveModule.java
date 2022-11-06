@@ -25,6 +25,11 @@ public interface BreakerGenericSwerveModule extends BreakerGenericDevice {
         setModuleTarget(targetModuleState.angle, targetModuleState.speedMetersPerSecond);
     }
 
+    /** Sets the modules target speed to zero while maintaning the last set angle */
+    public default void stop() {
+        setModuleTarget(getModuleTargetState().angle, 0.0);
+    }
+
     /**
      * Method defined in module code to handle angle and velocity control of the
      * module
@@ -45,6 +50,8 @@ public interface BreakerGenericSwerveModule extends BreakerGenericDevice {
 
     /** @return The velocity of the module's drive wheel in device's native unit. */
     public abstract double getMetersPerSecToNativeVelUnits(double speedMetersPerSec);
+
+    public abstract SwerveModuleState getModuleTargetState();
 
     /** @return Module's {@link SwerveModuleState}. */
     public abstract SwerveModuleState getModuleState();

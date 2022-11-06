@@ -7,6 +7,7 @@ package frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.BreakerLib.driverstation.BreakerXboxController;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
@@ -18,8 +19,9 @@ public class BreakerSwerveDriveController extends CommandBase {
   private BreakerXboxController controller;
   private BreakerSwerveDrive baseDrivetrain;
   private BreakerGenericOdometer odometer;
-  private boolean usesSuppliers, usesCurves, usesExternalOdometer, turnOverride, linearOverride;
+  private boolean usesSuppliers, usesCurves, usesExternalOdometer, usesRateLimiters, turnOverride, linearOverride;
   private BreakerGenericMathFunction linearSpeedCurve, turnSpeedCurve;
+  private SlewRateLimiter forwardRateLimiter, horizontalRateLimiter, turnRateLimiter;
   private DoubleSupplier forwardSpeedPercentSupplier, horizontalSpeedPercentSupplier, turnSpeedPercentSupplier,
       overrideForwardSupplier, overrideHorizontalSupplier, overrideTurnSupplier;
 
@@ -35,27 +37,7 @@ public class BreakerSwerveDriveController extends CommandBase {
     usesSuppliers = false;
     usesCurves = false;
     usesExternalOdometer = false;
-    addRequirements(baseDrivetrain);
-  }
-
-  /**
-   * Create a new BreakerSwerveDriveController which uses HID input and input
-   * curves.
-   * 
-   * @param baseDrivetrain   Swerve drivetrain.
-   * @param controller       Xbox controller.
-   * @param linearSpeedCurve Linear speed curve.
-   * @param turnSpeedCurve   Turn speed curve.
-   */
-  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerXboxController controller,
-      BreakerGenericMathFunction linearSpeedCurve, BreakerGenericMathFunction turnSpeedCurve) {
-    this.controller = controller;
-    this.linearSpeedCurve = linearSpeedCurve;
-    this.turnSpeedCurve = turnSpeedCurve;
-    this.baseDrivetrain = baseDrivetrain;
-    usesSuppliers = false;
-    usesCurves = true;
-    usesExternalOdometer = false;
+    usesRateLimiters = false;
     addRequirements(baseDrivetrain);
   }
 
@@ -77,33 +59,7 @@ public class BreakerSwerveDriveController extends CommandBase {
     usesSuppliers = true;
     usesCurves = false;
     usesExternalOdometer = false;
-    addRequirements(baseDrivetrain);
-  }
-
-  /**
-   * Creates a new BreakerSwerveDriveController which uses percent speed values
-   * and input curves
-   * 
-   * @param baseDrivetrain                 The drive train used by this
-   *                                       BreakerSwerveDriveController.
-   * @param forwardSpeedPercentSupplier    The forward speed percent supplier.
-   * @param horizontalSpeedPercentSupplier The horizontal speed percent supplier.
-   * @param turnSpeedPercentSupplier       The turn speed percent supplier.
-   * @param linearSpeedCurve               Linear speed curve.
-   * @param turnSpeedCurve                 Rotation speed curve.
-   */
-  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, DoubleSupplier forwardSpeedPercentSupplier,
-      DoubleSupplier horizontalSpeedPercentSupplier, DoubleSupplier turnSpeedPercentSupplier,
-      BreakerGenericMathFunction linearSpeedCurve, BreakerGenericMathFunction turnSpeedCurve) {
-    this.forwardSpeedPercentSupplier = forwardSpeedPercentSupplier;
-    this.horizontalSpeedPercentSupplier = horizontalSpeedPercentSupplier;
-    this.turnSpeedPercentSupplier = turnSpeedPercentSupplier;
-    this.linearSpeedCurve = linearSpeedCurve;
-    this.turnSpeedCurve = turnSpeedCurve;
-    this.baseDrivetrain = baseDrivetrain;
-    usesSuppliers = true;
-    usesCurves = true;
-    usesExternalOdometer = false;
+    usesRateLimiters = false;
     addRequirements(baseDrivetrain);
   }
 
@@ -122,30 +78,7 @@ public class BreakerSwerveDriveController extends CommandBase {
     usesSuppliers = false;
     usesCurves = false;
     usesExternalOdometer = true;
-    addRequirements(baseDrivetrain);
-  }
-
-  /**
-   * Makes a BreakerSwerveDriveController which uses an odometer, HID input, and
-   * speed curves.
-   * 
-   * @param baseDrivetrain   Swerve drivetrain.
-   * @param odometer         Odometer to use.
-   * @param controller       Xbox controller to provide input.
-   * @param linearSpeedCurve Linear speed curve.
-   * @param turnSpeedCurve   Rotation speed curve.
-   */
-  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer,
-      BreakerXboxController controller, BreakerGenericMathFunction linearSpeedCurve,
-      BreakerGenericMathFunction turnSpeedCurve) {
-    this.controller = controller;
-    this.linearSpeedCurve = linearSpeedCurve;
-    this.turnSpeedCurve = turnSpeedCurve;
-    this.baseDrivetrain = baseDrivetrain;
-    this.odometer = odometer;
-    usesSuppliers = false;
-    usesCurves = true;
-    usesExternalOdometer = true;
+    usesRateLimiters = false;
     addRequirements(baseDrivetrain);
   }
 
@@ -170,36 +103,21 @@ public class BreakerSwerveDriveController extends CommandBase {
     usesSuppliers = true;
     usesCurves = false;
     usesExternalOdometer = true;
+    usesRateLimiters = false;
     addRequirements(baseDrivetrain);
   }
 
-  /**
-   * Makes a BreakerSwerveDriveController which uses an odometer, percent speed
-   * values, and speed curves.
-   * 
-   * @param baseDrivetrain                 Swerve drivetrain.
-   * @param odometer                       Odometer to use.
-   * @param forwardSpeedPercentSupplier    The forward speed percent supplier.
-   * @param horizontalSpeedPercentSupplier The horizontal speed percent supplier.
-   * @param turnSpeedPercentSupplier       The turn speed percent supplier.
-   * @param linearSpeedCurve               Linear speed curve.
-   * @param turnSpeedCurve                 Rotation speed curve.
-   */
-  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer,
-      DoubleSupplier forwardSpeedPercentSupplier, DoubleSupplier horizontalSpeedPercentSupplier,
-      DoubleSupplier turnSpeedPercentSupplier, BreakerGenericMathFunction linearSpeedCurve,
-      BreakerGenericMathFunction turnSpeedCurve) {
-    this.forwardSpeedPercentSupplier = forwardSpeedPercentSupplier;
-    this.horizontalSpeedPercentSupplier = horizontalSpeedPercentSupplier;
-    this.turnSpeedPercentSupplier = turnSpeedPercentSupplier;
+  public void addSlewRateLimiters(SlewRateLimiter forwardRateLimiter, SlewRateLimiter  horizontalRateLimiter, SlewRateLimiter turnRateLimiter) {
+    this.forwardRateLimiter = forwardRateLimiter;
+    this.horizontalRateLimiter = horizontalRateLimiter;
+    this.turnRateLimiter = turnRateLimiter;
+    usesRateLimiters = true;
+  }
+
+  public void addSpeedCurves(BreakerGenericMathFunction linearSpeedCurve, BreakerGenericMathFunction turnSpeedCurve) {
     this.linearSpeedCurve = linearSpeedCurve;
     this.turnSpeedCurve = turnSpeedCurve;
-    this.baseDrivetrain = baseDrivetrain;
-    this.odometer = odometer;
-    usesSuppliers = true;
     usesCurves = true;
-    usesExternalOdometer = true;
-    addRequirements(baseDrivetrain);
   }
 
   /**
@@ -278,22 +196,36 @@ public class BreakerSwerveDriveController extends CommandBase {
 
     if (usesSuppliers) { // If double suppliers are used.
       // Default suppliers are used unless overwritten.
-      forward = !linearOverride ? forwardSpeedPercentSupplier.getAsDouble() : overrideForwardSupplier.getAsDouble();
-      horizontal = !linearOverride ? horizontalSpeedPercentSupplier.getAsDouble()
-          : overrideForwardSupplier.getAsDouble();
-      turn = !turnOverride ? turnSpeedPercentSupplier.getAsDouble() : overrideTurnSupplier.getAsDouble();
+      forward = forwardSpeedPercentSupplier.getAsDouble();
+      horizontal = horizontalSpeedPercentSupplier.getAsDouble();
+      turn = overrideTurnSupplier.getAsDouble();
     } else { // Use controller inputs.
       // Controller inputs are used unless overwritten.
-      forward = !linearOverride ? -controller.getLeftY() : overrideForwardSupplier.getAsDouble();
-      horizontal = !linearOverride ? -controller.getLeftX() : overrideHorizontalSupplier.getAsDouble();
-      turn = !turnOverride ? controller.getRightX() : overrideTurnSupplier.getAsDouble();
+      forward = -controller.getLeftY();
+      horizontal = -controller.getLeftX();
+      turn = controller.getRightX();
     }
 
     // Speed curves are applied if overrides are not active.
-    if (usesCurves && !(linearOverride || turnOverride)) {
+    if (usesCurves) {
       forward = linearSpeedCurve.getSignRelativeValueAtX(forward);
       horizontal = linearSpeedCurve.getSignRelativeValueAtX(horizontal);
       turn = turnSpeedCurve.getSignRelativeValueAtX(turn);
+    }
+
+    if (usesRateLimiters) {
+      forward = forwardRateLimiter.calculate(forward);
+      horizontal = horizontalRateLimiter.calculate(horizontal);
+      turn = turnRateLimiter.calculate(turn);
+    }
+
+    if (linearOverride) {
+      forward = overrideForwardSupplier.getAsDouble();
+      horizontal = overrideHorizontalSupplier.getAsDouble();
+    }
+
+    if (turnOverride) {
+      turn = overrideTurnSupplier.getAsDouble();
     }
 
     // Movement relative to field.

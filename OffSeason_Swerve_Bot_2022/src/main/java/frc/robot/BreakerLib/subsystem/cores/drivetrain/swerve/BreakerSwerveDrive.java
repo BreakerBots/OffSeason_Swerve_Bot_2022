@@ -7,6 +7,7 @@ package frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.RobotState;
@@ -27,7 +28,7 @@ import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   private BreakerSwerveDriveConfig config;
 
-  private SwerveModuleState[] prevTargetModuleStates;
+  private SwerveModuleState[] targetModuleStates;
 
   private BreakerGenericSwerveModule[] swerveModules;
 
@@ -58,29 +59,38 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
     this.swerveModules = swerveModules;
     this.gyro = gyro;
     deviceName = "Swerve_Drivetrain";
-    prevTargetModuleStates = new SwerveModuleState[swerveModules.length];
-    for (int i = 0; i < prevTargetModuleStates.length; i++) {
-      prevTargetModuleStates[i] = new SwerveModuleState();
+    targetModuleStates = new SwerveModuleState[swerveModules.length];
+    for (int i = 0; i < targetModuleStates.length; i++) {
+      targetModuleStates[i] = new SwerveModuleState();
     }
   }
 
   /**
    * Sets each module to match a target module state in the order they were passed
-   * in.
+   * in. Automaticly optimizes and desaturates wheelspeeds, stops module if set speed is below module speed deadband threshold
    * <p>
    * NOTE: Not affected by slow mode.
    */
   public void setRawModuleStates(SwerveModuleState... targetModuleStates) {
-    
+    SwerveDriveKinematics.desaturateWheelSpeeds(targetModuleStates, config.getMaxAttainableModuleWheelSpeed());
+
     for (int i = 0; i < swerveModules.length; i++) {
-      if (targetModuleStates[i].speedMetersPerSecond == 0.0) {
-        targetModuleStates[i].angle = prevTargetModuleStates[i].angle;
-      }
-      SwerveModuleState optimizedState = SwerveModuleState.optimize(targetModuleStates[i],
+
+      if (Math.abs(targetModuleStates[i].speedMetersPerSecond) < config.getModuleWheelSpeedDeadband()) {
+
+        swerveModules[i].stop();
+        this.targetModuleStates[i] = swerveModules[i].getModuleTargetState();
+
+      } else {
+
+        SwerveModuleState optimizedState = SwerveModuleState.optimize(targetModuleStates[i],
           Rotation2d.fromDegrees(swerveModules[i].getModuleRelativeAngle()));
-      swerveModules[i].setModuleTarget(optimizedState);
+
+        swerveModules[i].setModuleTarget(optimizedState);
+        this.targetModuleStates[i] = optimizedState;
+      }
+
     }
-    prevTargetModuleStates = targetModuleStates;
   }
 
   /**
@@ -300,7 +310,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   }
 
   public SwerveModuleState[] getTargetModuleStates() {
-    return prevTargetModuleStates;
+    return targetModuleStates;
   }
 
   @Override
