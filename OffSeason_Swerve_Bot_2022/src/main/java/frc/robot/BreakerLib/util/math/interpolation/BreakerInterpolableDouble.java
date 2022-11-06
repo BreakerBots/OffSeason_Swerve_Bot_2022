@@ -4,6 +4,7 @@
 
 package frc.robot.BreakerLib.util.math.interpolation;
 
+import edu.wpi.first.math.MathUtil;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 
 /**
@@ -22,15 +23,8 @@ public class BreakerInterpolableDouble implements BreakerInterpolable<BreakerInt
     }
 
     @Override
-    public BreakerInterpolableDouble getSelf() {
-        return this;
-    }
-
-    @Override
-    public BreakerInterpolableDouble interpolate(double valToInterpolate, double highKey,
-            BreakerInterpolableDouble highVal, double lowKey, BreakerInterpolableDouble lowVal) {
-        BreakerMath.interpolateLinear(valToInterpolate, lowKey, highKey, lowVal.getValue(), highVal.getValue());
-        return new BreakerInterpolableDouble(value);
+    public BreakerInterpolableDouble interpolate(BreakerInterpolableDouble endValue, double t) {
+        return new BreakerInterpolableDouble(MathUtil.interpolate(value, endValue.getValue(), t));
     }
 
     @Override
@@ -42,5 +36,7 @@ public class BreakerInterpolableDouble implements BreakerInterpolable<BreakerInt
     public BreakerInterpolableDouble fromInterpolatableData(double[] interpolatableData) {
         return new BreakerInterpolableDouble(interpolatableData[0]);
     }
+
+   
 
 }

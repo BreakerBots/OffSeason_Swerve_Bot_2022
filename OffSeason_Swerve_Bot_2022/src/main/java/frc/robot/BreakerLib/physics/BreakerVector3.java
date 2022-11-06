@@ -4,6 +4,7 @@
 
 package frc.robot.BreakerLib.physics;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import frc.robot.BreakerLib.util.math.BreakerMath;
@@ -100,23 +101,13 @@ public class BreakerVector3 implements BreakerInterpolable<BreakerVector3> {
     }
 
     @Override
-    public BreakerVector3 interpolate(double interpolendValue, double highKey, BreakerVector3 highVal,
-            double lowKey, BreakerVector3 lowVal) {
-        double interX = BreakerMath.interpolateLinear(interpolendValue, lowKey, highKey, lowVal.getMagnatudeX(),
-                highVal.getMagnatudeX());
-        double interY = BreakerMath.interpolateLinear(interpolendValue, lowKey, highKey, lowVal.getMagnatudeY(),
-                highVal.getMagnatudeZ());
-        double interZ = BreakerMath.interpolateLinear(interpolendValue, lowKey, highKey, lowVal.getMagnatudeZ(),
-                highVal.getMagnatudeZ());
-
+    public BreakerVector3 interpolate(BreakerVector3 endValue, double t) {
+        double interX = MathUtil.interpolate(magnatudeX, endValue.getMagnatudeX(), t);
+        double interY = MathUtil.interpolate(magnatudeY, endValue.getMagnatudeY(), t);
+        double interZ = MathUtil.interpolate(magnatudeZ, endValue.getMagnatudeZ(), t);
         return new BreakerVector3(interX, interY, interZ);
     }
-
-    @Override
-    public BreakerVector3 getSelf() {
-        return this;
-    }
-
+    
     /** [0] = X, [1] = Y, [2] = Z */
     @Override
     public double[] getInterpolatableData() {

@@ -10,7 +10,7 @@ import frc.robot.BreakerLib.physics.Breaker3AxisForces;
 import frc.robot.BreakerLib.physics.BreakerVector2;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 
-/** Easily accessible conversion equations and math utilities. */
+/** Easily accessible  math utilitie class. */
 public class BreakerMath {
 
     private static double prevTime = 0;
@@ -193,8 +193,11 @@ public class BreakerMath {
      * @return Approximate Y-value at given X.
      */
     public static double interpolateLinear(double queryX, double lowX, double highX, double lowY, double highY) {
-        double slope = (highY - lowY) / (highX - lowX);
-        return lowY + (queryX - lowX) * slope;
+        return MathUtil.interpolate(lowY, highY, getLerpT(queryX, lowX, highX));
+    }
+
+    public static double getLerpT(double query, double low, double high) {
+        return (query - low) / (high - low);
     }
 
     /**

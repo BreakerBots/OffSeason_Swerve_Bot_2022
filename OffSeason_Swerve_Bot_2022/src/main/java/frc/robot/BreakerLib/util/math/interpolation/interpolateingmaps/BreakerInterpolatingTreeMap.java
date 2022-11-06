@@ -5,13 +5,18 @@
 package frc.robot.BreakerLib.util.math.interpolation.interpolateingmaps;
 
 import java.util.Map.Entry;
+
+import edu.wpi.first.math.interpolation.Interpolatable;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.math.interpolation.BreakerInterpolable;
 
 /** Add your docs here. */
-public class BreakerInterpolatingTreeMap<K, V extends BreakerInterpolable<V>> extends java.util.AbstractMap<K, V> implements BreakerGenericInterpolatingMap<K, V> {
+public class BreakerInterpolatingTreeMap<K extends Number, V extends Interpolatable<V>> extends java.util.AbstractMap<K, V> implements BreakerGenericInterpolatingMap<K, V> {
     private TreeMap<K, V> indexesAndValues;
 
     public BreakerInterpolatingTreeMap(TreeMap<K, V> indexesAndValues) {
@@ -28,17 +33,17 @@ public class BreakerInterpolatingTreeMap<K, V extends BreakerInterpolable<V>> ex
         Entry<K, V> high = indexesAndValues.ceilingEntry(interpolendValue);
 
         if (low == null) {
-            return high.getValue().getSelf();
+            return high.getValue();
         }
         if (high == null) {
-            return low.getValue().getSelf();
+            return low.getValue();
         }
         if (high.getValue().equals(low.getValue())) {
-            return high.getValue().getSelf();
+            return high.getValue();
         }
 
-        return high.getValue().interpolate((double) interpolendValue, (double) high.getKey(), high.getValue().getSelf(),
-                (double) low.getKey(), low.getValue().getSelf());
+        
+        return low.getValue().interpolate(high.getValue(), BreakerMath.getLerpT(interpolendValue.doubleValue(), low.getKey().doubleValue(), high.getKey().doubleValue()));
     }
 
     @Override

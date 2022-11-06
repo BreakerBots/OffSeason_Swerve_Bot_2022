@@ -15,7 +15,7 @@ import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.math.interpolation.BreakerInterpolable;
 
 /** A TreeMap of Key Value pairs that uses Legrange Polynomial interpolation */
-public class BreakerLegrangeInterpolateingTreeMap<K, V extends BreakerInterpolable<V>>
+public class BreakerLegrangeInterpolateingTreeMap<K extends Number, V extends BreakerInterpolable<V>>
         extends java.util.AbstractMap<K, V> implements BreakerGenericInterpolatingMap<K, V> {
     private TreeMap<K, V> indexesAndValues;
 
@@ -55,10 +55,10 @@ public class BreakerLegrangeInterpolateingTreeMap<K, V extends BreakerInterpolab
             int k = 0;
             while (it.hasNext()) { // creats a seprate Translation2d object for each interpolatableValue component
                                    // of each data point in the TreeMap
-                arr[k] = new Translation2d((double) it.next(), listD.get(k));
+                arr[k] = new Translation2d(it.next().doubleValue(), listD.get(k));
                 k++;
             }
-            interpolatedValArr[j] = BreakerMath.interpolateLagrange((double) interpolendValue, arr); // interpolates the
+            interpolatedValArr[j] = BreakerMath.interpolateLagrange(interpolendValue.doubleValue(), arr); // interpolates the
                                                                                                      // translation2d
                                                                                                      // values and
                                                                                                      // creats one of

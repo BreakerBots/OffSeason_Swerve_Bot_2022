@@ -6,6 +6,7 @@ package frc.robot.BreakerLib.physics;
 
 import javax.print.attribute.standard.MediaSize.Other;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Tracer;
@@ -86,18 +87,10 @@ public class BreakerVector2 implements BreakerInterpolable<BreakerVector2> {
     }
 
     @Override
-    public BreakerVector2 interpolate(double interpolendValue, double highKey, BreakerVector2 highVal,
-            double lowKey, BreakerVector2 lowVal) {
-        double interX = BreakerMath.interpolateLinear(interpolendValue, highKey, lowKey, lowVal.getMagnatudeX(),
-                highVal.getMagnatudeX());
-        double interY = BreakerMath.interpolateLinear(interpolendValue, highKey, lowKey, lowVal.getMagnatudeY(),
-                highVal.getMagnatudeY());
+    public BreakerVector2 interpolate(BreakerVector2 endValue, double t) {
+        double interX = MathUtil.interpolate(magnatudeX, endValue.getMagnatudeX(), t);
+        double interY = MathUtil.interpolate(magnatudeY, endValue.getMagnatudeY(), t);
         return new BreakerVector2(interX, interY);
-    }
-
-    @Override
-    public BreakerVector2 getSelf() {
-        return this;
     }
 
     /** [0] = X, [1] = Y */
@@ -115,4 +108,5 @@ public class BreakerVector2 implements BreakerInterpolable<BreakerVector2> {
     public String toString() {
        return String.format("BreakerVector2(Vector_Magnatude: %.2f, X-Magnatude: %.2f, Y-Magnatude: %.2f,  Vector_Angle: %s)", magnatude, magnatudeX, magnatudeY, vectorRotation.toString());
     }
+
 }

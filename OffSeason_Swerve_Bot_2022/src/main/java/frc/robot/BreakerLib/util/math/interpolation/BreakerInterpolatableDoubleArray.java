@@ -6,6 +6,7 @@ package frc.robot.BreakerLib.util.math.interpolation;
 
 import java.util.Arrays;
 
+import edu.wpi.first.math.MathUtil;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 
 /**
@@ -24,17 +25,11 @@ public class BreakerInterpolatableDoubleArray implements BreakerInterpolable<Bre
     }
 
     @Override
-    public BreakerInterpolatableDoubleArray getSelf() {
-        return this;
-    }
-
-    @Override
-    public BreakerInterpolatableDoubleArray interpolate(double valToInterpolate, double highKey,
-            BreakerInterpolatableDoubleArray highVal, double lowKey, BreakerInterpolatableDoubleArray lowVal) {
-                double[] newArr = new double[values.length];
-                for (int i = 0; i < values.length; i++) {
-                    newArr[i] = BreakerMath.interpolateLinear(valToInterpolate, lowKey, highKey, lowVal.getValue()[i], highVal.getValue()[i]);
-                }
+    public BreakerInterpolatableDoubleArray interpolate(BreakerInterpolatableDoubleArray endValue, double t) {
+        double[] newArr = new double[Math.min(endValue.getInterpolatableData().length, values.length)];
+        for (int i = 0; i < newArr.length; i++) {
+            newArr[i] = MathUtil.interpolate(values[i], endValue.getInterpolatableData()[i], t);
+        }
         return new BreakerInterpolatableDoubleArray(newArr);
     }
 
@@ -47,5 +42,7 @@ public class BreakerInterpolatableDoubleArray implements BreakerInterpolable<Bre
     public BreakerInterpolatableDoubleArray fromInterpolatableData(double[] interpolatableData) {
         return new BreakerInterpolatableDoubleArray(interpolatableData);
     }
+
+    
 
 }

@@ -4,25 +4,17 @@
 
 package frc.robot.BreakerLib.util.math.interpolation;
 
-/** Add your docs here. */
-public interface BreakerInterpolable<V> {
+import edu.wpi.first.math.interpolation.Interpolatable;
+import frc.robot.BreakerLib.util.math.BreakerMath;
 
-    /**
-     * Linearly interpolates between 2 points based on a known X value
-     * 
-     * @param interpolendValue X-value to interpolate to.
-     * @param highKey          X-value of high point.
-     * @param highVal          Output(Y) value of high point.
-     * @param lowKey           X-value of low point.
-     * @param lowVal           Output(Y) value of low point.
-     * 
-     * @return Implemented object interpolated based on the given points.
-     */
-    public abstract V interpolate(double interpolendValue, double highKey, V highVal, double lowKey, V lowVal);
-
-    public abstract V getSelf();
+/** wrapper around WPILib's {@link Interpolatable} interface that supports non-linear interpolation */
+public interface BreakerInterpolable<V> extends Interpolatable<V> {
 
     public abstract double[] getInterpolatableData();
 
     public abstract V fromInterpolatableData(double[] interpolatableData);
+
+    public default V interpolate(double query, double lowKey, double highKey, V highVal) {
+        return interpolate(highVal, BreakerMath.getLerpT(query, lowKey, highKey));
+    }
 }
