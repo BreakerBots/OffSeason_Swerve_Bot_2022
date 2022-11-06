@@ -47,7 +47,7 @@ public class BreakerCTREUtil {
   /**
    * Returns motor faults as a String.
    * 
-   * @param motorFaults Faults from a CTRE Motor Controller
+   * @param motorFaults Faults from a CTRE motor controller.
    * @return All motor fault messages separated by spaces in a string.
    */
   public static String getMotorFaultsAsString(Faults motorFaults) {

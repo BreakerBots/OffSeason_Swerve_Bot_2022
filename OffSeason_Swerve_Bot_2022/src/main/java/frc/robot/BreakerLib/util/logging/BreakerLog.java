@@ -18,14 +18,25 @@ public class BreakerLog {
   private static boolean usesOrchestra = false;
   private static BreakerFalconOrchestra orchestra;
 
-  /** Commences logging. */
+  /**
+   * Commences logging.
+   * 
+   * @param autologNetworkTables True to log NetworkTables data, false to not log
+   *                             data.
+   */
   public static void startLog(boolean autologNetworkTables) {
     DataLogManager.logNetworkTables(autologNetworkTables);
     DataLogManager.start();
     BreakerLog.usesOrchestra = false;
   }
 
-  /** Commences logging and turns on Orchestra-controlled robot sounds. */
+  /**
+   * Commences logging and turns on Orchestra-controlled robot sounds.
+   * 
+   * @param autologNetworkTables True to log NetworkTables data, false to not log
+   *                             data.
+   * @param orchestra            BreakerFalconOrchestra to use.
+   */
   public static void startLog(boolean autologNetworkTables, BreakerFalconOrchestra orchestra) {
     DataLogManager.logNetworkTables(autologNetworkTables);
     DataLogManager.start();
@@ -38,7 +49,8 @@ public class BreakerLog {
     StringBuilder work = new StringBuilder(" | ---------------- ROBOT STARTED ---------------- |\n\n");
     work.append(" TEAM: " + startConfig.getTeamNum() + " - " + startConfig.getTeamName() + "\n");
     work.append(" ROBOT: " + startConfig.getRobotName() + " - " + startConfig.getRobotYear() + "\n");
-    work.append(" BREAKERLIB: " + BreakerLibVersion.Version + " | " + "ROBOT SOFTWARE: " + startConfig.getRobotSoftwareVersion() + "\n");
+    work.append(" BREAKERLIB: " + BreakerLibVersion.Version + " | " + "ROBOT SOFTWARE: "
+        + startConfig.getRobotSoftwareVersion() + "\n");
     work.append(" AUTHORS: " + startConfig.getAuthorNames() + "\n\n");
     work.append(" | ---------------------------------------------- | \n\n\n");
     BreakerLog.log(work.toString());
@@ -61,20 +73,30 @@ public class BreakerLog {
     DataLogManager.log(" EVENT: " + event);
   }
 
-  /** Internal logging function for breakerlib classes to sepreate automated breakerlib logging from user loging */
+  /**
+   * Internal logging function for breakerlib classes to sepreate automated
+   * breakerlib logging from user loging
+   */
   public static void logBreakerLibEvent(String event) {
     DataLogManager.log(" BREAKERLIB INTERNAL EVENT: " + event);
   }
 
-  /** Logs either exceptions thrown by code, or suer difigned errors either from code or physical errors */
+  /**
+   * Logs either exceptions thrown by code, or suer difigned errors either from
+   * code or physical errors
+   */
   public static void logError(String error) {
     DataLogManager.log(" ERROR: " + error);
   }
+
   public static void logError(Exception e) {
     DataLogManager.log(" ERROR: " + e.toString() + " : " + e.getStackTrace().toString());
   }
 
-  /** Logs robot superstructure (physical) events (i.e. intake activated, shooter enabled) */
+  /**
+   * Logs robot superstructure (physical) events (i.e. intake activated, shooter
+   * enabled)
+   */
   public static void logSuperstructureEvent(String event) {
     DataLogManager.log(" ROBOT SUPERSTRUCTURE EVENT: " + event);
   }

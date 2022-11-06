@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
-/** Class for ultrasonic sensor. */
+/** Class for an ultrasonic sensor. */
 public class BreakerUltrasonicSensor {
 
     private DigitalOutput pingCh;

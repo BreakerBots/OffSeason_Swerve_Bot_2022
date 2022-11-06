@@ -2,14 +2,15 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.util;
+package frc.robot.BreakerLib.devices.sensors;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 
-/** Add your docs here. */
+/** Breaker interface for DIO (digital input-output) devices. */
 public class BreakerDIO {
 
+    /** Current state of given DIO device. */
     public enum DIOState {
         DIGITAL_IN,
         DIGITAL_OUT,
@@ -18,8 +19,15 @@ public class BreakerDIO {
 
     private DigitalInput input;
     private DigitalOutput output;
+
     private DIOState state = DIOState.DIGITAL_IN;
     private int channel;
+
+    /**
+     * Constructor for DIO object.
+     * 
+     * @param channel DIO channel on the RoboRIO/MXP.
+     */
     public BreakerDIO(int channel) {
         input = new DigitalInput(channel);
         output = new DigitalOutput(channel);

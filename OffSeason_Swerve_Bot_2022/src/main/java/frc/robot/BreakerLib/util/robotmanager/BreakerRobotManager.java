@@ -5,7 +5,6 @@
 package frc.robot.BreakerLib.util.robotmanager;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.BreakerLib.auto.trajectory.management.BreakerAutoManager;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.autobrake.BreakerAutomaticBrakeModeManager;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.autobrake.BreakerAutomaticBrakeModeManagerConfig;
@@ -35,11 +34,11 @@ public class BreakerRobotManager {
         if (robotConfig.UsesOrchestra()) {
             BreakerLog.startLog(robotConfig.getAutologNetworkTables(), robotConfig.getOrchestra());
             test = new SelfTest(robotConfig.getSecondsBetweenSelfChecks(),
-                    robotConfig.getOrchestra(), robotConfig.getAutoRegesterDevices());
+                    robotConfig.getOrchestra(), robotConfig.getAutoRegisterDevices());
         } else {
             BreakerLog.startLog(robotConfig.getAutologNetworkTables());
             test = new SelfTest(robotConfig.getSecondsBetweenSelfChecks(),
-                    robotConfig.getAutoRegesterDevices());
+                    robotConfig.getAutoRegisterDevices());
         }
         BreakerRobotManager.baseDrivetrain = baseDrivetrain;
         BreakerRobotManager.autoManager = robotConfig.UsesPaths() ? new BreakerAutoManager(robotConfig.getAutoPaths())
