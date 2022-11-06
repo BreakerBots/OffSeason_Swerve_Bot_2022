@@ -4,7 +4,9 @@
 
 package frc.robot.BreakerLib.util;
 
-/** Currently unused. */
+import edu.wpi.first.math.Pair;
+
+/** A 3-argument companion to the {@link Pair} class provided by WPILib */
 public class BreakerTriplet<L, M, R> {
     private L leftValue;
     private M middleValue;

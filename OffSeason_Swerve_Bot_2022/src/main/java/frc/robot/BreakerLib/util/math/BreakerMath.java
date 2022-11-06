@@ -229,15 +229,15 @@ public class BreakerMath {
                         (1000 / timeToLastUpdateMiliseconds) * (speeds.vyMetersPerSecond
                                 - prevMovementState.getVelocityComponent().getLinearForces().getMagnatudeY())),
                 (1000 / timeToLastUpdateMiliseconds)
-                        * (speeds.omegaRadiansPerSecond - prevMovementState.getVelocityComponent().getAngularForces()));
+                        * (speeds.omegaRadiansPerSecond - prevMovementState.getVelocityComponent().getAngularForce()));
         Breaker3AxisForces jerk = new Breaker3AxisForces(
                 new BreakerVector2(
                         (1000 / timeToLastUpdateMiliseconds) * (acceleration.getLinearForces().getMagnatudeX()
                                 - prevMovementState.getAccelerationComponent().getLinearForces().getMagnatudeY()),
                         (1000 / timeToLastUpdateMiliseconds) * (acceleration.getLinearForces().getMagnatudeY()
                                 - prevMovementState.getAccelerationComponent().getLinearForces().getMagnatudeY())),
-                (1000 / timeToLastUpdateMiliseconds) * (acceleration.getAngularForces()
-                        - prevMovementState.getAccelerationComponent().getAngularForces()));
+                (1000 / timeToLastUpdateMiliseconds) * (acceleration.getAngularForce()
+                        - prevMovementState.getAccelerationComponent().getAngularForce()));
         return new BreakerMovementState2d(currentPose,
                 new Breaker3AxisForces(new BreakerVector2(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond),
                         speeds.omegaRadiansPerSecond),

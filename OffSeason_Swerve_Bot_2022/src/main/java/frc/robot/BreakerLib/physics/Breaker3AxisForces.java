@@ -22,7 +22,12 @@ public class Breaker3AxisForces {
         return linearForces;
     }
 
-    public double getAngularForces() {
+    public double getAngularForce() {
         return angularForce;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Breaker3AxisForces(Linear_Forces: %s, Angular_Force: %.2f)", linearForces.toString(), angularForce);
     }
 }

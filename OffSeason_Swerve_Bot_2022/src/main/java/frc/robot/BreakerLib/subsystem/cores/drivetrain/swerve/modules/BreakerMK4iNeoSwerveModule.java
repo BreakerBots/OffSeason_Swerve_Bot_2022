@@ -245,4 +245,9 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
     public SwerveModuleState getModuleTargetState() {
         return targetModuleState;
     }
+
+    @Override
+    public String toString() {
+        return BreakerGenericSwerveModule.getModuleAsString("SDS_MK4I(Neo)", this);
+    }
 }

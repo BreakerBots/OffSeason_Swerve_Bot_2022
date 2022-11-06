@@ -4,6 +4,8 @@
 
 package frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve;
 
+import java.util.Arrays;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -367,6 +369,11 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   public void returnToAutomaticPowerManagement() {
     // TODO Auto-generated method stub
 
+  }
+  
+  @Override
+  public String toString() {
+      return String.format("BreakerSwerveDrive(Health: %s, Movement_State: %s, Swerve_Modules: %s)", health.toString(), curMovementState.toString(), Arrays.toString(swerveModules));
   }
 
   @Override

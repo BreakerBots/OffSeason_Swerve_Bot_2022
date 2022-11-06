@@ -106,6 +106,8 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
         driveMotor.set(ControlMode.Velocity, 0.0);
 
         ffProvider = config.getArbitraryFeedforwardProvider();
+
+        targetModuleState = new SwerveModuleState();
     }
 
     @Override
@@ -301,5 +303,10 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
     @Override
     public SwerveModuleState getModuleTargetState() {
         return targetModuleState;
+    }
+
+    @Override
+    public String toString() {
+        return BreakerGenericSwerveModule.getModuleAsString("SDS_MK4I(Falcon)", this);
     }
 }

@@ -57,7 +57,7 @@ public class BreakerVector2 implements BreakerInterpolable<BreakerVector2> {
                 magnatude * Math.sin(vectorRotation.getRadians()), magnatude, vectorRotation);
     }
 
-    public double getForce() {
+    public double getMagnatude() {
         return magnatude;
     }
 
@@ -113,6 +113,6 @@ public class BreakerVector2 implements BreakerInterpolable<BreakerVector2> {
 
     @Override
     public String toString() {
-       return "Vector Magnatude:" + magnatude + ", X-Magnatude: " + magnatudeX + ", Y-Magnatude: " + magnatudeY + ", Vector Angle: " + vectorRotation.toString();
+       return String.format("BreakerVector2(Vector_Magnatude: %.2f, X-Magnatude: %.2f, Y-Magnatude: %.2f,  Vector_Angle: %s)", magnatude, magnatudeX, magnatudeY, vectorRotation.toString());
     }
 }

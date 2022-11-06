@@ -84,4 +84,8 @@ public interface BreakerGenericSwerveModule extends BreakerGenericDevice {
      *         supported (EX: CANCoder)
      */
     public abstract DeviceHealth[] getModuleHealths();
+
+    public static String getModuleAsString(String moduleType, BreakerGenericSwerveModule module) {
+        return String.format("%s(Name: %s, Overall_Device_Health: %s, Set_State: %s, Current_State: %)", moduleType, module.getDeviceName(), module.getHealth().toString(), module.getModuleTargetState().toString(), module.getModuleState().toString());
+    }
 }

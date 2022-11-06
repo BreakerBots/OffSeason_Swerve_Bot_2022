@@ -5,6 +5,8 @@
 package frc.robot.BreakerLib.position.movement;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import frc.robot.BreakerLib.physics.Breaker3AxisForces;
 
 /** Represents an object's 2D (linear: XY / Angular: Y) position (m & rad), velocity (m & rad/s), acceleration(m & rad/s^2), and jerk (m & rad /s^3) at a given time. */
@@ -70,6 +72,19 @@ public class BreakerMovementState2d {
         jerk = new Breaker3AxisForces();
     }
 
+    public Pose2d estimateFuturePose(double deltaTimeSeconds) {
+        double accelX = acceleration.getLinearForces().getMagnatudeX() + (jerk.getLinearForces().getMagnatudeX() * deltaTimeSeconds);
+        double accelY = acceleration.getLinearForces().getMagnatudeY() + (jerk.getLinearForces().getMagnatudeY() * deltaTimeSeconds);
+        double accelT = acceleration.getAngularForce() + (jerk.getAngularForce() * deltaTimeSeconds);
+        double velX = velocity.getLinearForces().getMagnatudeX() + (accelX * deltaTimeSeconds);
+        double velY = velocity.getLinearForces().getMagnatudeY() + (accelY * deltaTimeSeconds);
+        double velT = velocity.getAngularForce() + (accelT * deltaTimeSeconds);
+        double x = position.getX() + (velX * deltaTimeSeconds);
+        double y = position.getY() + (velY * deltaTimeSeconds);
+        double t = position.getRotation().getRadians() + (velT * deltaTimeSeconds);
+        return new Pose2d(x, y, new Rotation2d(t));
+    }
+
     /**
      * @return The position component of this BreakerMovementState2d
      */
@@ -95,5 +110,10 @@ public class BreakerMovementState2d {
      */
     public Breaker3AxisForces getJerkCompoenet() {
         return jerk;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Breaker3AxisForces(Position: %s, Velocity: %s, Acceleration: %s, Jerk: %s)", position, velocity, acceleration, jerk);
     }
 }
