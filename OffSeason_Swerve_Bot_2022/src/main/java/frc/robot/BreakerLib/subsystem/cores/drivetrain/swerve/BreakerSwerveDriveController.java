@@ -198,7 +198,7 @@ public class BreakerSwerveDriveController extends CommandBase {
       // Default suppliers are used unless overwritten.
       forward = forwardSpeedPercentSupplier.getAsDouble();
       horizontal = horizontalSpeedPercentSupplier.getAsDouble();
-      turn = overrideTurnSupplier.getAsDouble();
+      turn = turnSpeedPercentSupplier.getAsDouble();
     } else { // Use controller inputs.
       // Controller inputs are used unless overwritten.
       forward = -controller.getLeftY();
