@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -48,7 +49,8 @@ public class RobotContainer {
 
     configureButtonBindings();
     drivetrainSys.getBaseDrivetrain()
-        .setDefaultCommand(new BreakerSwerveDriveController(drivetrainSys.getBaseDrivetrain(), controllerSys));
+        .setDefaultCommand(new BreakerSwerveDriveController(drivetrainSys.getBaseDrivetrain(), controllerSys)
+        .addSlewRateLimiters(new SlewRateLimiter(3.0), new SlewRateLimiter(3.0), new SlewRateLimiter(1.0)));
   }
 
   /**

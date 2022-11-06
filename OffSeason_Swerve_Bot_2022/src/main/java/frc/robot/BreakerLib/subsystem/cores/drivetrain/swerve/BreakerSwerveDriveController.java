@@ -107,17 +107,19 @@ public class BreakerSwerveDriveController extends CommandBase {
     addRequirements(baseDrivetrain);
   }
 
-  public void addSlewRateLimiters(SlewRateLimiter forwardRateLimiter, SlewRateLimiter  horizontalRateLimiter, SlewRateLimiter turnRateLimiter) {
+  public BreakerSwerveDriveController addSlewRateLimiters(SlewRateLimiter forwardRateLimiter, SlewRateLimiter  horizontalRateLimiter, SlewRateLimiter turnRateLimiter) {
     this.forwardRateLimiter = forwardRateLimiter;
     this.horizontalRateLimiter = horizontalRateLimiter;
     this.turnRateLimiter = turnRateLimiter;
     usesRateLimiters = true;
+    return this;
   }
 
-  public void addSpeedCurves(BreakerGenericMathFunction linearSpeedCurve, BreakerGenericMathFunction turnSpeedCurve) {
+  public BreakerSwerveDriveController addSpeedCurves(BreakerGenericMathFunction linearSpeedCurve, BreakerGenericMathFunction turnSpeedCurve) {
     this.linearSpeedCurve = linearSpeedCurve;
     this.turnSpeedCurve = turnSpeedCurve;
     usesCurves = true;
+    return this;
   }
 
   /**
