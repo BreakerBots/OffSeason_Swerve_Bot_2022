@@ -92,20 +92,12 @@ public class BreakerFlywheel extends BreakerGenericLoopedDevice implements Break
         return flywheelTargetRPM;
     }
 
-    /** sets flywheel speed to 0 RPM, controll loops remain enabled */
+    /** sets flywheel speed to 0 RPM */
     public void stopFlywheel() {
         setFlywheelSpeed(0);
+        BreakerLog.logSuperstructureEvent("flywheel stoped");
     }
 
-    /** Stops flywheel and kills all assocated controll loops */
-    public void killFlywheel() {
-        lFlyMotor.set(ControlMode.Velocity, 0);
-        BreakerLog.logSuperstructureEvent("flywheel controll loops disabled");
-    }
-
-    public void startFlywheel() {
-        BreakerLog.logSuperstructureEvent("flywheel controll loops enabled");
-    }
 
     private void runFlywheel() {
         double flySetSpd = BreakerUnits.RPMtoFalconRSU(flywheelTargetRPM);

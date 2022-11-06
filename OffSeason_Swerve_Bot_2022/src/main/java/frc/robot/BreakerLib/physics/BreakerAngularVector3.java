@@ -7,31 +7,31 @@ package frc.robot.BreakerLib.physics;
 /** Add your docs here. */
 public class BreakerAngularVector3 {
 
-    private double forceYaw;
-    private double forcePitch;
-    private double forceRoll;
+    private double magnatudeYaw;
+    private double magnatudePitch;
+    private double magnatudeRoll;
 
-    public BreakerAngularVector3(double forceYaw, double forcePitch, double forceRoll) {
-        this.forceYaw = forceYaw;
-        this.forcePitch = forcePitch;
-        this.forceRoll = forceRoll;
+    public BreakerAngularVector3(double magnatudeYaw, double magnatudePitch, double magnatudeRoll) {
+        this.magnatudeYaw = magnatudeYaw;
+        this.magnatudePitch = magnatudePitch;
+        this.magnatudeRoll = magnatudeRoll;
     }
 
     public BreakerAngularVector3() {
-        this.forceYaw = 0;
-        this.forcePitch = 0;
-        this.forceRoll = 0;
+        this.magnatudeYaw = 0;
+        this.magnatudePitch = 0;
+        this.magnatudeRoll = 0;
     }
 
-    public double getForceYaw() {
-        return forceYaw;
+    public double getMagnatudeYaw() {
+        return magnatudeYaw;
     }
 
-    public double getForcePitch() {
-        return forcePitch;
+    public double getMagnaudePitch() {
+        return magnatudePitch;
     }
 
-    public double getForceRoll() {
-        return forceRoll;
+    public double getMagnatudeRoll() {
+        return magnatudeRoll;
     }
 }

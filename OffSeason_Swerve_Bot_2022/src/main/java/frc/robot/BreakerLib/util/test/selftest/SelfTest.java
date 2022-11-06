@@ -11,7 +11,7 @@ import frc.robot.BreakerLib.devices.cosmetic.music.BreakerFalconOrchestra;
 import frc.robot.BreakerLib.devices.cosmetic.music.BreakerSounds;
 import frc.robot.BreakerLib.util.logging.BreakerLog;
 
-/** Core class of BreakerLib's SelfTest fuctionality, handilg periodic passive (unless user configured outherwise) 
+/** Core class of BreakerLib's SelfTest fuctionality, handleing periodic passive (unless user configured outherwise) 
  * diagnostic self tests of all manualy or automaticly regestered {@link BreakerSelfTestable} compatable devices, or devices regestered
  *  through an instance of the {@link SystemDiagnostics} class  */
 public class SelfTest extends SubsystemBase {

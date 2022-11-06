@@ -49,8 +49,7 @@ public class RobotContainer {
 
     configureButtonBindings();
     drivetrainSys.getBaseDrivetrain()
-        .setDefaultCommand(new BreakerSwerveDriveController(drivetrainSys.getBaseDrivetrain(), controllerSys)
-        .addSlewRateLimiters(new SlewRateLimiter(3.0), new SlewRateLimiter(3.0), new SlewRateLimiter(1.0)));
+        .setDefaultCommand(new BreakerSwerveDriveController(drivetrainSys.getBaseDrivetrain(), controllerSys));
   }
 
   /**
