@@ -112,15 +112,18 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
 
     @Override
     public void setModuleTarget(Rotation2d tgtAngle, double speedMetersPerSec) {
-        SmartDashboard.putNumber(deviceName + " ANGLE IN", tgtAngle.getDegrees());
-        SmartDashboard.putNumber(deviceName +" SPEED IN", speedMetersPerSec);
+        double relTgtAng = getModuleRelativeAngle() + (tgtAngle.minus(Rotation2d.fromDegrees(getModuleAbsoluteAngle())).getDegrees()); // Aproximates continuous pid input (NEEDS TO BE TESTED)
+        //double relTgtAng = getModuleRelativeAngle() + (Rotation2d.fromDegrees(getModuleAbsoluteAngle()).minus(tgtAngle).getDegrees()); // Aproximates continuous pid input (NEEDS TO BE TESTED)
 
-        turnMotor.set(TalonFXControlMode.Position, BreakerUnits.degreesToCANCoderNativeUnits(tgtAngle.getDegrees()));
+        turnMotor.set(TalonFXControlMode.Position, BreakerUnits.degreesToCANCoderNativeUnits(relTgtAng));
         driveMotor.set(TalonFXControlMode.Velocity, getMetersPerSecToNativeVelUnits(speedMetersPerSec),
                 DemandType.ArbitraryFeedForward, ffProvider.getArbitraryFeedforwardValue(speedMetersPerSec));
 
+        SmartDashboard.putNumber(deviceName + " ANGLE IN", relTgtAng);
+        SmartDashboard.putNumber(deviceName +" SPEED IN", speedMetersPerSec);
         SmartDashboard.putNumber(deviceName + "ANGLE OUT", getModuleState().angle.getDegrees());
         SmartDashboard.putNumber(deviceName + "SPEED OUT", getModuleState().speedMetersPerSecond);
+
         targetModuleState = new SwerveModuleState(speedMetersPerSec, tgtAngle);
     }
 
