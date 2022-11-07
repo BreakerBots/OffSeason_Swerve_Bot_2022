@@ -21,7 +21,7 @@ import frc.robot.BreakerLib.util.BreakerRoboRIO;
 import frc.robot.BreakerLib.util.BreakerRoboRIO.RobotMode;
 
 /** Add your docs here. */
-public class BreakerPWMLed2 extends SubsystemBase implements BreakerGenericLEDDriver {
+public class BreakerPWMLED extends SubsystemBase implements BreakerGenericLEDDriver {
     private AddressableLED led;
     private AddressableLEDBuffer buff;
     private int stripLength, animationStartIndex, animationEndIndex;
@@ -29,7 +29,7 @@ public class BreakerPWMLed2 extends SubsystemBase implements BreakerGenericLEDDr
     private boolean isOn = false, isActiveAnimation = false, isDefault = true;
     private double curAnimationStartTime;
     private Map<RobotMode, BreakerAnimation> defaultRobotModeAnims = new HashMap<>();
-    public BreakerPWMLed2(int portPWM, int stripLength) {
+    public BreakerPWMLED(int portPWM, int stripLength) {
         led = new AddressableLED(portPWM);
         led.setLength(stripLength);
         buff = new AddressableLEDBuffer(stripLength);
