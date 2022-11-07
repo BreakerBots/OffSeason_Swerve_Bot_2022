@@ -4,26 +4,17 @@
 
 package frc.robot.BreakerLib.devices.cosmetic.led;
 
-import com.ctre.phoenix.CANifier.LEDChannel;
 import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdleFaults;
-import com.ctre.phoenix.led.RainbowAnimation;
-import com.ctre.phoenix.led.StrobeAnimation;
-
-import org.opencv.features2d.FlannBasedMatcher;
 
 import edu.wpi.first.math.Pair;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.BreakerLib.devices.BreakerGenericLoopedDevice;
 import frc.robot.BreakerLib.devices.cosmetic.led.animations.BreakerAnimation;
 import frc.robot.BreakerLib.util.BreakerRoboRIO.RobotMode;
-import frc.robot.BreakerLib.util.BreakerTriplet;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
-import frc.robot.BreakerLib.util.test.selftest.SelfTest;
 import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
 
 /** CTRE LED controller */

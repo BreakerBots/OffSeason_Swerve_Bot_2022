@@ -10,11 +10,9 @@ import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 
 import edu.wpi.first.math.Pair;
 import frc.robot.BreakerLib.devices.BreakerGenericDeviceBase;
-import frc.robot.BreakerLib.util.BreakerTriplet;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
-import frc.robot.BreakerLib.util.test.selftest.SelfTest;
 import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
 
 /** Falcon motor with simple forward/reverse/off controls */
@@ -76,7 +74,7 @@ public class BreakerTrinaryCTREMotor extends BreakerGenericDeviceBase {
         return (motor.getMotorOutputPercent() != 0);
     }
 
-    /** @return Base motor controller. */
+    /** @return Base CTRE motor controller. */
     public BaseMotorController getMotor() {
         return motor;
     }

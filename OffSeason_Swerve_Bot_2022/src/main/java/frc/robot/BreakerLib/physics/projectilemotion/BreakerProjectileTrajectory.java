@@ -14,7 +14,7 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.drive.Vector2d;
-import frc.robot.BreakerLib.devices.sensors.BreakerUltrasonicSensor;
+import frc.robot.BreakerLib.devices.sensors.BreakerUltrasonic;
 import frc.robot.BreakerLib.physics.BreakerVector3;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 import frc.robot.BreakerLib.util.math.BreakerUnits;

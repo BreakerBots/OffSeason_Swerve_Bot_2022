@@ -14,7 +14,8 @@ public class BreakerDoubleSolenoid {
     private DoubleSolenoid solenoid;
     private Value defaultState = kOff;
 
-    /** Constructs a BreakerDoubleSolenoid.
+    /**
+     * Constructs a BreakerDoubleSolenoid.
      * 
      * @param moduleType Module type used (CTRE or REV).
      * @param fwdChannel Forward air channel.
@@ -25,23 +26,25 @@ public class BreakerDoubleSolenoid {
         toDefaultState();
     }
 
-     /** Constructs a BreakerDoubleSolenoid.
+    /**
+     * Constructs a BreakerDoubleSolenoid.
      * 
      * @param moduleType Module type used (CTRE or REV).
      * @param fwdChannel Forward air channel.
      * @param revChannel Reverse air channel.
-     * @param pcmID ID for PCM.
+     * @param pcmID      ID for PCM.
      */
     public BreakerDoubleSolenoid(PneumaticsModuleType moduleType, int fwdChannel, int revChannel, int pcmID) {
         solenoid = new DoubleSolenoid(pcmID, moduleType, fwdChannel, revChannel);
         toDefaultState();
     }
 
-     /** Constructs a BreakerDoubleSolenoid.
+    /**
+     * Constructs a BreakerDoubleSolenoid.
      * 
-     * @param moduleType Module type used (CTRE or REV).
-     * @param fwdChannel Forward air channel.
-     * @param revChannel Reverse air channel.
+     * @param moduleType   Module type used (CTRE or REV).
+     * @param fwdChannel   Forward air channel.
+     * @param revChannel   Reverse air channel.
      * @param defaultState Default solenoid state.
      */
     public BreakerDoubleSolenoid(PneumaticsModuleType moduleType, int fwdChannel, int revChannel, Value defaultState) {
@@ -50,21 +53,28 @@ public class BreakerDoubleSolenoid {
         toDefaultState();
     }
 
-     /** Constructs a BreakerDoubleSolenoid.
+    /**
+     * Constructs a BreakerDoubleSolenoid.
      * 
-     * @param moduleType Module type used (CTRE or REV).
-     * @param fwdChannel Forward air channel.
-     * @param revChannel Reverse air channel.
-     * @param pcmID ID for PCM.
+     * @param moduleType   Module type used (CTRE or REV).
+     * @param fwdChannel   Forward air channel.
+     * @param revChannel   Reverse air channel.
+     * @param pcmID        ID for PCM.
      * @param defaultState Default solenoid state.
      */
-    public BreakerDoubleSolenoid(PneumaticsModuleType moduleType, int fwdChannel, int revChannel, int pcmID, Value defaultState) {
+    public BreakerDoubleSolenoid(PneumaticsModuleType moduleType, int fwdChannel, int revChannel, int pcmID,
+            Value defaultState) {
         solenoid = new DoubleSolenoid(pcmID, moduleType, fwdChannel, revChannel);
         setDefaultState(defaultState);
         toDefaultState();
     }
 
-    /** Sets solenoid's default state to the given value. */
+    /**
+     * Sets solenoid's default state to the given value.
+     * 
+     * @param value kForward for extension, kReverse for retraction, kOff to
+     *              deactivate.
+     */
     public void setDefaultState(Value value) {
         defaultState = value;
     }
@@ -76,9 +86,11 @@ public class BreakerDoubleSolenoid {
         }
     }
 
-    /** Sets solenoid to given state.
+    /**
+     * Sets solenoid to given state.
      * 
-     * @param value kForward for extension, kReverse for retraction, kOff to deactivate.
+     * @param value kForward for extension, kReverse for retraction, kOff to
+     *              deactivate.
      */
     public void set(Value value) {
         if (solenoid.get() != value) {

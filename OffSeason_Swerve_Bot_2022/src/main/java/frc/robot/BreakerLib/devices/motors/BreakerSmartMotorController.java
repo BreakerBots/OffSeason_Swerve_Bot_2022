@@ -7,19 +7,15 @@ package frc.robot.BreakerLib.devices.motors;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
-import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.MotorFeedbackSensor;
-import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import frc.robot.BreakerLib.util.power.BreakerPowerManager;
 
-/** Add your docs here. */
+/** BreakerLib smart motor controller for REV and CTRE motors. */
 public class BreakerSmartMotorController implements MotorController {
+    
     private ControllerType controllerType;
     private CANSparkMax sparkMax;
     private BaseMotorController ctreController;

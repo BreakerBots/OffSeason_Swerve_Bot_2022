@@ -4,7 +4,7 @@
 
 package frc.robot.BreakerLib.devices.sensors;
 
-/** Add your docs here. */
+/** Unused. */
 public class SparkMaxCANCoder {
     
 }

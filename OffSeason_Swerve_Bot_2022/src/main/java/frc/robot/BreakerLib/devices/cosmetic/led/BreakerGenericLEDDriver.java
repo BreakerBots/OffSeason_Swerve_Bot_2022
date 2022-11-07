@@ -4,20 +4,18 @@
 
 package frc.robot.BreakerLib.devices.cosmetic.led;
 
-import com.ctre.phoenix.led.ColorFlowAnimation;
-
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.BreakerLib.devices.cosmetic.led.animations.BreakerAnimation;
-import frc.robot.BreakerLib.devices.cosmetic.led.animations.BreakerStaticAnimation;
 import frc.robot.BreakerLib.util.BreakerRoboRIO.RobotMode;
 
-/** Add your docs here. */
+/** Driver for all LED controllers in BreakerLib. */
 public interface BreakerGenericLEDDriver {
     public static final Color BREAKER_RED = new Color(new Color8Bit(196, 30, 58));
     public static final Color BREAKER_GOLD = new Color(new Color8Bit(253, 181, 21));
 
     public abstract void setAllLEDs(int r, int g, int b);
+
     public default void setAllLEDs(Color ledColor) {
         Color8Bit col = new Color8Bit(ledColor);
         setAllLEDs(col.red, col.green, col.blue);

@@ -16,6 +16,7 @@ public class BreakerCANdleConfig {
 
     private CANdleConfiguration config;
 
+    
     public BreakerCANdleConfig(double brightnessScalar, LEDStripType stripType, VBatOutputMode vBatOutputMode,
             boolean disableOnSignalLoss, boolean enableOptmizations, boolean statusLEDOffWhenActive) {
         config = new CANdleConfiguration();
