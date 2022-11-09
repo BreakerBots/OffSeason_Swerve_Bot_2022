@@ -103,6 +103,7 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
         ;
         driveMotor.selectProfileSlot(1, 0);
         driveMotor.setInverted(invertDriveOutput);
+        driveMotor.setNeutralMode(NeutralMode.Brake);
         driveMotor.set(ControlMode.Velocity, 0.0);
 
         ffProvider = config.getArbitraryFeedforwardProvider();
@@ -150,7 +151,7 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
 
     @Override
     public SwerveModuleState getModuleState() {
-        return new SwerveModuleState(getModuleVelMetersPerSec(), Rotation2d.fromDegrees(getModuleRelativeAngle()));
+        return new SwerveModuleState(getModuleVelMetersPerSec(), Rotation2d.fromDegrees(getModuleAbsoluteAngle()));
     }
 
     @Override
