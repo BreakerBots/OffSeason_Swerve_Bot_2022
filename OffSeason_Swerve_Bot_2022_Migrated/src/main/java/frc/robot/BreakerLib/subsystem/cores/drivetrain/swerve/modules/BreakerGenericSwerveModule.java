@@ -5,6 +5,7 @@
 package frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.modules;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.BreakerLib.devices.BreakerGenericDevice;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
@@ -77,6 +78,10 @@ public interface BreakerGenericSwerveModule extends BreakerGenericDevice {
      */
     public abstract void setModuleBrakeMode(boolean isEnabled);
 
+    public abstract SwerveModulePosition getModulePosition();
+
+    public abstract void resetDriveEncoderPosition();
+
     /**
      * @return Module's health as an array.
      *         <p>
@@ -86,6 +91,6 @@ public interface BreakerGenericSwerveModule extends BreakerGenericDevice {
     public abstract DeviceHealth[] getModuleHealths();
 
     public static String getModuleAsString(String moduleType, BreakerGenericSwerveModule module) {
-        return String.format("%s(Name: %s, Overall_Device_Health: %s, Set_State: %s, Current_State: %)", moduleType, module.getDeviceName(), module.getHealth().toString(), module.getModuleTargetState().toString(), module.getModuleState().toString());
+        return String.format("%s(Name: %s, Overall_Device_Health: %s, Set_State: %s, Current_State: %s)", moduleType, module.getDeviceName(), module.getHealth().toString(), module.getModuleTargetState().toString(), module.getModuleState().toString());
     }
 }
