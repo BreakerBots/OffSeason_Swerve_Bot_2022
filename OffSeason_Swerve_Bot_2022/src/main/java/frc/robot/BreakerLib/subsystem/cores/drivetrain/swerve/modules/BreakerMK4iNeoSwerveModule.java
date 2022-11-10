@@ -64,6 +64,7 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
         this.turnEncoder = turnEncoder;
 
         turnPID = new PIDController(config.getModuleAnglekP(), config.getModuleAnglekI(), config.getModuleAngleKd());
+        turnPID.enableContinuousInput(-180.0, 180.0);
 
         BreakerCANCoderFactory.configExistingCANCoder(turnEncoder, SensorInitializationStrategy.BootToAbsolutePosition,
                 AbsoluteSensorRange.Signed_PlusMinus180, encoderAbsoluteAngleOffsetDegrees, false);
@@ -90,7 +91,7 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
         SmartDashboard.putNumber(deviceName + " ANGLE IN", tgtAngle.getDegrees());
         SmartDashboard.putNumber(deviceName + " SPEED IN", speedMetersPerSec);
 
-        turnMotor.set(turnPID.calculate(turnEncoder.getPosition(), tgtAngle.getDegrees()));
+        turnMotor.set(turnPID.calculate(turnEncoder.getAbsolutePosition(), tgtAngle.getDegrees()));
         driveMotor.getPIDController().setReference(getMetersPerSecToNativeVelUnits(speedMetersPerSec),
                 CANSparkMax.ControlType.kVelocity, 0, ffProvider.getArbitraryFeedforwardValue(speedMetersPerSec),
                 ArbFFUnits.kPercentOut);
@@ -124,7 +125,7 @@ public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
 
     @Override
     public SwerveModuleState getModuleState() {
-        return new SwerveModuleState(getModuleVelMetersPerSec(), Rotation2d.fromDegrees(getModuleRelativeAngle()));
+        return new SwerveModuleState(getModuleVelMetersPerSec(), Rotation2d.fromDegrees(getModuleAbsoluteAngle()));
     }
 
     @Override
