@@ -40,7 +40,7 @@ public class RobotContainer {
     BreakerRobotManager.setup(
         drivetrainSys.getBaseDrivetrain(),
         new BreakerRobotConfig(
-            new BreakerRobotStartConfig(5104, "BreakerBots", "Offseason SwerveBot", 2022, "V1.5",
+            new BreakerRobotStartConfig(5104, "BreakerBots", "Offseason SwerveBot", 2022, "V1.6",
                 "Roman Abrahamson, and Yousif Alkhalaf")));
 
     controllerSys.configAnalogInputDeadbands(new BreakerXboxControllerDeadbandConfig(0.06, 0.06, 0.06, 0.06));
@@ -59,8 +59,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    controllerSys.getButtonB().whenPressed(new InstantCommand(drivetrainSys.getBaseDrivetrain()::toggleSlowMode));
-    controllerSys.getButtonX().whenPressed(new InstantCommand(drivetrainSys.getBaseDrivetrain()::resetOdometryRotation));
+    controllerSys.getButtonB().toggleOnTrue(new InstantCommand(drivetrainSys.getBaseDrivetrain()::toggleSlowMode));
+    controllerSys.getButtonX().toggleOnTrue(new InstantCommand(drivetrainSys.getBaseDrivetrain()::resetOdometryRotation));
   }
 
   /**

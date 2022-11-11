@@ -1,5 +1,7 @@
 package frc.robot.BreakerLib.util.math; 
 
+import java.util.List;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -267,6 +269,21 @@ public class BreakerMath {
 
         for (int i = 0; i < valuesToAvg.length; i++) {
             denom += i < weights.length ? weights[i] : 1.0;
+        }
+        
+        return numer / denom;
+    }
+
+    public static double getWeightedAvg(List<Double> valuesToAvg, List<Double> weights) {
+        double numer = 0;
+        double denom = 0;
+        for (int i = 0; i < valuesToAvg.size(); i++) {
+            double weaght = i < weights.size() ? weights.get(i): 1.0;
+            numer += valuesToAvg.get(i) * weaght;
+        }
+
+        for (int i = 0; i < valuesToAvg.get(i); i++) {
+            denom += i < weights.size() ? weights.get(i) : 1.0;
         }
         
         return numer / denom;

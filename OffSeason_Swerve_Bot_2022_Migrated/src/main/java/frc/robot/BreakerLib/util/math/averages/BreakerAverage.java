@@ -7,17 +7,18 @@ package frc.robot.BreakerLib.util.math.averages;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.print.Doc;
+
 /** Add your docs here. */
 public class BreakerAverage implements BreakerGenericAveragingList<Double> {
-    private List<Double> list = new ArrayList<>();
+    private List<Double> list;
     public BreakerAverage() {
-        
+        list = new ArrayList<>();
     }
 
     @Override
-    public Double addValue(Double valueToAdd) {
+    public void addValue(Double valueToAdd) {
         list.add(valueToAdd);
-        return getAverage();
     }
 
     @Override

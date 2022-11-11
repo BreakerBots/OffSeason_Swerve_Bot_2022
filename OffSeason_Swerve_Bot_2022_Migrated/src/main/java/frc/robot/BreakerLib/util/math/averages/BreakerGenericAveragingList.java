@@ -9,7 +9,7 @@ import java.util.List;
 /** Add your docs here. */
 public interface BreakerGenericAveragingList<T> {
     /** adds a new value to the list and returns the new average */
-    public abstract T addValue(T valueToAdd);
+    public abstract void addValue(T valueToAdd);
     public abstract T getAverage();
     public abstract T getAverageBetweenGivenIndexes(int startIndex, int stopIndex);
     public abstract T[] getAsArray();

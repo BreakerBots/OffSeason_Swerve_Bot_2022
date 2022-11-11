@@ -95,7 +95,8 @@ public class BreakerPowerManager extends SubsystemBase {
     // returns the battery's remaing energy as a fractional perentage 0 to 1
     public static double getRemainingBatteryPercentage() {
         double cycleAvg = (getRemainingBatteryPercentageJoulesEst() + getRemainingBatteryPercentageVoltageEst()) / 2;
-        return MathUtil.clamp(runningPrecentageAverage.addValue(cycleAvg), 0.0, 1.0);
+        runningPrecentageAverage.addValue(cycleAvg);
+        return MathUtil.clamp(runningPrecentageAverage.getAverage(), 0.0, 1.0);
     }
 
     private void managePower() {
