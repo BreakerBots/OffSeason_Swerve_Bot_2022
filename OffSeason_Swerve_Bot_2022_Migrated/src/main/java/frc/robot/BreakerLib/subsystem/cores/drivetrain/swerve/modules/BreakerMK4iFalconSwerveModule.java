@@ -32,7 +32,7 @@ import frc.robot.BreakerLib.util.math.BreakerUnits;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
-import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
+import frc.robot.BreakerLib.util.vendorutil.BreakerCTREUtil;
 
 /** Swerve Drive Specialties' MK4i swerve module driven by Falcon 500 motors. */
 public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule {
@@ -151,11 +151,6 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
     }
 
     @Override
-    public SwerveModuleState getModuleState() {
-        return new SwerveModuleState(getModuleVelMetersPerSec(), Rotation2d.fromDegrees(getModuleAbsoluteAngle()));
-    }
-
-    @Override
     public DeviceHealth[] getModuleHealths() {
         DeviceHealth[] healths = new DeviceHealth[4];
         healths[0] = overallHealth;
@@ -180,6 +175,17 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
     public void setModuleBrakeMode(boolean isEnabled) {
         setDriveMotorBrakeMode(isEnabled);
         setTurnMotorBrakeMode(isEnabled);
+    }
+
+    @Override
+    public void resetModuleDriveEncoderPosition() {
+        driveMotor.setSelectedSensorPosition(0);
+    }
+
+    @Override
+    public double getModuleDriveDistanceMeters() {
+        return Units.inchesToMeters(BreakerMath.ticksToInches(driveMotor.getSelectedSensorPosition(),
+        BreakerMath.getTicksPerInch(2048, config.getDriveMotorGearRatioToOne(), config.getWheelDiameter())));
     }
 
     @Override
@@ -312,10 +318,5 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
     @Override
     public String toString() {
         return BreakerGenericSwerveModule.getModuleAsString("SDS_MK4I(Falcon)", this);
-    }
-
-    @Override
-    public SwerveModulePosition getModulePosition() {
-        return ;
     }
 }

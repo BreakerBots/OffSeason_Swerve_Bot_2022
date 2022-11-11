@@ -11,7 +11,6 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.BreakerLib.driverstation.BreakerXboxController;
 import frc.robot.BreakerLib.util.math.functions.BreakerGenericMathFunction;
-import frc.robot.BreakerLib.util.math.functions.BreakerMathFunction;
 
 public class BreakerDiffDriveController extends CommandBase {
   
@@ -80,7 +79,7 @@ public class BreakerDiffDriveController extends CommandBase {
       turn = turnSpeedPrecentSupplier.getAsDouble();
     } else {
       net = controller.getRightTriggerAxis() - controller.getLeftTriggerAxis();
-      turn = controller.getLeftX();
+      turn = -controller.getLeftX();
     }
 
     if (usesCurves) {

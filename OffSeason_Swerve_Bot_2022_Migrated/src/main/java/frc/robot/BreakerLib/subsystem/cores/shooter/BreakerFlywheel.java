@@ -25,7 +25,7 @@ import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.suites.BreakerGenericTestSuiteImplementation;
 import frc.robot.BreakerLib.util.test.suites.flywheelSuite.BreakerFlywheelTestSuite;
-import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
+import frc.robot.BreakerLib.util.vendorutil.BreakerCTREUtil;
 
 /** A class representing a robot's shooter flywheel and its assocated controle loop */
 public class BreakerFlywheel extends BreakerGenericLoopedDevice implements BreakerGenericTestSuiteImplementation<BreakerFlywheelTestSuite> {

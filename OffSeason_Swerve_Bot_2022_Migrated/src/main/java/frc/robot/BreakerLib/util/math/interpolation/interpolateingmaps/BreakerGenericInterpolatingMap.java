@@ -4,7 +4,7 @@
 
 package frc.robot.BreakerLib.util.math.interpolation.interpolateingmaps;
 
-/** Add your docs here. */
+/**  */
 public interface BreakerGenericInterpolatingMap<K extends Number, V> {
 
     /**

@@ -15,7 +15,7 @@ import frc.robot.BreakerLib.util.BreakerRoboRIO.RobotMode;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
-import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
+import frc.robot.BreakerLib.util.vendorutil.BreakerCTREUtil;
 
 /** CTRE LED controller */
 public class BreakerCANdle extends BreakerGenericLoopedDevice implements BreakerGenericLEDDriver{

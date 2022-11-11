@@ -55,7 +55,9 @@ public interface BreakerGenericSwerveModule extends BreakerGenericDevice {
     public abstract SwerveModuleState getModuleTargetState();
 
     /** @return Module's {@link SwerveModuleState}. */
-    public abstract SwerveModuleState getModuleState();
+    public default SwerveModuleState getModuleState() {
+        return new SwerveModuleState(getModuleVelMetersPerSec(), Rotation2d.fromDegrees(getModuleAbsoluteAngle()));
+    }
 
     /**
      * Sets brake mode on drive motor.
@@ -78,9 +80,13 @@ public interface BreakerGenericSwerveModule extends BreakerGenericDevice {
      */
     public abstract void setModuleBrakeMode(boolean isEnabled);
 
-    public abstract SwerveModulePosition getModulePosition();
+    public default SwerveModulePosition getModulePosition() {
+        return new SwerveModulePosition(getModuleDriveDistanceMeters(), Rotation2d.fromDegrees(getModuleAbsoluteAngle()));
+    }
 
-    public abstract void resetDriveEncoderPosition();
+    public abstract double getModuleDriveDistanceMeters();
+
+    public abstract void resetModuleDriveEncoderPosition();
 
     /**
      * @return Module's health as an array.

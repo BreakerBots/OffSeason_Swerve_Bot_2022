@@ -57,7 +57,6 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
    */
   public BreakerSwerveDrive(BreakerSwerveDriveConfig config, BreakerGenericGyro gyro,
       BreakerGenericSwerveModule... swerveModules) {
-    odometer = new SwerveDriveOdometry(config.getKinematics(), Rotation2d.fromDegrees(gyro.getRawYaw()));
     this.config = config;
     this.swerveModules = swerveModules;
     this.gyro = gyro;
@@ -66,6 +65,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
     for (int i = 0; i < targetModuleStates.length; i++) {
       targetModuleStates[i] = new SwerveModuleState();
     }
+    odometer = new SwerveDriveOdometry(config.getKinematics(), Rotation2d.fromDegrees(gyro.getRawYaw()), getSwerveModulePositions());
   }
 
   /**
@@ -248,9 +248,23 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
     return moduleStates;
   }
 
+  public SwerveModulePosition[] getSwerveModulePositions() {
+    SwerveModulePosition[] moduleStates = new SwerveModulePosition[swerveModules.length];
+    for (int i = 0; i < swerveModules.length; i++) {
+      moduleStates[i] = swerveModules[i].getModulePosition();
+    }
+    return moduleStates;
+  }
+
+  public void resetSwerveModuleDriveDistances() {
+    for (BreakerGenericSwerveModule mod: swerveModules) {
+      mod.resetModuleDriveEncoderPosition();
+    }
+  }
+
   @Override
   public void updateOdometry() {
-    odometer.update(Rotation2d.fromDegrees(gyro.getRawYaw()), getSwerveModuleStates());
+    odometer.update(Rotation2d.fromDegrees(gyro.getRawYaw()), getSwerveModulePositions());
     calculateMovementState((Timer.getFPGATimestamp() - prevOdometryUpdateTimestamp) * 1000);
     prevOdometryUpdateTimestamp = Timer.getFPGATimestamp();
   }

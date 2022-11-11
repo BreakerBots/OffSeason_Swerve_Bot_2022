@@ -13,7 +13,7 @@ import frc.robot.BreakerLib.devices.BreakerGenericDeviceBase;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
-import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
+import frc.robot.BreakerLib.util.vendorutil.BreakerCTREUtil;
 
 /** Falcon motor with simple forward/reverse/off controls */
 public class BreakerTrinaryCTREMotor extends BreakerGenericDeviceBase {
