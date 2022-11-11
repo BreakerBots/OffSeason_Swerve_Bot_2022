@@ -19,10 +19,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.BreakerLib.auto.trajectory.BreakerTrajectoryUtil;
 import frc.robot.BreakerLib.auto.trajectory.management.BreakerStartTrajectoryPath;
 import frc.robot.BreakerLib.auto.trajectory.management.BreakerTrajectoryPath;
-import frc.robot.BreakerLib.auto.trajectory.swerve.BreakerSwerveAutoPathFollower;
-import frc.robot.BreakerLib.auto.trajectory.swerve.BreakerSwerveAutoPathFollowerConfig;
 import frc.robot.BreakerLib.auto.trajectory.swerve.rotation.BreakerRotationPoint;
 import frc.robot.BreakerLib.auto.trajectory.swerve.rotation.BreakerSwerveRotationSupplier;
+import frc.robot.BreakerLib.auto.trajectory.swerve.standard.BreakerSwerveAutoPathFollower;
+import frc.robot.BreakerLib.auto.trajectory.swerve.standard.BreakerSwerveAutoPathFollowerConfig;
 import frc.robot.subsystems.Drive;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
