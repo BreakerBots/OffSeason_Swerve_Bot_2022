@@ -66,6 +66,14 @@ public class BreakerBinaryCTREMotor extends BreakerGenericDeviceBase {
         return motor;
     }
 
+    public void toggle() {
+        if (isActive()) {
+            stop();
+        } else {
+            start();
+        }
+    }
+
     @Override
     public void runSelfTest() {
         faultStr = null;

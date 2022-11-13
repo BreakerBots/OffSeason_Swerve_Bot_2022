@@ -91,7 +91,7 @@ public interface BreakerGenericSwerveModule extends BreakerGenericDevice {
     /**
      * @return Module's health as an array.
      *         <p>
-     *         [0] = overall, [1] = drive motor, [2] = turn motor, [3] = other device if
+     *         [0] = overall, [1] = drive motor, [2] = turn motor, [3... n] = other devices if
      *         supported (EX: CANCoder)
      */
     public abstract DeviceHealth[] getModuleHealths();

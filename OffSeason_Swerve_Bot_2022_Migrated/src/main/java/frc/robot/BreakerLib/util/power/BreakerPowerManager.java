@@ -10,22 +10,15 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
-import javax.swing.text.html.parser.Entity;
-
-import edu.wpi.first.hal.simulation.PowerDistributionDataJNI;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj2.command.PerpetualCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.BreakerLib.util.math.averages.BreakerRunningAverage;
 
 /** Add your docs here. */
 public class BreakerPowerManager extends SubsystemBase {
     private static PowerDistribution distributor = new PowerDistribution();
-    private static double batteryPercentageRemaining;
-    private static double batteryJoulesExpended;
-    private static double batteryJoulesRemaining;
     private static final double fullBatteryCapacityJoules = 2592000;
     private static final double fullBattetyNominalVoltage = 12.7;
     private static List<BreakerPowerChannel> channelList = BreakerPowerUtil.getNewPowerChannelList(distributor.getType());

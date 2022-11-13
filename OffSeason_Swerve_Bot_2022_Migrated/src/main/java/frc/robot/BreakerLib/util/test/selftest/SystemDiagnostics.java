@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
-import com.revrobotics.CANSparkMax;
+//import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.Pair;
 import frc.robot.BreakerLib.util.vendorutil.BreakerCTREUtil;

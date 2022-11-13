@@ -67,7 +67,7 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
 
   @Override
   public Rotation3d getRotation3d() {
-      return new Rotation3d(Math.toRadians(getRollDegrees()), Math.toRadians(getPitchDegrees()),  Math.toRadians(getYawDegrees()));
+      return new Rotation3d(getQuaternion());
   }
 
   @Override

@@ -25,7 +25,7 @@ public interface BreakerGeneric3AxisGyro extends BreakerGenericGyro {
 
   public abstract Quaternion getQuaternion();
 
-  /** Pitch, yaw, and roll as Rotation3d, all within +- 180 degrees. */
+  /** Robots orientation in 3d space as a Rotation3d */
   public abstract Rotation3d getRotation3d();
 
   /**

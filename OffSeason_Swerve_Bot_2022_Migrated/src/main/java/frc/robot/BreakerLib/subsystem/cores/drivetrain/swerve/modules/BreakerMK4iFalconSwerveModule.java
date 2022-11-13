@@ -48,7 +48,7 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
 
     /**
      * Constructs a new Swerve Drive Specialties MK4i (inverted) swerve drive
-     * module, implements the {@link BreakerSwerveModule} interface
+     * module, implements the {@link BreakerGenericSwerveModule} interface
      * 
      * @param driveMotor  - The TalonFX motor that moves the module's wheel linearly.
      * @param turnMotor   - The TalonFX motor that actuates module's wheel angle and
