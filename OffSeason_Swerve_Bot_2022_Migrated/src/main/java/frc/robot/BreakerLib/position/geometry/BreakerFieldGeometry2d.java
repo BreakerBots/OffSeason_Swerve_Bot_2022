@@ -17,10 +17,10 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.Trajectory.State;
 
 /** A class that represents the geometric 2d layout of an FRC play field */
-public class BreakerFieldGeometry {
+public class BreakerFieldGeometry2d {
     private Shape[] componentShapes;
 
-    public BreakerFieldGeometry(Shape... componentShapes) {
+    public BreakerFieldGeometry2d(Shape... componentShapes) {
         this.componentShapes = componentShapes;
     }
 
@@ -73,11 +73,11 @@ public class BreakerFieldGeometry {
         return false;
     }
 
-    public boolean robotHitboxIntersects(BreakerRobotGeometry robotGeometry, Pose2d robotPose) {
+    public boolean robotHitboxIntersects(BreakerRobotGeometry2d robotGeometry, Pose2d robotPose) {
        return intersects(robotGeometry.getTranslatedHitbox(robotPose));
     }
 
-    public boolean trajectoryIntersects(Trajectory trajectoryCurve, BreakerRobotGeometry robotGeometry, double dt) {
+    public boolean trajectoryIntersects(Trajectory trajectoryCurve, BreakerRobotGeometry2d robotGeometry, double dt) {
         double time = trajectoryCurve.getTotalTimeSeconds();
         for (double t = 0; t <= 1.0; t += dt) {
             State sample = trajectoryCurve.sample(time * t);

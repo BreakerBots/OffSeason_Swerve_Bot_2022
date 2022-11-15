@@ -12,10 +12,10 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 
 /** Add your docs here. */
-public class BreakerRobotGeometry {
+public class BreakerRobotGeometry2d {
     private Area robotArea;
 
-    public BreakerRobotGeometry(Area robotArea) {
+    public BreakerRobotGeometry2d(Area robotArea) {
         this.robotArea = robotArea;
     }
 
