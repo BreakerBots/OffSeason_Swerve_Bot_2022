@@ -10,9 +10,16 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 
 /** Add your docs here. */
 public interface BreakerAnimation {
-    public abstract Color8Bit getColor8BitAtIndex(double time, int index);
-    public abstract Color getColorAtIndex(double time, int index);
-    public abstract AddressableLEDBuffer getBuffer(double time);
+    public abstract void start();
+    public abstract void stop();
+    public abstract boolean isActive();
+    public abstract AddressableLEDBuffer getBuffer();
+    public default Color getColorAtIndex(int index) {
+        return getBuffer().getLED(index);
+    }
+    public default Color8Bit getColor8BitAtIndex(int index) {
+        return new Color8Bit(getColorAtIndex(index));
+    }
     public abstract int getLength();
 
 }

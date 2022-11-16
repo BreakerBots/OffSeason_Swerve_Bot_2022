@@ -52,6 +52,7 @@ public class BreakerLegacyPhotonTarget extends SubsystemBase {
      * @param targetPosition                     Position of target relative to
      *                                           field.
      * @param maxTargetCoordinateDeviationInches Max allowed
+     * @deprecated use {@link BreakerFiducialTarget} for stationary assigned 3d target tracking instead
      */
     public BreakerLegacyPhotonTarget(BreakerPhotonCamera camera, BreakerGenericOdometer odometryProveider,
             Pose3d targetPosition, double maxTargetCoordinateDeviationMeters) {

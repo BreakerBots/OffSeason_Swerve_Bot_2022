@@ -17,10 +17,11 @@ public class BreakerLimelightTarget {
     private double targetOffsetDistZ = 0;
     private boolean targetOffsetHasBeenSet = false;
 
-    /** Creates the profile for the target of a limelight
+    /**Creates the profile for the target of a limelight
      * @param targetHeight the height of the intended target form the ground (refers to the vision target being tracked)
      * @param limelight the limelight used to track the intended target (refers to the vision target being tracked)
      * @param pipelineNum the pipeline number (0 - 9) that the limelight needs to use to track the intended target
+     * @deprecated in favor of focusing on PhotonVision support
      */
     public BreakerLimelightTarget(double targetHeight, BreakerLimelight limelight, double pipelineNum) {
       targetHeight = this.targetHeight;

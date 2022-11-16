@@ -19,7 +19,7 @@ import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.selftest.SelfTest;
 
-/* CTRE Pigeon IMU 2 implementing the Breaker device interface and Breaker IMU interface. */
+/* CTRE Pigeon IMU 2 implementing the Breaker device interface, Breaker IMU interface,  */
 public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericMagnetometer {
   private WPI_Pigeon2 pigeon;
 

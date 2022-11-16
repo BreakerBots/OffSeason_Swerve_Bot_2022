@@ -2,6 +2,8 @@ package frc.robot.BreakerLib.util.math;
 
 import java.util.List;
 
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -10,7 +12,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.BreakerLib.physics.Breaker3AxisForces;
-import frc.robot.BreakerLib.physics.BreakerVector2;
+import frc.robot.BreakerLib.physics.vector.BreakerVector2;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 
 /** Easily accessible  math utilitie class. */
@@ -291,6 +293,10 @@ public class BreakerMath {
 
     public static double root(double num, double root) {
         return Math.pow(num, 1.0 / root);
+    }
+
+    public static double absoluteAngleToContinuousRelativeAngleDegrees(double curRelativeAngle, Rotation2d curAbsoluteAngle, Rotation2d tgtAngle) {
+        return curRelativeAngle + (tgtAngle.minus(curAbsoluteAngle).getDegrees());
     }
 
 

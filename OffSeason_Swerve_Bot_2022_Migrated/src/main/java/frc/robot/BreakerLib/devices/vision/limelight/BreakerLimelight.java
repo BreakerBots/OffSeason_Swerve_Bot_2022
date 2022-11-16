@@ -13,6 +13,7 @@ import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.selftest.SelfTest;
 
+/** @deprecated in favor of focusing on PhotonVision support */
 public class BreakerLimelight extends BreakerGenericDeviceBase {
   private double mountingAngle;
   private double mountingHeight;

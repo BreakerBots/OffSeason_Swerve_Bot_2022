@@ -6,8 +6,8 @@ package frc.robot.BreakerLib.position.movement;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import frc.robot.BreakerLib.physics.Breaker6AxisForces;
-import frc.robot.BreakerLib.physics.BreakerAngularVector3;
-import frc.robot.BreakerLib.physics.BreakerVector3;
+import frc.robot.BreakerLib.physics.vector.BreakerAngularVector3;
+import frc.robot.BreakerLib.physics.vector.BreakerVector3;
 
 /** Represents an objects 3 dimentional (linear: XYZ / Angular: YPR) position, velocity, acceleration, and jerk at a given time */
 public class BreakerMovementState3d {

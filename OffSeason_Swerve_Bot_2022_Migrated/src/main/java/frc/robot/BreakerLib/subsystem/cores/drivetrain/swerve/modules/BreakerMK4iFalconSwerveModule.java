@@ -114,7 +114,7 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
 
     @Override
     public void setModuleTarget(Rotation2d tgtAngle, double speedMetersPerSec) {
-        double relTgtAng = getModuleRelativeAngle() + (tgtAngle.minus(Rotation2d.fromDegrees(getModuleAbsoluteAngle())).getDegrees()); // Aproximates continuous pid input
+        double relTgtAng = BreakerMath.absoluteAngleToContinuousRelativeAngleDegrees(getModuleRelativeAngle(), Rotation2d.fromDegrees(getModuleAbsoluteAngle()), tgtAngle);
 
         turnMotor.set(TalonFXControlMode.Position, BreakerUnits.degreesToCANCoderNativeUnits(relTgtAng));
         driveMotor.set(TalonFXControlMode.Velocity, getMetersPerSecToNativeVelUnits(speedMetersPerSec),

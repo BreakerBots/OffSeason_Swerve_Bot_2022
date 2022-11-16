@@ -31,24 +31,32 @@ public class BreakerStaticAnimation implements BreakerAnimation {
         this.length = length;
     }
 
-    @Override
-    public Color8Bit getColor8BitAtIndex(double time, int index) {
-        return new Color8Bit(staticColor);
-    }
 
     @Override
-    public Color getColorAtIndex(double time, int index) {
-        return staticColor;
-    }
-
-    @Override
-    public AddressableLEDBuffer getBuffer(double time) {
+    public AddressableLEDBuffer getBuffer() {
         return buff;
+    }
+
+    @Override
+    public Color getColorAtIndex(int index) {
+        return staticColor;
     }
 
     @Override
     public int getLength() {
         return length;
+    }
+
+    @Override
+    public void start() {}
+
+    @Override
+    public void stop() {}
+
+    @Override
+    public boolean isActive() {
+        // TODO Auto-generated method stub
+        return false;
     }
     
 }
