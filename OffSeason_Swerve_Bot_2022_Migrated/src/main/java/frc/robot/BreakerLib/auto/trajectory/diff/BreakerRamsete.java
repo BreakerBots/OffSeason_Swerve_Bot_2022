@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.BreakerLib.auto.trajectory.management.BreakerTrajectoryPath;
 import frc.robot.BreakerLib.auto.trajectory.management.conditionalcommand.BreakerConditionalEvent;
+import frc.robot.BreakerLib.util.logging.BreakerLog;
 
 public class BreakerRamsete extends CommandBase {
   /** Creates a new BreakerRamsete. */
@@ -27,12 +28,13 @@ public class BreakerRamsete extends CommandBase {
       config.getRamseteController(), config.getDrivetrain().getConfig().getFeedForward(), config.getDrivetrain().getConfig().getKinematics(), 
       config.getDrivetrain()::getWheelSpeeds, config.getDrivetrain().getConfig().getLeftPID(), config.getDrivetrain().getConfig().getRightPID(), 
       config.getDrivetrain()::tankDriveVoltage, config.getDrivetrain());
-    ramsete.schedule();
     remainingEvents = new ArrayList<>(trajectoryPath.getAttachedConditionalEvents());
   }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    BreakerLog.logBreakerLibEvent(" A BreakerRamsete command instance has been started ");
+    ramsete.schedule();
     timer.reset();
     timer.start();
   }
