@@ -33,7 +33,7 @@ public class BreakerRamsete extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    BreakerLog.logBreakerLibEvent(" A BreakerRamsete command instance has been started ");
+    BreakerLog.logBreakerLibEvent(" A BreakerRamsete instance has been started ");
     ramsete.schedule();
     timer.reset();
     timer.start();
@@ -60,6 +60,7 @@ public class BreakerRamsete extends CommandBase {
       if (trajectoryPath.stopAtEnd()) {
         config.getDrivetrain().stop();
       }
+      BreakerLog.logBreakerLibEvent(" A BreakerRamsete instance has been started ");
   }
 
   // Returns true when the command should end.
