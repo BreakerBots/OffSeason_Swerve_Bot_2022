@@ -60,8 +60,8 @@ public class BreakerSwerveDriveConfig {
     public BreakerSwerveDriveConfig(double maxForwardVel, double maxSidewaysVel, double maxAngVel,
             double moduleAnglekP, double moduleAnglekI, double moduleAngleKd, double moduleVelkP,
             double moduleVelkI, double moduleVelKd, double moduleVelKf, double driveMotorGearRatioToOne,
-            double wheelDiameter, double moduleWheelSpeedDeadband, double maxAttainableModuleWheelSpeed, BreakerArbitraryFeedforwardProvider arbitraryFeedforwardProvider,
-            Translation2d... wheelPositionsRelativeToCenter) {
+            double wheelDiameter, double moduleWheelSpeedDeadband, double maxAttainableModuleWheelSpeed, 
+            BreakerArbitraryFeedforwardProvider arbitraryFeedforwardProvider, Translation2d... wheelPositionsRelativeToCenter) {
 
         this.maxForwardVel = maxForwardVel;
         this.maxSidewaysVel = maxSidewaysVel;

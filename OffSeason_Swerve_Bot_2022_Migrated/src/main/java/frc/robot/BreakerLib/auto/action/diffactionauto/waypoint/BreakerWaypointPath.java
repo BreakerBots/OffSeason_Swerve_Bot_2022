@@ -4,9 +4,7 @@
 
 package frc.robot.BreakerLib.auto.action.diffactionauto.waypoint;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
 /** A path of positional waypoints q*/
@@ -16,6 +14,14 @@ public class BreakerWaypointPath {
     public BreakerWaypointPath(TrapezoidProfile.Constraints constraints, Translation2d... waypoints) {
         this.constraints = constraints;
         this.waypoints = waypoints;
+    }
+    
+    public double getTotalPathDistance() {
+        double dist = 0;
+        for (int i = 1; i < waypoints.length; i++) {
+            dist += waypoints[i-1].getDistance(waypoints[i]);
+        }
+        return dist;
     }
 
     public TrapezoidProfile.Constraints getConstraints() {
