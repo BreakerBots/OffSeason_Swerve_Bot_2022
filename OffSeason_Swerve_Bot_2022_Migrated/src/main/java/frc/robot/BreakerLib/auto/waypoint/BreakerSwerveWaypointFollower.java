@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.auto.action.diffactionauto.waypoint.swerve;
+package frc.robot.BreakerLib.auto.waypoint;
 
 import java.util.ArrayList;
 import java.util.Currency;
@@ -16,8 +16,8 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import frc.robot.BreakerLib.auto.action.diffactionauto.waypoint.BreakerWaypointPath;
 import frc.robot.BreakerLib.auto.trajectory.swerve.rotation.BreakerSwerveRotationSupplier;
+import frc.robot.BreakerLib.auto.waypoint.BreakerWaypointPath;
 import frc.robot.BreakerLib.physics.vector.BreakerVector2;
 import frc.robot.BreakerLib.util.logging.BreakerLog;
 import frc.robot.BreakerLib.util.math.BreakerMath;
