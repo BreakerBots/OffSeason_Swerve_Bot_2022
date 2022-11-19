@@ -8,12 +8,12 @@ import frc.robot.BreakerLib.driverstation.gamepad.components.BreakerAnalogueTrig
 import frc.robot.BreakerLib.driverstation.gamepad.components.BreakerDPad;
 import frc.robot.BreakerLib.driverstation.gamepad.components.BreakerGamepadActionButtons;
 import frc.robot.BreakerLib.driverstation.gamepad.components.BreakerGamepadAnalogueDeadbandConfig;
-import frc.robot.BreakerLib.driverstation.gamepad.components.BreakerGamepadJoystick;
+import frc.robot.BreakerLib.driverstation.gamepad.components.BreakerGamepadThumbstick;
 
 public class BreakerGenericGamepad {
     protected GenericHID hid;
     protected BreakerGamepadActionButtons actionButtons;
-    protected BreakerGamepadJoystick leftJoystick, rightJoystick;
+    protected BreakerGamepadThumbstick leftJoystick, rightJoystick;
     protected BreakerAnalogueTrigger leftTrigger, rightTrigger;
     protected JoystickButton leftBumper, rightBumper;
     protected BreakerDPad dPad;
@@ -23,16 +23,16 @@ public class BreakerGenericGamepad {
             int leftActionButtonPort, 
             int rightActionButtonPort, 
             int bottomActionButtonPort, 
-            int leftJoystickButtonPort,
-            int leftJoystickAxisPortX, 
-            boolean invertLeftJoystickAxisPortX, 
-            int leftJoystickAxisPortY, 
-            boolean invertLeftJoystickAxisPortY, 
-            int rightJoystickButtonPort,
-            int rightJoystickAxisPortX, 
-            boolean invertRightJoystickAxisPortX, 
-            int rightJoystickAxisPortY, 
-            boolean invertRightJoystickAxisPortY,
+            int leftThumbstickButtonPort,
+            int leftThumbstickAxisPortX, 
+            boolean invertLeftThumbstickAxisPortX, 
+            int leftThumbstickAxisPortY, 
+            boolean invertLeftThumbstickAxisPortY, 
+            int rightThumbstickButtonPort,
+            int rightThumbstickAxisPortX, 
+            boolean invertRightThumbstickAxisPortX, 
+            int rightThumbstickAxisPortY, 
+            boolean invertRightThumbstickAxisPortY,
             int leftTriggerAxisPort,
             int rightTriggerAxisPort,
             int leftBumperPort,
@@ -40,8 +40,8 @@ public class BreakerGenericGamepad {
             ) {
         this.hid = hid;
         actionButtons = new BreakerGamepadActionButtons(hid, topActionButtonPort, leftActionButtonPort, rightActionButtonPort, bottomActionButtonPort);
-        leftJoystick = new BreakerGamepadJoystick(hid, leftJoystickButtonPort, leftJoystickAxisPortX, invertLeftJoystickAxisPortX, leftJoystickAxisPortY, invertLeftJoystickAxisPortY);
-        rightJoystick = new BreakerGamepadJoystick(hid, rightJoystickButtonPort, rightJoystickAxisPortX, invertRightJoystickAxisPortX, rightJoystickAxisPortY, invertRightJoystickAxisPortY);
+        leftJoystick = new BreakerGamepadThumbstick(hid, leftThumbstickButtonPort, leftThumbstickAxisPortX, invertLeftThumbstickAxisPortX, leftThumbstickAxisPortY, invertLeftThumbstickAxisPortY);
+        rightJoystick = new BreakerGamepadThumbstick(hid, rightThumbstickButtonPort, rightThumbstickAxisPortX, invertRightThumbstickAxisPortX, rightThumbstickAxisPortY, invertRightThumbstickAxisPortY);
         leftTrigger = new BreakerAnalogueTrigger(hid, leftTriggerAxisPort);
         rightTrigger = new BreakerAnalogueTrigger(hid, rightTriggerAxisPort);
         leftBumper = new JoystickButton(hid, leftBumperPort);
@@ -88,11 +88,11 @@ public class BreakerGenericGamepad {
         return actionButtons;
     }
 
-    public BreakerGamepadJoystick getLeftJoystick() {
+    public BreakerGamepadThumbstick getLeftThumbstick() {
         return leftJoystick;
     }
 
-    public BreakerGamepadJoystick getRightJoystick() {
+    public BreakerGamepadThumbstick getRightThumbstick() {
         return rightJoystick;
     }
 

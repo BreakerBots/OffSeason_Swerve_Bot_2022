@@ -204,9 +204,9 @@ public class BreakerSwerveDriveController extends CommandBase {
       turn = turnSpeedPercentSupplier.getAsDouble();
     } else { // Use controller inputs.
       // Controller inputs are used unless overwritten.
-      forward = controller.getLeftJoystick().getY();
-      horizontal = controller.getLeftJoystick().getX();
-      turn = controller.getRightJoystick().getX();
+      forward = controller.getLeftThumbstick().getY();
+      horizontal = controller.getLeftThumbstick().getX();
+      turn = controller.getRightThumbstick().getX();
     }
 
     // Speed curves are applied if overrides are not active.

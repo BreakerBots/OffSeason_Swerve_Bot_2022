@@ -8,16 +8,16 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /** Add your docs here. */
-public class BreakerGamepadJoystick extends BreakerAnalogueJoystick{
+public class BreakerGamepadThumbstick extends BreakerAnalogueThumbstick{
     private JoystickButton button;
-    public BreakerGamepadJoystick(GenericHID hid, int joystickButtonPort, int xAxisPort, boolean invertX, int yAxisPort, boolean invertY) {
+    public BreakerGamepadThumbstick(GenericHID hid, int thumbstickButtonPort, int xAxisPort, boolean invertX, int yAxisPort, boolean invertY) {
         super(hid, xAxisPort, invertX, yAxisPort, invertY);
-        button = new JoystickButton(hid, joystickButtonPort);
+        button = new JoystickButton(hid, thumbstickButtonPort);
     }
 
-    public BreakerGamepadJoystick(GenericHID hid, int joystickButtonPort, int xAxisPort, int yAxisPort) {
+    public BreakerGamepadThumbstick(GenericHID hid, int thumbstickButtonPort, int xAxisPort, int yAxisPort) {
         super(hid, xAxisPort, yAxisPort);
-        button = new JoystickButton(hid, joystickButtonPort);
+        button = new JoystickButton(hid, thumbstickButtonPort);
     }
 
     public JoystickButton getJoystickButton() {

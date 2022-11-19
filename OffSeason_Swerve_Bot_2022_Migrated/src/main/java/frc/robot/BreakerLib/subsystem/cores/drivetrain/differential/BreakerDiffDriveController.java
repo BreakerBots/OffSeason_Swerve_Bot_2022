@@ -80,7 +80,7 @@ public class BreakerDiffDriveController extends CommandBase {
       turn = turnSpeedPrecentSupplier.getAsDouble();
     } else {
       net = controller.getRightTrigger().get() - controller.getRightTrigger().get();
-      turn = controller.getLeftJoystick().getX();
+      turn = controller.getLeftThumbstick().getX();
     }
 
     if (usesCurves) {

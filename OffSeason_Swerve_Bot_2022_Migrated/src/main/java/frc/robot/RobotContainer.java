@@ -40,7 +40,7 @@ public class RobotContainer {
     BreakerRobotManager.setup(
         drivetrainSys.getBaseDrivetrain(),
         new BreakerRobotConfig(
-            new BreakerRobotStartConfig(5104, "BreakerBots", "Offseason SwerveBot", 2022, "V1.6",
+            new BreakerRobotStartConfig(5104, "BreakerBots", "Offseason SwerveBot", 2022, "V2.1",
                 "Roman Abrahamson, and Yousif Alkhalaf")));
 
     controllerSys.configDeadbands(new BreakerGamepadAnalogueDeadbandConfig(0.06, 0.06, 0.06, 0.06));

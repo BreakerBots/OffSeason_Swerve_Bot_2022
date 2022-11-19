@@ -8,16 +8,16 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.GenericHID;
 
 /** Add your docs here. */
-public class BreakerAnalogueJoystick {
+public class BreakerAnalogueThumbstick {
     private GenericHID hid;
     private int xAxisPort, yAxisPort;
     private boolean invertX, invertY;
     private double xDeadband = 0.0, yDeadband = 0.0;
-    public BreakerAnalogueJoystick(GenericHID hid, int xAxisPort, int yAxisPort) {
+    public BreakerAnalogueThumbstick(GenericHID hid, int xAxisPort, int yAxisPort) {
         this(hid, xAxisPort, false, yAxisPort, false);
     }
 
-    public BreakerAnalogueJoystick(GenericHID hid, int xAxisPort, boolean invertX, int yAxisPort, boolean invertY) {
+    public BreakerAnalogueThumbstick(GenericHID hid, int xAxisPort, boolean invertX, int yAxisPort, boolean invertY) {
         this.hid = hid;
         this.xAxisPort = xAxisPort;
         this.yAxisPort = yAxisPort;
