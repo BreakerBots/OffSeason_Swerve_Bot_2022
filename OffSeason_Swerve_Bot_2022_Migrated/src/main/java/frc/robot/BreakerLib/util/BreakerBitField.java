@@ -4,14 +4,22 @@
 
 package frc.robot.BreakerLib.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
-/** Add your docs here. */
+/** A class that represents a modifiable bit field for user convienance */
 public class BreakerBitField {
     public boolean[] bools;
 
     public BreakerBitField(boolean... bools) {
         this.bools = Arrays.copyOf(bools, bools.length);
+    }
+
+    public BreakerBitField(Boolean... bools) {
+        this.bools = new boolean[bools.length];
+        for (int i = 0; i < bools.length; i++) {
+            this.bools[i] = bools[i];
+        }
     }
 
     public BreakerBitField(long bitField) {
@@ -106,6 +114,14 @@ public class BreakerBitField {
 
     public boolean get(int index) {
         return bools[index];
+    }
+
+    public BreakerBitField truncate(int startIndex, int endIndex) {
+        ArrayList<Boolean> list = new ArrayList<>();
+        for (int i = startIndex; i <= endIndex && i < bools.length; i++) {
+            list.add(bools[i]);
+        }
+        return new BreakerBitField(list.toArray(new Boolean[list.size()]));
     }
 
     public boolean[] getBaseBooleanArray() {
