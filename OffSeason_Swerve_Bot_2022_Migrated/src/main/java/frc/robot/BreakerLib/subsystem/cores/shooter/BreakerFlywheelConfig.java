@@ -4,7 +4,6 @@
 
 package frc.robot.BreakerLib.subsystem.cores.shooter;
 
-import edu.wpi.first.math.controller.PIDController;
 import frc.robot.BreakerLib.util.BreakerArbitraryFeedforwardProvider;
 
 /** Add your docs here. */
@@ -15,15 +14,17 @@ public class BreakerFlywheelConfig {
     private double kF;
     private double velocityTolerence;
     private double acclerationTolerence;
+    private double flywheelGearRatio;
     private BreakerArbitraryFeedforwardProvider arbFFProvider;
 
-    public BreakerFlywheelConfig(double kP, double kI, double kD, double kF, double velocityTolerence, double accelerationTolerence, BreakerArbitraryFeedforwardProvider arbFFProvider) {
+    public BreakerFlywheelConfig(double kP, double kI, double kD, double kF, double velocityTolerence, double accelerationTolerence, double flywheelGearRatio, BreakerArbitraryFeedforwardProvider arbFFProvider) {
         this.kP = kP;
         this.kI = kI;
         this.kD = kD;
         this.kF = kF;
         this.velocityTolerence= velocityTolerence;
         this.acclerationTolerence = accelerationTolerence;
+        this.flywheelGearRatio = flywheelGearRatio;
         this.arbFFProvider = arbFFProvider;
     }
 
@@ -48,6 +49,10 @@ public class BreakerFlywheelConfig {
 
     public double getVelocityTolerence() {
         return velocityTolerence;
+    }
+
+    public double getFlywheelGearRatio() {
+        return flywheelGearRatio;
     }
 
     public BreakerArbitraryFeedforwardProvider getArbFFProvider() {

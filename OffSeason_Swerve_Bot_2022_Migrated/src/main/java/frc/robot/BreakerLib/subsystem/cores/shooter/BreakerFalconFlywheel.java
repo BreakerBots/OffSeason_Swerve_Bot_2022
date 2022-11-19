@@ -14,37 +14,22 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.Pair;
-import frc.robot.BreakerLib.devices.BreakerGenericLoopedDevice;
-import frc.robot.BreakerLib.util.BreakerArbitraryFeedforwardProvider;
-import frc.robot.BreakerLib.util.BreakerTriplet;
-import frc.robot.BreakerLib.util.logging.BreakerLog;
-import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.math.BreakerUnits;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
-import frc.robot.BreakerLib.util.test.suites.BreakerGenericTestSuiteImplementation;
 import frc.robot.BreakerLib.util.test.suites.flywheelSuite.BreakerFlywheelTestSuite;
 import frc.robot.BreakerLib.util.vendorutil.BreakerCTREUtil;
 
 /** A class representing a robot's shooter flywheel and its assocated controle loop */
-public class BreakerFlywheel extends BreakerGenericLoopedDevice implements BreakerGenericTestSuiteImplementation<BreakerFlywheelTestSuite> {
-    //private BreakerPIDF flyPIDF;
-    private double flywheelTargetRPM = 0;
+public class BreakerFalconFlywheel extends BreakerGenericFlywheel {
     private WPI_TalonFX lFlyMotor;
     private WPI_TalonFX[] motors;
-    //private BreakerFlywheelStateSpace flySS;
-    private BreakerFlywheelTestSuite testSuite;
-    private double lastVel = 0;
-    private double accel;
-
-    private double accelTol;
-    private double velTol;
-    
-    private BreakerArbitraryFeedforwardProvider ffProvider;
     
 
-    public BreakerFlywheel(BreakerFlywheelConfig config, WPI_TalonFX... flywheelMotors) {
+    public BreakerFalconFlywheel(BreakerFlywheelConfig config, WPI_TalonFX... flywheelMotors) {
+        super(config);
+
         lFlyMotor = flywheelMotors[0];
         motors = flywheelMotors;
 
@@ -67,53 +52,23 @@ public class BreakerFlywheel extends BreakerGenericLoopedDevice implements Break
         for (int i = 1; i < motors.length; i++) {
             motors[i].follow(lFlyMotor, FollowerType.PercentOutput);
         }
-
-        testSuite = new BreakerFlywheelTestSuite(this);
-
-        velTol = config.getVelocityTolerence();
-        accelTol = config.getAcclerationTolerence();
-
-        ffProvider = config.getArbFFProvider();
     }
 
-    public void setFlywheelSpeed(double flywheelTargetSpeedRPM) {
-        flywheelTargetRPM = flywheelTargetSpeedRPM;
-    }
-
+    @Override
     public double getFlywheelVelRSU() {
         return lFlyMotor.getSelectedSensorVelocity();
     }
 
+    @Override
     public double getFlywheelRPM() {
         return BreakerUnits.falconRSUtoRPM(getFlywheelVelRSU());
     }
 
-    public double getFlywheelTargetRPM() {
-        return flywheelTargetRPM;
-    }
-
-    /** sets flywheel speed to 0 RPM */
-    public void stopFlywheel() {
-        setFlywheelSpeed(0);
-        BreakerLog.logSuperstructureEvent("flywheel stoped");
-    }
-
-
-    private void runFlywheel() {
-        double flySetSpd = BreakerUnits.RPMtoFalconRSU(flywheelTargetRPM);
+    @Override
+    protected void runFlywheel() {
+        double flySetSpd = BreakerUnits.RPMtoFalconRSU(flywheelTargetRPM * config.getFlywheelGearRatio());
         double feedforward = ffProvider.getArbitraryFeedforwardValue(flywheelTargetRPM);
         lFlyMotor.set(ControlMode.Velocity, flySetSpd, DemandType.ArbitraryFeedForward, feedforward);
-        accel = getFlywheelRPM() - lastVel;
-        lastVel = getFlywheelRPM();
-    }
-
-    public boolean flywheelIsAtTargetVel() {
-        return BreakerMath.isRoughlyEqualTo(flywheelTargetRPM, getFlywheelRPM(), velTol) && BreakerMath.isRoughlyEqualTo(accel, 0, accelTol);
-    }
-
-    @Override
-    public void periodic() {
-        runFlywheel();
     }
 
     @Override

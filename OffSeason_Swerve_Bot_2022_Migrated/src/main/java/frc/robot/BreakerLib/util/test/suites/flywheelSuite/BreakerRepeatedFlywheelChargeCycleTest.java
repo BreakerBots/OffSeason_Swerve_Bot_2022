@@ -8,7 +8,8 @@ import java.util.Currency;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.BreakerLib.subsystem.cores.shooter.BreakerFlywheel;
+import frc.robot.BreakerLib.subsystem.cores.shooter.BreakerFalconFlywheel;
+import frc.robot.BreakerLib.subsystem.cores.shooter.BreakerGenericFlywheel;
 import frc.robot.BreakerLib.util.math.averages.BreakerAverage;
 import frc.robot.BreakerLib.util.test.suites.BreakerTestBase;
 import frc.robot.BreakerLib.util.test.suites.BreakerTestSuiteDataLogType;
@@ -17,10 +18,10 @@ public class BreakerRepeatedFlywheelChargeCycleTest extends BreakerTestBase {
   /** Creates a new RepeatedFlywheelSpinUpTest. */
   private int numberOfCycles, curPhase;
   private double targetRPM, phaseStartTime;
-  private BreakerFlywheel baseFlywheel;
+  private BreakerGenericFlywheel baseFlywheel;
   private boolean isSpinUp;
   private BreakerAverage avgChargeUp, avgSpinDown;
-  public BreakerRepeatedFlywheelChargeCycleTest(int numberOfCycles, double targetRPM, BreakerFlywheel baseFlywheel, BreakerTestSuiteDataLogType logType) {
+  public BreakerRepeatedFlywheelChargeCycleTest(int numberOfCycles, double targetRPM, BreakerGenericFlywheel baseFlywheel, BreakerTestSuiteDataLogType logType) {
     super(logType, "Repeated_Flywheel_Charge_Cycle_Test", "Cycles: " + numberOfCycles);
     this.numberOfCycles = numberOfCycles;
     this.targetRPM = targetRPM;

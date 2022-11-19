@@ -28,9 +28,9 @@ public class BreakerPositionTriggeredEvent implements BreakerConditionalEvent{
 
     @Override
     public boolean checkCondition(double currentTimeSeconds, Pose2d currentPose) {
-        boolean satX = BreakerMath.isRoughlyEqualTo(triggerPose.getX(), currentPose.getX(), Math.abs(tolerences.getX()));
-        boolean satY = BreakerMath.isRoughlyEqualTo(triggerPose.getY(), currentPose.getY(), Math.abs(tolerences.getY()));
-        boolean satRot = BreakerMath.isRoughlyEqualTo(triggerPose.getRotation().getDegrees(), currentPose.getRotation().getDegrees(), Math.abs(tolerences.getRotation().getDegrees()));
+        boolean satX = BreakerMath.lambdaEquals(triggerPose.getX(), currentPose.getX(), Math.abs(tolerences.getX()));
+        boolean satY = BreakerMath.lambdaEquals(triggerPose.getY(), currentPose.getY(), Math.abs(tolerences.getY()));
+        boolean satRot = BreakerMath.lambdaEquals(triggerPose.getRotation().getDegrees(), currentPose.getRotation().getDegrees(), Math.abs(tolerences.getRotation().getDegrees()));
         return satX && satY && satRot;
     }
 }

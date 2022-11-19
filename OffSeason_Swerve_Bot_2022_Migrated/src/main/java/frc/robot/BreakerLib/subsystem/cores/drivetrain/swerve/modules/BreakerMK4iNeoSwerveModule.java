@@ -25,8 +25,8 @@
 // import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 // import frc.robot.BreakerLib.util.power.DevicePowerMode;
 // import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
-// import frc.robot.BreakerLib.util.test.vendorutil.BreakerCTREUtil;
-// import frc.robot.BreakerLib.util.test.vendorutil.BreakerREVUtil;
+// import frc.robot.BreakerLib.util.vendorutil.BreakerCTREUtil;
+// import frc.robot.BreakerLib.util.vendorutil.BreakerREVUtil;
 
 // /** Swerve Drive Specialties' MK4i swerve module driven by Spark Max motor controllers with Neo motors. */
 // public class BreakerMK4iNeoSwerveModule implements BreakerGenericSwerveModule {
@@ -88,15 +88,14 @@
 
 //     @Override
 //     public void setModuleTarget(Rotation2d tgtAngle, double speedMetersPerSec) {
-        
-//         SmartDashboard.putNumber(deviceName + " ANGLE IN", tgtAngle.getDegrees());
-//         SmartDashboard.putNumber(deviceName + " SPEED IN", speedMetersPerSec);
 
 //         turnMotor.set(turnPID.calculate(turnEncoder.getAbsolutePosition(), tgtAngle.getDegrees()));
 //         driveMotor.getPIDController().setReference(getMetersPerSecToNativeVelUnits(speedMetersPerSec),
 //                 CANSparkMax.ControlType.kVelocity, 0, ffProvider.getArbitraryFeedforwardValue(speedMetersPerSec),
 //                 ArbFFUnits.kPercentOut);
 
+//         SmartDashboard.putNumber(deviceName + " ANGLE IN", tgtAngle.getDegrees());
+//         SmartDashboard.putNumber(deviceName + " SPEED IN", speedMetersPerSec);
 //         SmartDashboard.putNumber(deviceName + "ANGLE OUT", getModuleState().angle.getDegrees());
 //         SmartDashboard.putNumber(deviceName + "SPEED OUT", getModuleState().speedMetersPerSecond);
 

@@ -4,15 +4,16 @@
 
 package frc.robot.BreakerLib.util.test.suites.flywheelSuite;
 
-import frc.robot.BreakerLib.subsystem.cores.shooter.BreakerFlywheel;
+import frc.robot.BreakerLib.subsystem.cores.shooter.BreakerFalconFlywheel;
+import frc.robot.BreakerLib.subsystem.cores.shooter.BreakerGenericFlywheel;
 import frc.robot.BreakerLib.util.test.suites.BreakerTestBase;
 import frc.robot.BreakerLib.util.test.suites.BreakerTestSuiteDataLogType;
 
 /** Add your docs here. */
 public class BreakerFlywheelTestSuite {
-    private BreakerFlywheel baseFlywheel;
+    private BreakerGenericFlywheel baseFlywheel;
     private BreakerTestSuiteDataLogType logType;
-    public BreakerFlywheelTestSuite(BreakerFlywheel baseFlywheel) {
+    public BreakerFlywheelTestSuite(BreakerGenericFlywheel baseFlywheel) {
         this.baseFlywheel = baseFlywheel;
     }
 

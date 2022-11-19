@@ -172,7 +172,7 @@ public class BreakerMath {
      * 
      * @return true if within deviation, false otherwise.
      */
-    public static boolean isRoughlyEqualTo(double val1, double val2, double maxDeviation) {
+    public static boolean lambdaEquals(double val1, double val2, double maxDeviation) {
         return ((val1 <= (val2 + maxDeviation)) && (val1 >= (val2 - maxDeviation)));
     }
 

@@ -10,7 +10,8 @@ import java.util.List;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.BreakerLib.subsystem.cores.shooter.BreakerFlywheel;
+import frc.robot.BreakerLib.subsystem.cores.shooter.BreakerFalconFlywheel;
+import frc.robot.BreakerLib.subsystem.cores.shooter.BreakerGenericFlywheel;
 import frc.robot.BreakerLib.util.math.averages.BreakerAverage;
 import frc.robot.BreakerLib.util.math.averages.BreakerRunningAverage;
 import frc.robot.BreakerLib.util.test.suites.BreakerTestBase;
@@ -18,10 +19,10 @@ import frc.robot.BreakerLib.util.test.suites.BreakerTestSuiteDataLogType;
 
 public class BreakerTimedFlywheelSpinUpTest extends BreakerTestBase {
   private double testTimeSeconds, targetRPM, startTime, timeToStabilitySec, peakDiv, totalCycles, stableCycles;
-  private BreakerFlywheel baseFlywheel;
+  private BreakerGenericFlywheel baseFlywheel;
   private BreakerAverage avgSpeed = new BreakerAverage();
   private List<Pair<Double, Double>> rpmAndTimestamps = new ArrayList<>();
-  public BreakerTimedFlywheelSpinUpTest(double testTimeSeconds, double targetRPM, BreakerFlywheel baseFlywheel, BreakerTestSuiteDataLogType logType) {
+  public BreakerTimedFlywheelSpinUpTest(double testTimeSeconds, double targetRPM, BreakerGenericFlywheel baseFlywheel, BreakerTestSuiteDataLogType logType) {
     super(logType, "Timed_Flywheel_Spin_Up", "Test_Time_Seconds: " + testTimeSeconds);
     this.targetRPM = targetRPM; 
     this.testTimeSeconds = testTimeSeconds;

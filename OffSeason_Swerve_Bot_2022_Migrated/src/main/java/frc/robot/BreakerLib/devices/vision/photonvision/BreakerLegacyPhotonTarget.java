@@ -141,9 +141,9 @@ public class BreakerLegacyPhotonTarget extends SubsystemBase {
      * @return If prospective target's X and Y coords are within the max deviation.
      */
     private boolean targetIsCloseEnough(Pose2d prospTgtPose) {
-        return BreakerMath.isRoughlyEqualTo(prospTgtPose.getX(), targetLocation.getX(),
+        return BreakerMath.lambdaEquals(prospTgtPose.getX(), targetLocation.getX(),
                 maxTargetCordinateDeviationMeters) &&
-                BreakerMath.isRoughlyEqualTo(prospTgtPose.getY(), targetLocation.getY(),
+                BreakerMath.lambdaEquals(prospTgtPose.getY(), targetLocation.getY(),
                         maxTargetCordinateDeviationMeters);
     }
 
