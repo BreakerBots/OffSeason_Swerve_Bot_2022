@@ -2,73 +2,63 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.devices.motors;
+package frc.robot.BreakerLib.devices.motors.binarymotor;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 
 import edu.wpi.first.math.Pair;
-import frc.robot.BreakerLib.devices.BreakerGenericDeviceBase;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.vendorutil.BreakerCTREUtil;
 
-/** Falcon motor with simple forward/reverse/off controls */
-public class BreakerTrinaryCTREMotor extends BreakerGenericDeviceBase {
+/** Falcon motor with simple on/off controls */
+public class BreakerBinaryCTREMotor extends BreakerGenericBinaryMotor {
 
     private BaseMotorController motor;
-    private double forwardOut, reverseOut;
+    private double output;
 
     /**
-     * Create a new TrinaryCTREMotor with 100% forward input and -100% reverse input.
+     * Create a new BinaryCTREMotor that switches between 100% forward output and 0%
+     * output.
      * 
      * @param motor CTRE motor controller.
      */
-    public BreakerTrinaryCTREMotor(BaseMotorController motor) {
-        new BreakerTrinaryCTREMotor(motor, 1, -1);
+    public BreakerBinaryCTREMotor(BaseMotorController motor) {
+        this.motor = motor;
+        this.output = 1.0;
+        deviceName = " Binary_Motor (" + motor.getDeviceID() + ") ";
+
     }
 
     /**
-     * Create a new TrinaryCTREMotor that has given output % forward, negative given output % reverse.
+     * Create a new BinaryCTREMotor that switches between given output % and 0%
+     * output.
      * 
      * @param motor  CTRE motor controller.
      * @param output Percent output between -1 and 1.
      */
-    public BreakerTrinaryCTREMotor(BaseMotorController motor, double output) {
-        new BreakerTrinaryCTREMotor(motor, output, -output);
-    }
-
-    /**
-     * Create a new TrinaryCTREMotor that has separate forward output % and reverse output %
-     * 
-     * @param motor CTRE motor controller.
-     * @param forwardOut Forward % output between -1 and 1.
-     * @param reverseOut Reverse % output between -1 and 1.
-     */
-    public BreakerTrinaryCTREMotor(BaseMotorController motor, double forwardOut, double reverseOut) {
+    public BreakerBinaryCTREMotor(BaseMotorController motor, double output) {
         this.motor = motor;
-        this.forwardOut = forwardOut;
-        this.reverseOut = reverseOut;
-        deviceName = " Trinary_Motor (" + motor.getDeviceID() + ") ";
+        this.output = output;
+        deviceName = " Binary_Motor (" + motor.getDeviceID() + ") ";
     }
 
-    /** Sets motor to designated forward percent output. */
-    public void forward() {
-        motor.set(ControlMode.PercentOutput, forwardOut);
+    @Override
+    /** Sets motor to designated percent output. */
+    public void start() {
+        motor.set(ControlMode.PercentOutput, output);
     }
 
-    /** Sets motor to designated reverse percent output. */
-    public void reverse() {
-        motor.set(ControlMode.PercentOutput, reverseOut);
-    }
-
+    @Override
     /** Sets motor to 0% output (stopped) */
     public void stop() {
         motor.set(ControlMode.PercentOutput, 0);
     }
 
+    @Override
     /** Checks if motor is running or not. */
     public boolean isActive() {
         return (motor.getMotorOutputPercent() != 0);
@@ -77,6 +67,15 @@ public class BreakerTrinaryCTREMotor extends BreakerGenericDeviceBase {
     /** @return Base CTRE motor controller. */
     public BaseMotorController getMotor() {
         return motor;
+    }
+
+    @Override
+    public void toggle() {
+        if (isActive()) {
+            stop();
+        } else {
+            start();
+        }
     }
 
     @Override

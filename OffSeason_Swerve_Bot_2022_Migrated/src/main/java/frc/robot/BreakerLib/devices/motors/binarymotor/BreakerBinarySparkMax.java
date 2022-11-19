@@ -2,23 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.devices.motors;
+package frc.robot.BreakerLib.devices.motors.binarymotor;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.Faults;
-import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.Pair;
-import frc.robot.BreakerLib.devices.BreakerGenericDeviceBase;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
-import frc.robot.BreakerLib.util.vendorutil.BreakerCTREUtil;
+import frc.robot.BreakerLib.util.vendorutil.BreakerREVUtil;
 
 /** Falcon motor with simple on/off controls */
-public class BreakerBinaryCTREMotor extends BreakerGenericDeviceBase {
+public class BreakerBinarySparkMax extends BreakerGenericBinaryMotor {
 
-    private BaseMotorController motor;
+    private CANSparkMax motor;
     private double output;
 
     /**
@@ -27,10 +24,11 @@ public class BreakerBinaryCTREMotor extends BreakerGenericDeviceBase {
      * 
      * @param motor CTRE motor controller.
      */
-    public BreakerBinaryCTREMotor(BaseMotorController motor) {
+    public BreakerBinarySparkMax(CANSparkMax motor) {
         this.motor = motor;
-        output = 1;
-        deviceName = " Binary_Motor (" + motor.getDeviceID() + ") ";
+        this.output = 1.0;
+        deviceName = " Binary_Motor (" + motor.getDeviceId() + ") ";
+
     }
 
     /**
@@ -40,32 +38,36 @@ public class BreakerBinaryCTREMotor extends BreakerGenericDeviceBase {
      * @param motor  CTRE motor controller.
      * @param output Percent output between -1 and 1.
      */
-    public BreakerBinaryCTREMotor(BaseMotorController motor, double output) {
+    public BreakerBinarySparkMax(CANSparkMax motor, double output) {
         this.motor = motor;
         this.output = output;
-        deviceName = " Binary_Motor (" + motor.getDeviceID() + ") ";
+        deviceName = " Binary_Motor (" + motor.getDeviceId() + ") ";
     }
 
+    @Override
     /** Sets motor to designated percent output. */
     public void start() {
-        motor.set(ControlMode.PercentOutput, output);
+        motor.set(output);
     }
 
+    @Override
     /** Sets motor to 0% output (stopped) */
     public void stop() {
-        motor.set(ControlMode.PercentOutput, 0);
+        motor.set(0);
     }
 
+    @Override
     /** Checks if motor is running or not. */
     public boolean isActive() {
-        return (motor.getMotorOutputPercent() != 0);
+        return (motor.get() != 0);
     }
 
-    /** @return Base CTRE motor controller. */
-    public BaseMotorController getMotor() {
+    /** @return Base CANSparkMax motor controller. */
+    public CANSparkMax getMotor() {
         return motor;
     }
 
+    @Override
     public void toggle() {
         if (isActive()) {
             stop();
@@ -78,11 +80,9 @@ public class BreakerBinaryCTREMotor extends BreakerGenericDeviceBase {
     public void runSelfTest() {
         faultStr = null;
         health = DeviceHealth.NOMINAL;
-        Faults faultObj = new Faults();
-        motor.getFaults(faultObj);
-        if (faultObj.hasAnyFault()) {
-            Pair<DeviceHealth, String> pair = BreakerCTREUtil
-                    .getMotorHealthAndFaults(faultObj);
+        short faults = motor.getFaults();
+        if (faults != 0) {
+            Pair<DeviceHealth, String> pair = BreakerREVUtil.getSparkMaxHealthAndFaults(faults);
             faultStr = pair.getSecond();
             health = pair.getFirst();
         }
