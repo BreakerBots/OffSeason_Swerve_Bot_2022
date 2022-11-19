@@ -21,7 +21,7 @@ public class BreakerInterpolatableDoubleArray implements BreakerInterpolable<Bre
     }
 
     public double[] getValue() {
-        return values;
+        return Arrays.copyOf(values, values.length);
     }
 
     @Override

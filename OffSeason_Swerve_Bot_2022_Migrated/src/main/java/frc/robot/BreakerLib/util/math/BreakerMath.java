@@ -233,19 +233,19 @@ public class BreakerMath {
         Breaker3AxisForces acceleration = new Breaker3AxisForces(
                 new BreakerVector2(
                         (1000 / timeToLastUpdateMiliseconds) * (speeds.vxMetersPerSecond
-                                - prevMovementState.getVelocityComponent().getLinearForces().getMagnatudeX()),
+                                - prevMovementState.getDirivitiveFromIndex(0).getLinearForces().getMagnatudeX()),
                         (1000 / timeToLastUpdateMiliseconds) * (speeds.vyMetersPerSecond
-                                - prevMovementState.getVelocityComponent().getLinearForces().getMagnatudeY())),
+                                - prevMovementState.getDirivitiveFromIndex(0).getLinearForces().getMagnatudeY())),
                 (1000 / timeToLastUpdateMiliseconds)
-                        * (speeds.omegaRadiansPerSecond - prevMovementState.getVelocityComponent().getAngularForce()));
+                        * (speeds.omegaRadiansPerSecond - prevMovementState.getDirivitiveFromIndex(0).getAngularForce()));
         Breaker3AxisForces jerk = new Breaker3AxisForces(
                 new BreakerVector2(
                         (1000 / timeToLastUpdateMiliseconds) * (acceleration.getLinearForces().getMagnatudeX()
-                                - prevMovementState.getAccelerationComponent().getLinearForces().getMagnatudeY()),
+                                - prevMovementState.getDirivitiveFromIndex(1).getLinearForces().getMagnatudeY()),
                         (1000 / timeToLastUpdateMiliseconds) * (acceleration.getLinearForces().getMagnatudeY()
-                                - prevMovementState.getAccelerationComponent().getLinearForces().getMagnatudeY())),
+                                - prevMovementState.getDirivitiveFromIndex(1).getLinearForces().getMagnatudeY())),
                 (1000 / timeToLastUpdateMiliseconds) * (acceleration.getAngularForce()
-                        - prevMovementState.getAccelerationComponent().getAngularForce()));
+                        - prevMovementState.getDirivitiveFromIndex(1).getAngularForce()));
         return new BreakerMovementState2d(currentPose,
                 new Breaker3AxisForces(new BreakerVector2(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond),
                         speeds.omegaRadiansPerSecond),

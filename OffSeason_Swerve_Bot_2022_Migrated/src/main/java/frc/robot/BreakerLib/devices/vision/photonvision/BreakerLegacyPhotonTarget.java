@@ -25,7 +25,7 @@ import frc.robot.BreakerLib.util.BreakerRoboRIO;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.math.BreakerUnits;
 
-/**
+/**@deprecated To be replaced with improved non vison tape based version
  * Tracks and identifies pre-defined non-fiducial targets with target data from photon
  * camera.
  */

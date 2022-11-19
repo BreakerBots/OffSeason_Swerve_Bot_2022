@@ -27,7 +27,7 @@ public class BreakerAngularVector3 {
         return magnatudeYaw;
     }
 
-    public double getMagnaudePitch() {
+    public double getMagnatudePitch() {
         return magnatudePitch;
     }
 

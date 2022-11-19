@@ -4,86 +4,88 @@
 
 package frc.robot.BreakerLib.position.movement;
 
+import java.util.Arrays;
+
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import frc.robot.BreakerLib.physics.Breaker6AxisForces;
-import frc.robot.BreakerLib.physics.vector.BreakerAngularVector3;
-import frc.robot.BreakerLib.physics.vector.BreakerVector3;
 
 /** Represents an objects 3 dimentional (linear: XYZ / Angular: YPR) position, velocity, acceleration, and jerk at a given time */
 public class BreakerMovementState3d {
     private Pose3d position;
-    private Breaker6AxisForces velocity;
-    private Breaker6AxisForces acceleration;
-    private Breaker6AxisForces jerk;
+    private Breaker6AxisForces[] derivitivesOfPosition;
 
     /**
-     * Creates a new BreakerMovementState3d, given a position, velocity, acceleration, and jerk.
+     * Creates a new BreakerMovementState2d using a given position, velocity, acceleration, and jerk.
      * 
      * @param position
      * @param velocity
      * @param acceleration
      * @param jerk
      */
-    public BreakerMovementState3d(Pose3d position, Breaker6AxisForces velocity, Breaker6AxisForces acceleration, Breaker6AxisForces jerk) {
+    public BreakerMovementState3d(Pose3d position, Breaker6AxisForces... derivitivesOfPosition) {
         this.position = position;
-        this.velocity = velocity;
-        this.acceleration = acceleration;
-        this.jerk = jerk;
-    }
-
-    /**
-     * Creates a BreakerMovementState3d with a given position, velocity, and acceleration.
-     * 
-     * @param position
-     * @param velocity
-     * @param acceleration
-     */
-    public BreakerMovementState3d(Pose3d position, Breaker6AxisForces velocity, Breaker6AxisForces acceleration) {
-        this.position = position;
-        this.velocity = velocity;
-        this.acceleration = acceleration;
-        jerk = new Breaker6AxisForces(new BreakerVector3(0, 0, 0), new BreakerAngularVector3(0, 0, 0));
+        this.derivitivesOfPosition = derivitivesOfPosition;
     }
 
      /**
-     * Creates a BreakerMovementState3d with a given position, velocity, and acceleration.
+     * Creates a new BreakerMovementState2d and uses default values for the position, velocity, acceleration, and jerk.
      * 
      * @param position
      * @param velocity
      * @param acceleration
      */
-    public BreakerMovementState3d(Pose3d position, Breaker6AxisForces velocity) {
-        this.position = position;
-        this.velocity = velocity;
-        acceleration = new Breaker6AxisForces();
-        jerk = new Breaker6AxisForces();
+    public BreakerMovementState3d() {
+        position = new Pose3d();
+        derivitivesOfPosition = new Breaker6AxisForces[0];
+    }
+
+    public Pose3d estimateFuturePose(double deltaTimeSeconds) {
+        double prevDirX = derivitivesOfPosition[derivitivesOfPosition.length - 1].getLinearForces().getMagnatudeX();
+        double prevDirY = derivitivesOfPosition[derivitivesOfPosition.length - 1].getLinearForces().getMagnatudeY();
+        double prevDirZ = derivitivesOfPosition[derivitivesOfPosition.length - 1].getLinearForces().getMagnatudeZ();
+        double prevDirYaw = derivitivesOfPosition[derivitivesOfPosition.length - 1].getAngularForces().getMagnatudeYaw();
+        double prevDirPitch = derivitivesOfPosition[derivitivesOfPosition.length - 1].getAngularForces().getMagnatudePitch();
+        double prevDirRoll = derivitivesOfPosition[derivitivesOfPosition.length - 1].getAngularForces().getMagnatudeRoll();
+        for (int i = derivitivesOfPosition.length - 1; i >= 0; i++) {
+            prevDirX = derivitivesOfPosition[i].getLinearForces().getMagnatudeX() + (prevDirX * deltaTimeSeconds);
+            prevDirY = derivitivesOfPosition[i].getLinearForces().getMagnatudeY() + (prevDirY * deltaTimeSeconds);
+            prevDirZ = derivitivesOfPosition[i].getLinearForces().getMagnatudeZ() + (prevDirZ * deltaTimeSeconds);
+            prevDirYaw = derivitivesOfPosition[i].getAngularForces().getMagnatudeYaw() + (prevDirYaw * deltaTimeSeconds);
+            prevDirPitch = derivitivesOfPosition[i].getAngularForces().getMagnatudePitch() + (prevDirPitch * deltaTimeSeconds);
+            prevDirRoll = derivitivesOfPosition[i].getAngularForces().getMagnatudeRoll() + (prevDirRoll * deltaTimeSeconds);
+        }
+        double x = position.getX() + (prevDirX * deltaTimeSeconds);
+        double y = position.getY() + (prevDirY * deltaTimeSeconds);
+        double z = position.getZ() + (prevDirZ * deltaTimeSeconds);
+        double yaw = position.getRotation().getZ() + (prevDirYaw * deltaTimeSeconds);
+        double pitch = position.getRotation().getY() + (prevDirPitch * deltaTimeSeconds);
+        double roll = position.getRotation().getZ() + (prevDirRoll * deltaTimeSeconds);
+        return new Pose3d(x, y, z, new Rotation3d(roll, pitch, yaw));
     }
 
     /**
-     * @return the position component of this BreakerMovementState3d.
+     * @return The position component of this BreakerMovementState2d
      */
     public Pose3d getPositionComponent() {
         return position;
     }
-
-    /**
-     * @return the acceleration component of this BreakerMovementState3d.
-     */
-    public Breaker6AxisForces getAccelerationComponent() {
-        return acceleration;
+ 
+    public Breaker6AxisForces[] getDerivitivesOfPosition() {
+        return Arrays.copyOf(derivitivesOfPosition, derivitivesOfPosition.length);
     }
 
-    /**
-     * @return the velocity component of this BreakerMovement3d.
-     */
-    public Breaker6AxisForces getVelocityComponent() {
-        return velocity;
+
+    /** follows indexes of dirivitive array, so 1st dirivitive would be at index 0 */
+    public Breaker6AxisForces getDirivitiveFromIndex(int indexOfDirivitve) {
+        if (indexOfDirivitve >= derivitivesOfPosition.length || indexOfDirivitve < 0 || derivitivesOfPosition[indexOfDirivitve] == null) {
+            return new Breaker6AxisForces();
+        }
+        return derivitivesOfPosition[indexOfDirivitve];
     }
 
-    /**
-     * @return returns the jerk component of this BreakerMovementState3d.
-     */
-    public Breaker6AxisForces getJerkCompoenet() {
-        return jerk;
+    @Override
+    public String toString() {
+        return String.format("Breaker3AxisForces(Position: %s, Dirivitives: %s)", position, Arrays.toString(derivitivesOfPosition));
     }
 }
