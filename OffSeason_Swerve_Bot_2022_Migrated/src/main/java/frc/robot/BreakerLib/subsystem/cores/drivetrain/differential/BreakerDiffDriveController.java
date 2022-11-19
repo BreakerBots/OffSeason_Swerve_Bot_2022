@@ -9,18 +9,19 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.BreakerLib.driverstation.BreakerXboxController;
+import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerGenericGamepad;
+import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerXboxController;
 import frc.robot.BreakerLib.util.math.functions.BreakerGenericMathFunction;
 
 public class BreakerDiffDriveController extends CommandBase {
   
-  private BreakerXboxController controller;
+  private BreakerGenericGamepad controller;
   private BreakerDiffDrive baseDrivetrain;
   private boolean usesSuppliers, usesCurves, usesRateLimiters, inputOverride;
   private BreakerGenericMathFunction netSpeedCurve, turnSpeedCurve;
   private SlewRateLimiter netRateLimiter, turnRateLimiter;
   private DoubleSupplier netSpeedPrecentSupplier, turnSpeedPrecentSupplier, overrideNetSup, overrideTurnSup;
-  public BreakerDiffDriveController(BreakerDiffDrive baseDrivetrain, BreakerXboxController controller) {
+  public BreakerDiffDriveController(BreakerDiffDrive baseDrivetrain, BreakerGenericGamepad controller) {
     this.controller = controller;
     this.baseDrivetrain = baseDrivetrain;
     usesSuppliers = false;
@@ -78,8 +79,8 @@ public class BreakerDiffDriveController extends CommandBase {
       net = netSpeedPrecentSupplier.getAsDouble();
       turn = turnSpeedPrecentSupplier.getAsDouble();
     } else {
-      net = controller.getRightTriggerAxis() - controller.getLeftTriggerAxis();
-      turn = -controller.getLeftX();
+      net = controller.getRightTrigger().get() - controller.getRightTrigger().get();
+      turn = controller.getLeftJoystick().getX();
     }
 
     if (usesCurves) {

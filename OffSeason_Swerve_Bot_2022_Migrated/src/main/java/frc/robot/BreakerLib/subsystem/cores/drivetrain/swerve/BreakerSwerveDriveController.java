@@ -9,14 +9,15 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.BreakerLib.driverstation.BreakerXboxController;
+import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerGenericGamepad;
+import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerXboxController;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.util.math.functions.BreakerGenericMathFunction;
 
 /** Controller object for the {@link BreakerSwerveDrive} drivetrain. */
 public class BreakerSwerveDriveController extends CommandBase {
 
-  private BreakerXboxController controller;
+  private BreakerGenericGamepad controller;
   private BreakerSwerveDrive baseDrivetrain;
   private BreakerGenericOdometer odometer;
   private boolean usesSuppliers, usesCurves, usesExternalOdometer, usesRateLimiters, turnOverride, linearOverride;
@@ -71,7 +72,7 @@ public class BreakerSwerveDriveController extends CommandBase {
    * @param controller     Xbox controller to provide input.
    */
   public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer,
-      BreakerXboxController controller) {
+      BreakerGenericGamepad controller) {
     this.controller = controller;
     this.baseDrivetrain = baseDrivetrain;
     this.odometer = odometer;
@@ -203,9 +204,9 @@ public class BreakerSwerveDriveController extends CommandBase {
       turn = turnSpeedPercentSupplier.getAsDouble();
     } else { // Use controller inputs.
       // Controller inputs are used unless overwritten.
-      forward = -controller.getLeftY();
-      horizontal = -controller.getLeftX();
-      turn = -controller.getRightX();
+      forward = controller.getLeftJoystick().getY();
+      horizontal = controller.getLeftJoystick().getX();
+      turn = controller.getRightJoystick().getX();
     }
 
     // Speed curves are applied if overrides are not active.

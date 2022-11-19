@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
-import frc.robot.BreakerLib.driverstation.BreakerXboxController;
-import frc.robot.BreakerLib.driverstation.BreakerXboxControllerDeadbandConfig;
+import frc.robot.BreakerLib.driverstation.gamepad.components.BreakerGamepadAnalogueDeadbandConfig;
+import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerXboxController;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveController;
 import frc.robot.BreakerLib.util.power.BreakerPowerManager;
 import frc.robot.BreakerLib.util.robotmanager.BreakerRobotConfig;
@@ -43,7 +43,7 @@ public class RobotContainer {
             new BreakerRobotStartConfig(5104, "BreakerBots", "Offseason SwerveBot", 2022, "V1.6",
                 "Roman Abrahamson, and Yousif Alkhalaf")));
 
-    controllerSys.configAnalogInputDeadbands(new BreakerXboxControllerDeadbandConfig(0.06, 0.06, 0.06, 0.06));
+    controllerSys.configDeadbands(new BreakerGamepadAnalogueDeadbandConfig(0.06, 0.06, 0.06, 0.06));
 
     drivetrainSys.getBaseDrivetrain().resetOdometryPosition();
 
