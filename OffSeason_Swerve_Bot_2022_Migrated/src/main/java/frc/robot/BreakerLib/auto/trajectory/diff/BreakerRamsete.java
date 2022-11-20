@@ -22,6 +22,7 @@ public class BreakerRamsete extends CommandBase {
   private BreakerTrajectoryPath trajectoryPath;
   private ArrayList<BreakerConditionalEvent> remainingEvents;
   public BreakerRamsete(BreakerRamseteConfig config, BreakerTrajectoryPath trajectoryPath) {
+    addRequirements(config.getDrivetrain());
     this.trajectoryPath = trajectoryPath;
     this.config = config;
     ramsete = new RamseteCommand(trajectoryPath.getBaseTrajectory(), config.getOdometer()::getOdometryPoseMeters, 

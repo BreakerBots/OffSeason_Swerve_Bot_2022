@@ -32,6 +32,7 @@ public class BreakerSwerveAutoPathFollower extends CommandBase implements Breake
    * @param trajectoryPath The {@link BreakerTrajectoryPath} that this {@link BreakerSwerveAutoPathFollower} will follow
     */
   public BreakerSwerveAutoPathFollower(BreakerSwerveAutoPathFollowerConfig config, BreakerTrajectoryPath trajectoryPath) {
+    addRequirements(config.getDrivetrain());
     this.config = config;
     this.trajectoryPath = trajectoryPath;
     rotationSupplier = new BreakerSwerveRotationSupplier();
@@ -44,6 +45,7 @@ public class BreakerSwerveAutoPathFollower extends CommandBase implements Breake
    * @param trajectoryPath The {@link BreakerTrajectoryPath} that this {@link BreakerSwerveAutoPathFollower} will follow
     */
   public BreakerSwerveAutoPathFollower(BreakerSwerveAutoPathFollowerConfig config, BreakerGenericSwerveRotationSupplier rotationSupplier, BreakerTrajectoryPath trajectoryPath) {
+    addRequirements(config.getDrivetrain());
     this.config = config;
     this.trajectoryPath = trajectoryPath;
     this.rotationSupplier = rotationSupplier;

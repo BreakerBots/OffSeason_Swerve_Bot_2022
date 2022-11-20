@@ -33,6 +33,7 @@ public class BreakerSwerveWaypointFollower extends CommandBase {
     private ArrayList<Translation2d> waypoints;
     private double totalDistance;
     public BreakerSwerveWaypointFollower(BreakerSwerveWaypointFollowerConfig config, BreakerWaypointPath waypointPath) {
+        addRequirements(config.getDrivetrain());
         waypoints = new ArrayList<>();
         for (Translation2d wp: waypointPath.getWaypoints()) {
             waypoints.add(wp);
@@ -46,6 +47,7 @@ public class BreakerSwerveWaypointFollower extends CommandBase {
     }
 
     public BreakerSwerveWaypointFollower(BreakerSwerveWaypointFollowerConfig config, BreakerWaypointPath waypointPath, BreakerSwerveRotationSupplier rotationSupplier) {
+        addRequirements(config.getDrivetrain());
         waypoints = new ArrayList<>();
         for (Translation2d wp: waypointPath.getWaypoints()) {
             waypoints.add(wp);

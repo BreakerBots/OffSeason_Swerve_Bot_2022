@@ -33,6 +33,7 @@ public class BreakerLTVUnicycleSwerveAutoPathFollower extends CommandBase implem
    * @param trajectoryPath The {@link BreakerTrajectoryPath} that this {@link BreakerLTVUnicycleSwerveAutoPathFollower} will follow
     */
     public BreakerLTVUnicycleSwerveAutoPathFollower(BreakerLTVUnicycleSwerveAutoPathFollowerConfig config, BreakerTrajectoryPath trajectoryPath) {
+        addRequirements(config.getDrivetrain());
         this.config = config;
         this.trajectoryPath = trajectoryPath;
         rotationSupplier = new BreakerSwerveRotationSupplier((Double curTime) -> (trajectoryPath.getBaseTrajectory().sample(curTime).poseMeters.getRotation()));
@@ -45,6 +46,7 @@ public class BreakerLTVUnicycleSwerveAutoPathFollower extends CommandBase implem
        * @param trajectoryPath The {@link BreakerTrajectoryPath} that this {@link BreakerSwerveAutoPathFollower} will follow
         */
       public BreakerLTVUnicycleSwerveAutoPathFollower(BreakerLTVUnicycleSwerveAutoPathFollowerConfig config, BreakerGenericSwerveRotationSupplier rotationSupplier, BreakerTrajectoryPath trajectoryPath) {
+        addRequirements(config.getDrivetrain());
         this.config = config;
         this.trajectoryPath = trajectoryPath;
         this.rotationSupplier = rotationSupplier;
