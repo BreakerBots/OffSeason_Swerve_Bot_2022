@@ -24,11 +24,13 @@ import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
+import frc.robot.BreakerLib.util.test.suites.BreakerGenericTestSuiteImplementation;
+import frc.robot.BreakerLib.util.test.suites.swerveSuite.BreakerSwerveTestSuite;
 
 /**
  * BreakerLib swerve drive class.
  */
-public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
+public class BreakerSwerveDrive extends BreakerGenericDrivetrain implements BreakerGenericTestSuiteImplementation<BreakerSwerveTestSuite> {
   private BreakerSwerveDriveConfig config;
 
   private SwerveModuleState[] targetModuleStates;
@@ -393,6 +395,11 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   @Override
   public void periodic() {
     updateOdometry();
+  }
+
+  @Override
+  public BreakerSwerveTestSuite getTestSuite() {
+    return new BreakerSwerveTestSuite(this, swerveModules);
   }
 
 }
