@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 /** RoboRIO accelerometer using the {@link BreakerGenericAccelerometer} interface. */
 public class RoboRIOAccelerometer implements BreakerGenericAccelerometer{
 
-    BuiltInAccelerometer accelerometer;
+    private BuiltInAccelerometer accelerometer;
     
     /** RoboRIO accelerometer with range of 8 Gs. */
     public RoboRIOAccelerometer() {

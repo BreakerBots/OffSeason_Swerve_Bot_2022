@@ -46,7 +46,9 @@ public class BreakerSwerveDrivePoseEstimator<States extends Num, Inputs extends 
         double[] visionStanderdDeveation
     ) {
         this.drivetrain = drivetrain;
-        poseEstimator = new SwerveDrivePoseEstimator<States, Inputs, Outputs>(states, inputs, outputs, gyro.getYawRotation2d(), initialPose, drivetrain.getSwerveModulePositions(),
+        poseEstimator = new SwerveDrivePoseEstimator<States, Inputs, Outputs>(
+            states, inputs, outputs, gyro.getYawRotation2d(), 
+            initialPose, drivetrain.getSwerveModulePositions(),
                 drivetrain.getConfig().getKinematics(),
                 new MatBuilder<>(states, Nat.N1()).fill(stateModelStanderdDeveation),
                 new MatBuilder<>(outputs, Nat.N1()).fill(gyroAndEncoderStandardDeveation),

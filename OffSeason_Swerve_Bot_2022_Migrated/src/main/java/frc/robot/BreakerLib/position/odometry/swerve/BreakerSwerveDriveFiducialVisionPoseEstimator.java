@@ -31,7 +31,9 @@ public class BreakerSwerveDriveFiducialVisionPoseEstimator<States extends Num, I
         double[] gyroAndEncoderStandardDeveation, 
         double[] visionStanderdDeveation) {
         this.vision = vision;
-        poseEstimator = new BreakerSwerveDrivePoseEstimator<States, Inputs, Outputs>(drivetrain, vision.getOdometryPoseMeters(), states, inputs, outputs, stateModelStanderdDeveation, gyroAndEncoderStandardDeveation, visionStanderdDeveation);
+        poseEstimator = new BreakerSwerveDrivePoseEstimator<States, Inputs, Outputs>(
+            drivetrain, vision.getOdometryPoseMeters(), states, inputs, outputs, 
+            stateModelStanderdDeveation, gyroAndEncoderStandardDeveation, visionStanderdDeveation);
     }
 
     @Override

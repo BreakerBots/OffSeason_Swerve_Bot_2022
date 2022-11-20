@@ -86,7 +86,7 @@ public class BreakerSwerveWaypointFollower extends CommandBase {
         TrapezoidProfile profile = new TrapezoidProfile(waypointPath.getConstraints(), new TrapezoidProfile.State(totalDistance, 0), curState);
         Rotation2d targetRot = rotationSupplier.getRotation(timer.get());
         ChassisSpeeds targetSpeeds = driveController.calculate(curPose, new Pose2d(waypoints.get(0), targetRot), profile.calculate(0.20).velocity, targetRot);
-        config.getDrivetrain().moveRelativeToField(targetSpeeds.vxMetersPerSecond, targetSpeeds.vyMetersPerSecond, targetSpeeds.omegaRadiansPerSecond, config.getOdometer());
+        config.getDrivetrain().move(ChassisSpeeds.fromFieldRelativeSpeeds(targetSpeeds, config.getOdometer().getOdometryPoseMeters().getRotation()), false);
         if (driveController.atReference()) {
             prevWp = waypoints.remove(0);
         }

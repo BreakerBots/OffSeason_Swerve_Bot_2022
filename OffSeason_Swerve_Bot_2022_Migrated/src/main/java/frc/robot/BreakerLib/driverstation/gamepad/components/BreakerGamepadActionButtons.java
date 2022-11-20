@@ -7,7 +7,8 @@ package frc.robot.BreakerLib.driverstation.gamepad.components;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-/** Add your docs here. */
+/** A class that represents the set of four function or action buttons common to most gamepad controllers, 
+ * examples being the ABXY buttons of Xbox controllers or the shape buttons of playstation controllers */
 public class BreakerGamepadActionButtons {
     private JoystickButton topActionButton, leftActionButton, rightActionButton, bottomActonButton;
     public BreakerGamepadActionButtons(GenericHID hid, int topActionButtonPort, int leftActionButtonPort, int rightActionButtonPort, int bottomActionButtonPort) {
