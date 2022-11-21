@@ -38,7 +38,7 @@ public class BreakerWaypointPathGenerator {
         try {
             BreakerPathfinder pathfinder = new BreakerPathfinder(maxAcceleration, nodeGrid.getInstance(nodeGrid.getNodeFromPosition(startPoint), nodeGrid.getNodeFromPosition(startPoint)));
             BreakerPathfinderPath pfPath = pathfinder.calculatePath();
-            return pfPath.getAsWaypointPath(new TrapezoidProfile.Constraints(maxVelocity, maxAcceleration));
+            return pfPath.getAsWaypointPath(new TrapezoidProfile.Constraints(maxVelocity, maxAcceleration), startPoint, endPoint);
         } catch (Exception e) {
             throw e;
         }

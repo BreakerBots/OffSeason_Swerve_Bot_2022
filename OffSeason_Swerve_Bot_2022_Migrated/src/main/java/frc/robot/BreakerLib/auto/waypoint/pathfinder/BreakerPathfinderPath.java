@@ -34,4 +34,18 @@ public class BreakerPathfinderPath {
         }
         return new BreakerWaypointPath(constraints, waypoints);
     }
+
+    public BreakerWaypointPath getAsWaypointPath(TrapezoidProfile.Constraints constraints, Translation2d startPoint, Translation2d endPoint) {
+        Translation2d[] waypoints = new Translation2d[pathNodes.size()];
+        for (int i = 1; i < waypoints.length - 1; i++) {
+            BreakerPathfinderNode node = pathNodes.get(i);
+            double x = ((double)(node.getGridPosX()) + 0.5) * nodeSideLength;
+            double y = ((double)(node.getGridPosY()) + 0.5) * nodeSideLength;
+
+            waypoints[i] = new Translation2d(x, y);
+        }
+        waypoints[0] = startPoint;
+        waypoints[waypoints.length-1] = endPoint;
+        return new BreakerWaypointPath(constraints, waypoints);
+    }
 }

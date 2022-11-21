@@ -28,7 +28,7 @@ public class BreakerPathfinderNode {
         return gridPosY;
     }
 
-    public BreakerPathfinderNodeHeuristics getHeuristicWeight(BreakerPathfinderNode startNode, BreakerPathfinderNode endNode) {
+    public BreakerPathfinderNodeHeuristics getHeuristicCost(BreakerPathfinderNode startNode, BreakerPathfinderNode endNode) {
         return new BreakerPathfinderNodeHeuristics(getManhattanCost(startNode), getManhattanCost(endNode));
     }
 
@@ -37,7 +37,7 @@ public class BreakerPathfinderNode {
     }
 
     private static int calculateManhattanCost(int x0, int y0, int x1, int y1) {
-        return Math.max(Math.abs(x1-x0), Math.abs(y1-y0));
+        return Math.abs(x1-x0) + Math.abs(y1-y0);
     }
 
     public BreakerPathfinderNodeInstance getInstance(BreakerPathfinderNode pathStartNode, BreakerPathfinderNode pathEndNode) {
@@ -81,7 +81,7 @@ public class BreakerPathfinderNode {
             this.baseNode = baseNode;
             this.pathStartNode = pathStartNode;
             this.pathEndNode = pathEndNode;
-            heuristics = baseNode.getHeuristicWeight(pathStartNode, pathEndNode);
+            heuristics = baseNode.getHeuristicCost(pathStartNode, pathEndNode);
             isStart = baseNode.equals(pathStartNode);
             isEnd = baseNode.equals(pathEndNode);
         }
