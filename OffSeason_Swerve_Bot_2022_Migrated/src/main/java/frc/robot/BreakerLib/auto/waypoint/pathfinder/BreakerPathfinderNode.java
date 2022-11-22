@@ -4,8 +4,6 @@
 
 package frc.robot.BreakerLib.auto.waypoint.pathfinder;
 
-import java.awt.geom.Rectangle2D;
-
 /** Add your docs here. */
 public class BreakerPathfinderNode {
     private int gridPosX, gridPosY;

@@ -15,8 +15,18 @@ import frc.robot.BreakerLib.auto.waypoint.pathfinder.BreakerPathfinderPath;
 import frc.robot.BreakerLib.util.math.interpolation.BreakerInterpolatableDoubleArray;
 import frc.robot.BreakerLib.util.math.interpolation.interpolateingmaps.BreakerLegrangeInterpolateingTreeMap;
 
-/** Add your docs here. */
+/** Generates waypoint paths for auto driving. */
 public class BreakerWaypointPathGenerator {
+
+    /**
+     * 
+     * 
+     * @param maxVelocity
+     * @param maxAcceleration
+     * @param interpolationResolution
+     * @param waypoints
+     * @return
+     */
     public static BreakerWaypointPath generateWaypointPath(double maxVelocity, double maxAcceleration, double interpolationResolution, Translation2d... waypoints) {
         BreakerLegrangeInterpolateingTreeMap<Double, BreakerInterpolatableDoubleArray>  interMap = new BreakerLegrangeInterpolateingTreeMap<>();
         ArrayList<Translation2d> newWaypoints = new ArrayList<>();
