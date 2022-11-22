@@ -21,16 +21,15 @@ public class BreakerCompressor extends BreakerGenericDeviceBase {
     private PneumaticsModuleType moduleType;
 
     private PneumaticsBase pneumaticModule;
-    private PneumaticsControlModule ctrePCM;
-    private PneumaticHub revPneumaticHub;
     private AnalogPotentiometer analogPressureSensor = new AnalogPotentiometer(0); // Basically a null pressure
                                                                                    // sensor until instantiated.
 
-    /** Creates a new BreakerCompressor. with provided ID and type.
+    /**
+     * Creates a new BreakerCompressor. with provided ID and type.
      * 
-     * @param moduleID CAN ID for the module.
+     * @param moduleID   CAN ID for the module.
      * @param moduleType CTRE or REV.
-    */
+     */
     public BreakerCompressor(int moduleID, PneumaticsModuleType moduleType) {
         this.moduleType = moduleType;
         deviceName = "Pnumatics_Module";
@@ -52,12 +51,10 @@ public class BreakerCompressor extends BreakerGenericDeviceBase {
     private void moduleSetup(int id) {
         switch (moduleType) {
             case CTREPCM:
-                ctrePCM = new PneumaticsControlModule(id); // Registered as spesific model for self test
-                pneumaticModule = ctrePCM;
+                pneumaticModule = new PneumaticsControlModule(id); // Registered as spesific model for self test
                 break;
             case REVPH:
-                revPneumaticHub = new PneumaticHub(id); // Registered as spesific model for self test
-                pneumaticModule = revPneumaticHub;
+                pneumaticModule = new PneumaticHub(id); // Registered as spesific model for self test
                 break;
         }
     }
@@ -66,12 +63,10 @@ public class BreakerCompressor extends BreakerGenericDeviceBase {
     private void moduleSetup() {
         switch (moduleType) {
             case CTREPCM:
-                ctrePCM = new PneumaticsControlModule(); // Registered as spesific model for self test
-                pneumaticModule = ctrePCM;
+                pneumaticModule = new PneumaticsControlModule(); // Registered as spesific model for self test
                 break;
             case REVPH:
-                revPneumaticHub = new PneumaticHub(); // Registered as spesific model for self test
-                pneumaticModule = revPneumaticHub;
+                pneumaticModule = new PneumaticHub(); // Registered as spesific model for self test
                 break;
         }
     }
@@ -102,7 +97,7 @@ public class BreakerCompressor extends BreakerGenericDeviceBase {
     }
 
     /**
-     * Returns psi measured by analog pressure sensor. If no pressure sensor,
+     * Returns PSI measured by analog pressure sensor. If no pressure sensor,
      * returns 0.
      */
     public double getPressure() {
