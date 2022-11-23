@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import frc.robot.BreakerLib.devices.sensors.BreakerUltrasonic;
 import frc.robot.BreakerLib.physics.vector.BreakerVector3;
@@ -26,10 +27,10 @@ import frc.robot.BreakerLib.util.math.BreakerUnits;
 public class BreakerProjectileTrajectory {
     private BreakerProjectile projectile;
     private BreakerVector3 initialVels;
-    private Pose3d launchPoint;
+    private Translation3d  launchPoint;
 
     public BreakerProjectileTrajectory(BreakerProjectile projectile, BreakerVector3 initialVels,
-            Pose3d launchPoint) {
+            Translation3d launchPoint) {
         this.projectile = projectile;
         this.initialVels = initialVels;
         this.launchPoint = launchPoint;
@@ -51,7 +52,7 @@ public class BreakerProjectileTrajectory {
     public Translation2d get2dTranslationAtGivenTime(double time) {
         double x = getHorizontalDistInGivenAxisAtGivenTime(time, initialVels.getMagnatudeX());
         double y = getHorizontalDistInGivenAxisAtGivenTime(time, initialVels.getMagnatudeY());
-        return new Translation2d(x, y).plus(launchPoint.getTranslation().toTranslation2d());
+        return new Translation2d(x, y).plus(launchPoint.toTranslation2d());
     }
 
     /** x = (Vt^2 / g) * ln( (Vt^2 + g * Uo * t) / Vt^2 ) */
@@ -69,7 +70,7 @@ public class BreakerProjectileTrajectory {
     }
 
     public double getTimeOfFightToTarget(Translation2d targedLocation) {
-        return getTimeAtGivenDistance(targedLocation.getDistance(launchPoint.getTranslation().toTranslation2d()),
+        return getTimeAtGivenDistance(targedLocation.getDistance(launchPoint.toTranslation2d()),
                 Math.hypot(initialVels.getMagnatudeX(), initialVels.getMagnatudeY()));
     }
 
