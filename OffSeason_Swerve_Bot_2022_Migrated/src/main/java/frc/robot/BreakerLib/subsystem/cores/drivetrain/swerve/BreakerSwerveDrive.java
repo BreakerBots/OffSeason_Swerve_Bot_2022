@@ -33,12 +33,16 @@ import frc.robot.BreakerLib.util.test.suites.swerveSuite.BreakerSwerveTestSuite;
 public class BreakerSwerveDrive extends BreakerGenericDrivetrain implements BreakerGenericTestSuiteImplementation<BreakerSwerveTestSuite> {
   private BreakerSwerveDriveConfig config;
 
+  /** The current {@link SwerveModuleState} each of this drivetrain's swerve modules is set to */
   private SwerveModuleState[] targetModuleStates;
 
+  /** Each of the {@link BreakerGenericSwerveModule} instances controlled by this class */
   private BreakerGenericSwerveModule[] swerveModules;
 
+  /** The {@link BreakerGenericGyro} used for this drivetrain's internal odometery */
   private BreakerGenericGyro gyro;
 
+  /** The {@link SwerveDriveOdometry} object this drivetrain uses for its internal odometry */
   private SwerveDriveOdometry odometer;
 
   private Rotation2d fieldRelativeMovementAngleOffset = Rotation2d.fromDegrees(0);

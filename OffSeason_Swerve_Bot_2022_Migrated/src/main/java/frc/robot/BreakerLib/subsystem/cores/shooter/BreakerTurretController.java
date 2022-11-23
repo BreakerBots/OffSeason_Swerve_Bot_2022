@@ -35,14 +35,17 @@ public class BreakerTurretController {
 
     }
 
-    public void calculate(Translation3d projectileLaunchPointRelativeToField, Translation3d targetPointRelativeToField) {
+    public BreakerTurretState calculateFieldRelative(Translation3d projectileLaunchPointRelativeToField, Translation3d targetPointRelativeToField) {
         double distance = projectileLaunchPointRelativeToField.toTranslation2d().getDistance(targetPointRelativeToField.toTranslation2d());
         BreakerInterpolablePair<BreakerVector2, BreakerInterpolableDouble> fireingPair = fireingTable.getInterpolatedValue(distance);
 
         Rotation2d azAng = BreakerMath.getPointAngleRelativeToOtherPoint(projectileLaunchPointRelativeToField.toTranslation2d(), targetPointRelativeToField.toTranslation2d());
         Rotation2d altAng = fireingPair.getFirst().getVectorRotation();
 
-        BreakerVector3 fireingVelVec = BreakerVector3.fromMagnitudeAndvectorRotation(fireingPair.getFirst().getMagnatude(), new Rotation3d(0.0, altAng.getRadians(), azAng.getRadians()));
-        BreakerProjectileTrajectory traj = new BreakerProjectileTrajectory(null, null, null);
+       return new BreakerTurretState(azAng, altAng, fireingPair.getSecond().getValue());
+    }
+
+    public BreakerTurretState calculateFieldRelative() {
+        return null;
     }
 }

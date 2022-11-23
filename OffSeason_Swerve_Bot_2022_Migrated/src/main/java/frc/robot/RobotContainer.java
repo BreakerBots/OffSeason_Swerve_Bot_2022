@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
 import frc.robot.BreakerLib.driverstation.gamepad.components.BreakerGamepadAnalogueDeadbandConfig;
 import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerXboxController;
-import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveController;
+import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveTeleopController;
 import frc.robot.BreakerLib.util.power.BreakerPowerManager;
 import frc.robot.BreakerLib.util.robotmanager.BreakerRobotConfig;
 import frc.robot.BreakerLib.util.robotmanager.BreakerRobotManager;
@@ -33,6 +33,8 @@ public class RobotContainer {
   private final BreakerPigeon2 imuSys = new BreakerPigeon2(5);
   private final Drive drivetrainSys = new Drive(imuSys);
 
+  private final BreakerSwerveDriveTeleopController manualDriveCommand = new BreakerSwerveDriveTeleopController(drivetrainSys.getBaseDrivetrain(), controllerSys);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -48,8 +50,8 @@ public class RobotContainer {
     drivetrainSys.getBaseDrivetrain().resetOdometryPosition();
 
     configureButtonBindings();
-    drivetrainSys.getBaseDrivetrain()
-        .setDefaultCommand(new BreakerSwerveDriveController(drivetrainSys.getBaseDrivetrain(), controllerSys));
+    manualDriveCommand.addSlewRateLimiters(new SlewRateLimiter(2.0), new SlewRateLimiter(2.0), new SlewRateLimiter(4.0));
+    drivetrainSys.getBaseDrivetrain().setDefaultCommand(manualDriveCommand);
   }
 
   /**
