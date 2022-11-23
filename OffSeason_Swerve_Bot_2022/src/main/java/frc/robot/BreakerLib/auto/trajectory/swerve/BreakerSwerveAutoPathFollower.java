@@ -36,6 +36,7 @@ public class BreakerSwerveAutoPathFollower extends CommandBase implements Breake
     this.trajectoryPath = trajectoryPath;
     rotationSupplier = new BreakerSwerveRotationSupplier();
     remainingEvents = new ArrayList<>(trajectoryPath.getAttachedConditionalEvents());
+    addRequirements(config.getDrivetrain());
   }
 
   /** Creates a new {@link BreakerSwerveAutoPathFollower} that follows the given {@link BreakerTrajectoryPath}
