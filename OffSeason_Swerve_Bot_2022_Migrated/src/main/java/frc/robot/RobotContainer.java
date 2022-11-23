@@ -72,6 +72,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new TestTrajectoryAutoPath(drivetrainSys);
+    return drivetrainSys.getBaseDrivetrain().getTestSuite().stressTest(4.0, 4.0, 16.0);
   }
 }

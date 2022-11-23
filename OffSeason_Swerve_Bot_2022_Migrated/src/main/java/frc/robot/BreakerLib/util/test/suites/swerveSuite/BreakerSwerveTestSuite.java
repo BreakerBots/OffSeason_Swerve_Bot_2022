@@ -21,15 +21,15 @@ public class BreakerSwerveTestSuite {
     public BreakerSwerveTestSuite(BreakerSwerveDrive drivetrain, BreakerGenericSwerveModule... modules) {
         this.drivetrain = drivetrain;
         this.modules = modules;
+        logType = BreakerTestSuiteDataLogType.PARTIAL_AUTOLOG;
     }
 
     public void setLogType(BreakerTestSuiteDataLogType newLogType) {
         logType = newLogType;
     }
 
-    public BreakerSwerveModuleVelocityLimitTest timedSpinUpTest(double testTimeSeconds, double targetMaxSpeed) {
+    public BreakerSwerveModuleVelocityLimitTest moduleVelocityLimitTest(double testTimeSeconds, double targetMaxSpeed) {
         BreakerSwerveModuleVelocityLimitTest test = new BreakerSwerveModuleVelocityLimitTest(drivetrain, modules, targetMaxSpeed, testTimeSeconds, logType);
-        test.schedule();
         return test;
     }
 
@@ -95,14 +95,12 @@ public class BreakerSwerveTestSuite {
         speedList.add(new Pair<ChassisSpeeds,Double>(new ChassisSpeeds(-maxVelX, maxVelY, 0), 0.5));
        
         BreakerSwerveDriveStressTest test = new BreakerSwerveDriveStressTest(drivetrain, modules, logType, speedList);
-        test.schedule();
         return test;
     }
 
     public BreakerSwerveDriveStressTest stressTest(ArrayList<Pair<ChassisSpeeds, Double>> chassisSpeedsAndCutoffTimes) {
         ArrayList<Pair<ChassisSpeeds, Double>> speedList = new ArrayList<>();
         BreakerSwerveDriveStressTest test = new BreakerSwerveDriveStressTest(drivetrain, modules, logType, speedList);
-        test.schedule();
         return test;
     }
 

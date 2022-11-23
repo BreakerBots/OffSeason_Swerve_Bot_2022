@@ -15,6 +15,7 @@ public class BreakerFlywheelTestSuite {
     private BreakerTestSuiteDataLogType logType;
     public BreakerFlywheelTestSuite(BreakerGenericFlywheel baseFlywheel) {
         this.baseFlywheel = baseFlywheel;
+        logType = BreakerTestSuiteDataLogType.PARTIAL_AUTOLOG;
     }
 
     public void setLogType(BreakerTestSuiteDataLogType newLogType) {
@@ -23,13 +24,11 @@ public class BreakerFlywheelTestSuite {
 
     public BreakerTimedFlywheelSpinUpTest timedSpinUpTest(double testTimeSeconds, double targetRPM) {
         BreakerTimedFlywheelSpinUpTest test = new BreakerTimedFlywheelSpinUpTest(testTimeSeconds, targetRPM, baseFlywheel, logType);
-        test.schedule();
         return test;
     }
 
     public BreakerRepeatedFlywheelChargeCycleTest repeatedChargeCycleTest(int numberOfCycles, double targetRPM) {
         BreakerRepeatedFlywheelChargeCycleTest test = new BreakerRepeatedFlywheelChargeCycleTest(numberOfCycles, targetRPM, baseFlywheel, logType);
-        test.schedule();
         return test;
     }
 
