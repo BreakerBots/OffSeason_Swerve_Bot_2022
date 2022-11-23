@@ -17,7 +17,6 @@ import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 public class BreakerColorSensor extends BreakerGenericDeviceBase {
 
   private ColorSensorV3 colorSensor;
- 
 
   /**
    * Create a new BreakerColorSensor.
@@ -50,7 +49,7 @@ public class BreakerColorSensor extends BreakerGenericDeviceBase {
   }
 
   /**
-   * Returns the sensor's proximity to its sensing target with 2047 being closest
+   * @return Sensor's proximity to its sensing target with 2047 being closest
    * and 0 being furthest.
    */
   public int getProximity() {

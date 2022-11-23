@@ -7,18 +7,18 @@ package frc.robot.BreakerLib.devices.sensors;
 /** Interface for 3-axis magnitometers with digital compass features  */
 public interface BreakerGenericMagnetometer {
     /** X[0], Y[1], Z[2], in microteslas */
-   public abstract double[] getRawFieldStrenghts();
+   public abstract double[] getRawFieldStrengths();
 
-   /** X[0], Y[1], Z[2], in microteslas */
-   public abstract double[] getBiasedFieldStrenghts();
+   /** X[0], Y[1], Z[2], in microteslas. */
+   public abstract double[] getBiasedFieldStrengths();
 
-   /** @return fied strength in microteslas */
+   /** @return Magnetic field strength in microteslas. */
    public abstract double getCompassFieldStrength();
 
-   /** angular heding of the compass in +-180 degrees */
+   /** Angular heading of the compass in +-180 degrees. */
    public abstract double getCompassHeading();
 
-   /** angular heading of the compass in degrees, */
+   /** Raw angular heading of the compass in degrees. */
    public abstract double getRawCompassHeading();
 
 }

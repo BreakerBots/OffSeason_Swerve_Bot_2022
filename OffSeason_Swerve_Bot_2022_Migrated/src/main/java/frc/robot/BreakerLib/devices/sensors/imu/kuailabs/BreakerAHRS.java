@@ -269,12 +269,12 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
         }
     }
 
-    public double[] getRawFieldStrenghts() {
+    public double[] getRawFieldStrengths() {
         double[] strens = { imu.getRawMagX(), imu.getRawMagY(), imu.getRawMagZ() };
         return strens;
     }
 
-    public double[] getBiasedFieldStrenghts() {
+    public double[] getBiasedFieldStrengths() {
         BreakerVector3 fieldVec = new BreakerVector3(imu.getRawMagX(), imu.getRawMagY(), imu.getRawMagZ());
         return fieldVec.rotate(getRotation3d()).getInterpolatableData();
     }

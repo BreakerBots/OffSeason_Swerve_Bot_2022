@@ -14,23 +14,22 @@ import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 
 /**
- * Compressor with built-in AnalogPotentiometer and pneumatic module support.
+ * Compressor bundled with PCM/PH and support for an analog pressure sensor.
  */
 public class BreakerCompressor extends BreakerGenericDeviceBase {
 
     private PneumaticsModuleType moduleType;
 
     private PneumaticsBase pneumaticModule;
-    private PneumaticsControlModule ctrePCM;
-    private PneumaticHub revPneumaticHub;
-    private AnalogPotentiometer analogPressureSensor = new AnalogPotentiometer(0); // Basically a null pressure
-                                                                                   // sensor until instantiated.
+    private AnalogPotentiometer analogPressureSensor = new AnalogPotentiometer(0); // Placeholder
+    private boolean usingExternalPressureSensor;
 
-    /** Creates a new BreakerCompressor. with provided ID and type.
+    /**
+     * Creates a new BreakerCompressor. with provided ID and type.
      * 
-     * @param moduleID CAN ID for the module.
+     * @param moduleID   CAN ID for the module.
      * @param moduleType CTRE or REV.
-    */
+     */
     public BreakerCompressor(int moduleID, PneumaticsModuleType moduleType) {
         this.moduleType = moduleType;
         deviceName = "Pnumatics_Module";
@@ -52,12 +51,10 @@ public class BreakerCompressor extends BreakerGenericDeviceBase {
     private void moduleSetup(int id) {
         switch (moduleType) {
             case CTREPCM:
-                ctrePCM = new PneumaticsControlModule(id); // Registered as spesific model for self test
-                pneumaticModule = ctrePCM;
+                pneumaticModule = new PneumaticsControlModule(id); // Registered as specific model for self test
                 break;
             case REVPH:
-                revPneumaticHub = new PneumaticHub(id); // Registered as spesific model for self test
-                pneumaticModule = revPneumaticHub;
+                pneumaticModule = new PneumaticHub(id); // Registered as specific model for self test
                 break;
         }
     }
@@ -66,12 +63,10 @@ public class BreakerCompressor extends BreakerGenericDeviceBase {
     private void moduleSetup() {
         switch (moduleType) {
             case CTREPCM:
-                ctrePCM = new PneumaticsControlModule(); // Registered as spesific model for self test
-                pneumaticModule = ctrePCM;
+                moduleSetup(0);
                 break;
             case REVPH:
-                revPneumaticHub = new PneumaticHub(); // Registered as spesific model for self test
-                pneumaticModule = revPneumaticHub;
+                moduleSetup(1);
                 break;
         }
     }
@@ -83,7 +78,8 @@ public class BreakerCompressor extends BreakerGenericDeviceBase {
      * port 0 on the PH.
      */
     public void addAnalogPressureSensor(int analog_channel) {
-        analogPressureSensor = new AnalogPotentiometer(analog_channel, 250, -25);
+        addAnalogPressureSensor(analog_channel, 250, -25);
+
     }
 
     /**
@@ -99,38 +95,43 @@ public class BreakerCompressor extends BreakerGenericDeviceBase {
      */
     public void addAnalogPressureSensor(int analog_channel, double fullRange, double offset) {
         analogPressureSensor = new AnalogPotentiometer(analog_channel, fullRange, offset);
+        usingExternalPressureSensor = true;
     }
 
     /**
-     * Returns psi measured by analog pressure sensor. If no pressure sensor,
+     * @return PSI measured by analog pressure sensor. If no pressure sensor,
      * returns 0.
      */
     public double getPressure() {
-        double pressure = pneumaticModule.getPressure(0);
-        if (pressure != 0) {
-            return pressure;
-        } else {
-            pressure = analogPressureSensor.get();
+        switch (moduleType) {
+            case REVPH:
+                return pneumaticModule.getPressure(0);
+            case CTREPCM:
+                if (usingExternalPressureSensor) {
+                    return analogPressureSensor.get();
+                } else {
+                    return 0.0;
+                }
         }
-        return pressure;
+        return 0;
     }
 
-    /** Returns voltage of analog port 0 if supported. */
+    /** @return Voltage of analog port 0 if supported. */
     public double getVoltage() {
         return pneumaticModule.getAnalogVoltage(0);
     }
 
-    /** Current in amps used by the compressor */
+    /** @return Current in amps used by the compressor */
     public double getCompressorAmps() {
         return pneumaticModule.getCompressorCurrent();
     }
 
-    /** Returns base pneumatic module. */
+    /** @return Base pneumatic module. */
     public PneumaticsBase getModule() {
         return pneumaticModule;
     }
 
-    /** Returns true if the compressor is enabled. */
+    /** @return True if the compressor is enabled. */
     public boolean compressorIsEnabled() {
         return pneumaticModule.getCompressor();
     }
@@ -169,7 +170,6 @@ public class BreakerCompressor extends BreakerGenericDeviceBase {
 
     @Override
     public void runSelfTest() {
-        // WHY?!
         switch (moduleType) {
             case CTREPCM:
                 break;

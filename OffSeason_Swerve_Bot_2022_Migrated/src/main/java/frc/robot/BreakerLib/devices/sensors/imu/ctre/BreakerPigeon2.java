@@ -255,14 +255,14 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
   }
 
   @Override
-  public double[] getRawFieldStrenghts() {
+  public double[] getRawFieldStrengths() {
       short[] rawShorts = new short[]{3};
       pigeon.getRawMagnetometer(rawShorts);
       return new double[] {(double) rawShorts[0] * 0.6, (double) rawShorts[1] * 0.6, (double) rawShorts[2] * 0.6};
   }
 
   @Override
-  public double[] getBiasedFieldStrenghts() {
+  public double[] getBiasedFieldStrengths() {
       short[] rawShorts = new short[]{3};
       pigeon.getBiasedMagnetometer(rawShorts);
       return new double[] {(double) rawShorts[0] * 0.6, (double) rawShorts[1] * 0.6, (double) rawShorts[2] * 0.6};

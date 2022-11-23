@@ -5,15 +5,10 @@
 package frc.robot.BreakerLib.devices.sensors;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
-/** Wrapper class for an {@link Ultrasonic}. */
+/** BreakerLib wrapper class for an {@link Ultrasonic}. */
 public class BreakerUltrasonic {
-
-    private DigitalOutput pingCh;
-    private DigitalInput echoCh;
     private Ultrasonic sonic;
     private double offsetMM;
 
@@ -35,7 +30,7 @@ public class BreakerUltrasonic {
      */
     public BreakerUltrasonic(int pingOutChannelDIO, int echoInChannelDIO, double offsetMM) {
         this.offsetMM = offsetMM;
-        sonic = new Ultrasonic(pingCh, echoCh);
+        sonic = new Ultrasonic(pingOutChannelDIO, echoInChannelDIO);
         Ultrasonic.setAutomaticMode(true);
     }
 
