@@ -25,12 +25,12 @@ import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.suites.BreakerGenericTestSuiteImplementation;
-import frc.robot.BreakerLib.util.test.suites.swerveSuite.BreakerSwerveTestSuite;
+import frc.robot.BreakerLib.util.test.suites.swerveSuite.BreakerSwerveDriveTestSuite;
 
 /**
  * BreakerLib swerve drive class.
  */
-public class BreakerSwerveDrive extends BreakerGenericDrivetrain implements BreakerGenericTestSuiteImplementation<BreakerSwerveTestSuite> {
+public class BreakerSwerveDrive extends BreakerGenericDrivetrain implements BreakerGenericTestSuiteImplementation<BreakerSwerveDriveTestSuite> {
   private BreakerSwerveDriveConfig config;
 
   /** The current {@link SwerveModuleState} each of this drivetrain's swerve modules is set to */
@@ -402,8 +402,8 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain implements Brea
   }
 
   @Override
-  public BreakerSwerveTestSuite getTestSuite() {
-    return new BreakerSwerveTestSuite(this, swerveModules);
+  public BreakerSwerveDriveTestSuite getTestSuite() {
+    return new BreakerSwerveDriveTestSuite(this, swerveModules);
   }
 
 }

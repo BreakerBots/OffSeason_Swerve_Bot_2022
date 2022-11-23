@@ -14,11 +14,11 @@ import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.modules.BreakerGen
 import frc.robot.BreakerLib.util.test.suites.BreakerTestSuiteDataLogType;
 
 /** Add your docs here. */
-public class BreakerSwerveTestSuite {
+public class BreakerSwerveDriveTestSuite {
     private BreakerSwerveDrive drivetrain;
     private BreakerTestSuiteDataLogType logType;
     private BreakerGenericSwerveModule[] modules;
-    public BreakerSwerveTestSuite(BreakerSwerveDrive drivetrain, BreakerGenericSwerveModule... modules) {
+    public BreakerSwerveDriveTestSuite(BreakerSwerveDrive drivetrain, BreakerGenericSwerveModule... modules) {
         this.drivetrain = drivetrain;
         this.modules = modules;
         logType = BreakerTestSuiteDataLogType.PARTIAL_AUTOLOG;

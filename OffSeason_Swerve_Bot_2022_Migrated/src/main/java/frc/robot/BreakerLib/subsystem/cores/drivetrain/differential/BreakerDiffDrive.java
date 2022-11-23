@@ -340,14 +340,13 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
 
   @Override
   public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig) {
-
     return null;
   }
 
   @Override
   public void overrideAutomaticPowerManagement(DevicePowerMode manualPowerMode) {
     isAutoPowerManaged = false;
-
+    
   }
 
   @Override

@@ -4,7 +4,7 @@
 
 package frc.robot.BreakerLib.util.power;
 
-/** A class representi ng the power conservation mode of a device */
+/** A class representing the power conservation mode of a device */
 public enum DevicePowerMode {
     /** device is 100% operational and at full power draw */
     FULL_POWER_MODE,
