@@ -15,7 +15,7 @@ import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.vendorutil.BreakerCTREUtil;
 
 /** Falcon motor with simple on/off controls */
-public class BreakerBinaryTalon extends BreakerGenericBinaryMotor {
+public class BreakerBinaryCTREMotor extends BreakerGenericBinaryMotor {
 
     private BaseMotorController motor;
     private double output;
@@ -26,7 +26,7 @@ public class BreakerBinaryTalon extends BreakerGenericBinaryMotor {
      * 
      * @param motor CTRE motor controller.
      */
-    public BreakerBinaryTalon(BaseMotorController motor) {
+    public BreakerBinaryCTREMotor(BaseMotorController motor) {
         this.motor = motor;
         this.output = 1.0;
         deviceName = " Binary_Motor (" + motor.getDeviceID() + ") ";
@@ -40,7 +40,7 @@ public class BreakerBinaryTalon extends BreakerGenericBinaryMotor {
      * @param motor  CTRE motor controller.
      * @param output Percent output between -1 and 1.
      */
-    public BreakerBinaryTalon(BaseMotorController motor, double output) {
+    public BreakerBinaryCTREMotor(BaseMotorController motor, double output) {
         this.motor = motor;
         this.output = output;
         deviceName = " Binary_Motor (" + motor.getDeviceID() + ") ";
