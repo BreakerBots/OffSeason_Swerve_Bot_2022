@@ -68,7 +68,6 @@ public class BreakerFalconDiffDrive extends BreakerDiffDrive {
     public void resetDriveEncoders() {
         leftMotors[0].setSelectedSensorPosition(0);
         rightMotors[0].setSelectedSensorPosition(0);
-        
     }
 
     @Override
