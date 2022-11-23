@@ -15,7 +15,7 @@ import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.util.math.functions.BreakerGenericMathFunction;
 
 /** Controller object for the {@link BreakerSwerveDrive} drivetrain. */
-public class BreakerSwerveDriveController extends CommandBase {
+public class BreakerTeleopSwerveDriveController extends CommandBase {
 
   private BreakerGenericGamepad controller;
   private BreakerSwerveDrive baseDrivetrain;
@@ -32,7 +32,7 @@ public class BreakerSwerveDriveController extends CommandBase {
    * @param baseDrivetrain Swerve drivetrain.
    * @param controller     Xbox controller.
    */
-  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerXboxController controller) {
+  public BreakerTeleopSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerXboxController controller) {
     this.controller = controller;
     this.baseDrivetrain = baseDrivetrain;
     usesSuppliers = false;
@@ -51,7 +51,7 @@ public class BreakerSwerveDriveController extends CommandBase {
    * @param horizontalSpeedPercentSupplier The horizontal speed percent supplier.
    * @param turnSpeedPercentSupplier       The turn speed percent supplier.
    */
-  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, DoubleSupplier forwardSpeedPercentSupplier,
+  public BreakerTeleopSwerveDriveController(BreakerSwerveDrive baseDrivetrain, DoubleSupplier forwardSpeedPercentSupplier,
       DoubleSupplier horizontalSpeedPercentSupplier, DoubleSupplier turnSpeedPercentSupplier) {
     this.forwardSpeedPercentSupplier = forwardSpeedPercentSupplier;
     this.horizontalSpeedPercentSupplier = horizontalSpeedPercentSupplier;
@@ -71,7 +71,7 @@ public class BreakerSwerveDriveController extends CommandBase {
    * @param odometer       Odometer to use.
    * @param controller     Xbox controller to provide input.
    */
-  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer,
+  public BreakerTeleopSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer,
       BreakerGenericGamepad controller) {
     this.controller = controller;
     this.baseDrivetrain = baseDrivetrain;
@@ -93,7 +93,7 @@ public class BreakerSwerveDriveController extends CommandBase {
    * @param horizontalSpeedPercentSupplier The horizontal speed percent supplier.
    * @param turnSpeedPercentSupplier       The turn speed percent supplier.
    */
-  public BreakerSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer,
+  public BreakerTeleopSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerGenericOdometer odometer,
       DoubleSupplier forwardSpeedPercentSupplier, DoubleSupplier horizontalSpeedPercentSupplier,
       DoubleSupplier turnSpeedPercentSupplier) {
     this.forwardSpeedPercentSupplier = forwardSpeedPercentSupplier;
@@ -108,7 +108,7 @@ public class BreakerSwerveDriveController extends CommandBase {
     addRequirements(baseDrivetrain);
   }
 
-  public BreakerSwerveDriveController addSlewRateLimiters(SlewRateLimiter forwardRateLimiter, SlewRateLimiter  horizontalRateLimiter, SlewRateLimiter turnRateLimiter) {
+  public BreakerTeleopSwerveDriveController addSlewRateLimiters(SlewRateLimiter forwardRateLimiter, SlewRateLimiter  horizontalRateLimiter, SlewRateLimiter turnRateLimiter) {
     this.forwardRateLimiter = forwardRateLimiter;
     this.horizontalRateLimiter = horizontalRateLimiter;
     this.turnRateLimiter = turnRateLimiter;
@@ -116,7 +116,7 @@ public class BreakerSwerveDriveController extends CommandBase {
     return this;
   }
 
-  public BreakerSwerveDriveController addSpeedCurves(BreakerGenericMathFunction linearSpeedCurve, BreakerGenericMathFunction turnSpeedCurve) {
+  public BreakerTeleopSwerveDriveController addSpeedCurves(BreakerGenericMathFunction linearSpeedCurve, BreakerGenericMathFunction turnSpeedCurve) {
     this.linearSpeedCurve = linearSpeedCurve;
     this.turnSpeedCurve = turnSpeedCurve;
     usesCurves = true;

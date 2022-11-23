@@ -13,7 +13,7 @@ import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerGenericGame
 import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerXboxController;
 import frc.robot.BreakerLib.util.math.functions.BreakerGenericMathFunction;
 
-public class BreakerDiffDriveController extends CommandBase {
+public class BreakerTeleopDiffDriveController extends CommandBase {
   
   private BreakerGenericGamepad controller;
   private BreakerDiffDrive baseDrivetrain;
@@ -21,7 +21,7 @@ public class BreakerDiffDriveController extends CommandBase {
   private BreakerGenericMathFunction netSpeedCurve, turnSpeedCurve;
   private SlewRateLimiter netRateLimiter, turnRateLimiter;
   private DoubleSupplier netSpeedPrecentSupplier, turnSpeedPrecentSupplier, overrideNetSup, overrideTurnSup;
-  public BreakerDiffDriveController(BreakerDiffDrive baseDrivetrain, BreakerGenericGamepad controller) {
+  public BreakerTeleopDiffDriveController(BreakerDiffDrive baseDrivetrain, BreakerGenericGamepad controller) {
     this.controller = controller;
     this.baseDrivetrain = baseDrivetrain;
     usesSuppliers = false;
@@ -31,7 +31,7 @@ public class BreakerDiffDriveController extends CommandBase {
     addRequirements(baseDrivetrain);
   }
 
-  public BreakerDiffDriveController(BreakerDiffDrive baseDrivetrain, DoubleSupplier netSpeedPrecentSupplier, DoubleSupplier turnSpeedPrecentSupplier) {
+  public BreakerTeleopDiffDriveController(BreakerDiffDrive baseDrivetrain, DoubleSupplier netSpeedPrecentSupplier, DoubleSupplier turnSpeedPrecentSupplier) {
     this.netSpeedPrecentSupplier = netSpeedPrecentSupplier;
     this.turnSpeedPrecentSupplier = turnSpeedPrecentSupplier;
     this.baseDrivetrain = baseDrivetrain;
@@ -42,14 +42,14 @@ public class BreakerDiffDriveController extends CommandBase {
     addRequirements(baseDrivetrain);
   }
 
-  public BreakerDiffDriveController addSpeedCurves(BreakerGenericMathFunction netSpeedCurve, BreakerGenericMathFunction turnSpeedCurve) {
+  public BreakerTeleopDiffDriveController addSpeedCurves(BreakerGenericMathFunction netSpeedCurve, BreakerGenericMathFunction turnSpeedCurve) {
     this.netSpeedCurve = netSpeedCurve;
     this.turnSpeedCurve = turnSpeedCurve;
     usesCurves = true;
     return this;
   }
 
-  public BreakerDiffDriveController addRateLimiters(SlewRateLimiter netSpeedLimiter, SlewRateLimiter turnSpeedLimiter) {
+  public BreakerTeleopDiffDriveController addRateLimiters(SlewRateLimiter netSpeedLimiter, SlewRateLimiter turnSpeedLimiter) {
     this.netRateLimiter = netSpeedLimiter;
     this.netRateLimiter = netSpeedLimiter;
     usesRateLimiters = true;
