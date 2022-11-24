@@ -10,7 +10,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerGenericGamepad;
-import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerXboxController;
+import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerXinput;
 import frc.robot.BreakerLib.util.math.functions.BreakerGenericMathFunction;
 
 public class BreakerTeleopDiffDriveController extends CommandBase {

@@ -8,18 +8,18 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.GenericHID;
 
 /** Add your docs here. */
-public class BreakerAnalogueTrigger {
+public class BreakerAnalogTrigger {
     private GenericHID hid;
     private int port;
     private double deadband = 0.0;
     private boolean invert;
-    public BreakerAnalogueTrigger(GenericHID hid, int analogTriggerAxisPort) {
+    public BreakerAnalogTrigger(GenericHID hid, int analogTriggerAxisPort) {
         this.hid = hid;
         port = analogTriggerAxisPort;
         invert = false;
     }
 
-    public BreakerAnalogueTrigger(GenericHID hid, int analogTriggerAxisPort, boolean invert) {
+    public BreakerAnalogTrigger(GenericHID hid, int analogTriggerAxisPort, boolean invert) {
         this.hid = hid;
         port = analogTriggerAxisPort;
     }

@@ -13,7 +13,7 @@ import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
  * This class provides util methods for use across devices from multiple vendors
  * such as bit-field fault search methods and more.
  */
-public class BreakerVendorUtil {
+public class BreakerMultiVendorUtil {
 
     /** Returns device health as {@link DeviceHealth} values. */
     public static DeviceHealth getDeviceFaultsAsHealth(long faultBitField,

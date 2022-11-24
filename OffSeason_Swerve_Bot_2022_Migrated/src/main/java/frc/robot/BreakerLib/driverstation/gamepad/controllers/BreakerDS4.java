@@ -7,15 +7,20 @@ package frc.robot.BreakerLib.driverstation.gamepad.controllers;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-/** Add your docs here. */
-public class BreakerPlaystationController extends BreakerGenericGamepad {
+/** DualShock 4 controller wrapper. */
+public class BreakerDS4 extends BreakerGenericGamepad {
     private JoystickButton triangle, square, circle, cross, share, options, touchpad, ps;
-    public BreakerPlaystationController(int controllerPortNum) {
-        super(new PS4Controller(controllerPortNum), PS4Controller.Button.kTriangle.value, PS4Controller.Button.kSquare.value, PS4Controller.Button.kCircle.value, PS4Controller.Button.kCross.value,
-        PS4Controller.Button.kL3.value, PS4Controller.Axis.kLeftX.value, false, PS4Controller.Axis.kLeftY.value,
+
+    public BreakerDS4(int controllerPortNum) {
+        super(new PS4Controller(controllerPortNum), PS4Controller.Button.kTriangle.value,
+                PS4Controller.Button.kSquare.value, PS4Controller.Button.kCircle.value,
+                PS4Controller.Button.kCross.value,
+                PS4Controller.Button.kL3.value, PS4Controller.Axis.kLeftX.value, false, PS4Controller.Axis.kLeftY.value,
                 false, PS4Controller.Button.kR3.value, PS4Controller.Axis.kRightX.value, false,
-                PS4Controller.Axis.kRightY.value, false, PS4Controller.Axis.kL2.value, PS4Controller.Axis.kR2.value, PS4Controller.Button.kL1.value,
+                PS4Controller.Axis.kRightY.value, false, PS4Controller.Axis.kL2.value, PS4Controller.Axis.kR2.value,
+                PS4Controller.Button.kL1.value,
                 PS4Controller.Button.kL1.value);
+                
         triangle = new JoystickButton(hid, PS4Controller.Button.kTriangle.value);
         square = new JoystickButton(hid, PS4Controller.Button.kSquare.value);
         circle = new JoystickButton(hid, PS4Controller.Button.kCircle.value);
@@ -59,9 +64,3 @@ public class BreakerPlaystationController extends BreakerGenericGamepad {
     }
 
 }
-
-
-
-
-
-
