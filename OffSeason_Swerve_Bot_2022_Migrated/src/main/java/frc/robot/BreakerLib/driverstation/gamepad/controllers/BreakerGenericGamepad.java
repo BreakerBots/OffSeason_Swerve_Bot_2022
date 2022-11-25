@@ -10,6 +10,7 @@ import frc.robot.BreakerLib.driverstation.gamepad.components.BreakerFaceButtons;
 import frc.robot.BreakerLib.driverstation.gamepad.components.BreakerGamepadAnalogDeadbandConfig;
 import frc.robot.BreakerLib.driverstation.gamepad.components.BreakerGamepadThumbstick;
 
+/** BreakerLib gamepad interface. */
 public class BreakerGenericGamepad {
     protected GenericHID hid;
     protected BreakerFaceButtons faceButtons;
@@ -19,7 +20,7 @@ public class BreakerGenericGamepad {
     protected BreakerDPad dPad;
 
     /** Complete constructor for all BreakerGenericGamepads. Not intended for end users. */
-    public BreakerGenericGamepad(
+    protected BreakerGenericGamepad(
             GenericHID hid,
             int upFaceButtonPort,
             int leftFaceButtonPort,

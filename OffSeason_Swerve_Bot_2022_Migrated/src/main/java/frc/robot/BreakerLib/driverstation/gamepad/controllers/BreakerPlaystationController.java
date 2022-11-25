@@ -11,6 +11,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class BreakerPlaystationController extends BreakerGenericGamepad {
     private JoystickButton triangle, square, circle, cross, share, options, touchpad, ps;
 
+    /** PlayStation controller based on the {@link BreakerGenericGamepad}. 
+     * 
+     * @param xboxPortNum PlayStation port number.
+    */
     public BreakerPlaystationController(int controllerPortNum) {
         super(new PS4Controller(controllerPortNum), PS4Controller.Button.kTriangle.value,
                 PS4Controller.Button.kSquare.value, PS4Controller.Button.kCircle.value,
@@ -29,36 +33,45 @@ public class BreakerPlaystationController extends BreakerGenericGamepad {
         options = new JoystickButton(hid, PS4Controller.Button.kOptions.value);
         touchpad = new JoystickButton(hid, PS4Controller.Button.kTouchpad.value);
         ps = new JoystickButton(hid, PS4Controller.Button.kPS.value);
+
     }
 
+    /** @return Triangle button. */
     public JoystickButton getTriangleButton() {
         return triangle;
     }
 
+    /** @return Square button. */
     public JoystickButton getSquareButton() {
         return square;
     }
 
+    /** @return Circle button. */
     public JoystickButton getCircleButton() {
         return circle;
     }
 
+    /** @return Cross button. */
     public JoystickButton getCrossButton() {
         return cross;
     }
 
+    /** @return Share button. */
     public JoystickButton getShareButton() {
         return share;
     }
 
+    /** @return Option button. */
     public JoystickButton getOptionsButton() {
         return options;
     }
 
+    /** @return PS button. */
     public JoystickButton getPlayStationButton() {
         return ps;
     }
 
+    /** @return Touchpad click. */
     public JoystickButton getTouchpadButton() {
         return touchpad;
     }

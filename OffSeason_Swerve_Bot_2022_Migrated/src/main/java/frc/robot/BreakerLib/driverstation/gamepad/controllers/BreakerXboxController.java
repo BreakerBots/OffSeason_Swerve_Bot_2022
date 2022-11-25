@@ -41,6 +41,10 @@ public class BreakerXboxController extends BreakerGenericGamepad {
     private JoystickButton startButton;
     private JoystickButton backButton;
 
+    /** Xbox controller based on the {@link BreakerGenericGamepad}. 
+     * 
+     * @param xboxPortNum Xbox port number.
+    */
     public BreakerXboxController(int xboxPortNum) {
         super(
             new XboxController(xboxPortNum),
@@ -56,26 +60,32 @@ public class BreakerXboxController extends BreakerGenericGamepad {
         backButton = new JoystickButton(hid, BACK_PORT);
     }
 
+    /** @return {@link JoystickButton} for the back button (Two squares). */
     public JoystickButton getBackButton() {
         return backButton;
     }
 
+    /** @return {@link JoystickButton} for the start button (Three lines). */
     public JoystickButton getStartButton() {
         return startButton;
     }
 
+    /** @return A button. */
     public JoystickButton getButtonA() {
         return faceButtons.getBottomActionButton();
     }
 
+    /** @return B button. */
     public JoystickButton getButtonB() {
         return faceButtons.getRightActionButton();
     }
 
+    /** @return X button. */
     public JoystickButton getButtonX() {
         return faceButtons.getLeftActionButton();
     }
 
+    /** @return Y button. */
     public JoystickButton getButtonY() {
         return faceButtons.getTopActionButton();
     }
