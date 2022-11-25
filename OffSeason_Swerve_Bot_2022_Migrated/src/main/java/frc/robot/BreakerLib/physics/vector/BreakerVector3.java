@@ -93,7 +93,7 @@ public class BreakerVector3 implements BreakerInterpolable<BreakerVector3> {
         return vectorRotation;
     }
 
-    public BreakerVector3 rotate(Rotation3d rotation) {
+    public BreakerVector3 rotateBy(Rotation3d rotation) {
         return BreakerVector3.fromMagnitudeAndvectorRotation(magnitude, vectorRotation.plus(rotation));
     }
 
@@ -119,6 +119,10 @@ public class BreakerVector3 implements BreakerInterpolable<BreakerVector3> {
     
     public Translation3d getAsTranslation() {
         return new Translation3d(magnatudeX, magnatudeY, magnatudeZ);
+    }
+
+    public BreakerVector3 getUnitVector() {
+        return BreakerVector3.fromMagnitudeAndvectorRotation(1, vectorRotation);
     }
 
     @Override

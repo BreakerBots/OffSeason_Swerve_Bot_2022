@@ -9,30 +9,31 @@ import java.util.Map;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** Add your docs here. */
-public class BreakerRainbowAnimation extends CommandBase implements BreakerAnimation {
+public class BreakerColorSwitchAnimation extends CommandBase implements BreakerAnimation {
     
-    private int length;
-    private double speed, brightness;
+    private int length, curColorIndex = 0;
+    private double timePerColorSeconds;
     private boolean isStoped = true;
     private AddressableLEDBuffer buff;
-    private Color8Bit[] baseColorGrade;
-    private double accumInc = 0;
-    public BreakerRainbowAnimation(int length, double speed, double brightness) {
+    private Color8Bit[] switchColors;
+    private final Timer timer = new Timer();
+    public BreakerColorSwitchAnimation(int length, double timePerColorSeconds, Color... colors) {
         this.length = length;
-        this.brightness = brightness;
-        this.speed = speed;
+        this.timePerColorSeconds = timePerColorSeconds;
+        switchColors = new Color8Bit[colors.length];
+        for (int i = 0; i < colors.length; i++) {
+            switchColors[i] = new Color8Bit(colors[i]);
+        }
         buff = new AddressableLEDBuffer(length);
         for (int i = 0; i < length; i++) {
-            baseColorGrade[i] = new Color8Bit(Color.fromHSV((int) (180.0 * (double) (i/(length - 1))), 255,(int) (brightness * 255)));
-        }
-        for (int i = 0; i < length; i++) {
-            buff.setLED(i, baseColorGrade[i]);
+            buff.setLED(i, switchColors[0]);
         }
     }
 
@@ -40,6 +41,17 @@ public class BreakerRainbowAnimation extends CommandBase implements BreakerAnima
     public void start() {
         isStoped = false;
         this.schedule();
+    }
+
+    @Override
+    public void initialize() {
+        timer.reset();
+        timer.start();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        timer.stop();
     }
 
     @Override
@@ -64,10 +76,12 @@ public class BreakerRainbowAnimation extends CommandBase implements BreakerAnima
 
     @Override
     public void execute() {
-        accumInc += speed;
-        for (int i = 0; i < length; i++) {
-            int incIndex =(int) MathUtil.inputModulus(i + accumInc, 0, length - 1);
-            buff.setLED(i, baseColorGrade[incIndex]);
+        if (timer.get() >= timePerColorSeconds) {
+            timer.reset();
+            curColorIndex++;
+            for (int i = 0; i < length; i++) {
+                buff.setLED(i, switchColors[curColorIndex]);
+            }
         }
     }
 

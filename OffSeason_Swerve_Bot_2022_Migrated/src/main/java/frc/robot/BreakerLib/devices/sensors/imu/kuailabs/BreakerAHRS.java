@@ -276,7 +276,7 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
 
     public double[] getBiasedFieldStrengths() {
         BreakerVector3 fieldVec = new BreakerVector3(imu.getRawMagX(), imu.getRawMagY(), imu.getRawMagZ());
-        return fieldVec.rotate(getRotation3d()).getInterpolatableData();
+        return fieldVec.rotateBy(getRotation3d()).getInterpolatableData();
     }
 
     public double getCompassFieldStrength() {

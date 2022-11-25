@@ -110,6 +110,10 @@ public class BreakerVector2 implements BreakerInterpolable<BreakerVector2> {
         return new BreakerVector2((this.magnatudeX * cos) - (this.magnatudeY * sin), (this.magnatudeX * sin) + (this.magnatudeY * cos));
     }
 
+    public BreakerVector2 getUnitVector() {
+        return BreakerVector2.fromForceAndRotation(vectorRotation, 1.0);
+    }
+
     @Override
     public boolean equals(Object obj) {
         return (Math.abs(((BreakerVector2) obj).magnatudeX - magnatudeX) < 1E-9)
