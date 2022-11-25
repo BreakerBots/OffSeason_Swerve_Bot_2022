@@ -21,10 +21,10 @@ public class BreakerGenericGamepad {
     /** Complete constructor for all BreakerGenericGamepads. Not intended for end users. */
     public BreakerGenericGamepad(
             GenericHID hid,
-            int topActionButtonPort,
-            int leftActionButtonPort,
-            int rightActionButtonPort,
-            int bottomActionButtonPort,
+            int upFaceButtonPort,
+            int leftFaceButtonPort,
+            int rightFaceButtonPort,
+            int downFaceButtonPort,
             int leftThumbstickButtonPort,
             int leftThumbstickAxisPortX,
             boolean invertLeftThumbstickAxisPortX,
@@ -41,8 +41,8 @@ public class BreakerGenericGamepad {
             int rightBumperPort) {
 
         this.hid = hid;
-        faceButtons = new BreakerFaceButtons(hid, topActionButtonPort, leftActionButtonPort,
-                rightActionButtonPort, bottomActionButtonPort);
+        faceButtons = new BreakerFaceButtons(hid, upFaceButtonPort, leftFaceButtonPort,
+                rightFaceButtonPort, downFaceButtonPort);
         leftJoystick = new BreakerGamepadThumbstick(hid, leftThumbstickButtonPort, leftThumbstickAxisPortX,
                 invertLeftThumbstickAxisPortX, leftThumbstickAxisPortY, invertLeftThumbstickAxisPortY);
         rightJoystick = new BreakerGamepadThumbstick(hid, rightThumbstickButtonPort, rightThumbstickAxisPortX,
