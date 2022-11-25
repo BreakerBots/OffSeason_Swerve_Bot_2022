@@ -58,6 +58,12 @@ public class BreakerVector2 implements BreakerInterpolable<BreakerVector2> {
                 magnatude * Math.sin(vectorRotation.getRadians()), magnatude, vectorRotation);
     }
 
+    /** converts an instance of WPILib's translation2d class into a vector.
+     *  This exists because of the Tranlation2d classes suppport of various vector opperations */
+    public static BreakerVector2 fromTranslation(Translation2d translationToVectorize) {
+        return new BreakerVector2(translationToVectorize.getX(), translationToVectorize.getY());
+    }
+
     public double getMagnatude() {
         return magnatude;
     }
@@ -72,6 +78,30 @@ public class BreakerVector2 implements BreakerInterpolable<BreakerVector2> {
 
     public double getMagnatudeY() {
         return magnatudeY;
+    }
+
+    public BreakerVector2 plus(BreakerVector2 outher) {
+        return new BreakerVector2(magnatudeX + outher.magnatudeX, magnatudeY + outher.magnatudeY);
+    }
+
+    public BreakerVector2 minus(BreakerVector2 outher) {
+        return new BreakerVector2(magnatudeX - outher.magnatudeX, magnatudeY - outher.magnatudeY);
+    }
+
+    public BreakerVector2 unaryMinus()  {
+        return new BreakerVector2(-magnatudeX, -magnatudeY);
+    }
+
+    public BreakerVector2 times(double scalar) {
+        return new BreakerVector2(magnatudeX * scalar, magnatudeY * scalar);
+    }
+
+    public BreakerVector2 div(double scalar) {
+        return new BreakerVector2(magnatudeX / scalar,  magnatudeY / scalar);
+    }
+    
+    public Translation2d getAsTranslation() {
+        return new Translation2d(magnatudeX, magnatudeY);
     }
 
     public BreakerVector2 rotateBy(Rotation2d rotation) {

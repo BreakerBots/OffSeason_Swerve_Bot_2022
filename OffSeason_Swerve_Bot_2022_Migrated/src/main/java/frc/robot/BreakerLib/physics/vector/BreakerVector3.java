@@ -5,10 +5,8 @@
 package frc.robot.BreakerLib.physics.vector;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Quaternion;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import frc.robot.BreakerLib.util.math.BreakerMath;
+import edu.wpi.first.math.geometry.Translation3d;
 import frc.robot.BreakerLib.util.math.interpolation.BreakerInterpolable;
 
 /**
@@ -69,6 +67,12 @@ public class BreakerVector3 implements BreakerInterpolable<BreakerVector3> {
         return new BreakerVector3(x, y, z, magnitude, vectorRotation);
     }
 
+    /** converts an instance of WPILib's translation3d class into a vector.
+     *  This exists because of the Tranlation2d classes suppport of various vector opperations */
+    public static BreakerVector3 fromTranslation(Translation3d translationToVectorize) {
+        return new BreakerVector3(translationToVectorize.getX(), translationToVectorize.getY(), translationToVectorize.getY());
+    }
+
     public double getMagnatudeX() {
         return magnatudeX;
     }
@@ -99,6 +103,22 @@ public class BreakerVector3 implements BreakerInterpolable<BreakerVector3> {
 
     public BreakerVector3 plus(BreakerVector3 outher) {
         return new BreakerVector3(magnatudeX + outher.magnatudeX, magnatudeY + outher.magnatudeY, magnatudeZ + outher.magnatudeZ);
+    }
+
+    public BreakerVector3 unaryMinus()  {
+        return new BreakerVector3(-magnatudeX, -magnatudeY, -magnatudeZ);
+    }
+
+    public BreakerVector3 times(double scalar) {
+        return new BreakerVector3(magnatudeX * scalar, magnatudeY * scalar, magnatudeZ * scalar);
+    }
+
+    public BreakerVector3 div(double scalar) {
+        return new BreakerVector3(magnatudeX / scalar,  magnatudeY / scalar, magnatudeY / scalar);
+    }
+    
+    public Translation3d getAsTranslation() {
+        return new Translation3d(magnatudeX, magnatudeY, magnatudeZ);
     }
 
     @Override
