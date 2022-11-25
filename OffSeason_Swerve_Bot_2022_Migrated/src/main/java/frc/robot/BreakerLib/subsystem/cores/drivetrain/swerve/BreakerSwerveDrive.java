@@ -45,8 +45,6 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain implements Brea
   /** The {@link SwerveDriveOdometry} object this drivetrain uses for its internal odometry */
   private SwerveDriveOdometry odometer;
 
-  private Rotation2d fieldRelativeMovementAngleOffset = Rotation2d.fromDegrees(0);
-
   private BreakerMovementState2d prevMovementState = new BreakerMovementState2d(),
       curMovementState = new BreakerMovementState2d();
   private double prevOdometryUpdateTimestamp = 0;
@@ -181,8 +179,11 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain implements Brea
    * @param turnPercent       Turn speed % (-1 to 1).
    */
   public void moveWithPercentInput(double forwardPercent, double horizontalPercent, double turnPercent) {
-    move((forwardPercent * config.getMaxForwardVel()), (horizontalPercent * config.getMaxSidewaysVel()),
-        (turnPercent * config.getMaxAngleVel()));
+    move(
+      (forwardPercent * config.getMaxForwardVel()),
+      (horizontalPercent * config.getMaxSidewaysVel()),
+      (turnPercent * config.getMaxAngleVel())
+    );
   }
 
   /**
@@ -193,9 +194,11 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain implements Brea
    * @param radPerSec Rotation velocity relative to field (rad/sec).
    */
   public void moveRelativeToField(double forwardVelMetersPerSec, double horizontalVelMetersPerSec, double radPerSec) {
-    ChassisSpeeds robotRelSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(forwardVelMetersPerSec,
-        horizontalVelMetersPerSec, radPerSec,
-        getOdometryPoseMeters().getRotation().plus(fieldRelativeMovementAngleOffset));
+    ChassisSpeeds robotRelSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+        forwardVelMetersPerSec,
+        horizontalVelMetersPerSec, 
+        radPerSec, 
+        getOdometryPoseMeters().getRotation());
     move(robotRelSpeeds);
   }
 
@@ -209,9 +212,11 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain implements Brea
    */
   public void moveRelativeToField(double forwardVelMetersPerSec, double horizontalVelMetersPerSec, double radPerSec,
       BreakerGenericOdometer odometer) {
-    ChassisSpeeds robotRelSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(forwardVelMetersPerSec,
-        horizontalVelMetersPerSec, radPerSec,
-        odometer.getOdometryPoseMeters().getRotation().plus(fieldRelativeMovementAngleOffset));
+    ChassisSpeeds robotRelSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+        forwardVelMetersPerSec,
+        horizontalVelMetersPerSec, 
+        radPerSec,
+        odometer.getOdometryPoseMeters().getRotation());
     move(robotRelSpeeds);
   }
 
@@ -349,16 +354,6 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain implements Brea
   public ChassisSpeeds getFieldRelativeChassisSpeeds(BreakerGenericOdometer odometer) {
     return BreakerMath.fromRobotRelativeSpeeds(getRobotRelativeChassisSpeeds(),
         odometer.getOdometryPoseMeters().getRotation());
-  }
-
-  /** Sets the angle all field relative movement is offset by (default is 0). */
-  public void setFieldRelativeMovementAngleOffset(Rotation2d angleOffset) {
-    fieldRelativeMovementAngleOffset = angleOffset;
-  }
-
-  /** @return The angle all field relative movement is offset by (default is 0). */
-  public Rotation2d getFieldRelativeMovementAngleOffset() {
-    return fieldRelativeMovementAngleOffset;
   }
 
   @Override
