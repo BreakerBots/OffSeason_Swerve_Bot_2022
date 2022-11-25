@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /** Wrapper for Xbox controller inputs. */
-public class BreakerXinput extends BreakerGenericGamepad {
+public class BreakerXboxController extends BreakerGenericGamepad {
 
     // Xbox digital button ports
     public static final int A_PORT = 1;
@@ -41,7 +41,7 @@ public class BreakerXinput extends BreakerGenericGamepad {
     private JoystickButton startButton;
     private JoystickButton backButton;
 
-    public BreakerXinput(int xboxPortNum) {
+    public BreakerXboxController(int xboxPortNum) {
         super(
             new XboxController(xboxPortNum),
             Y_PORT, X_PORT, B_PORT, A_PORT, 

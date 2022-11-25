@@ -10,7 +10,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerGenericGamepad;
-import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerXinput;
+import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerXboxController;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.util.math.functions.BreakerGenericMathFunction;
 
@@ -32,7 +32,7 @@ public class BreakerTeleopSwerveDriveController extends CommandBase {
    * @param baseDrivetrain Swerve drivetrain.
    * @param controller     Xbox controller.
    */
-  public BreakerTeleopSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerXinput controller) {
+  public BreakerTeleopSwerveDriveController(BreakerSwerveDrive baseDrivetrain, BreakerXboxController controller) {
     this.controller = controller;
     this.baseDrivetrain = baseDrivetrain;
     usesSuppliers = false;

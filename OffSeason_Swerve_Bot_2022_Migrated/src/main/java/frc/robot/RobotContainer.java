@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
 import frc.robot.BreakerLib.driverstation.gamepad.components.BreakerGamepadAnalogDeadbandConfig;
-import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerXinput;
+import frc.robot.BreakerLib.driverstation.gamepad.controllers.BreakerXboxController;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerTeleopSwerveDriveController;
 import frc.robot.BreakerLib.util.power.BreakerPowerManager;
 import frc.robot.BreakerLib.util.robotmanager.BreakerRobotConfig;
@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
  */
 public class RobotContainer {
 
-  private final BreakerXinput controllerSys = new BreakerXinput(0);
+  private final BreakerXboxController controllerSys = new BreakerXboxController(0);
   private final BreakerPigeon2 imuSys = new BreakerPigeon2(5);
   private final Drive drivetrainSys = new Drive(imuSys);
 
