@@ -15,7 +15,6 @@ public class BreakerAnalogThumbstick {
     private int xAxisPort, yAxisPort;
     private boolean invertX, invertY;
     private double xDeadband = 0.0, yDeadband = 0.0;
-    private Supplier<Double> xAxisSupplier, yAxisSupplier;
     
 
     /**
@@ -44,8 +43,6 @@ public class BreakerAnalogThumbstick {
         this.yAxisPort = yAxisPort;
         this.invertX = invertX;
         this.invertY = invertY;
-        xAxisSupplier = () -> getX();
-        yAxisSupplier = () -> getY();
     }
 
     /** Set stick deadbands.
@@ -71,16 +68,6 @@ public class BreakerAnalogThumbstick {
     /** @return X-axis value. */
     public double getX() {
         return MathUtil.applyDeadband(getRawX(), xDeadband) * (invertX ? -1 : 1);
-    }
-
-    /** @return Supplier function which supplies x-axis values. */
-    public Supplier<Double> getXSupplier() {
-        return xAxisSupplier;
-    }
-
-    /** @return Supplier function which supplies y-axis values. */
-    public Supplier<Double> getYSupplier() {
-        return yAxisSupplier;
     }
 
     /** @return Y-axis value. */

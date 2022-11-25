@@ -7,11 +7,11 @@ package frc.robot.BreakerLib.driverstation.gamepad.controllers;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-/** DualShock 4 controller wrapper. */
-public class BreakerDS4 extends BreakerGenericGamepad {
+/** Playstation duleshock/dulesence controller wrapper. */
+public class BreakerPlaystationController extends BreakerGenericGamepad {
     private JoystickButton triangle, square, circle, cross, share, options, touchpad, ps;
 
-    public BreakerDS4(int controllerPortNum) {
+    public BreakerPlaystationController(int controllerPortNum) {
         super(new PS4Controller(controllerPortNum), PS4Controller.Button.kTriangle.value,
                 PS4Controller.Button.kSquare.value, PS4Controller.Button.kCircle.value,
                 PS4Controller.Button.kCross.value,

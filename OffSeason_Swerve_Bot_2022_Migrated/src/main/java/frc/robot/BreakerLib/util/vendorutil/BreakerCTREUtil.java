@@ -91,7 +91,7 @@ public class BreakerCTREUtil {
     map.put(11, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " API_or_firmware_error "));
     map.put(12, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " supply_voltage_above_rated_max "));
     map.put(13, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " unstable_supply_voltage "));
-    return BreakerMultiVendorUtil.getDeviceHealthAndFaults(motorFaults.toBitfield(), map);
+    return BreakerVendorUtil.getDeviceHealthAndFaults(motorFaults.toBitfield(), map);
   }
 
   /**
@@ -104,7 +104,7 @@ public class BreakerCTREUtil {
     HashMap<Integer, Pair<DeviceHealth, String>> map = new HashMap<>();
     map.put(0, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " hardware_failure "));
     map.put(4, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " magnet_too_weak "));
-    return BreakerMultiVendorUtil.getDeviceHealthAndFaults(encoderFaults.toBitfield(), map);
+    return BreakerVendorUtil.getDeviceHealthAndFaults(encoderFaults.toBitfield(), map);
   }
 
   /** Get motor faults, fault name, and connection status. */
@@ -157,7 +157,7 @@ public class BreakerCTREUtil {
     map.put(2, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " software_fuse "));
     map.put(8, new Pair<DeviceHealth, String>(DeviceHealth.FAULT, " API_error "));
     map.put(9, new Pair<DeviceHealth, String>(DeviceHealth.INOPERABLE, " hardware_failure "));
-    return BreakerMultiVendorUtil.getDeviceHealthAndFaults(faults.toBitfield(), map);
+    return BreakerVendorUtil.getDeviceHealthAndFaults(faults.toBitfield(), map);
   }
 
   // /** Gets CANdle faults, name, and connection status. */
