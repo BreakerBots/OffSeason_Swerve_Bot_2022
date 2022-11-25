@@ -18,6 +18,7 @@ public class BreakerGenericGamepad {
     protected JoystickButton leftBumper, rightBumper;
     protected BreakerDPad dPad;
 
+    /** Complete constructor for all BreakerGenericGamepads. Not intended for end users. */
     public BreakerGenericGamepad(
             GenericHID hid,
             int topActionButtonPort,
@@ -38,6 +39,7 @@ public class BreakerGenericGamepad {
             int rightTriggerAxisPort,
             int leftBumperPort,
             int rightBumperPort) {
+
         this.hid = hid;
         faceButtons = new BreakerFaceButtons(hid, topActionButtonPort, leftActionButtonPort,
                 rightActionButtonPort, bottomActionButtonPort);
@@ -52,6 +54,11 @@ public class BreakerGenericGamepad {
         dPad = new BreakerDPad(hid);
     }
 
+    /**
+     * Configures all analog deadbands.
+     * 
+     * @param deadbandConfig List of deadbands.
+     */
     public void configDeadbands(BreakerGamepadAnalogDeadbandConfig deadbandConfig) {
         leftJoystick.setDeadband(deadbandConfig.getLeftX(), deadbandConfig.getLeftY());
         rightJoystick.setDeadband(deadbandConfig.getRightX(), deadbandConfig.getRightY());
@@ -59,66 +66,84 @@ public class BreakerGenericGamepad {
         rightTrigger.setDeadband(deadbandConfig.getRightTriggerAxis());
     }
 
-    public void setRumble(BreakerControllerRumbleType rumbleType, double rumblePrecent) {
+    /**
+     * Sets the controller to rumble.
+     * 
+     * @param rumbleType Fine, coarse, or mixed.
+     * @param rumblePercent Percent value to rumble.
+     */
+    public void setRumble(BreakerControllerRumbleType rumbleType, double rumblePercent) {
         switch (rumbleType) {
             case COARSE:
-                hid.setRumble(RumbleType.kLeftRumble, rumblePrecent);
+                hid.setRumble(RumbleType.kLeftRumble, rumblePercent);
                 break;
             case FINE:
-                hid.setRumble(RumbleType.kRightRumble, rumblePrecent);
+                hid.setRumble(RumbleType.kRightRumble, rumblePercent);
                 break;
             case MIXED:
-                hid.setRumble(RumbleType.kLeftRumble, rumblePrecent);
-                hid.setRumble(RumbleType.kRightRumble, rumblePrecent);
-                break;
             default:
-                hid.setRumble(RumbleType.kLeftRumble, rumblePrecent);
-                hid.setRumble(RumbleType.kRightRumble, rumblePrecent);
+                setMixedRumble(rumblePercent, rumblePercent);
                 break;
         }
     }
 
+    /**
+     * Set asymmetric rumbling percents for mixed rumble mode.
+     * 
+     * @param leftRumble Coarse rumble %.
+     * @param rightRumble Fine rumble %.
+     */
     public void setMixedRumble(double leftRumble, double rightRumble) {
         hid.setRumble(RumbleType.kLeftRumble, leftRumble);
         hid.setRumble(RumbleType.kRightRumble, leftRumble);
     }
 
+    /** Sets rumble to 0. */
     public void clearRumble() {
         setMixedRumble(0, 0);
     }
 
-    public BreakerFaceButtons getActionButtons() {
+    /** @return Controller's {@link BreakerFaceButton} object. */
+    public BreakerFaceButtons getFaceButtons() {
         return faceButtons;
     }
 
+    /** @return Controller's {@link BreakerGamepadThumbstick} object for L stick. */
     public BreakerGamepadThumbstick getLeftThumbstick() {
         return leftJoystick;
     }
 
+    /** @return Controller's {@link BreakerGamepadThumbstick} object for R stick. */
     public BreakerGamepadThumbstick getRightThumbstick() {
         return rightJoystick;
     }
 
+    /** @return Controller's {@link BreakerAnalogTrigger} object for left trigger. */
     public BreakerAnalogTrigger getLeftTrigger() {
         return leftTrigger;
     }
 
+    /** @return Controller's {@link BreakerAnalogTrigger} object for right trigger. */
     public BreakerAnalogTrigger getRightTrigger() {
         return rightTrigger;
     }
 
+    /** @return Controller's {@link BreakerDPad} object. */
     public BreakerDPad getDPad() {
         return dPad;
     }
 
+    /** @return Controller's {@link JoystickButton} object for left bumper. */
     public JoystickButton getLeftBumper() {
         return leftBumper;
     }
 
+    /** @return Controller's {@link JoystickButton} object for right bumper. */
     public JoystickButton getRightBumper() {
         return rightBumper;
     }
 
+    /** @return Base {@link GenericHID}. */
     public GenericHID getBaseHID() {
         return hid;
     }

@@ -7,7 +7,7 @@ package frc.robot.BreakerLib.driverstation.gamepad.controllers;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-/** Playstation duleshock/dulesence controller wrapper. */
+/** Playstation DualShock/DualSense controller wrapper. */
 public class BreakerPlaystationController extends BreakerGenericGamepad {
     private JoystickButton triangle, square, circle, cross, share, options, touchpad, ps;
 

@@ -4,12 +4,12 @@
 
 package frc.robot.BreakerLib.driverstation.gamepad;
 
-/** Add your docs here. */
+/** Rumble modes for HID controllers. */
 public enum BreakerControllerRumbleType {
-    /** Right Side, lesh harsh "fine" vibration */
+    /** Right Side, less harsh "fine" vibration */
     FINE,
     /** Left Side, harsher "coarse" vibration */
     COARSE,
-    /** Bolth sides, mixed vibration */
+    /** Both sides, mixed vibration */
     MIXED
 }
