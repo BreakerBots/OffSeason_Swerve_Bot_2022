@@ -75,7 +75,7 @@ public class BreakerSwerveAutoPathFollower extends CommandBase implements Breake
       while (iterator.hasNext()) {
         BreakerConditionalEvent ev = iterator.next();
         if (ev.checkCondition(timer.get(), config.getOdometer().getOdometryPoseMeters())) {
-          ev.getBaseCommand().schedule();;
+          ev.getBaseCommand().schedule();
           iterator.remove();
         }
       }
