@@ -4,17 +4,12 @@
 
 package frc.robot.BreakerLib.position.odometry.vision;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.estimator.KalmanFilterLatencyCompensator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import frc.robot.BreakerLib.devices.vision.photonvision.BreakerFiducialPhotonTarget;
-import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.math.averages.BreakerAverage;
 import frc.robot.BreakerLib.util.math.averages.BreakerWeightedAverage;
 

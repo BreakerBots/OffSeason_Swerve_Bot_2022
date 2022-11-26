@@ -16,7 +16,7 @@ import frc.robot.BreakerLib.util.logging.BreakerLog;
 
 public class BreakerRamsete extends CommandBase {
   /** Creates a new BreakerRamsete. */
-  private Timer timer;
+  private final Timer timer = new Timer();
   private RamseteCommand ramsete;
   private BreakerRamseteConfig config;
   private BreakerTrajectoryPath trajectoryPath;

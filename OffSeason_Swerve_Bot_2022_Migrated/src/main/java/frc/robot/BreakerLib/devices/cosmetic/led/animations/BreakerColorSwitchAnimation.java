@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** Add your docs here. */
 public class BreakerColorSwitchAnimation extends CommandBase implements BreakerAnimation {
-    
     private int length, curColorIndex = 0;
     private double timePerColorSeconds;
     private boolean isStoped = true;

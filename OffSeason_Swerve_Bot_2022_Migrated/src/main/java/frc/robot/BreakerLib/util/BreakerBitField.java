@@ -6,24 +6,28 @@ package frc.robot.BreakerLib.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+
+import com.fasterxml.jackson.databind.util.ArrayIterator;
 
 /** A class that represents a modifiable bit field for user convienance */
-public class BreakerBitField {
-    public boolean[] bools;
+public class BreakerBitField implements java.lang.Iterable<Boolean>, java.lang.Cloneable {
+    public Boolean[] bools;
 
     public BreakerBitField(boolean... bools) {
-        this.bools = Arrays.copyOf(bools, bools.length);
-    }
-
-    public BreakerBitField(Boolean... bools) {
-        this.bools = new boolean[bools.length];
+        this.bools = new Boolean[bools.length];
         for (int i = 0; i < bools.length; i++) {
             this.bools[i] = bools[i];
         }
     }
 
+    public BreakerBitField(Boolean... bools) {
+        this.bools = Arrays.copyOf(bools, bools.length);
+        
+    }
+
     public BreakerBitField(long bitField) {
-        bools = new boolean[64];
+        bools = new Boolean[64];
         long bitMask = 1;
         for (int i = 0; i < bools.length; i++) {
             bools[i] = (bitField & bitMask) != 0;
@@ -32,7 +36,7 @@ public class BreakerBitField {
     }
 
     public BreakerBitField(int bitField) {
-        bools = new boolean[32];
+        bools = new Boolean[32];
         int bitMask = 1;
         for (int i = 0; i < bools.length; i++) {
             bools[i] = (bitField & bitMask) != 0;
@@ -41,7 +45,7 @@ public class BreakerBitField {
     }
 
     public BreakerBitField(short bitField) {
-        bools = new boolean[16];
+        bools = new Boolean[16];
         int bitMask = 1;
         for (int i = 0; i < bools.length; i++) {
             bools[i] = (bitField & bitMask) != 0;
@@ -50,7 +54,7 @@ public class BreakerBitField {
     }
 
     public BreakerBitField(byte bitField) {
-        bools = new boolean[8];
+        bools = new Boolean[8];
         int bitMask = 1;
         for (int i = 0; i < bools.length; i++) {
             bools[i] = (bitField & bitMask) != 0;
@@ -59,7 +63,7 @@ public class BreakerBitField {
     }
 
     public BreakerBitField(boolean bit) {
-        bools = new boolean[]{bit};
+        bools = new Boolean[]{bit};
     }
 
     public BreakerBitField and(BreakerBitField outher) {
@@ -124,7 +128,12 @@ public class BreakerBitField {
         return new BreakerBitField(list.toArray(new Boolean[list.size()]));
     }
 
-    public boolean[] getBaseBooleanArray() {
+    public Boolean[] getBaseBooleanArray() {
         return Arrays.copyOf(bools, bools.length);
+    }
+
+    @Override
+    public Iterator<Boolean> iterator() {
+        return new ArrayIterator<Boolean>(bools);
     }
 }

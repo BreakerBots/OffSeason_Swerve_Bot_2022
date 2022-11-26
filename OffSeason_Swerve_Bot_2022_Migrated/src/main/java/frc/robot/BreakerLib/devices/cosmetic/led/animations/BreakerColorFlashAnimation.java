@@ -9,6 +9,6 @@ import edu.wpi.first.wpilibj.util.Color;
 /** Add your docs here. */
 public class BreakerColorFlashAnimation extends BreakerColorSwitchAnimation {
     public BreakerColorFlashAnimation(int length, double flashTimeSeconds, Color flashColor) {
-        super(length, flashTimeSeconds, flashColor);
+        super(length, flashTimeSeconds, flashColor, new Color(0, 0, 0));
     }
 }

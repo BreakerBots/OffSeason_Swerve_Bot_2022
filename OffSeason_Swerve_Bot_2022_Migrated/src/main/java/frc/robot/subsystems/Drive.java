@@ -57,8 +57,13 @@ public class Drive extends SubsystemBase {
         encoderBR = new WPI_CANCoder(BR_ENCODER_ID);
         transBR = BR_TRANSLATION;
 
-        config = new BreakerSwerveDriveConfig(4.1148, 4.1148, 16.1148, 1.25, 0.0, 0.05, 0.35, 0.0, 0.0, 0.0, 8.14, 4.0, 0.001, 4.1148,
-                new BreakerArbitraryFeedforwardProvider(2.75, 0.2), transFL, transFR, transBL, transBR);
+        config = new BreakerSwerveDriveConfig(
+            4.1148, 4.1148, 16.1148,
+            1.25, 0.0, 0.05, 
+            0.35, 0.0, 0.0, 0.0, 
+            8.14, 4.0, 0.001, 4.1148,
+            new BreakerArbitraryFeedforwardProvider(2.75, 0.2),
+            transFL, transFR, transBL, transBR);
         config.setSlowModeMultipliers(0.5, 0.5);
 
         frontLeftModule = new BreakerMK4iFalconSwerveModule(driveFL, turnFL, encoderFL, config, 121, true, true);
@@ -73,8 +78,14 @@ public class Drive extends SubsystemBase {
         backRightModule = new BreakerMK4iFalconSwerveModule(driveBR, turnBR, encoderBR, config, -176.0, false, true);
         backRightModule.setDeviceName(" BR_Module ");
 
-        drivetrain = new BreakerSwerveDrive(config, pigeon2, frontLeftModule, frontRightModule, backLeftModule,
-                backRightModule);
+        drivetrain = new BreakerSwerveDrive(
+            config,
+            pigeon2,
+            frontLeftModule, 
+            frontRightModule, 
+            backLeftModule,
+            backRightModule
+        );
     }
 
     public BreakerSwerveDrive getBaseDrivetrain() {

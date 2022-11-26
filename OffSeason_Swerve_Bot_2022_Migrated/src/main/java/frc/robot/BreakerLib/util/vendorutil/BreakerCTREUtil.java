@@ -10,6 +10,7 @@ import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.led.CANdleFaults;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoderFaults;
 
@@ -21,13 +22,13 @@ import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 public class BreakerCTREUtil {
 
   /**
-   * Sets brake mode for given TalonFX motors.
+   * Sets brake mode for given CTRE motors.
    * 
    * @param isEnabled True for brake mode, false for coast mode.
-   * @param motors    Talon FX motors.
+   * @param motors    CTRE motors.
    */
-  public static void setBrakeMode(boolean isEnabled, TalonFX... motors) {
-    for (TalonFX motor : motors) {
+  public static void setBrakeMode(boolean isEnabled, BaseMotorController... motors) {
+    for (BaseMotorController motor : motors) {
       motor.setNeutralMode((isEnabled ? NeutralMode.Brake : NeutralMode.Coast));
     }
   }

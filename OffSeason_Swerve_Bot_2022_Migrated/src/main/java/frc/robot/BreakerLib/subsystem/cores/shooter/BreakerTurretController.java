@@ -26,26 +26,29 @@ import frc.robot.BreakerLib.util.math.interpolation.interpolateingmaps.BreakerIn
 
 /** Add your docs here. */
 public class BreakerTurretController {
-    private  BreakerInterpolatingTreeMap<Double, BreakerInterpolablePair<BreakerVector2, BreakerInterpolableDouble>> fireingTable;
+    private BreakerInterpolatingTreeMap<Double,BreakerVector2> fireingTable;
+    private BreakerInterpolatingTreeMap<Double, BreakerInterpolableDouble> rpmToProjectileLaunchVelocity;
     private BreakerProjectile projectile;
     /** @param projectile
-     *  @param fireingTable fireing distance compared to BreakerVector2(angle and fireing vel m/s) and flywheel RPM
+     *  @param fireingTable fireing distance compared to BreakerVector2(angle and RPM)
+     *  @param rpmToProjectileLaunchVelocity interpolating table that relates flywheel RPM to the launch velocity of the projectile
       */
-    public BreakerTurretController(BreakerProjectile projectile, BreakerInterpolatingTreeMap<Double, BreakerInterpolablePair<BreakerVector2, BreakerInterpolableDouble>> fireingTable) {
+    public BreakerTurretController(BreakerProjectile projectile, BreakerInterpolatingTreeMap<Double,BreakerVector2> fireingTable, BreakerInterpolatingTreeMap<Double, BreakerInterpolableDouble> rpmToProjectileLaunchVelocity) {
 
     }
 
     public BreakerTurretState calculateFieldRelative(Translation3d projectileLaunchPointRelativeToField, Translation3d targetPointRelativeToField) {
         double distance = projectileLaunchPointRelativeToField.toTranslation2d().getDistance(targetPointRelativeToField.toTranslation2d());
-        BreakerInterpolablePair<BreakerVector2, BreakerInterpolableDouble> fireingPair = fireingTable.getInterpolatedValue(distance);
+        BreakerVector2 fireingSolution = fireingTable.getInterpolatedValue(distance);
 
         Rotation2d azAng = BreakerMath.getPointAngleRelativeToOtherPoint(projectileLaunchPointRelativeToField.toTranslation2d(), targetPointRelativeToField.toTranslation2d());
-        Rotation2d altAng = fireingPair.getFirst().getVectorRotation();
+        Rotation2d altAng = fireingSolution.getVectorRotation();
 
-       return new BreakerTurretState(azAng, altAng, fireingPair.getSecond().getValue());
+       return new BreakerTurretState(azAng, altAng, fireingSolution.getMagnatude());
     }
 
-    public BreakerTurretState calculateFieldRelative() {
-        return null;
+    public BreakerTurretState calculateRobotRelative(Pose3d projectileLaunchPointRelativeToField, Translation3d targetPointRelativeToField) {
+        BreakerTurretState calcState = calculateFieldRelative(projectileLaunchPointRelativeToField.getTranslation(), targetPointRelativeToField);
+        return calcState.toRobotRelativeState(projectileLaunchPointRelativeToField.getRotation());
     }
 }

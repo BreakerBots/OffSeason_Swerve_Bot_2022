@@ -3,7 +3,6 @@ package frc.robot.BreakerLib.driverstation.gamepad.controllers;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.BreakerLib.driverstation.gamepad.BreakerControllerRumbleType;
 import frc.robot.BreakerLib.driverstation.gamepad.components.BreakerAnalogTrigger;
 import frc.robot.BreakerLib.driverstation.gamepad.components.BreakerDPad;
 import frc.robot.BreakerLib.driverstation.gamepad.components.BreakerFaceButtons;
