@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,6 +31,8 @@ public class RobotContainer {
   private final BreakerPigeon2 imuSys = new BreakerPigeon2(5);
   private final Drive drivetrainSys = new Drive(imuSys);
 
+  private final BreakerSwerveDriveController teleopControllerCommand = new BreakerSwerveDriveController(drivetrainSys.getBaseDrivetrain(), controllerSys);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
@@ -45,8 +48,9 @@ public class RobotContainer {
     drivetrainSys.getBaseDrivetrain().resetOdometryPosition();
 
     configureButtonBindings();
+    teleopControllerCommand.addSlewRateLimiters(new SlewRateLimiter(2.0), new SlewRateLimiter(2.0), new SlewRateLimiter(4.0));
     drivetrainSys.getBaseDrivetrain()
-        .setDefaultCommand(new BreakerSwerveDriveController(drivetrainSys.getBaseDrivetrain(), controllerSys));
+        .setDefaultCommand(teleopControllerCommand);
   }
 
   /**
