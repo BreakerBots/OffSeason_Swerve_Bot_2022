@@ -100,6 +100,14 @@ public class BreakerSwerveDriveStressTest extends BreakerTestBase {
         this.speedsToTestAndStepTimeouts = speedsToTestAndStepTimeouts;
     }
 
+    public ArrayList<ArrayList<Pair<Rotation2d, Double>>> getAverageModuleDeltas() {
+        return averageModuleDeltas;
+    }
+
+    public ArrayList<Pair<ChassisSpeeds, Double>> getSpeedsToTestAndStepTimeouts() {
+        return speedsToTestAndStepTimeouts;
+    }
+
     @Override
     public String toString() {
         StringBuilder work = new StringBuilder();

@@ -69,7 +69,7 @@ public class BreakerSwerveModuleVelocityLimitTest extends BreakerTestBase{
     return timer.get() >= timeoutSeconds;
   }
 
-  public class BreakerSwerveModuleVelocityLimitTestResult {
+  public static class BreakerSwerveModuleVelocityLimitTestResult {
     private double targetSpeed;
     private double testTimeout;
     private double[] maxSpeeds;
@@ -79,6 +79,18 @@ public class BreakerSwerveModuleVelocityLimitTest extends BreakerTestBase{
         this.testTimeout = testTimeout;
         this.maxSpeeds = maxSpeeds;
         this.swerveModules = swerveModules;
+    }
+
+    public double[] getMaxSpeeds() {
+        return maxSpeeds;
+    }
+
+    public double getTargetSpeed() {
+        return targetSpeed;
+    }
+
+    public double getTestTimeout() {
+        return testTimeout;
     }
 
     @Override

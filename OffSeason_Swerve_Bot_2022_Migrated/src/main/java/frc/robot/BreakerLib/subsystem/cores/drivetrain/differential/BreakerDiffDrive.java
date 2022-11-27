@@ -6,6 +6,7 @@ package frc.robot.BreakerLib.subsystem.cores.drivetrain.differential;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.controller.DifferentialDriveWheelVoltages;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -15,6 +16,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
@@ -159,9 +161,20 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
     diffDrive.feed();
   }
 
+  /**
+   * Tank driving controls (movement separated by side of drivetrain) utilizing
+   * voltage. Not effected by slow mode.
+   * 
+   * @param leftVoltage  Voltage for left motors. Negative to invert output.
+   * @param rightVoltage Voltage for right motors. Negative to invert output.
+   */
+  public void tankDriveVoltage(DifferentialDriveWheelVoltages voltages) {
+    tankDriveVoltage(voltages.left, voltages.right);
+  }
+
   @Override
   public void stop() {
-    arcadeDrive(0.0, 0.0);
+    tankDrive(0.0, 0.0);
   }
 
   // Both sides of drivetrain.
@@ -221,39 +234,12 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
     return invertR ? -rightRPMSupplier.getAsDouble() : rightRPMSupplier.getAsDouble();
   }
 
-  // Controllers and kinematics.
-
-  /**
-   * Returns a SimpleMotorFeedforward controller with values specified by the
-   * drivetrain config.
-   */
-  public SimpleMotorFeedforward getFeedforward() {
-    return new SimpleMotorFeedforward(driveConfig.getFeedForwardKs(), driveConfig.getFeedForwardKv(),
-        driveConfig.getFeedForwardKa());
-  }
-
   /**
    * Returns a DifferentialDriveKinematics with values specified by the drivetrain
    * config.
    */
   public DifferentialDriveKinematics getKinematics() {
     return driveConfig.getKinematics();
-  }
-
-  /**
-   * Returns the PIDController for the left drivetrain motors with values
-   * specified by the drivetrain config.
-   */
-  public PIDController getLeftPIDController() {
-    return driveConfig.getLeftPID();
-  }
-
-  /**
-   * Returns the PIDController for the right drivetrain motors with values
-   * specified by the drivetrain config.
-   */
-  public PIDController getRightPIDController() {
-    return driveConfig.getRightPID();
   }
 
   /**
@@ -265,6 +251,14 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
         Units.inchesToMeters(((getLeftDriveVelocityRPM() * driveConfig.getEncoderTicks()) / driveConfig.getTicksPerInch()) / 60),
         Units.inchesToMeters(((getRightDriveVelocityRPM() * driveConfig.getEncoderTicks()) / driveConfig.getTicksPerInch()) / 60)
     );
+  }
+
+    /**
+   * Returns DifferentialDriveWheelSpeeds with values specified by the drivetrain
+   * config.
+   */
+  public DifferentialDriveWheelVoltages getWheelVoltages() {
+    return new DifferentialDriveWheelVoltages(leftDrive.get() * RobotController.getBatteryVoltage(), rightDrive.get() * RobotController.getBatteryVoltage());
   }
 
   public BreakerDiffDriveConfig getConfig() {

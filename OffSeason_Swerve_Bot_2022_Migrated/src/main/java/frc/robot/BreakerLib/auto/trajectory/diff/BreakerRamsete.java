@@ -26,8 +26,8 @@ public class BreakerRamsete extends CommandBase {
     this.trajectoryPath = trajectoryPath;
     this.config = config;
     ramsete = new RamseteCommand(trajectoryPath.getBaseTrajectory(), config.getOdometer()::getOdometryPoseMeters, 
-      config.getRamseteController(), config.getDrivetrain().getConfig().getFeedForward(), config.getDrivetrain().getConfig().getKinematics(), 
-      config.getDrivetrain()::getWheelSpeeds, config.getDrivetrain().getConfig().getLeftPID(), config.getDrivetrain().getConfig().getRightPID(), 
+      config.getRamseteController(), config.getFeedforward(), config.getDrivetrain().getConfig().getKinematics(), 
+      config.getDrivetrain()::getWheelSpeeds, config.getLeftDriveController(), config.getRightDriveController(), 
       config.getDrivetrain()::tankDriveVoltage, config.getDrivetrain());
     remainingEvents = new ArrayList<>(trajectoryPath.getAttachedConditionalEvents());
   }
