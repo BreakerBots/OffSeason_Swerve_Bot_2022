@@ -4,7 +4,6 @@
 
 package frc.robot.BreakerLib.devices.vision.photon;
 
-
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -16,17 +15,24 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.util.math.BreakerUnits;
 
-/** Add your docs here. */
-public class BreakerPhotonTarget2d extends SubsystemBase{
+/**
+ * 2d Photon camera target. Ideally used to target game pieces, etc. on the
+ * field.
+ */
+public class BreakerPhotonTarget2d {
+
     private BreakerPhotonCamera camera;
+    private BreakerGenericOdometer odometryProvider;
+
     private double targetHeightMeters;
-    private BreakerGenericOdometer odometryProveider;
     private PhotonTrackedTarget assignedTarget;
     private Supplier<PhotonTrackedTarget> assignedTargetSupplier;
+    
     private boolean assignedTargetFound;
     private double targetFoundTimestamp;
 
@@ -34,15 +40,22 @@ public class BreakerPhotonTarget2d extends SubsystemBase{
      * Creates a new BreakerPhotonTarget with a given predefined target.
      * 
      * @param camera                 Photon camera.
-     * @param assignedTargetSupplier Supplies photon camera target.
-     * @param targetHeightInches     Target height from ground.
+     * @param odometryProvider       Odometer for field distance calculations.
+     * @param assignedTargetSupplier Supplies {@link PhotonTrackedTarget} to look
+     *                               for.
+     * @param targetHeightMeters     Target height from ground.
      */
-    public BreakerPhotonTarget2d(BreakerPhotonCamera camera, Supplier<PhotonTrackedTarget> assignedTargetSupplier, double targetHeightMeters) {
+    public BreakerPhotonTarget2d(BreakerPhotonCamera camera, BreakerGenericOdometer odometryProvider, Supplier<PhotonTrackedTarget> assignedTargetSupplier,
+            double targetHeightMeters) {
         this.camera = camera;
+        this.odometryProvider = odometryProvider;
         this.assignedTargetSupplier = assignedTargetSupplier;
         assignedTarget = assignedTargetSupplier.get();
         assignedTargetFound = (assignedTarget == null) ? false : true;
         this.targetHeightMeters = targetHeightMeters;
+
+        // Will continuously search for 2d target.
+        CommandScheduler.getInstance().schedule(new RunCommand(() -> this.findAssignedTarget()));
     }
 
     /** Logic used to find a target. */
@@ -50,6 +63,9 @@ public class BreakerPhotonTarget2d extends SubsystemBase{
         if (camera.hasTargets()) {
             assignedTarget = assignedTargetSupplier.get();
             assignedTargetFound = (assignedTarget == null) ? false : true;
+            if (assignedTargetFound) {
+                targetFoundTimestamp = Timer.getFPGATimestamp();
+            }
         }
     }
 
@@ -60,36 +76,37 @@ public class BreakerPhotonTarget2d extends SubsystemBase{
                 Math.toRadians(getPitch()));
     }
 
-    /** @return the relative distances in X and Y between the target and camera */
+    /** @return The relative distances in X and Y between the target and camera */
     public Translation2d getTargetTranslationFromCamera() {
         return PhotonUtils.estimateCameraToTargetTranslation(getTargetDistanceMeters(),
                 Rotation2d.fromDegrees(getYaw()));
     }
 
     /**
-     * @return the calculated X and Y cordnates of the target relative to the field
-     *         based on vision and odometry
+     * @return The calculated X and Y coordinates of the target relative to the
+     *         field
+     *         based on vision and odometry.
      */
     public Translation2d getTargetTranslationFromField() {
-        return odometryProveider.getOdometryPoseMeters().getTranslation().plus(getTargetTranslationFromCamera());
+        return odometryProvider.getOdometryPoseMeters().getTranslation().plus(getTargetTranslationFromCamera());
     }
 
-    /** Assigned target yaw */
+    /** @return Assigned target yaw. */
     public double getYaw() {
         return assignedTarget.getYaw();
     }
 
-    /** Assigned target pitch */
+    /** @return Assigned target pitch. */
     public double getPitch() {
         return assignedTarget.getPitch();
     }
 
-    /** Assigned target skew */
+    /** @return Assigned target skew. */
     public double getSkew() {
         return assignedTarget.getSkew();
     }
 
-    /** Assigned target area */
+    /** @return Assigned target area. */
     public double getArea() {
         return assignedTarget.getArea();
     }
@@ -99,18 +116,14 @@ public class BreakerPhotonTarget2d extends SubsystemBase{
         return assignedTarget.getCorners();
     }
 
-    /** If assigned target is found. */
+    /** @return True if assigned target is found. */
     public boolean getAssignedTargetFound() {
         return assignedTargetFound;
     }
 
+    /** @return Latency of target data in seconds. */
     public double getTargetDataAge() {
         double timediffsec = Timer.getFPGATimestamp() - targetFoundTimestamp;
         return Units.millisecondsToSeconds(camera.getPipelineLatancyMilliseconds()) + timediffsec;
-    }
-
-    @Override
-    public void periodic() {
-        findAssignedTarget();
     }
 }

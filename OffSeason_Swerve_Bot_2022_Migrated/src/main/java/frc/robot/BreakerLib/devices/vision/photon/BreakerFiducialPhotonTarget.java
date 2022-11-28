@@ -163,7 +163,7 @@ public class BreakerFiducialPhotonTarget {
         return fiducialID;
     }
 
-    /** @return Ambiguity of pose, from 0 to 1. 0 = most accurate, 1 = least accurate. Anything above 0.2 is likely inaccurate */
+    /** @return Ambiguity of pose, from 0 to 1. 0 = most accurate, 1 = least accurate. Anything above 0.2 is likely inaccurate. */
     public double getPoseAmbiguity() {
         return assignedTarget.getPoseAmbiguity();
     }

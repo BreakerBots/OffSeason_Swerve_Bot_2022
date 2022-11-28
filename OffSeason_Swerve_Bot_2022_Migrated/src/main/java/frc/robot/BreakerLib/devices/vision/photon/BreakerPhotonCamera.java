@@ -22,7 +22,7 @@ public class BreakerPhotonCamera extends BreakerGenericDeviceBase {
     private PhotonCamera camera;
     private final String cameraName;
     private double cameraMountPitch; // Mounting angle
-    private double cameraHeightMeters; // Height relative to ground. MAKE THIS METERS?
+    private double cameraHeightMeters; // Height relative to ground.
     private Transform3d cameraPositionRelativeToRobot; // Height relative to ground, all else relative to robot position.
 
     /**
@@ -30,8 +30,6 @@ public class BreakerPhotonCamera extends BreakerGenericDeviceBase {
      * algorithem
      * 
      * @param cameraName                    Name of camera used to retreive data.
-     * @param verticalFOV                   Vertical field of view.
-     * @param horizontalFOV                 Horizontal field of view.
      * @param cameraPositionRelativeToRobot Transformation between robot center and
      *                                      camera position (Z translation is
      *                                      relative to the ground).
@@ -45,30 +43,30 @@ public class BreakerPhotonCamera extends BreakerGenericDeviceBase {
         this.cameraHeightMeters = cameraPositionRelativeToRobot.getZ();
     }
 
-    /** Overall raw result from photon camera. */
+    /** @return Overall raw result from photon camera. */
     public PhotonPipelineResult getLatestRawResult() {
         return camera.getLatestResult();
     }
 
-    /** If camera is locked onto any targets. */
+    /** @return If camera is locked onto any targets. */
     public boolean hasTargets() {
         return getLatestRawResult().hasTargets();
     }
 
     /**
-     * Returns a list of all raw PhotonTrackedTargets the camera has in its field of
-     * view
+     * @return List of all raw PhotonTrackedTargets the camera has in its field of
+     * view.
      */
     public PhotonTrackedTarget[] getAllRawTrackedTargets() {
         return getLatestRawResult().targets.toArray(new PhotonTrackedTarget[getLatestRawResult().targets.size()]);
     }
 
-    /** Number of camera targets currently locked on. */
+    /** @return Number of camera targets currently locked on. */
     public int getNumberOfCameraTargets() {
         return getAllRawTrackedTargets().length;
     }
 
-    /** Camera latency in milliseconds */
+    /** @return Camera latency in milliseconds */
     public double getPipelineLatancyMilliseconds() {
         return getLatestRawResult().getLatencyMillis();
     }
@@ -78,48 +76,52 @@ public class BreakerPhotonCamera extends BreakerGenericDeviceBase {
         camera.setPipelineIndex(pipeNum);
     }
 
-    /** Returns the index of the active pipeline on the camera as an int */
+    /** @return Index of the active pipeline on the camera as an integer. */
     public int getCurrentPipelineNumber() {
         return camera.getPipelineIndex();
     }
 
     /**
-     * Returns the raw PhotonTrackedTarget object representing the best tracked
+     * @return The raw PhotonTrackedTarget object representing the best tracked
      * target according to the pipeline's native sort
      */
     public PhotonTrackedTarget getBestTarget() {
         return getLatestRawResult().getBestTarget();
     }
 
-    /** Height is relative to ground in meters. */
+    /** @return Height relative to ground in meters. */
     public double getCameraHeight() {
         return cameraHeightMeters;
     }
 
-    /** Returns pitch of camera in degrees. */
+    /** @return pitch of camera in degrees. */
     public double getCameraPitch() {
         return cameraMountPitch;
     }
 
-    /** 2d pose of camera relative to robot. */
+    /** @return 2d pose of camera relative to robot. */
     public Transform2d getCamPositionRelativeToRobot() {
         return new Transform2d(cameraPositionRelativeToRobot.getTranslation().toTranslation2d(), cameraPositionRelativeToRobot.getRotation().toRotation2d());
     }
 
+    /** @return 3d pose of camera relative to robot. */
     public Transform3d get3dCamPositionRelativeToRobot() {
         return cameraPositionRelativeToRobot;
     }
 
+    /** Change camera position relative to robot. */
     public void updateCamPositionRelativeToRobot(Transform3d newTransform) {
         cameraPositionRelativeToRobot = newTransform;
         cameraMountPitch = Math.toDegrees(newTransform.getRotation().getY());
         cameraHeightMeters = newTransform.getTranslation().getZ();
     }
 
+    /** Turn on or tunn off LEDs. */
     public void setLEDMode(VisionLEDMode ledMode) {
         camera.setLED(ledMode);
     }
 
+    /** @return Current state of camera LEDs. */
     public VisionLEDMode getCurrentLEDMode() {
         return camera.getLEDMode();
     }
