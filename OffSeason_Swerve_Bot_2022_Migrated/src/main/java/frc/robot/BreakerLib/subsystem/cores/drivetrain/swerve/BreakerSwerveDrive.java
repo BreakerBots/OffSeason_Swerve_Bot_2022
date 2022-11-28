@@ -321,7 +321,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain implements Brea
 
   @Override
   public void setOdometryPosition(Pose2d newPose) {
-    odometer.resetPosition(newPose, Rotation2d.fromDegrees(gyro.getRawYaw()));
+    odometer.resetPosition(newPose, Rotation2d.fromDegrees(gyro.getRawYaw()), getSwerveModulePositions());
   }
 
   @Override
