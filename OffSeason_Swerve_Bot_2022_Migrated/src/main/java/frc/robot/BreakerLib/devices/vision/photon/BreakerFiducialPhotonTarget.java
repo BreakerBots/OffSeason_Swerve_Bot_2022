@@ -16,13 +16,14 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.BreakerLib.devices.BreakerGenericDeviceBase;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 
 
 /** Fiducial marker target. Use if using AprilTags w/ 3D calibrated camera. */
-public class BreakerFiducialPhotonTarget extends BreakerGenericDeviceBase{
+public class BreakerFiducialPhotonTarget {
     private PhotonTrackedTarget assignedTarget;
     private double lastDataUpdate = Timer.getFPGATimestamp();
 
@@ -46,7 +47,7 @@ public class BreakerFiducialPhotonTarget extends BreakerGenericDeviceBase{
         this.cameras = cameras;
 
         // Will continuously search for fiducial target. 
-        CommandScheduler.getInstance().schedule(new RunCommand(() -> this.findAssignedFiducial()));
+        CommandScheduler.getInstance().schedule(new RunCommand(this::findAssignedFiducial));
     }
 
     /** Function for finding best assigned fiducial target. */
@@ -170,41 +171,5 @@ public class BreakerFiducialPhotonTarget extends BreakerGenericDeviceBase{
     /** @return Ambiguity of pose, from 0 to 1. 0 = most accurate, 1 = least accurate. Anything above 0.2 is likely inaccurate */
     public double getPoseAmbiguity() {
         return assignedTarget.getPoseAmbiguity();
-    }
-
-    @Override
-    public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void overrideAutomaticPowerManagement(DevicePowerMode manualPowerMode) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void returnToAutomaticPowerManagement() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public boolean isUnderAutomaticControl() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public DevicePowerMode getPowerMode() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void runSelfTest() {
-        // TODO Auto-generated method stub
-        
     }
 }
