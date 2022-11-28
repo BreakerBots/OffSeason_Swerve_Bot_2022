@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.devices.vision.photonvision;
+package frc.robot.BreakerLib.devices.vision.photon;
 
 import java.util.List;
 
@@ -14,11 +14,15 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.BreakerLib.devices.BreakerGenericDeviceBase;
+import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
+import frc.robot.BreakerLib.util.power.DevicePowerMode;
 
 
 /** Fiducial marker target. Use if using AprilTags w/ 3D calibrated camera. */
-public class BreakerFiducialPhotonTarget extends SubsystemBase {
+public class BreakerFiducialPhotonTarget extends BreakerGenericDeviceBase{
     private PhotonTrackedTarget assignedTarget;
     private double lastDataUpdate = Timer.getFPGATimestamp();
 
@@ -30,15 +34,19 @@ public class BreakerFiducialPhotonTarget extends SubsystemBase {
     private int fiducialID;
 
     /**
+     * AprilTag/fiducial marker for cameras to track.
      * 
-     * @param fiducialID - The numeric ID of the Fidicial Marker, this is tied to the tag's pattern and is constant
-     * @param targetPose - The 3 dimensional orientation of the target relative the the field origin
-     * @param cameras - Any and all cameras that will be used to track the target
+     * @param fiducialID - The numeric ID of the Fidicial Marker, this is tied to the tag's pattern and is constant.
+     * @param targetPose - The 3 dimensional orientation of the target relative the the field origin.
+     * @param cameras - Any and all cameras that will be used to track the target.
      */
     public BreakerFiducialPhotonTarget(int fiducialID, Pose3d targetPose, BreakerPhotonCamera... cameras) {
         this.targetPose = targetPose;
         this.fiducialID = fiducialID;
         this.cameras = cameras;
+
+        // Will continuously search for fiducial target. 
+        CommandScheduler.getInstance().schedule(new RunCommand(() -> this.findAssignedFiducial()));
     }
 
     /** Function for finding best assigned fiducial target. */
@@ -124,27 +132,27 @@ public class BreakerFiducialPhotonTarget extends SubsystemBase {
         return Rotation2d.fromDegrees(getYaw()).minus(new Rotation2d(camera.get3dCamPositionRelativeToRobot().getRotation().getY())).getDegrees();
     }
 
-    /** Assigned target skew */
+    /** @return Assigned target skew. */
     public double getSkew() {
         return assignedTarget.getSkew();
     }
 
-    /** Assigned target area */
+    /** @return Assigned target area */
     public double getArea() {
         return assignedTarget.getArea();
     }
 
-    /** List of target corner coordinates. */
+    /** @return List of target corner coordinates. */
     public List<TargetCorner> getTargetCorners() {
         return assignedTarget.getCorners();
     }
 
-    /** If assigned target has been found at any point during operation */
+    /** @return If assigned target has been found at any point during operation */
     public boolean getAssignedTargetFound() {
         return assignedTargetFound;
     }
 
-    /** If assigned target was found in the most recent cycle */
+    /** @return If assigned target was found in the most recent cycle */
     public boolean isAssignedTargetVisible() {
         return assignedTargetFound && assignedTargetFoundInCycle;
     }
@@ -165,7 +173,38 @@ public class BreakerFiducialPhotonTarget extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {
-        findAssignedFiducial();
+    public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void overrideAutomaticPowerManagement(DevicePowerMode manualPowerMode) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void returnToAutomaticPowerManagement() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public boolean isUnderAutomaticControl() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public DevicePowerMode getPowerMode() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void runSelfTest() {
+        // TODO Auto-generated method stub
+        
     }
 }

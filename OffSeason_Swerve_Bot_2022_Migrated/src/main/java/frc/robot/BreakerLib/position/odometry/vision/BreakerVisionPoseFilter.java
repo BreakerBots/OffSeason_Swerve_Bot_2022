@@ -9,7 +9,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import frc.robot.BreakerLib.devices.vision.photonvision.BreakerFiducialPhotonTarget;
+import frc.robot.BreakerLib.devices.vision.photon.BreakerFiducialPhotonTarget;
 import frc.robot.BreakerLib.util.math.averages.BreakerAverage;
 import frc.robot.BreakerLib.util.math.averages.BreakerWeightedAverage;
 
