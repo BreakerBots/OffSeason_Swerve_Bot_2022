@@ -40,8 +40,8 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
     private DifferentialDrive diffDrive;
     private BreakerDiffDriveConfig driveConfig;
 
-    private DoubleSupplier leftTickSupplier, leftRPMSupplier;
-    private DoubleSupplier rightTickSupplier, rightRPMSupplier;
+    private DoubleSupplier leftRotationSupplier, leftRPMSupplier;
+    private DoubleSupplier rightRotationSupplier, rightRPMSupplier;
   
     private BreakerGenericGyro gyro;
     private DifferentialDriveOdometry driveOdometer;
@@ -68,8 +68,8 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
      * @param gyro A {@link BreakerGenericGyro} representing a single axis gyro, mostly used for auto functionality
      * @param driveConfing A {@link BreakerDiffDriveConfig} representing the configerable values of this drivetrain's kinimatics and control values
      */
-    protected BreakerDiffDrive(MotorController[] leftMotors, DoubleSupplier leftTickSupplier, DoubleSupplier leftRPMSupplier, boolean invertL,
-        MotorController[] rightMotors, DoubleSupplier rightTickSupplier, DoubleSupplier rightRPMSupplier, boolean invertR,
+    protected BreakerDiffDrive(MotorController[] leftMotors, DoubleSupplier leftRotationSupplier, DoubleSupplier leftRPMSupplier, boolean invertL,
+        MotorController[] rightMotors, DoubleSupplier rightRotationSupplier, DoubleSupplier rightRPMSupplier, boolean invertR,
         BreakerGenericGyro gyro, BreakerDiffDriveConfig driveConfig) {
 
         this.invertL = invertL;
@@ -77,12 +77,12 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
 
         leftDrive = new MotorControllerGroup(leftMotors);
         leftDrive.setInverted(invertL);
-        this.leftTickSupplier = leftTickSupplier;
+        this.leftRotationSupplier = leftRotationSupplier;
         this.leftRPMSupplier = leftRPMSupplier;
 
         rightDrive = new MotorControllerGroup(rightMotors);
         rightDrive.setInverted(invertR);
-        this.rightTickSupplier = rightTickSupplier;
+        this.rightRotationSupplier = rightRotationSupplier;
         this.rightRPMSupplier = rightRPMSupplier;
         
         diffDrive = new DifferentialDrive(leftDrive, rightDrive);
@@ -191,22 +191,17 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
 
   // Left motors.
 
-  /** Returns left motor ticks. */
-  public double getLeftDriveTicks() {
-    return invertL ? -leftTickSupplier.getAsDouble() : leftTickSupplier.getAsDouble();
-  }
-
-  /** Returns left motor ticks converted into inches. */
-  public double getLeftDriveInches() {
-    return (getLeftDriveTicks() / driveConfig.getTicksPerInch());
+  /** Returns left motor rotations. */
+  public double getLeftDriveEncoderRotations() {
+    return invertL ? -leftRotationSupplier.getAsDouble() : leftRotationSupplier.getAsDouble();
   }
 
   /** Returns left motor ticks converted into meters. */
-  public double getLeftDriveMeters() {
-    return Units.inchesToMeters(getLeftDriveInches());
+  public double getLeftDriveDistanceMeters() {
+    return getLeftDriveEncoderRotations() / driveConfig.getEncoderRotationsPerMeter();
   }
 
-  /** Returns left motor velocity in raw sensor units. */
+  /** Returns left motor velocity in encoder rotations per minuet. */
   public double getLeftDriveVelocityRPM() {
     return invertL ? -leftRPMSupplier.getAsDouble() : leftRPMSupplier.getAsDouble() ;
   }
@@ -214,22 +209,17 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
 
   // Right motors.
 
-  /** Returns right motor ticks. */
-  public double getRightDriveTicks() {
-    return invertR ? -rightTickSupplier.getAsDouble() : rightTickSupplier.getAsDouble();
-  }
-
-  /** Returns right motor ticks converted into inches. */
-  public double getRightDriveInches() {
-    return getRightDriveTicks() / driveConfig.getTicksPerInch();
+  /** Returns right motor rotations. */
+  public double getRightDriveEncoderRotations() {
+    return invertL ? -rightRotationSupplier.getAsDouble() : rightRotationSupplier.getAsDouble();
   }
 
   /** Returns right motor ticks converted into meters. */
-  public double getRightDriveMeters() {
-    return Units.inchesToMeters(getRightDriveInches());
+  public double getRightDriveDistanceMeters() {
+    return getRightDriveEncoderRotations() / driveConfig.getEncoderRotationsPerMeter();
   }
 
-  /** Returns right motor velocity in raw sensor units (ticks per 100ms). */
+  /** Returns right motor velocity in encoder rotations per minuet. */
   public double getRightDriveVelocityRPM() {
     return invertR ? -rightRPMSupplier.getAsDouble() : rightRPMSupplier.getAsDouble();
   }
@@ -248,8 +238,8 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(
-        Units.inchesToMeters(((getLeftDriveVelocityRPM() * driveConfig.getEncoderTicks()) / driveConfig.getTicksPerInch()) / 60),
-        Units.inchesToMeters(((getRightDriveVelocityRPM() * driveConfig.getEncoderTicks()) / driveConfig.getTicksPerInch()) / 60)
+        (getLeftDriveVelocityRPM() / driveConfig.getEncoderRotationsPerMeter()) / 60,
+        (getRightDriveVelocityRPM() / driveConfig.getEncoderRotationsPerMeter()) / 60
     );
   }
 
@@ -271,7 +261,7 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
   }
 
   public BreakerDiffDriveState getDiffDriveState() {
-    return new BreakerDiffDriveState(getWheelSpeeds(), getLeftDriveMeters(), getRightDriveMeters());
+    return new BreakerDiffDriveState(getWheelSpeeds(), getLeftDriveDistanceMeters(), getRightDriveDistanceMeters());
   }
 
   private void calculateMovementState(double timeToLastUpdateMilisecods) {
@@ -282,8 +272,8 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
 
   @Override
   public void updateOdometry() {
-    driveOdometer.update(Rotation2d.fromDegrees(gyro.getRawYaw()), getLeftDriveMeters(),
-        getRightDriveMeters());
+    driveOdometer.update(Rotation2d.fromDegrees(gyro.getRawYaw()), getLeftDriveDistanceMeters(),
+        getRightDriveDistanceMeters());
     calculateMovementState((Timer.getFPGATimestamp() -
     prevOdometryUpdateTimestamp) * 1000);
     prevOdometryUpdateTimestamp = Timer.getFPGATimestamp();

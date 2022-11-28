@@ -31,9 +31,17 @@ public class BreakerFalconDiffDrive extends BreakerDiffDrive {
     public BreakerFalconDiffDrive(WPI_TalonFX[] leftMotors, WPI_TalonFX[] rightMotors, boolean invertL, boolean invertR,
         BreakerGenericGyro imu, BreakerDiffDriveConfig driveConfig) {
         
-        super(leftMotors,  () -> ((Double)leftMotors[0].getSelectedSensorPosition()), () -> ((Double)((leftMotors[0].getSelectedSensorVelocity() * 600) / driveConfig.getEncoderTicks())), invertL, 
-            rightMotors, () -> ((Double)rightMotors[0].getSelectedSensorPosition()), () -> ((Double)((rightMotors[0].getSelectedSensorVelocity() * 600) / driveConfig.getEncoderTicks())), invertR,
-                imu, driveConfig);
+        super(
+            leftMotors,
+            () -> ((Double)leftMotors[0].getSensorCollection().getIntegratedSensorPosition() / 2048.0),
+            () -> ((Double)((leftMotors[0].getSensorCollection().getIntegratedSensorVelocity() * 600) / 2048.0)),
+            invertL, 
+            rightMotors,
+            () -> ((Double)rightMotors[0].getSensorCollection().getIntegratedSensorPosition() / 2048.0),
+            () -> ((Double)((rightMotors[0].getSensorCollection().getIntegratedSensorVelocity() * 600) / 2048.0)), 
+            invertR,
+            imu,
+            driveConfig);
     }
 
     @Override

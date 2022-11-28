@@ -27,8 +27,17 @@
 //      */
 //     public BreakerNeoDiffDrive(CANSparkMax[] leftMotors, boolean invertL, CANSparkMax[] rightMotors, boolean invertR, 
 //         BreakerGenericGyro gyro, BreakerDiffDriveConfig driveConfig) {
-//         super(leftMotors, () -> ((Double)(leftMotors[0].getEncoder().getPosition() / driveConfig.getEncoderTicks())), () -> ((Double)leftMotors[0].getEncoder().getVelocity()), invertL, rightMotors,  () -> ((Double)(leftMotors[0].getEncoder().getPosition() / driveConfig.getEncoderTicks())), () -> ((Double)leftMotors[0].getEncoder().getVelocity()), invertR,
-//                 gyro, driveConfig);
+//         super(
+//             leftMotors,
+//             () -> ((Double)(leftMotors[0].getEncoder().getPosition())),
+//             () -> ((Double)leftMotors[0].getEncoder().getVelocity()),
+//             invertL,
+//             rightMotors,
+//             () -> ((Double)(leftMotors[0].getEncoder().getPosition())),
+//             () -> ((Double)leftMotors[0].getEncoder().getVelocity()), 
+//             invertR,
+//             gyro,
+//             driveConfig);
 //     }
 
 //     @Override

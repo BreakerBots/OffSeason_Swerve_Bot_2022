@@ -13,35 +13,27 @@ import frc.robot.BreakerLib.util.math.BreakerUnits;
 /** Configuration for {@link BreakerDiffDrive}. */
 public class BreakerDiffDriveConfig {
     private DifferentialDriveKinematics kinematics;
-    private double robotTrackWidthInches;
-    private double ticksPerEncoderRotation;
-    private double ticksPerInch;
+    private double robotTrackWidthMeters;
     private double gearRatioTo1;
-    private double wheelDiameter;
-    private double wheelCircumference;
-    private double getTicksPerWheelRotation;
+    private double wheelDiameterMeters;
+    private double wheelCircumferenceMeters;
+    private double encoderRotationsPerMeter;
     private double slowModeForwardMultiplier = 1;
     private double slowModeTurnMultiplier = 1;
-
-    public BreakerDiffDriveConfig() {
-        
-    }
 
     /**
      * Creates a config object for BreakerDiffDrive.
      */
-    public BreakerDiffDriveConfig(double ticksPerEncoderRotation, double gearRatioTo1, double wheelDiameter, double robotTrackWidthInches) {
+    public BreakerDiffDriveConfig(double gearRatioTo1, double wheelDiameterMeters, double robotTrackWidthMeters) {
 
-        this.wheelDiameter = wheelDiameter;
-        this.ticksPerEncoderRotation = ticksPerEncoderRotation;
+        this.wheelDiameterMeters = wheelDiameterMeters;
         this.gearRatioTo1 = gearRatioTo1;
-        this.robotTrackWidthInches = robotTrackWidthInches;
+        this.robotTrackWidthMeters = robotTrackWidthMeters;
 
-        kinematics = new DifferentialDriveKinematics(BreakerUnits.inchesToMeters(robotTrackWidthInches));
+        kinematics = new DifferentialDriveKinematics(robotTrackWidthMeters);
 
-        wheelCircumference = BreakerMath.getCircumferenceFromDiameter(wheelDiameter);
-        ticksPerInch = BreakerMath.getTicksPerInch(ticksPerEncoderRotation, gearRatioTo1, wheelDiameter);
-        getTicksPerWheelRotation = BreakerMath.getTicksPerRotation(ticksPerEncoderRotation, gearRatioTo1);
+        wheelCircumferenceMeters = BreakerMath.getCircumferenceFromDiameter(wheelDiameterMeters);
+        encoderRotationsPerMeter = (1/wheelCircumferenceMeters) * gearRatioTo1;
     }
 
     public void setSlowModeMultipliers(double forwardMult, double turnMult) {
@@ -49,32 +41,24 @@ public class BreakerDiffDriveConfig {
         slowModeTurnMultiplier = turnMult;
     }
 
-    public double getTicksPerInch() {
-        return ticksPerInch;
-    }
-
-    public double getEncoderTicks() {
-        return ticksPerEncoderRotation;
+    public double getEncoderRotationsPerMeter() {
+        return encoderRotationsPerMeter;
     }
 
     public double getGearRatioTo1() {
         return gearRatioTo1;
     }
 
-    public double getGetTicksPerWheelRotation() {
-        return getTicksPerWheelRotation;
+    public double getWheelCircumferenceMeters() {
+        return wheelCircumferenceMeters;
     }
 
-    public double getWheelCircumference() {
-        return wheelCircumference;
+    public double getWheelDiameterMeters() {
+        return wheelDiameterMeters;
     }
 
-    public double getWheelDiameter() {
-        return wheelDiameter;
-    }
-
-    public double getRobotTrackWidthInches() {
-        return robotTrackWidthInches;
+    public double getRobotTrackWidthMeters() {
+        return robotTrackWidthMeters;
     }
 
     public DifferentialDriveKinematics getKinematics() {
