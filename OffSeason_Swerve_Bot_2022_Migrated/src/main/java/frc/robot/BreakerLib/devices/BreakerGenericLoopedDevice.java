@@ -9,11 +9,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.BreakerLib.util.logging.BreakerGenericTelemetryProvider;
-import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
-import frc.robot.BreakerLib.util.power.DevicePowerMode;
-import frc.robot.BreakerLib.util.test.selftest.SelfTest;
 
 /** Replacement for WPILib's SubsystemBase class for breakerlib internal classes */
 public abstract class BreakerGenericLoopedDevice extends BreakerGenericDeviceBase implements Subsystem, Sendable, BreakerGenericTelemetryProvider {

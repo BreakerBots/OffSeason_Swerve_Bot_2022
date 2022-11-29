@@ -3,7 +3,7 @@ package frc.robot.BreakerLib.util.math;
 public class BreakerUnits {
     public static final double MICROSECONDS_PER_SECOND = 1000000;
     public static final double METERS_PER_SECOND_SQUARED_IN_G = 9.80665;
-    public static final double AIR_DENCITY_KG_PER_METER_CUBED = 1.225;
+    public static final double AIR_DENSITY_KG_PER_METER_CUBED = 1.225;
     public static final double INCHES_PER_SECOND_SQUARED_IN_G = 386.088583;
     public static final double MILLIMETERS_PER_INCH = 25.4;
     public static final double MILLIMETERS_PER_METER = 1000;

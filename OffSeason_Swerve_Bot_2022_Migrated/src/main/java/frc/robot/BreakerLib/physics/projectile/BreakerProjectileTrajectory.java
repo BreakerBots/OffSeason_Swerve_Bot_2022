@@ -2,21 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.physics.projectilemotion;
+package frc.robot.BreakerLib.physics.projectile;
 
-import java.util.Vector;
-
-import org.opencv.core.Mat;
-
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import frc.robot.BreakerLib.devices.sensors.BreakerUltrasonic;
 import frc.robot.BreakerLib.physics.vector.BreakerVector3;
-import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 import frc.robot.BreakerLib.util.math.BreakerUnits;
 
 /**
@@ -44,8 +35,8 @@ public class BreakerProjectileTrajectory {
 
     /** Time that a projectile reaches its maximum height. */
     public double getApogeeTime() {
-        return (projectile.getTermanalVelMetersPerSec() / BreakerUnits.METERS_PER_SECOND_SQUARED_IN_G)
-                * Math.atan(initialVels.getMagnatudeZ() / projectile.getTermanalVelMetersPerSec());
+        return (projectile.getTerminalVel() / BreakerUnits.METERS_PER_SECOND_SQUARED_IN_G)
+                * Math.atan(initialVels.getMagnatudeZ() / projectile.getTerminalVel());
     }
 
     /** 2D position of target at given time, in seconds (TBD) */
