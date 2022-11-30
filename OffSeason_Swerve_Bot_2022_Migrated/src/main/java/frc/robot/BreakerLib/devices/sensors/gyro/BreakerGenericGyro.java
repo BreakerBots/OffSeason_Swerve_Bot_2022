@@ -18,11 +18,14 @@ public interface BreakerGenericGyro {
     /** Sets yaw to angle value. */
     public abstract void setYaw(double value);
 
-    /** @return Biased angular velocity yaw.(deg/sec) */
+    /** @return Biased angular velocity yaw (deg/sec). */
     public abstract double getYawRate();
 
     /** Resets all angles avalible to 0 degrees */
     public abstract void reset();
+
+    /** Calibrates gyro. */
+    public abstract void calibrate();
 
     /** @return Raw yaw value without modulus. */
     public abstract double getRawYaw();

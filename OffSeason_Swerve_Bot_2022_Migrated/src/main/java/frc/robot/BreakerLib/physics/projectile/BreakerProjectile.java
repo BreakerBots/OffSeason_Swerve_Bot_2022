@@ -19,16 +19,16 @@ public class BreakerProjectile {
     /**
      * Creates a BreakerProjectile.
      * 
-     * @param massKg Projectile mass in kg.
+     * @param mass Projectile mass in kg.
      * @param dragCoefficient Drag coefficient from this equation: https://en.wikipedia.org/wiki/Drag_coefficient.
      * @param crossSectionalArea Area of surface perpendicular to longest axis of shape, in m^2.
      */
-    public BreakerProjectile(double massKg, double dragCoefficient, double crossSectionalArea) {
-        this.mass = massKg;
+    public BreakerProjectile(double mass, double dragCoefficient, double crossSectionalArea) {
+        this.mass = mass;
         this.dragCoefficient = dragCoefficient;
         this.crossSectionalArea = crossSectionalArea;
 
-        terminalVel = Math.sqrt((2 * massKg * BreakerUnits.METERS_PER_SECOND_SQUARED_IN_G) / (dragCoefficient * BreakerUnits.AIR_DENSITY_KG_PER_METER_CUBED * crossSectionalArea));
+        terminalVel = Math.sqrt((2 * mass * BreakerUnits.METERS_PER_SECOND_SQUARED_IN_G) / (dragCoefficient * BreakerUnits.AIR_DENSITY_KG_PER_METER_CUBED * crossSectionalArea));
         terminalVelSq = Math.pow(terminalVel, 2);
         drag = 0.5 * dragCoefficient * BreakerUnits.AIR_DENSITY_KG_PER_METER_CUBED * crossSectionalArea * terminalVelSq;
     }

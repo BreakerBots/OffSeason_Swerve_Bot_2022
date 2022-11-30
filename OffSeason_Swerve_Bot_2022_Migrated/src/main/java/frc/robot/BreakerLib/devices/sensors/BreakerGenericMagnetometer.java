@@ -15,10 +15,10 @@ public interface BreakerGenericMagnetometer {
    /** @return Magnetic field strength in microteslas. */
    public abstract double getCompassFieldStrength();
 
-   /** Angular heading of the compass in +-180 degrees. */
+   /** @return Angular heading of the compass in +-180 degrees. */
    public abstract double getCompassHeading();
 
-   /** Raw angular heading of the compass in degrees. */
+   /** @return Raw angular heading of the compass in degrees. */
    public abstract double getRawCompassHeading();
 
 }

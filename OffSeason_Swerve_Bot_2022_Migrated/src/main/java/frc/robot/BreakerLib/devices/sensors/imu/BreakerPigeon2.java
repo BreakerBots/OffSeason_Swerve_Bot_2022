@@ -1,7 +1,7 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-package frc.robot.BreakerLib.devices.sensors.imu.ctre;
+package frc.robot.BreakerLib.devices.sensors.imu;
 
 import com.ctre.phoenix.sensors.Pigeon2_Faults;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
@@ -12,14 +12,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import frc.robot.BreakerLib.devices.sensors.BreakerGenericMagnetometer;
-import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
-import frc.robot.BreakerLib.util.test.selftest.SelfTest;
 
-/* CTRE Pigeon IMU 2 implementing the Breaker device interface, Breaker IMU interface,  */
+/* CTRE Pigeon 2 implementing the Breaker device interface and Breaker IMU interface,  */
 public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericMagnetometer {
   private WPI_Pigeon2 pigeon;
 
@@ -29,8 +27,8 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
     deviceName = "Pigeon2_IMU (" + deviceID + ") ";
   }
 
-   /** Creates a new PigeonIMU 2 object. */
-   public BreakerPigeon2(int deviceID, String busName) {
+  /** Creates a new PigeonIMU 2 object. */
+  public BreakerPigeon2(int deviceID, String busName) {
     pigeon = new WPI_Pigeon2(deviceID, busName);
     deviceName = "Pigeon2_IMU (" + deviceID + ") ";
   }
@@ -67,7 +65,7 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
 
   @Override
   public Rotation3d getRotation3d() {
-      return new Rotation3d(getQuaternion());
+    return new Rotation3d(getQuaternion());
   }
 
   @Override
@@ -168,22 +166,22 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
   }
 
   @Override
-    /** @return Unbiased accelerometer x-value in m/s^2. */
-    public double getRawAccelX() {
-        return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[0], 14) * 0.000508);
-    }
+  /** @return Unbiased accelerometer x-value in m/s^2. */
+  public double getRawAccelX() {
+    return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[0], 14) * 0.000508);
+  }
 
-    @Override
-    /** @return Unbiased accelerometer y-value in m/s^2. */
-    public double getRawAccelY() {
-        return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[1], 14) * 0.000508);
-    }
+  @Override
+  /** @return Unbiased accelerometer y-value in m/s^2. */
+  public double getRawAccelY() {
+    return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[1], 14) * 0.000508);
+  }
 
-    @Override
-    /** @return Unbiased accelerometer z-value in m/s^2. */
-    public double getRawAccelZ() {
-        return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[2], 14) * 0.000508);
-    }
+  @Override
+  /** @return Unbiased accelerometer z-value in m/s^2. */
+  public double getRawAccelZ() {
+    return (BreakerMath.fixedToFloat(getRawAccelerometerValsShort()[2], 14) * 0.000508);
+  }
 
   /** @return Pigeon's runtime in seconds (max of 255) */
   public int getPigeonUpTime() {
@@ -192,8 +190,8 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
   }
 
   @Override
-    public Rotation3d getRawRotation3d() {
-        return new Rotation3d(Math.toRadians(getRawAngles()[2]), Math.toRadians(getRawAngles()[1]),
+  public Rotation3d getRawRotation3d() {
+    return new Rotation3d(Math.toRadians(getRawAngles()[2]), Math.toRadians(getRawAngles()[1]),
         Math.toRadians(getRawAngles()[0]));
   }
 
@@ -256,43 +254,51 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
 
   @Override
   public double[] getRawFieldStrengths() {
-      short[] rawShorts = new short[]{3};
-      pigeon.getRawMagnetometer(rawShorts);
-      return new double[] {(double) rawShorts[0] * 0.6, (double) rawShorts[1] * 0.6, (double) rawShorts[2] * 0.6};
+    short[] rawShorts = new short[] { 3 };
+    pigeon.getRawMagnetometer(rawShorts);
+    return new double[] { (double) rawShorts[0] * 0.6, (double) rawShorts[1] * 0.6, (double) rawShorts[2] * 0.6 };
   }
 
   @Override
   public double[] getBiasedFieldStrengths() {
-      short[] rawShorts = new short[]{3};
-      pigeon.getBiasedMagnetometer(rawShorts);
-      return new double[] {(double) rawShorts[0] * 0.6, (double) rawShorts[1] * 0.6, (double) rawShorts[2] * 0.6};
+    short[] rawShorts = new short[] { 3 };
+    pigeon.getBiasedMagnetometer(rawShorts);
+    return new double[] { (double) rawShorts[0] * 0.6, (double) rawShorts[1] * 0.6, (double) rawShorts[2] * 0.6 };
   }
 
   @Override
   public double getCompassFieldStrength() {
-      return pigeon.getCompassFieldStrength();
+    return pigeon.getCompassFieldStrength();
   }
 
   @Override
   public double getCompassHeading() {
-      return MathUtil.angleModulus(pigeon.getCompassHeading());
+    return MathUtil.angleModulus(pigeon.getCompassHeading());
   }
 
   @Override
   public double getRawCompassHeading() {
-      return pigeon.getCompassHeading();
+    return pigeon.getCompassHeading();
   }
 
   @Override
   public Quaternion getQuaternion() {
-      double[] quat = new double[4];
-      pigeon.get6dQuaternion(quat);
-      return new Quaternion(quat[0], quat[1], quat[2], quat[3]);
+    double[] quat = new double[4];
+    pigeon.get6dQuaternion(quat);
+    return new Quaternion(quat[0], quat[1], quat[2], quat[3]);
   }
 
   @Override
   /** Does nothing. Range is 8 Gs. */
   public void setRange(Range range) {
+  }
+
+  /**
+   * Does nothing. Calibration is done on boot and can be performed with Phoenix
+   * Tuner.
+   */
+  public void calibrate() {
+    pigeon.calibrate();
   }
 
 }

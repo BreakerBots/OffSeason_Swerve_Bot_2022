@@ -1,4 +1,4 @@
-package frc.robot.BreakerLib.devices.sensors.imu.ctre;
+package frc.robot.BreakerLib.devices.sensors.imu;
 
 import com.ctre.phoenix.sensors.PigeonIMU_Faults;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
@@ -9,7 +9,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import frc.robot.BreakerLib.devices.sensors.BreakerGenericMagnetometer;
-import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
@@ -18,12 +17,10 @@ import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 public class BreakerPigeon extends BreakerGenericIMU implements BreakerGenericMagnetometer {
 
     private WPI_PigeonIMU pigeon;
-    private int deviceID;
 
     /** Creates a new PigeonIMU object. */
     public BreakerPigeon(int deviceID) {
         pigeon = new WPI_PigeonIMU(deviceID);
-        this.deviceID = deviceID;
         deviceName = "Pigeon_IMU (" + deviceID + ") ";
     }
 
@@ -281,5 +278,13 @@ public class BreakerPigeon extends BreakerGenericIMU implements BreakerGenericMa
     @Override
     /** Does nothing. Range is 2 Gs. */
     public void setRange(Range range) {
+    }
+
+    /**
+     * Does nothing. Calibration is done on boot and can be performed with Phoenix
+     * Tuner.
+     */
+    public void calibrate() {
+        pigeon.calibrate();
     }
 }

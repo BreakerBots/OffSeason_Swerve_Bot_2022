@@ -10,7 +10,7 @@ import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 
 /**
- * Custom IMU class for combining a 3-axis gyro and accelerometer into a single
+ * Custom IMU class for combining a 3-axis gyro and 3-axis accelerometer into a single
  * IMU object.
  */
 public class BreakerComboIMU extends BreakerGenericIMU {
@@ -209,6 +209,11 @@ public class BreakerComboIMU extends BreakerGenericIMU {
     @Override
     public void setRange(Range range) {
         accelerometer.setRange(range);
+    }
+
+    @Override
+    public void calibrate() {
+        gyro.calibrate();
     }
 
 }

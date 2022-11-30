@@ -1,4 +1,4 @@
-package frc.robot.BreakerLib.devices.sensors.imu.kuailabs;
+package frc.robot.BreakerLib.devices.sensors.imu;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.kauailabs.navx.frc.AHRS.SerialDataType;
@@ -12,14 +12,13 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import frc.robot.BreakerLib.devices.sensors.BreakerGenericMagnetometer;
-import frc.robot.BreakerLib.devices.sensors.imu.BreakerGenericIMU;
 import frc.robot.BreakerLib.physics.vector.BreakerVector3;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 
-/** Breaker NavX gyro. Calibration must be called manually. */
+/** Breaker NavX gyro. Calibration is called on construction or can be called manually. */
 public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagnetometer {
 
     private AHRS imu;
@@ -28,6 +27,7 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
     public BreakerAHRS() {
         imu = new AHRS();
         deviceName = " NavX_AHRS_IMU (SPI: default) ";
+        calibrate();
     }
 
     /**
@@ -38,6 +38,7 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
     public BreakerAHRS(SPI.Port spi_port_id) {
         imu = new AHRS(spi_port_id);
         deviceName = " NavX_AHRS_IMU (SPI: " + spi_port_id.toString() + ") ";
+        calibrate();
     }
 
     /**
@@ -49,6 +50,7 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
     public BreakerAHRS(SPI.Port spi_port_id, byte update_rate_hz) {
         imu = new AHRS(spi_port_id, update_rate_hz);
         deviceName = " NavX_AHRS_IMU (SPI: " + spi_port_id.toString() + ") ";
+        calibrate();
     }
 
     /**
@@ -61,6 +63,7 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
     public BreakerAHRS(SPI.Port spi_port_id, int spi_bitrate, byte update_rate_hz) {
         imu = new AHRS(spi_port_id, spi_bitrate, update_rate_hz);
         deviceName = " NavX_AHRS_IMU (SPI: " + spi_port_id.toString() + ") ";
+        calibrate();
     }
 
     /**
@@ -71,6 +74,7 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
     public BreakerAHRS(I2C.Port i2c_port_id) {
         imu = new AHRS(i2c_port_id);
         deviceName = " NavX_AHRS_IMU (I2C: " + i2c_port_id.toString() + ") ";
+        calibrate();
     }
 
     /**
@@ -82,6 +86,7 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
     public BreakerAHRS(I2C.Port i2c_port_id, byte update_rate_hz) {
         imu = new AHRS(i2c_port_id, update_rate_hz);
         deviceName = " NavX_AHRS_IMU (I2C: " + i2c_port_id.toString() + ") ";
+        calibrate();
     }
 
     /**
@@ -92,6 +97,7 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
     public BreakerAHRS(SerialPort.Port serial_port_id) {
         imu = new AHRS(serial_port_id);
         deviceName = " NavX_AHRS_IMU (Serial: " + serial_port_id.toString() + ") ";
+        calibrate();
     }
 
     /**
@@ -106,6 +112,7 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
     public BreakerAHRS(SerialPort.Port serial_port_id, SerialDataType data_type, byte update_rate_hz) {
         imu = new AHRS(serial_port_id, data_type, update_rate_hz);
         deviceName = " NavX_AHRS_IMU (Serial: " + serial_port_id.toString() + ") ";
+        calibrate();
     }
 
     public double getPitchDegrees() {
