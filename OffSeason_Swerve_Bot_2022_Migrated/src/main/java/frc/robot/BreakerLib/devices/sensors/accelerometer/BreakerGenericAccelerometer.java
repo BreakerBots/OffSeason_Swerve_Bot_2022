@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.interfaces.Accelerometer;
 public interface BreakerGenericAccelerometer {
 
   /**
-   * @return Array of raw accelerometer values.
+   * @return Array of raw accelerometer values in Gs.
    * <p>
    * x = 0, y = 1, z = 2.
    */
