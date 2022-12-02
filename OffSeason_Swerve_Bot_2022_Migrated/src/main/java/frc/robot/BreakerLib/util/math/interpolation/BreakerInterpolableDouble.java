@@ -5,7 +5,6 @@
 package frc.robot.BreakerLib.util.math.interpolation;
 
 import edu.wpi.first.math.MathUtil;
-import frc.robot.BreakerLib.util.math.BreakerMath;
 
 /**
  * Wraps around the double primitive type for use with BreakerLib's
@@ -36,7 +35,5 @@ public class BreakerInterpolableDouble implements BreakerInterpolable<BreakerInt
     public BreakerInterpolableDouble fromInterpolatableData(double[] interpolatableData) {
         return new BreakerInterpolableDouble(interpolatableData[0]);
     }
-
-   
 
 }

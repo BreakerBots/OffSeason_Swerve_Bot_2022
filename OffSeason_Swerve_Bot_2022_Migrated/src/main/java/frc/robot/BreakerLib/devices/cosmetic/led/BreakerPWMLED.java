@@ -4,11 +4,8 @@
 
 package frc.robot.BreakerLib.devices.cosmetic.led;
 
-import java.time.zone.ZoneOffsetTransitionRule.TimeDefinition;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.opencv.features2d.FastFeatureDetector;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.AddressableLED;
@@ -18,17 +15,25 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.BreakerLib.devices.cosmetic.led.animations.BreakerAnimation;
 import frc.robot.BreakerLib.util.BreakerRoboRIO;
-import frc.robot.BreakerLib.util.BreakerRoboRIO.RobotMode;
+import frc.robot.BreakerLib.util.BreakerRoboRIO.RobotOperatingMode;
 
-/** Add your docs here. */
-public class BreakerPWMLED extends SubsystemBase implements BreakerGenericLEDDriver {
+/** For PWM LEDs. */
+public class BreakerPWMLED extends SubsystemBase implements BreakerGenericLED {
+
     private AddressableLED led;
     private AddressableLEDBuffer buff;
     private int stripLength, animationStartIndex, animationEndIndex;
     private BreakerAnimation curAnimation;
     private boolean isOn = false, isActiveAnimation = false, isDefault = true;
     private double curAnimationStartTime;
-    private Map<RobotMode, BreakerAnimation> defaultRobotModeAnims = new HashMap<>();
+    private Map<RobotOperatingMode, BreakerAnimation> defaultRobotModeAnims = new HashMap<>();
+
+    /**
+     * Creates a new BreakerPWMLED
+     * 
+     * @param portPWM PWM port.
+     * @param stripLength Number of LEDs.
+     */
     public BreakerPWMLED(int portPWM, int stripLength) {
         led = new AddressableLED(portPWM);
         led.setLength(stripLength);
@@ -103,7 +108,7 @@ public class BreakerPWMLED extends SubsystemBase implements BreakerGenericLEDDri
     }
 
     @Override
-    public void setRobotModeDefaultState(RobotMode mode, BreakerAnimation state) {
+    public void setRobotModeDefaultState(RobotOperatingMode mode, BreakerAnimation state) {
         if (defaultRobotModeAnims.containsKey(mode)) {
             defaultRobotModeAnims.replace(mode, state);
         } else {

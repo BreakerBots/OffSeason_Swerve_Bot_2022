@@ -16,7 +16,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.interpolation.Interpolatable;
 import edu.wpi.first.math.trajectory.Trajectory;
 import frc.robot.BreakerLib.util.math.interpolation.BreakerInterpolableDouble;
-import frc.robot.BreakerLib.util.math.interpolation.interpolateingmaps.BreakerInterpolatingTreeMap;
+import frc.robot.BreakerLib.util.math.interpolation.maps.BreakerInterpolatingTreeMap;
 
 /** A class that supplyes a swerve drive trajectory follower with live rotation setpoint targets */
 public class BreakerSwerveRotationSupplier implements BreakerGenericSwerveRotationSupplier {

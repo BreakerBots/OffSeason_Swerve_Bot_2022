@@ -275,11 +275,6 @@ public class BreakerPigeon extends BreakerGenericIMU implements BreakerGenericMa
         return new Quaternion(quat[0], quat[1], quat[2], quat[3]);
     }
 
-    @Override
-    /** Does nothing. Range is 2 Gs. */
-    public void setRange(Range range) {
-    }
-
     /**
      * Does nothing. Calibration is done on boot and can be performed with Phoenix
      * Tuner.

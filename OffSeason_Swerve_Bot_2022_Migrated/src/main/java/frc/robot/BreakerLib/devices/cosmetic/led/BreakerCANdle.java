@@ -11,37 +11,127 @@ import com.ctre.phoenix.led.CANdleFaults;
 import edu.wpi.first.math.Pair;
 import frc.robot.BreakerLib.devices.BreakerGenericLoopedDevice;
 import frc.robot.BreakerLib.devices.cosmetic.led.animations.BreakerAnimation;
-import frc.robot.BreakerLib.util.BreakerRoboRIO.RobotMode;
+import frc.robot.BreakerLib.util.BreakerRoboRIO.RobotOperatingMode;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.vendorutil.BreakerCTREUtil;
 
 /** CTRE LED controller */
-public class BreakerCANdle extends BreakerGenericLoopedDevice implements BreakerGenericLEDDriver{
+public class BreakerCANdle extends BreakerGenericLoopedDevice implements BreakerGenericLED {
 
     private CANdle candle;
-    private boolean isOn = false, isActiveBAnim, isDefault;
+    private boolean isOn = false, isActiveBAnim;
 
-    public BreakerCANdle(int canID, int numberOfLEDs, BreakerCANdleConfig config) {
+    /**
+     * Creates a BreakerCANdle on the default CANBus.
+     * 
+     * @param canID  ID for CANdle.
+     * @param config CANdle config
+     */
+    public BreakerCANdle(int canID, BreakerCANdleConfig config) {
         candle = new CANdle(canID);
         candle.configAllSettings(config.getConfig());
-        deviceName = " CANdle_LED_Controller ("+ canID +") ";
+        deviceName = " CANdle_LED_Controller (" + canID + ") ";
     }
 
-    public BreakerCANdle(int canID, String busName, int numberOfLEDs, BreakerCANdleConfig config) {
+    /**
+     * Creates a BreakerCANdle on named CANBus.
+     * 
+     * @param canID   ID for CANdle.
+     * @param config  CANdle config
+     * @param busName Name of CANBus
+     */
+    public BreakerCANdle(int canID, BreakerCANdleConfig config, String busName) {
         candle = new CANdle(canID, busName);
         candle.configAllSettings(config.getConfig());
-        deviceName = " CANdle_LED_Controller ("+ canID +") ";
+        deviceName = " CANdle_LED_Controller (" + canID + ") ";
     }
 
+    /**
+     * Sets LEDs to play CTRE LED animation.
+     * 
+     * @param animation CANdle animation.
+     */
     public void setCTREAnimation(Animation animation) {
         candle.animate(animation);
     }
 
     @Override
+    public void setAllLEDs(int r, int g, int b) {
+        candle.setLEDs(r, g, b);
+    }
+
+    @Override
+    public void setLEDsInRange(int r, int g, int b, int startIndex, int endIndex) {
+        candle.setLEDs(r, g, b, 0, startIndex, endIndex - startIndex);
+
+    }
+
+    @Override
+    public void setLED(int r, int g, int b, int index) {
+        candle.setLEDs(r, g, b, 0, index, 1);
+
+    }
+
+    @Override
+    public void setAnimation(BreakerAnimation state) {
+
+    }
+
+    @Override
+    public void setAnimation(int startIndex, BreakerAnimation state) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setAnimation(int startIndex, int endIndex, BreakerAnimation state) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setRobotModeDefaultState(RobotOperatingMode mode, BreakerAnimation state) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void clearToModeDefault() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void clearActiveAnimation() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void setOn() {
+        isOn = true;
+    }
+
+    @Override
+    public void setOff() {
+        isOn = false;
+    }
+
+    @Override
+    public boolean isOn() {
+        return isOn;
+    }
+
+    @Override
+    public boolean isInModeDefault() {
+        return isActiveBAnim;
+    }
+
+    @Override
     public void periodic() {
-        
+
     }
 
     @Override
@@ -57,7 +147,7 @@ public class BreakerCANdle extends BreakerGenericLoopedDevice implements Breaker
         } else {
             health = DeviceHealth.NOMINAL;
         }
-        
+
     }
 
     @Override
@@ -81,84 +171,12 @@ public class BreakerCANdle extends BreakerGenericLoopedDevice implements Breaker
     @Override
     public void overrideAutomaticPowerManagement(DevicePowerMode manualPowerMode) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void returnToAutomaticPowerManagement() {
         // TODO Auto-generated method stub
-        
-    }
 
-    @Override
-    public void setAllLEDs(int r, int g, int b) {
-        candle.setLEDs(r, g, b);
-    }
-
-    @Override
-    public void setLEDsInRange(int r, int g, int b, int startIndex, int endIndex) {
-       candle.setLEDs(r, g, b, 0, startIndex, endIndex - startIndex);
-        
-    }
-
-    @Override
-    public void setLED(int r, int g, int b, int index) {
-       candle.setLEDs(r, g, b, 0, index, 1);
-        
-    }
-
-    @Override
-    public void setAnimation(BreakerAnimation state) {
-        
-    }
-
-    @Override
-    public void setAnimation(int startIndex, BreakerAnimation state) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void setAnimation(int startIndex, int endIndex, BreakerAnimation state) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void setRobotModeDefaultState(RobotMode mode, BreakerAnimation state) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void clearToModeDefault() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void clearActiveAnimation() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void setOn() {
-        isOn = true;
-    }
-
-    @Override
-    public void setOff() {
-        isOn = false;
-    }
-
-    @Override
-    public boolean isOn() {
-        return isOn;
-    }
-
-    @Override
-    public boolean isInModeDefault() {
-        return isActiveBAnim;
     }
 }

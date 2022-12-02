@@ -4,8 +4,6 @@
 
 package frc.robot.BreakerLib.devices.sensors.accelerometer;
 
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
-
 /** FRC 3-axis accelerometer interface. */
 public interface BreakerGenericAccelerometer {
 
@@ -24,7 +22,4 @@ public interface BreakerGenericAccelerometer {
 
   /** @return Unbiased accelerometer z-value in Gs. */
   public double getRawAccelZ();
-
-  /** Sets accelerometer range in Gs. */
-  public void setRange(Accelerometer.Range range);
 }

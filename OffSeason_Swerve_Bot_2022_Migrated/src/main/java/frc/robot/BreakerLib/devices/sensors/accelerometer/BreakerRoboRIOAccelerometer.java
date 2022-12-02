@@ -42,7 +42,8 @@ public class BreakerRoboRIOAccelerometer implements BreakerGenericAccelerometer{
         return accelerometer.getZ();
     }
 
-    @Override
+    /** Sets accelerometer range in Gs. */
     public void setRange(Range range) {
         accelerometer.setRange(range);
-    }}
+    }
+}

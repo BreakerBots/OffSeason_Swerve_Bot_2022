@@ -16,15 +16,24 @@ public class BreakerCANdleConfig {
 
     private CANdleConfiguration config;
 
-    
+    /**
+     * Config for {@link BreakerCANdle}.
+     * 
+     * @param brightnessScalar Brightness scalars for LEDs.
+     * @param stripType LED type.
+     * @param vBatOutputMode Set VBat output mode
+     * @param disableOnSignalLoss Whether to disable lights on signal loss.
+     * @param enableOptimizations Optimize configAll.
+     * @param statusLEDOffWhenActive Turns off status LEDs when lights are on.
+     */
     public BreakerCANdleConfig(double brightnessScalar, LEDStripType stripType, VBatOutputMode vBatOutputMode,
-            boolean disableOnSignalLoss, boolean enableOptmizations, boolean statusLEDOffWhenActive) {
+            boolean disableOnSignalLoss, boolean enableOptimizations, boolean statusLEDOffWhenActive) {
         config = new CANdleConfiguration();
         config.brightnessScalar = brightnessScalar;
         config.stripType = stripType;
         config.vBatOutputMode = vBatOutputMode;
         config.disableWhenLOS = disableOnSignalLoss;
-        config.enableOptimizations = enableOptmizations;
+        config.enableOptimizations = enableOptimizations;
         config.statusLedOffWhenActive = statusLEDOffWhenActive;
     }
 

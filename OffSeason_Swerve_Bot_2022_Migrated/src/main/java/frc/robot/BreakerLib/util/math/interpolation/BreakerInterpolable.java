@@ -7,7 +7,7 @@ package frc.robot.BreakerLib.util.math.interpolation;
 import edu.wpi.first.math.interpolation.Interpolatable;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 
-/** wrapper around WPILib's {@link Interpolatable} interface that supports non-linear interpolation */
+/** Wrapper around WPILib's {@link Interpolatable} interface that supports non-linear interpolation */
 public interface BreakerInterpolable<V> extends Interpolatable<V> {
 
     public abstract double[] getInterpolatableData();

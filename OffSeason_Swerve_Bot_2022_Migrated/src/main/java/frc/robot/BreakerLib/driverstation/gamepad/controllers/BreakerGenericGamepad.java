@@ -74,10 +74,10 @@ public class BreakerGenericGamepad {
      */
     public void setRumble(BreakerControllerRumbleType rumbleType, double rumblePercent) {
         switch (rumbleType) {
-            case COARSE:
+            case LEFT:
                 hid.setRumble(RumbleType.kLeftRumble, rumblePercent);
                 break;
-            case FINE:
+            case RIGHT:
                 hid.setRumble(RumbleType.kRightRumble, rumblePercent);
                 break;
             case MIXED:

@@ -11,7 +11,7 @@ import frc.robot.BreakerLib.physics.projectile.BreakerProjectile;
 import frc.robot.BreakerLib.physics.vector.BreakerVector2;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.math.interpolation.BreakerInterpolableDouble;
-import frc.robot.BreakerLib.util.math.interpolation.interpolateingmaps.BreakerInterpolatingTreeMap;
+import frc.robot.BreakerLib.util.math.interpolation.maps.BreakerInterpolatingTreeMap;
 
 /** Robot turret system. */
 public class BreakerTurretController {

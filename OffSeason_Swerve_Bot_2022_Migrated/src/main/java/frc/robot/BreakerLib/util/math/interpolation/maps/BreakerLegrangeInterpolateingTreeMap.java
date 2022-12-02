@@ -1,4 +1,4 @@
-package frc.robot.BreakerLib.util.math.interpolation.interpolateingmaps;
+package frc.robot.BreakerLib.util.math.interpolation.maps;
 
 import java.util.Map.Entry;
 

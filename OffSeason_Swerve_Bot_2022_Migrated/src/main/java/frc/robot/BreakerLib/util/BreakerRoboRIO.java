@@ -18,7 +18,7 @@ import static edu.wpi.first.wpilibj.RobotState.*;
 public class BreakerRoboRIO extends SubsystemBase {
 
     /** Operating modes for robot. */
-    public enum RobotMode {
+    public enum RobotOperatingMode {
         DISABLED,
         AUTONOMOUS,
         TELEOP,
@@ -29,8 +29,8 @@ public class BreakerRoboRIO extends SubsystemBase {
     // RoboRIO object vars.
     private double prevTime = RobotController.getFPGATime();
     private double diffTime = 0;
-    private RobotMode currentMode = RobotMode.UNKNOWN;
-    private RobotMode prevMode = RobotMode.UNKNOWN;
+    private RobotOperatingMode currentMode = RobotOperatingMode.UNKNOWN;
+    private RobotOperatingMode prevMode = RobotOperatingMode.UNKNOWN;
     private boolean prevBrownoutState = false;
     private boolean curBrownoutState = false;
     private int brownoutNum = 0;
@@ -52,13 +52,13 @@ public class BreakerRoboRIO extends SubsystemBase {
     private void updateRobotMode() {
         roboRIO.prevMode = roboRIO.currentMode;
         if (isDisabled()) {
-            roboRIO.currentMode = RobotMode.DISABLED;
+            roboRIO.currentMode = RobotOperatingMode.DISABLED;
         } else if (isTeleop()) {
-            roboRIO.currentMode = RobotMode.TELEOP;
+            roboRIO.currentMode = RobotOperatingMode.TELEOP;
         } else if (isAutonomous()) {
-            roboRIO.currentMode = RobotMode.AUTONOMOUS;
+            roboRIO.currentMode = RobotOperatingMode.AUTONOMOUS;
         } else {
-            roboRIO.currentMode = RobotMode.TEST;
+            roboRIO.currentMode = RobotOperatingMode.TEST;
         }
         if (robotModeHasChanged()) {
             BreakerLog.logRobotChangedMode(roboRIO.currentMode);
@@ -83,7 +83,7 @@ public class BreakerRoboRIO extends SubsystemBase {
     }
 
     /** @return Current operating mode of robot. */
-    public static RobotMode getCurrentRobotMode() {
+    public static RobotOperatingMode getCurrentRobotMode() {
         return roboRIO.currentMode;
     }
 

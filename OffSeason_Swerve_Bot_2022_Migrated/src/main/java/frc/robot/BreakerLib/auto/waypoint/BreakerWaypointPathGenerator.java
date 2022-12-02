@@ -13,7 +13,7 @@ import frc.robot.BreakerLib.auto.waypoint.pathfinder.BreakerPathfinder;
 import frc.robot.BreakerLib.auto.waypoint.pathfinder.BreakerPathfinderNodeGrid;
 import frc.robot.BreakerLib.auto.waypoint.pathfinder.BreakerPathfinderPath;
 import frc.robot.BreakerLib.util.math.interpolation.BreakerInterpolatableDoubleArray;
-import frc.robot.BreakerLib.util.math.interpolation.interpolateingmaps.BreakerLegrangeInterpolateingTreeMap;
+import frc.robot.BreakerLib.util.math.interpolation.maps.BreakerLegrangeInterpolateingTreeMap;
 
 /** Generates waypoint paths for auto driving. */
 public class BreakerWaypointPathGenerator {

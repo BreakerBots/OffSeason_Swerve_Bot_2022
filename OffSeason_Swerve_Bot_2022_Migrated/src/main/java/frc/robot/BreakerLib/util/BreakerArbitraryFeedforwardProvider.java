@@ -9,7 +9,7 @@ import java.util.function.Function;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.RobotController;
-import frc.robot.BreakerLib.util.math.interpolation.interpolateingmaps.BreakerGenericInterpolatingMap;
+import frc.robot.BreakerLib.util.math.interpolation.maps.BreakerGenericInterpolatingMap;
 
 /**
  * A class that acts as a provider for arbitrary feedforward demand values used

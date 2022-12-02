@@ -9,7 +9,7 @@ import frc.robot.BreakerLib.devices.cosmetic.music.BreakerFalconOrchestra;
 import frc.robot.BreakerLib.devices.cosmetic.music.BreakerSounds;
 import frc.robot.BreakerLib.util.BreakerLibVersion;
 import frc.robot.BreakerLib.util.BreakerRoboRIO;
-import frc.robot.BreakerLib.util.BreakerRoboRIO.RobotMode;
+import frc.robot.BreakerLib.util.BreakerRoboRIO.RobotOperatingMode;
 import frc.robot.BreakerLib.util.robotmanager.BreakerRobotStartConfig;
 
 /** Global log manager for all your data logging and printing needs */
@@ -60,9 +60,9 @@ public class BreakerLog {
    * Logs robot mode change and plays enable tune. (automatically called by
    * BreakerRoboRIO)
    */
-  public static void logRobotChangedMode(RobotMode newMode) {
+  public static void logRobotChangedMode(RobotOperatingMode newMode) {
     DataLogManager.log("| ---- ROBOT MODE CHANGED TO: " + newMode + " ---- |");
-    if (usesOrchestra && BreakerRoboRIO.robotModeHasChanged() && newMode != RobotMode.DISABLED) {
+    if (usesOrchestra && BreakerRoboRIO.robotModeHasChanged() && newMode != RobotOperatingMode.DISABLED) {
       orchestra.loadMusic(BreakerSounds.enableSound);
       orchestra.playMusic();
     }

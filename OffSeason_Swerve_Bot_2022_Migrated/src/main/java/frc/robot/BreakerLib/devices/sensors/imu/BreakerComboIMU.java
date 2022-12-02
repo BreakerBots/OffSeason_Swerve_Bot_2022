@@ -207,11 +207,6 @@ public class BreakerComboIMU extends BreakerGenericIMU {
     }
 
     @Override
-    public void setRange(Range range) {
-        accelerometer.setRange(range);
-    }
-
-    @Override
     public void calibrate() {
         gyro.calibrate();
     }

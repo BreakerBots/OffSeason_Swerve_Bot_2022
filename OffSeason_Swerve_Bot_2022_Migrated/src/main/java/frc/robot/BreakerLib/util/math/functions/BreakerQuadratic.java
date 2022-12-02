@@ -4,9 +4,6 @@
 
 package frc.robot.BreakerLib.util.math.functions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /** Add your docs here. */
 public class BreakerQuadratic extends BreakerMathFunction {
     public BreakerQuadratic(double a, double b, double c) {
