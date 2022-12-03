@@ -12,6 +12,13 @@ import frc.robot.BreakerLib.util.logging.BreakerLog;
 public class BreakerStartAutoPath extends InstantCommand {
   private BreakerGenericOdometer odometryProvider;
   private Pose2d startingPose;
+
+  /**
+   * Starts autopath at defined position.
+   * 
+   * @param odometryProvider Odometer used to track position.
+   * @param startingPose Starting position for odometer.
+   */
   public BreakerStartAutoPath(BreakerGenericOdometer odometryProvider, Pose2d startingPose) {
     this.odometryProvider = odometryProvider;
     this.startingPose = startingPose;

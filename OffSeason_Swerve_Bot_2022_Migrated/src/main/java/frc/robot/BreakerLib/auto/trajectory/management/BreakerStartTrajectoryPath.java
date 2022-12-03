@@ -12,6 +12,8 @@ import frc.robot.BreakerLib.util.logging.BreakerLog;
 public class BreakerStartTrajectoryPath extends InstantCommand {
   private BreakerGenericOdometer odometryProvider;
   private Pose2d startingPose;
+
+  
   public BreakerStartTrajectoryPath(BreakerGenericOdometer odometryProvider, Pose2d startingPose) {
     this.odometryProvider = odometryProvider;
     this.startingPose = startingPose;

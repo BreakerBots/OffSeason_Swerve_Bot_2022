@@ -4,8 +4,6 @@
 
 package frc.robot.BreakerLib.auto.trajectory.management.conditionalcommand;
 
-import java.util.function.Supplier;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.BreakerLib.util.math.BreakerMath;
@@ -15,6 +13,7 @@ public class BreakerPositionTriggeredEvent implements BreakerConditionalEvent{
     private Pose2d triggerPose;
     private Pose2d tolerences;
     private Command commandToRun;
+    
     public BreakerPositionTriggeredEvent(Pose2d triggerPose, Pose2d triggerPoseTolerences, Command commandToRun) {
         this.commandToRun = commandToRun;
         this.triggerPose = triggerPose;

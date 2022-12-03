@@ -7,7 +7,6 @@ package frc.robot.BreakerLib.auto.trajectory.swerve.ltv;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.wpi.first.math.controller.LTVUnicycleController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory.State;
@@ -21,39 +20,55 @@ import frc.robot.BreakerLib.auto.trajectory.swerve.rotation.BreakerSwerveRotatio
 import frc.robot.BreakerLib.util.logging.BreakerLog;
 
 /** Add your docs here. */
-public class BreakerLTVUnicycleSwerveAutoPathFollower extends CommandBase implements BreakerGenericAutoPathFollower  {
-    private final Timer timer = new Timer();
-    private BreakerLTVUnicycleSwerveAutoPathFollowerConfig config;
-    private BreakerTrajectoryPath trajectoryPath;
-    private BreakerGenericSwerveRotationSupplier rotationSupplier;
-    private ArrayList<BreakerConditionalEvent> remainingEvents;
-   /** Creates a new {@link BBreakerLTVUnicycleSwerveAutoPathFollower} that follows the given {@link BreakerTrajectoryPath}
-   * <br><br>NOTE: Robot's rotation setpoint defaults to th trajectory's lookahead point
-   * @param config The {@link BreakerSwerveAutoPathFollowerConfig} instnace that defignes this {@link BBreakerLTVUnicycleSwerveAutoPathFollower} instnaces base setup
-   * @param trajectoryPath The {@link BreakerTrajectoryPath} that this {@link BreakerLTVUnicycleSwerveAutoPathFollower} will follow
-    */
-    public BreakerLTVUnicycleSwerveAutoPathFollower(BreakerLTVUnicycleSwerveAutoPathFollowerConfig config, BreakerTrajectoryPath trajectoryPath) {
-        addRequirements(config.getDrivetrain());
-        this.config = config;
-        this.trajectoryPath = trajectoryPath;
-        rotationSupplier = new BreakerSwerveRotationSupplier((Double curTime) -> (trajectoryPath.getBaseTrajectory().sample(curTime).poseMeters.getRotation()));
-        remainingEvents = new ArrayList<>(trajectoryPath.getAttachedConditionalEvents());
-      }
-    
-      /** Creates a new {@link BreakerLTVUnicycleSwerveAutoPathFollower} that follows the given {@link BreakerTrajectoryPath}
-       * @param config The {@link BreakerLTVUnicycleSwerveAutoPathFollowerConfig} instnace that defignes this {@link BreakerLTVUnicycleSwerveAutoPathFollower} instnaces base setup
-       * @param rotationSupplier The {@link BreakerGenericSwerveRotationSupplier} that returns this path follower's rotation setpoint
-       * @param trajectoryPath The {@link BreakerTrajectoryPath} that this {@link BreakerSwerveAutoPathFollower} will follow
-        */
-      public BreakerLTVUnicycleSwerveAutoPathFollower(BreakerLTVUnicycleSwerveAutoPathFollowerConfig config, BreakerGenericSwerveRotationSupplier rotationSupplier, BreakerTrajectoryPath trajectoryPath) {
-        addRequirements(config.getDrivetrain());
-        this.config = config;
-        this.trajectoryPath = trajectoryPath;
-        this.rotationSupplier = rotationSupplier;
-        remainingEvents = new ArrayList<>();
-      }
+public class BreakerLTVUnicycleSwerveAutoPathFollower extends CommandBase implements BreakerGenericAutoPathFollower {
 
-    
+  private final Timer timer = new Timer();
+  private BreakerLTVUnicycleSwerveAutoPathFollowerConfig config;
+  private BreakerTrajectoryPath trajectoryPath;
+  private BreakerGenericSwerveRotationSupplier rotationSupplier;
+  private ArrayList<BreakerConditionalEvent> remainingEvents;
+
+  /**
+   * Creates a new {@link BBreakerLTVUnicycleSwerveAutoPathFollower} that follows
+   * the given {@link BreakerTrajectoryPath}
+   * <p>
+   * NOTE: Robot's rotation setpoint defaults to th trajectory's lookahead point.
+   * 
+   * @param config           The
+   *                         {@link BreakerLTVUnicycleSwerveAutoPathFollowerConfig}
+   *                         for this path follower.
+   * @param trajectoryPath   The {@link BreakerTrajectoryPath} to follow.
+   */
+  public BreakerLTVUnicycleSwerveAutoPathFollower(BreakerLTVUnicycleSwerveAutoPathFollowerConfig config,
+      BreakerTrajectoryPath trajectoryPath) {
+    addRequirements(config.getDrivetrain());
+    this.config = config;
+    this.trajectoryPath = trajectoryPath;
+    rotationSupplier = new BreakerSwerveRotationSupplier(
+        (Double curTime) -> (trajectoryPath.getBaseTrajectory().sample(curTime).poseMeters.getRotation()));
+    remainingEvents = new ArrayList<>(trajectoryPath.getAttachedConditionalEvents());
+  }
+
+  /**
+   * Creates a new {@link BreakerLTVUnicycleSwerveAutoPathFollower} that follows
+   * the given {@link BreakerTrajectoryPath}
+   * 
+   * @param config           The
+   *                         {@link BreakerLTVUnicycleSwerveAutoPathFollowerConfig}
+   *                         for this path follower.
+   * @param trajectoryPath   The {@link BreakerTrajectoryPath} to follow.
+   * @param rotationSupplier The {@link BreakerGenericSwerveRotationSupplier} that
+   *                         returns this path follower's rotation setpoint.
+   */
+  public BreakerLTVUnicycleSwerveAutoPathFollower(BreakerLTVUnicycleSwerveAutoPathFollowerConfig config, BreakerTrajectoryPath trajectoryPath, 
+  BreakerGenericSwerveRotationSupplier rotationSupplier) {
+    addRequirements(config.getDrivetrain());
+    this.config = config;
+    this.trajectoryPath = trajectoryPath;
+    this.rotationSupplier = rotationSupplier;
+    remainingEvents = new ArrayList<>();
+  }
+
   @Override
   public void initialize() {
     BreakerLog.logBreakerLibEvent("A new BreakerLTVUnicycleSwerveAutoPathFollower instance has started");
@@ -67,14 +82,13 @@ public class BreakerLTVUnicycleSwerveAutoPathFollower extends CommandBase implem
 
     State desiredState = trajectoryPath.getBaseTrajectory().sample(curTime);
 
-    ChassisSpeeds targetChassisSpeeds =
-        config.getUnicycleController().calculate(
-            config.getOdometer().getOdometryPoseMeters(),
-            new Pose2d(
-                desiredState.poseMeters.getTranslation(), 
-                rotationSupplier.getRotation(curTime)),
-            desiredState.velocityMetersPerSecond, 
-            desiredState.velocityMetersPerSecond);
+    ChassisSpeeds targetChassisSpeeds = config.getUnicycleController().calculate(
+        config.getOdometer().getOdometryPoseMeters(),
+        new Pose2d(
+            desiredState.poseMeters.getTranslation(),
+            rotationSupplier.getRotation(curTime)),
+        desiredState.velocityMetersPerSecond,
+        desiredState.velocityMetersPerSecond);
 
     config.getDrivetrain().move(targetChassisSpeeds, false);
 
@@ -100,9 +114,9 @@ public class BreakerLTVUnicycleSwerveAutoPathFollower extends CommandBase implem
     if (interrupted) {
       BreakerLog.logBreakerLibEvent("A BreakerLTVUnicycleSwerveAutoPathFollower instance was interrupted");
     } else {
-      BreakerLog.logBreakerLibEvent("A BreakerLTVUnicycleSwerveAutoPathFollower instance has ended normaly");
+      BreakerLog.logBreakerLibEvent("A BreakerLTVUnicycleSwerveAutoPathFollower instance has ended normally");
     }
-    
+
   }
 
   @Override
@@ -127,7 +141,7 @@ public class BreakerLTVUnicycleSwerveAutoPathFollower extends CommandBase implem
 
   @Override
   public void attachConditionalEvents(BreakerConditionalEvent... conditionalEvents) {
-    for (BreakerConditionalEvent ev: conditionalEvents) {
+    for (BreakerConditionalEvent ev : conditionalEvents) {
       remainingEvents.add(ev);
     }
   }

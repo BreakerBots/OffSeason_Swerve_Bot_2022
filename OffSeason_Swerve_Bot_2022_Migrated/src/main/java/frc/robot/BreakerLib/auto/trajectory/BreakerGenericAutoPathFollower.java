@@ -4,23 +4,19 @@
 
 package frc.robot.BreakerLib.auto.trajectory;
 
-import java.util.List;
-
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.Trajectory.State;
 import frc.robot.BreakerLib.auto.trajectory.management.BreakerTrajectoryPath;
 import frc.robot.BreakerLib.auto.trajectory.management.conditionalcommand.BreakerConditionalEvent;
 
 /** Trajectory-following interface for both differential and swerve drive. */
 public interface BreakerGenericAutoPathFollower {
 
-    /** Returns the currently followed trajectory. */
+    /** @return The currently followed trajectory. */
     public abstract BreakerTrajectoryPath getTrajectoryPath();
 
-    /** elapsed path time in seconds. */
+    /** @return Elapsed path time in seconds. */
     public abstract double getElapsedTimeSeconds();
 
-    /** If the path stops once completed. */
+    /** @return If the path stops once completed. */
     public abstract boolean getPathStopsAtEnd();
 
     /**

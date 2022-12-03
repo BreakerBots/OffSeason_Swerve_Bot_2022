@@ -4,12 +4,8 @@
 
 package frc.robot.BreakerLib.auto.trajectory.management.conditionalcommand;
 
-import java.util.function.DoubleSupplier;
-import java.util.function.Supplier;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.BreakerLib.util.math.BreakerMath;
 
 /** Add your docs here. */
 public class BreakerTimeTriggeredEvent implements BreakerConditionalEvent {

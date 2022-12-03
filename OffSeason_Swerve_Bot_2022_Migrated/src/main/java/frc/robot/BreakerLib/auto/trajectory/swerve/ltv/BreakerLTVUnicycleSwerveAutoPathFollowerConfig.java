@@ -4,13 +4,13 @@
 
 package frc.robot.BreakerLib.auto.trajectory.swerve.ltv;
 
-import edu.wpi.first.math.Drake;
 import edu.wpi.first.math.controller.LTVUnicycleController;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDrive;
 
 /** Add your docs here. */
 public class BreakerLTVUnicycleSwerveAutoPathFollowerConfig {
+    
     private LTVUnicycleController unicycleController;
     private BreakerSwerveDrive drivetrain;
     private BreakerGenericOdometer odometer;
