@@ -7,6 +7,7 @@ package frc.robot.BreakerLib.auto.trajectory.swerve;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.wpilibj.Timer;
@@ -26,6 +27,7 @@ public class BreakerSwerveAutoPathFollower extends CommandBase implements Breake
   private BreakerTrajectoryPath trajectoryPath;
   private BreakerGenericSwerveRotationSupplier rotationSupplier;
   private ArrayList<BreakerConditionalEvent> remainingEvents;
+  
   /** Creates a new {@link BreakerSwerveAutoPathFollower} that follows the given {@link BreakerTrajectoryPath}
    * <br><br>NOTE: Robot's rotation setpoint defaults to 0 degrees
    * @param config The {@link BreakerSwerveAutoPathFollowerConfig} instnace that defignes this {@link BreakerSwerveAutoPathFollower} instnaces base setup
@@ -65,7 +67,7 @@ public class BreakerSwerveAutoPathFollower extends CommandBase implements Breake
     State desiredState = trajectoryPath.getBaseTrajectory().sample(curTime);
 
     ChassisSpeeds targetChassisSpeeds =
-        config.getDriveController().calculate(config.getOdometer().getOdometryPoseMeters(), desiredState, rotationSupplier.getRotation(curTime));
+        config.getDriveController().calculate(config.getOdometer().getOdometryPoseMeters(), desiredState, rotationSupplier.getRotation(curTime)); //rotationSupplier.getRotation(curTime)
 
     config.getDrivetrain().move(targetChassisSpeeds, false);
 

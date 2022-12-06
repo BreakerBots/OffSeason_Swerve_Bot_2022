@@ -11,6 +11,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -31,21 +32,21 @@ import frc.robot.subsystems.Drive;
 public class TestTrajectoryAutoPath extends SequentialCommandGroup {
   /** Creates a new TestAutoPath. */
   public TestTrajectoryAutoPath(Drive drivetrain) {
-    
-    BreakerSwerveAutoPathFollowerConfig swerveFollowerConfig = new BreakerSwerveAutoPathFollowerConfig(drivetrain.getBaseDrivetrain(), 
-        new HolonomicDriveController(new PIDController(2.0, 0.0, 0.1), new PIDController(2.0, 0.0, 0.1), new ProfiledPIDController(0.000000001, 0.0, 0.0, new TrapezoidProfile.Constraints(0.0, 0.0))));
+
+    BreakerSwerveAutoPathFollowerConfig swerveFollowerConfig = new BreakerSwerveAutoPathFollowerConfig(
+        drivetrain.getBaseDrivetrain(),
+        new HolonomicDriveController(new PIDController(2.0, 0.0, 0.1), new PIDController(2.0, 0.0, 0.1),
+            new ProfiledPIDController(3.3, 0.0, 0.0, new TrapezoidProfile.Constraints(1, 1))));
 
     BreakerTrajectoryPath traj1 = new BreakerTrajectoryPath(TrajectoryGenerator.generateTrajectory(
         BreakerTrajectoryUtil.toPoseWaypointList(
-          new Pose2d(), 
-          new Pose2d(1.0, 0.0, new Rotation2d()),
-          new Pose2d(1.0, -1.0, new Rotation2d()
-          )),
+            new Pose2d(),
+            new Pose2d(1.0, 0.0, new Rotation2d())),
         new TrajectoryConfig(0.5, 0.5)), true);
-    
+
+    BreakerSwerveRotationSupplier rotSup = new BreakerSwerveRotationSupplier(() -> (Rotation2d.fromDegrees(90)));
     addCommands(
-      new BreakerStartTrajectoryPath(drivetrain.getBaseDrivetrain(), new Pose2d()),
-      new BreakerSwerveAutoPathFollower(swerveFollowerConfig, traj1)
-    );
+        new BreakerStartTrajectoryPath(drivetrain.getBaseDrivetrain(), new Pose2d()),
+        new BreakerSwerveAutoPathFollower(swerveFollowerConfig, rotSup, traj1));
   }
 }
