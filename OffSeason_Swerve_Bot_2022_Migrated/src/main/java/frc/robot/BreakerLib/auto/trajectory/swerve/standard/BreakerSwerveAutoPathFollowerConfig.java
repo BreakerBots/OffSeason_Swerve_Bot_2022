@@ -5,7 +5,6 @@
 package frc.robot.BreakerLib.auto.trajectory.swerve.standard;
 
 import edu.wpi.first.math.controller.HolonomicDriveController;
-import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDrive;
 
