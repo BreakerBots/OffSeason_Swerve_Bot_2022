@@ -23,6 +23,7 @@ import frc.robot.BreakerLib.util.logging.BreakerLog;
  * {@link BreakerTrajectoryPath}
  */
 public class BreakerSwerveAutoPathFollower extends CommandBase implements BreakerGenericAutoPathFollower {
+  
   private final Timer timer = new Timer();
   private BreakerSwerveAutoPathFollowerConfig config;
   private BreakerTrajectoryPath trajectoryPath;

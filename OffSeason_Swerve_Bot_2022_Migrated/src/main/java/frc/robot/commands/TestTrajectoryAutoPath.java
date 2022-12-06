@@ -39,6 +39,7 @@ public class TestTrajectoryAutoPath extends SequentialCommandGroup {
           )),
         new TrajectoryConfig(0.5, 0.5)), true);
     
+        
     addCommands(
       new BreakerStartTrajectoryPath(drivetrain.getBaseDrivetrain(), new Pose2d()),
       new BreakerSwerveAutoPathFollower(swerveFollowerConfig, traj1)

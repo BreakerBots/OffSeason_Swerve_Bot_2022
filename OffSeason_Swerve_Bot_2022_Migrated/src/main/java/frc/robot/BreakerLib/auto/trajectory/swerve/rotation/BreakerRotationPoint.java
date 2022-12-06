@@ -4,15 +4,14 @@
 
 package frc.robot.BreakerLib.auto.trajectory.swerve.rotation;
 
-import java.util.function.Supplier;
-
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.BreakerLib.util.math.interpolation.BreakerInterpolable;
 
-/** Add your docs here. */
+/** Rotation with time value. */
 public class BreakerRotationPoint {
+
     private Rotation2d rotation;
     private double timeOfRotation;
+
     /** creates a new BreakerRotationPoint
      * @param rotation - the robot rotation
      * @param timeOfRotation - the time along the trajectory in seconds that this rotation represents

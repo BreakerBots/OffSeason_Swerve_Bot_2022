@@ -10,14 +10,29 @@ import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDrive
 
 /** A config class that represents the inital setup for a {@link BreakerSwerveAutoPathFollower} */
 public class BreakerSwerveAutoPathFollowerConfig {
+
     private BreakerSwerveDrive drivetrain;
     private HolonomicDriveController driveController;
     private BreakerGenericOdometer odometer;
+
+    /**
+     * Config with internal drivetrain odometer.
+     * 
+     * @param drivetrain Drivetrain
+     * @param driveController Holonomic controller.
+     */
     public BreakerSwerveAutoPathFollowerConfig(BreakerSwerveDrive drivetrain, HolonomicDriveController driveController) {
-        this(drivetrain, drivetrain, driveController);
+        this(drivetrain, driveController, drivetrain);
     }
 
-    public BreakerSwerveAutoPathFollowerConfig(BreakerSwerveDrive drivetrain, BreakerGenericOdometer odometer, HolonomicDriveController driveController) {
+    /**
+     * Config with external odometer.
+     * 
+     * @param drivetrain Drivetrain
+     * @param driveController Holonomic controller.
+     * @param odometer External odometer.
+     */
+    public BreakerSwerveAutoPathFollowerConfig(BreakerSwerveDrive drivetrain, HolonomicDriveController driveController, BreakerGenericOdometer odometer) {
         this.drivetrain = drivetrain;
         this.odometer = odometer;
         this.driveController = driveController;
