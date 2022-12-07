@@ -18,7 +18,6 @@ import frc.robot.BreakerLib.util.math.interpolation.maps.BreakerInterpolatingTre
  */
 public class BreakerSwerveRotationSupplier implements BreakerGenericSwerveRotationSupplier {
 
-    private BreakerRotationPoint[] rotationPoints;
     private Function<Double, Rotation2d> externalFunction;
     private BreakerInterpolatingTreeMap<Double, BreakerInterpolableDouble> interMap;
     private boolean usesFunc;
@@ -39,7 +38,6 @@ public class BreakerSwerveRotationSupplier implements BreakerGenericSwerveRotati
      * @param rotationPoints Time defined rotations to interpolate between.
      */
     public BreakerSwerveRotationSupplier(BreakerRotationPoint... rotationPoints) {
-        this.rotationPoints = rotationPoints;
         usesFunc = false;
         for (BreakerRotationPoint point : rotationPoints) {
             interMap.put(point.getTimeOfRotation(), new BreakerInterpolableDouble(point.getRotation().getRadians()));
@@ -53,11 +51,7 @@ public class BreakerSwerveRotationSupplier implements BreakerGenericSwerveRotati
      * @param rotationPoints List of time defined rotations to interpolate between.
      */
     public BreakerSwerveRotationSupplier(List<BreakerRotationPoint> rotationPoints) {
-        this.rotationPoints = rotationPoints.toArray(new BreakerRotationPoint[rotationPoints.size()]);
-        usesFunc = false;
-        for (BreakerRotationPoint point : rotationPoints) {
-            interMap.put(point.getTimeOfRotation(), new BreakerInterpolableDouble(point.getRotation().getRadians()));
-        }
+        this(rotationPoints.toArray(new BreakerRotationPoint[rotationPoints.size()]));
     }
 
     /**
