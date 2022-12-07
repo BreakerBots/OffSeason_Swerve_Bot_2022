@@ -1,26 +1,39 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.BreakerLib.position.odometry.differential;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 
-/** Add your docs here. */
+/** State of a {@link BreakerDiffDrive} with speeds and distances. */
 public class BreakerDiffDriveState {
+
     private DifferentialDriveWheelSpeeds wheelSpeeds;
     private double leftDriveDistanceMeters;
     private double rightDriveDistanceMeters;
-    public BreakerDiffDriveState(double leftDrivetrainSpeedMetersPerSecond, double rightDrivetrainSpeedMetersPerSecond, double leftDriveDistanceMeters, double rightDriveDistanceMeters) {
-        wheelSpeeds = new DifferentialDriveWheelSpeeds(leftDrivetrainSpeedMetersPerSecond, rightDrivetrainSpeedMetersPerSecond);
-        this.leftDriveDistanceMeters = leftDriveDistanceMeters;
-        this.rightDriveDistanceMeters = rightDriveDistanceMeters;
+
+    /**
+     * Create a {@link BreakerDiffDriveState} from drivetrain speeds and distances.
+     * 
+     * @param leftDriveSpeed Left wheel speeds, m/s.
+     * @param rightDriveSpeed Right wheel speeds, m/s.
+     * @param leftDriveDistance Distance traveled by left wheels, m.
+     * @param rightDriveDistance Distance traveled by right wheels, m.
+     */
+    public BreakerDiffDriveState(double leftDriveSpeed, double rightDriveSpeed, double leftDriveDistance, double rightDriveDistance) {
+        wheelSpeeds = new DifferentialDriveWheelSpeeds(leftDriveSpeed, rightDriveSpeed);
+        this.leftDriveDistanceMeters = leftDriveDistance;
+        this.rightDriveDistanceMeters = rightDriveDistance;
     }
 
-    public BreakerDiffDriveState(DifferentialDriveWheelSpeeds wheelSpeeds, double leftDriveDistanceMeters, double rightDriveDistanceMeters) {
+    /**
+     * Create a {@link BreakerDiffDriveState} from {@link DifferentialDriveWheelSpeeds} and distances.
+     * 
+     * @param wheelSpeeds Speeds of drivetrain wheels.
+     * @param leftDriveDistance Distance traveled by left wheels, m.
+     * @param rightDriveDistance Distance traveled by right wheels, m.
+     */
+    public BreakerDiffDriveState(DifferentialDriveWheelSpeeds wheelSpeeds, double leftDriveDistance, double rightDriveDistance) {
         this.wheelSpeeds = wheelSpeeds;
-        this.leftDriveDistanceMeters = leftDriveDistanceMeters;
-        this.rightDriveDistanceMeters = rightDriveDistanceMeters;
+        this.leftDriveDistanceMeters = leftDriveDistance;
+        this.rightDriveDistanceMeters = rightDriveDistance;
     }
 
     public double getLeftDriveDistanceMeters() {

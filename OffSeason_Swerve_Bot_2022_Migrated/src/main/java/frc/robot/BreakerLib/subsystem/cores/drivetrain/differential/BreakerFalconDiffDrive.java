@@ -4,12 +4,9 @@
 
 package frc.robot.BreakerLib.subsystem.cores.drivetrain.differential;
 
-import java.util.function.DoubleSupplier;
-
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGenericGyro;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.vendorutil.BreakerCTREUtil;
@@ -21,11 +18,11 @@ public class BreakerFalconDiffDrive extends BreakerDiffDrive {
 
      /** Creates a new Differential (tank drive) drivetrain instance.
      * 
-     * @param leftMotors an array of the {@link WPI_TalonFX} motor controlers that controll the drive's left side
-     * @param invertL a boolean the determens wheather or not to invert the left drive motor output and encoder readings
-     * @param rightMotors an array of the {@link WPI_TalonFX} motor controlers that controll the drive's right side
-     * @param invertR a boolean the determens wheather or not to invert the left drive motor output and encoder readings
-     * @param gyro a {@link BreakerGenericGyro} yaw reading capable gyroscope or IMU
+     * @param leftMotors Left {@link WPI_TalonFX} motors.
+     * @param invertL Invert left motor outputs & encoder readings.
+     * @param rightMotors Right {@link WPI_TalonFX} motors.
+     * @param invertR Invert right motor outputs & encoder readings.
+     * @param gyro {@link BreakerGenericGyro} capable of reading yaw. 
      * @param driveConfig A {@link BreakerDiffDriveConfig} representing the configerable values of this drivetrain's kinimatics and control values
      */
     public BreakerFalconDiffDrive(WPI_TalonFX[] leftMotors, WPI_TalonFX[] rightMotors, boolean invertL, boolean invertR,

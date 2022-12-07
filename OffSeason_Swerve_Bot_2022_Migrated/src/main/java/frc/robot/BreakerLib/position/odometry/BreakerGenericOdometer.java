@@ -13,29 +13,42 @@ import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 /** Interface for all BreakerLib classes capable of generteing odometry data */
 public interface BreakerGenericOdometer {
 
-  /** Sets the odometer's current position reading to the given {@link Pose2d} object  */
+  /**
+   * Set the odometer's current position.
+   * 
+   * @param newPose Pose to set the odometer to.
+   */
   public abstract void setOdometryPosition(Pose2d newPose);
 
-  /** Sets the odometer's current translational position reading to the given {@link Translation2d} 
-   * without reseting the current angle reading */
+  /**
+   * Changes odometer translation without affecting rotation.
+   * 
+   * @param newTranslation New odometer translation.
+   */
   public default void setOdometryTranslation(Translation2d newTranslation) {
     setOdometryPosition(new Pose2d(newTranslation, getOdometryPoseMeters().getRotation()));
   }
 
-  /** Sets the odometer's current rotational position reading to the given {@link Rotation2d} 
-   * without reseting the current translation reading */
+  /**
+   * Changes odometer rotation without affecting translation.
+   * 
+   * @param newRotation New odometer rotation.
+   */
   public default void setOdometryRotation(Rotation2d newRotation) {
     setOdometryPosition(new Pose2d(getOdometryPoseMeters().getTranslation(), newRotation));
   }
-  
+
+  /** Resets odometer translation and rotation. */
   public default void resetOdometryPosition() {
     setOdometryPosition(new Pose2d());
   }
 
+  /** Resets odometer translation to 0. */
   public default void resetOdometryTranslation() {
     setOdometryTranslation(new Translation2d());
   }
 
+  /** Resets odometer rotation to 0. */
   public default void resetOdometryRotation() {
     setOdometryRotation(new Rotation2d());
   }
@@ -45,10 +58,10 @@ public interface BreakerGenericOdometer {
 
   /** @return Movement state of object. */
   public abstract BreakerMovementState2d getMovementState();
-  
+
   /** @return Chassis speeds relative to robot. */
   public abstract ChassisSpeeds getRobotRelativeChassisSpeeds();
-  
+
   /** @return Chassis speeds relative to field. */
   public abstract ChassisSpeeds getFieldRelativeChassisSpeeds();
 }

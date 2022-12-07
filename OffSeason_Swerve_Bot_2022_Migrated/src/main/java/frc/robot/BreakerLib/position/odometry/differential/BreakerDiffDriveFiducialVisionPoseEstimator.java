@@ -6,22 +6,28 @@ package frc.robot.BreakerLib.position.odometry.differential;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGenericGyro;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.position.odometry.vision.BreakerVisionOdometer;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.differential.BreakerDiffDrive;
 
-/** Add your docs here. */
-public class BreakerDiffDriveFiducialVisionPoseEstimator extends SubsystemBase implements BreakerGenericOdometer {
+/** Estimates diff drive pose based on vision odometry. */
+public class BreakerDiffDriveFiducialVisionPoseEstimator implements BreakerGenericOdometer {
     private BreakerVisionOdometer vision;
     private BreakerDiffDrive drivetrain;
     private BreakerDiffDrivePoseEstimator poseEstimator;
-    public BreakerDiffDriveFiducialVisionPoseEstimator(BreakerDiffDrive drivetrain, BreakerVisionOdometer vision, double[] stateModelStanderdDeveation, double[] encoderAndGyroStandardDeveation, double[] visionStanderdDeveation) {
+
+    public BreakerDiffDriveFiducialVisionPoseEstimator(BreakerDiffDrive drivetrain, BreakerVisionOdometer vision,
+            double[] stateModelStanderdDeveation, double[] encoderAndGyroStandardDeveation,
+            double[] visionStanderdDeveation) {
         this.vision = vision;
         this.drivetrain = drivetrain;
-        poseEstimator = new BreakerDiffDrivePoseEstimator(drivetrain.getBaseGyro(), vision.getOdometryPoseMeters(), stateModelStanderdDeveation, encoderAndGyroStandardDeveation, visionStanderdDeveation);
+        poseEstimator = new BreakerDiffDrivePoseEstimator(drivetrain.getBaseGyro(), vision.getOdometryPoseMeters(),
+                stateModelStanderdDeveation, encoderAndGyroStandardDeveation, visionStanderdDeveation);
+        
+        CommandScheduler.getInstance().schedule(new RunCommand(() -> updateOdometry()));
     }
 
     @Override
@@ -39,7 +45,7 @@ public class BreakerDiffDriveFiducialVisionPoseEstimator extends SubsystemBase i
     public BreakerMovementState2d getMovementState() {
         return poseEstimator.getMovementState();
     }
-    
+
     @Override
     public ChassisSpeeds getRobotRelativeChassisSpeeds() {
         return poseEstimator.getRobotRelativeChassisSpeeds();
@@ -55,10 +61,5 @@ public class BreakerDiffDriveFiducialVisionPoseEstimator extends SubsystemBase i
         if (vision.isAnyTargetVisable()) {
             poseEstimator.addVisionMeasurment(vision.getOdometryPoseMeters(), vision.getDataTimestamp());
         }
-    }
-
-    @Override
-    public void periodic() {
-        updateOdometry();
     }
 }
