@@ -86,7 +86,6 @@ public class BreakerSwerveRotationSupplier implements BreakerGenericSwerveRotati
     @Override
     public Rotation2d getRotation(double currentTime) {
         if (usesFunc) {
-            System.out.println(externalFunction.apply(currentTime));
             return externalFunction.apply(currentTime);
         }
         return new Rotation2d(interMap.getInterpolatedValue(currentTime).getValue());

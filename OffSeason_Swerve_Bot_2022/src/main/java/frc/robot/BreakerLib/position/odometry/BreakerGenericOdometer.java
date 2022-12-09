@@ -8,35 +8,37 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGenericGyro;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 
 /** Interface for all BreakerLib classes capable of generteing odometry data */
 public interface BreakerGenericOdometer {
 
-  /** Sets the odometer's current position reading to the given {@link Pose2d} object  */
+  /** Sets the odometer's current position reading to the given {@link Pose2d} object.  */
   public abstract void setOdometryPosition(Pose2d newPose);
 
   /** Sets the odometer's current translational position reading to the given {@link Translation2d} 
-   * without reseting the current angle reading */
+   * without resetting the current angle reading */
   public default void setOdometryTranslation(Translation2d newTranslation) {
     setOdometryPosition(new Pose2d(newTranslation, getOdometryPoseMeters().getRotation()));
   }
 
   /** Sets the odometer's current rotational position reading to the given {@link Rotation2d} 
-   * without reseting the current translation reading */
+   * without resetting the current translation reading. */
   public default void setOdometryRotation(Rotation2d newRotation) {
     setOdometryPosition(new Pose2d(getOdometryPoseMeters().getTranslation(), newRotation));
   }
   
+  /** Sets odometry translation and rotation to 0. */
   public default void resetOdometryPosition() {
     setOdometryPosition(new Pose2d());
   }
 
+  /** Sets odometry translation to 0. */
   public default void resetOdometryTranslation() {
     setOdometryTranslation(new Translation2d());
   }
 
+  /** Sets odometry rotation to 0. */
   public default void resetOdometryRotation() {
     setOdometryRotation(new Rotation2d());
   }

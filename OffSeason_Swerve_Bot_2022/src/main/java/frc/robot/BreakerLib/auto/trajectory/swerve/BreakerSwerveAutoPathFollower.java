@@ -64,8 +64,9 @@ public class BreakerSwerveAutoPathFollower extends CommandBase implements Breake
   @Override
   public void execute() {
     double curTime = timer.get();
+    System.out.println(curTime);
     State desiredState = trajectoryPath.getBaseTrajectory().sample(curTime);
-
+    System.out.println(rotationSupplier.getRotation(curTime));
     ChassisSpeeds targetChassisSpeeds =
         config.getDriveController().calculate(config.getOdometer().getOdometryPoseMeters(), desiredState, rotationSupplier.getRotation(curTime)); //rotationSupplier.getRotation(curTime)
 

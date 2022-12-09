@@ -48,7 +48,7 @@ public class RobotContainer {
     drivetrainSys.getBaseDrivetrain().resetOdometryPosition();
 
     configureButtonBindings();
-    teleopControllerCommand.addSlewRateLimiters(new SlewRateLimiter(2.0), new SlewRateLimiter(2.0), new SlewRateLimiter(4.0));
+    //teleopControllerCommand.addSlewRateLimiters(new SlewRateLimiter(2.0), new SlewRateLimiter(2.0), new SlewRateLimiter(4.0));
     drivetrainSys.getBaseDrivetrain()
         .setDefaultCommand(teleopControllerCommand);
   }

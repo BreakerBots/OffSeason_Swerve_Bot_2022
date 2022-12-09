@@ -17,7 +17,7 @@ import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.util.math.BreakerMath;
 
 /** Add your docs here. */
-public class BreakerDiffDrivePoseEstimator implements BreakerGenericOdometer {
+public class BreakerDiffDrivePoseEstimationOdometer implements BreakerGenericOdometer {
 
     private BreakerGenericGyro gyro;
     private DifferentialDrivePoseEstimator poseEstimator;
@@ -28,7 +28,7 @@ public class BreakerDiffDrivePoseEstimator implements BreakerGenericOdometer {
     private BreakerMovementState2d prevMovementState = new BreakerMovementState2d();
     private BreakerMovementState2d curMovementState = new BreakerMovementState2d();
 
-    public BreakerDiffDrivePoseEstimator(BreakerGenericGyro gyro, Pose2d initialPose,
+    public BreakerDiffDrivePoseEstimationOdometer(BreakerGenericGyro gyro, Pose2d initialPose,
             double[] stateModelStanderdDeviation, double[] encoderAndGyroStandardDeviation,
             double[] visionStanderdDeviation) {
         currentPose = initialPose;

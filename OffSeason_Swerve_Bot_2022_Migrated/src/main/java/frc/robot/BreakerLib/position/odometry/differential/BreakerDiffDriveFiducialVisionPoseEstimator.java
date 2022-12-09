@@ -17,14 +17,14 @@ import frc.robot.BreakerLib.subsystem.cores.drivetrain.differential.BreakerDiffD
 public class BreakerDiffDriveFiducialVisionPoseEstimator implements BreakerGenericOdometer {
     private BreakerVisionOdometer vision;
     private BreakerDiffDrive drivetrain;
-    private BreakerDiffDrivePoseEstimator poseEstimator;
+    private BreakerDiffDrivePoseEstimationOdometer poseEstimator;
 
     public BreakerDiffDriveFiducialVisionPoseEstimator(BreakerDiffDrive drivetrain, BreakerVisionOdometer vision,
             double[] stateModelStanderdDeveation, double[] encoderAndGyroStandardDeveation,
             double[] visionStanderdDeveation) {
         this.vision = vision;
         this.drivetrain = drivetrain;
-        poseEstimator = new BreakerDiffDrivePoseEstimator(drivetrain.getBaseGyro(), vision.getOdometryPoseMeters(),
+        poseEstimator = new BreakerDiffDrivePoseEstimationOdometer(drivetrain.getBaseGyro(), vision.getOdometryPoseMeters(),
                 stateModelStanderdDeveation, encoderAndGyroStandardDeveation, visionStanderdDeveation);
         
         CommandScheduler.getInstance().schedule(new RunCommand(() -> updateOdometry()));
