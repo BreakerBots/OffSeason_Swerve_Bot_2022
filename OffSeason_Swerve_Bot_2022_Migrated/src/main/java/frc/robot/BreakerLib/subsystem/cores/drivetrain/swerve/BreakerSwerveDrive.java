@@ -36,13 +36,13 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain implements Brea
   /** The current {@link SwerveModuleState} each of this drivetrain's swerve modules is set to */
   private SwerveModuleState[] targetModuleStates;
 
-  /** Each of the {@link BreakerGenericSwerveModule} instances controlled by this class */
+  /** Each of the {@link BreakerGenericSwerveModule} instances controlled by this class. */
   private BreakerGenericSwerveModule[] swerveModules;
 
-  /** The {@link BreakerGenericGyro} used for this drivetrain's internal odometery */
+  /** The {@link BreakerGenericGyro} used for this drivetrain's internal odometery. */
   private BreakerGenericGyro gyro;
 
-  /** The {@link SwerveDriveOdometry} object this drivetrain uses for its internal odometry */
+  /** The {@link SwerveDriveOdometry} object this drivetrain uses for its internal odometry. */
   private SwerveDriveOdometry odometer;
 
   private BreakerMovementState2d prevMovementState = new BreakerMovementState2d(),

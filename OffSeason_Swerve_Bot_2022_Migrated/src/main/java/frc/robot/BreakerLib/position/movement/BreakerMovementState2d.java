@@ -8,13 +8,12 @@ import java.util.Arrays;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import frc.robot.BreakerLib.physics.Breaker3AxisForces;
 
 /** Represents an object's 2D (linear: XY / Angular: Y) position (m & rad), velocity (m & rad/s), acceleration(m & rad/s^2), and jerk (m & rad /s^3) at a given time. */
 public class BreakerMovementState2d {
     private Pose2d position;
-    private Breaker3AxisForces[] derivitivesOfPosition;
+    private Breaker3AxisForces[] positionDerivatives;
 
     /**
      * Creates a new BreakerMovementState2d using a given position, velocity, acceleration, and jerk.
@@ -26,7 +25,7 @@ public class BreakerMovementState2d {
      */
     public BreakerMovementState2d(Pose2d position, Breaker3AxisForces... derivitivesOfPosition) {
         this.position = position;
-        this.derivitivesOfPosition = derivitivesOfPosition;
+        this.positionDerivatives = derivitivesOfPosition;
     }
 
      /**
@@ -38,17 +37,17 @@ public class BreakerMovementState2d {
      */
     public BreakerMovementState2d() {
         position = new Pose2d();
-        derivitivesOfPosition = new Breaker3AxisForces[0];
+        positionDerivatives = new Breaker3AxisForces[0];
     }
 
     public Pose2d estimateFuturePose(double deltaTimeSeconds) {
-        double prevDirX = derivitivesOfPosition[derivitivesOfPosition.length - 1].getLinearForces().getMagnatudeX();
-        double prevDirY = derivitivesOfPosition[derivitivesOfPosition.length - 1].getLinearForces().getMagnatudeY();
-        double prevDirT = derivitivesOfPosition[derivitivesOfPosition.length - 1].getAngularForce();
-        for (int i = derivitivesOfPosition.length - 1; i >= 0; i++) {
-            prevDirX = derivitivesOfPosition[i].getLinearForces().getMagnatudeX() + (prevDirX * deltaTimeSeconds);
-            prevDirY = derivitivesOfPosition[i].getLinearForces().getMagnatudeY() + (prevDirY * deltaTimeSeconds);
-            prevDirT = derivitivesOfPosition[i].getAngularForce() + (prevDirT * deltaTimeSeconds);
+        double prevDirX = positionDerivatives[positionDerivatives.length - 1].getLinearForces().getMagnatudeX();
+        double prevDirY = positionDerivatives[positionDerivatives.length - 1].getLinearForces().getMagnatudeY();
+        double prevDirT = positionDerivatives[positionDerivatives.length - 1].getAngularForce();
+        for (int i = positionDerivatives.length - 1; i >= 0; i++) {
+            prevDirX = positionDerivatives[i].getLinearForces().getMagnatudeX() + (prevDirX * deltaTimeSeconds);
+            prevDirY = positionDerivatives[i].getLinearForces().getMagnatudeY() + (prevDirY * deltaTimeSeconds);
+            prevDirT = positionDerivatives[i].getAngularForce() + (prevDirT * deltaTimeSeconds);
         }
         double x = position.getX() + (prevDirX * deltaTimeSeconds);
         double y = position.getY() + (prevDirY * deltaTimeSeconds);
@@ -63,21 +62,21 @@ public class BreakerMovementState2d {
         return position;
     }
  
-    public Breaker3AxisForces[] getDerivitivesOfPosition() {
-        return Arrays.copyOf(derivitivesOfPosition, derivitivesOfPosition.length);
+    public Breaker3AxisForces[] getDerivativesOfPosition() {
+        return Arrays.copyOf(positionDerivatives, positionDerivatives.length);
     }
 
 
-    /** follows indexes of dirivitive array, so 1st dirivitive would be at index 0 */
-    public Breaker3AxisForces getDirivitiveFromIndex(int indexOfDirivitve) {
-        if (indexOfDirivitve >= derivitivesOfPosition.length || indexOfDirivitve < 0 || derivitivesOfPosition[indexOfDirivitve] == null) {
+    /** Follows indexes of derivative array, so 1st dirivitive would be at index 0 */
+    public Breaker3AxisForces getDerivativefromIndex(int derivativeIndex) {
+        if (derivativeIndex >= positionDerivatives.length || derivativeIndex < 0 || positionDerivatives[derivativeIndex] == null) {
             return new Breaker3AxisForces();
         }
-        return derivitivesOfPosition[indexOfDirivitve];
+        return positionDerivatives[derivativeIndex];
     }
 
     @Override
     public String toString() {
-        return String.format("Breaker3AxisForces(Position: %s, Dirivitives: %s)", position, Arrays.toString(derivitivesOfPosition));
+        return String.format("Breaker3AxisForces(Position: %s, Dirivitives: %s)", position, Arrays.toString(positionDerivatives));
     }
 }

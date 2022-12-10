@@ -82,7 +82,7 @@ public class BreakerSwerveWaypointFollower extends CommandBase {
   @Override
   public void execute() {
         Pose2d curPose = config.getOdometer().getOdometryPoseMeters();
-        BreakerVector2 curVelVec = config.getOdometer().getMovementState().getDirivitiveFromIndex(0).getLinearForces();
+        BreakerVector2 curVelVec = config.getOdometer().getMovementState().getDerivativefromIndex(0).getLinearForces();
         double curVel = curVelVec.getMagnatude() * (curVelVec.getVectorRotation().getDegrees() >= 0 ? 1 : -1);
         TrapezoidProfile.State curState = new TrapezoidProfile.State(totalDistance - getTotalRemainingDistance(curPose), curVel);
         TrapezoidProfile profile = new TrapezoidProfile(waypointPath.getConstraints(), new TrapezoidProfile.State(totalDistance, 0), curState);
