@@ -19,7 +19,7 @@ import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
 public class BreakerRobotManager {
     private static SelfTest test;
     private static BreakerAutoManager autoManager;
-    private static BreakerAutomaticBrakeModeManager breakModeManager;
+    private static BreakerAutomaticBrakeModeManager brakeModeManager;
     private static BreakerGenericDrivetrain baseDrivetrain;
 
     private BreakerRobotManager() {
@@ -43,13 +43,13 @@ public class BreakerRobotManager {
         BreakerRobotManager.baseDrivetrain = baseDrivetrain;
         BreakerRobotManager.autoManager = robotConfig.UsesPaths() ? new BreakerAutoManager(robotConfig.getAutoPaths())
                 : new BreakerAutoManager();
-        BreakerRobotManager.breakModeManager = new BreakerAutomaticBrakeModeManager(
+        BreakerRobotManager.brakeModeManager = new BreakerAutomaticBrakeModeManager(
                 new BreakerAutomaticBrakeModeManagerConfig(baseDrivetrain));
         BreakerLog.logRobotStarted(robotConfig.getStartConfig());
     }
 
     public static BreakerAutomaticBrakeModeManager getAutomaticBreakModeManager() {
-        return breakModeManager;
+        return brakeModeManager;
     }
 
     public static SelfTest getSelfTest() {

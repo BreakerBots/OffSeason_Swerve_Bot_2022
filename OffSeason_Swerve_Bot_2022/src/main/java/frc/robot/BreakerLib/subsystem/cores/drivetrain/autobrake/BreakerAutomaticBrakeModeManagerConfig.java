@@ -26,7 +26,7 @@ public class BreakerAutomaticBrakeModeManagerConfig {
         this.breakInAuto = true;
         this.breakInDisabled = false;
         this.breakInTeleop = true;
-        this.breakInTest = true;
+        this.breakInTest = false;
         this.baseDrivetrain = baseDrivetrain;
     }
 

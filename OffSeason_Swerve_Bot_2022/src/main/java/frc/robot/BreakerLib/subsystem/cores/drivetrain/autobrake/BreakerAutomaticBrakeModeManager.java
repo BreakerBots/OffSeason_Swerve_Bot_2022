@@ -9,7 +9,8 @@ import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
 import frc.robot.BreakerLib.util.BreakerRoboRIO;
 
 /**
- * Automaticly handles break mode switching for your drivetrain based on the robot's current mode according to
+ * Automaticly handles break mode switching for your drivetrain based on the
+ * robot's current mode according to
  * given config.
  */
 public class BreakerAutomaticBrakeModeManager extends SubsystemBase {
@@ -47,11 +48,11 @@ public class BreakerAutomaticBrakeModeManager extends SubsystemBase {
 
     public void setAutomaticBreakMode() {
         switch (BreakerRoboRIO.getCurrentRobotMode()) {
-            case AUTONOMOUS:
-                baseDrivetrain.setDrivetrainBrakeMode(brakeInAuto);
-                break;
             case DISABLED:
                 baseDrivetrain.setDrivetrainBrakeMode(brakeInDisabled);
+                break;
+            case AUTONOMOUS:
+                baseDrivetrain.setDrivetrainBrakeMode(brakeInAuto);
                 break;
             case TELEOP:
                 baseDrivetrain.setDrivetrainBrakeMode(brakeInTeleop);
