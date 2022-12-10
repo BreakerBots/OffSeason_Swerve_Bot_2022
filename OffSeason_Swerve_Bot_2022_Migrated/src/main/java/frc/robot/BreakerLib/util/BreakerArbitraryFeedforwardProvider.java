@@ -18,7 +18,7 @@ import frc.robot.BreakerLib.util.math.interpolation.maps.BreakerGenericInterpola
 public class BreakerArbitraryFeedforwardProvider {
 
     private BreakerGenericInterpolatingMap<Double, Double> ffMap;
-    private double feedforwardCoeficent, staticFrictionCoeficent;
+    private double velocityCoefficient, staticFrictionCoefficient;
     private Function<Double, Double> ffFunc;
     private SimpleMotorFeedforward ffClass;
 
@@ -27,8 +27,8 @@ public class BreakerArbitraryFeedforwardProvider {
     /** Type of arbitrary feedforward provider. */
     private enum FeedForwardType {
         MAP_SUP,
-        COEFS,
-        FUNC,
+        COEFFICIENTS,
+        FUNCTION,
         FF_CLASS
     }
 
@@ -46,13 +46,13 @@ public class BreakerArbitraryFeedforwardProvider {
     /**
      * Creates a coefficient-based ArbitraryFeedForwardProvider.
      * 
-     * @param feedforwardCoefficient    Feedforward kV coefficient.
      * @param staticFrictionCoefficient Feedforward kS coefficient.
+     * @param velocityCoefficient Feedforward kV coefficient.
      */
-    public BreakerArbitraryFeedforwardProvider(double feedforwardCoefficient, double staticFrictionCoefficient) {
-        this.feedforwardCoeficent = feedforwardCoefficient;
-        this.staticFrictionCoeficent = staticFrictionCoefficient;
-        ffType = FeedForwardType.COEFS;
+    public BreakerArbitraryFeedforwardProvider(double staticFrictionCoefficient, double velocityCoefficient) {
+        this.velocityCoefficient = velocityCoefficient;
+        this.staticFrictionCoefficient = staticFrictionCoefficient;
+        ffType = FeedForwardType.COEFFICIENTS;
     }
 
     /**
@@ -63,7 +63,7 @@ public class BreakerArbitraryFeedforwardProvider {
      */
     public BreakerArbitraryFeedforwardProvider(Function<Double, Double> ffFunc) {
         this.ffFunc = ffFunc;
-        ffType = FeedForwardType.FUNC;
+        ffType = FeedForwardType.FUNCTION;
     }
 
     /**
@@ -73,7 +73,7 @@ public class BreakerArbitraryFeedforwardProvider {
      */
     public BreakerArbitraryFeedforwardProvider(DoubleSupplier ffSupplier) {
         ffFunc = (Double x) -> (ffSupplier.getAsDouble());
-        ffType = FeedForwardType.FUNC;
+        ffType = FeedForwardType.FUNCTION;
     }
 
     /**
@@ -90,14 +90,14 @@ public class BreakerArbitraryFeedforwardProvider {
     public double getArbitraryFeedforwardValue(double curSpeed) {
         double feedForward = 0.0;
         switch (ffType) {
-            case COEFS:
-                feedForward = (feedforwardCoeficent * curSpeed + staticFrictionCoeficent)
+            case COEFFICIENTS:
+                feedForward = (velocityCoefficient * curSpeed + staticFrictionCoefficient)
                         / RobotController.getBatteryVoltage();
                 break;
             case MAP_SUP:
                 feedForward = ffMap.getInterpolatedValue(curSpeed);
                 break;
-            case FUNC:
+            case FUNCTION:
                 feedForward = ffFunc.apply(curSpeed);
                 break;
             case FF_CLASS:
@@ -105,4 +105,6 @@ public class BreakerArbitraryFeedforwardProvider {
         }
         return feedForward;
     }
+
+
 }

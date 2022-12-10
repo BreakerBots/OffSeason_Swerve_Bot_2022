@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.util.test.suites.swerveSuite;
+package frc.robot.BreakerLib.util.test.suites.drivetrain.swerve;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class BreakerSwerveDriveTestSuite {
         return test;
     }
 
-    /** creates a standard swerve drive stress test (Total: 32 seconds)<br><br>
+    /** Creates a standard swerve drive stress test (Total: 32 seconds)<br><br>
      * 
      * 1. (X: 100%, Y: 0%, Angular: 0%) for 1.75 seconds<br>
      * 2. (X: -100%, Y: 0%, Angular: 0%) for 1.75 seconds<br>

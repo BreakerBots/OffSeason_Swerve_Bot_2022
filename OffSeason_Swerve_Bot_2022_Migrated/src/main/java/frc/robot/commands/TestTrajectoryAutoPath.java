@@ -18,7 +18,7 @@ import frc.robot.BreakerLib.auto.trajectory.management.BreakerStartTrajectoryPat
 import frc.robot.BreakerLib.auto.trajectory.management.BreakerTrajectoryPath;
 import frc.robot.BreakerLib.auto.trajectory.swerve.standard.BreakerSwerveAutoPathFollower;
 import frc.robot.BreakerLib.auto.trajectory.swerve.standard.BreakerSwerveAutoPathFollowerConfig;
-import frc.robot.subsystems.Drive;
+import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDrive;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -26,9 +26,9 @@ import frc.robot.subsystems.Drive;
 public class TestTrajectoryAutoPath extends SequentialCommandGroup {
   
   /** Creates a new TestAutoPath. */
-  public TestTrajectoryAutoPath(Drive drivetrain) {
+  public TestTrajectoryAutoPath(BreakerSwerveDrive drivetrain) {
     
-    BreakerSwerveAutoPathFollowerConfig swerveFollowerConfig = new BreakerSwerveAutoPathFollowerConfig(drivetrain.getBaseDrivetrain(), 
+    BreakerSwerveAutoPathFollowerConfig swerveFollowerConfig = new BreakerSwerveAutoPathFollowerConfig(drivetrain, 
         new HolonomicDriveController(new PIDController(2.0, 0.0, 0.1), new PIDController(2.0, 0.0, 0.1), new ProfiledPIDController(0.000000001, 0.0, 0.0, new TrapezoidProfile.Constraints(0.0, 0.0))));
 
     BreakerTrajectoryPath traj1 = new BreakerTrajectoryPath(TrajectoryGenerator.generateTrajectory(
@@ -41,7 +41,7 @@ public class TestTrajectoryAutoPath extends SequentialCommandGroup {
     
         
     addCommands(
-      new BreakerStartTrajectoryPath(drivetrain.getBaseDrivetrain(), new Pose2d()),
+      new BreakerStartTrajectoryPath(drivetrain, new Pose2d()),
       new BreakerSwerveAutoPathFollower(swerveFollowerConfig, traj1)
     );
   }

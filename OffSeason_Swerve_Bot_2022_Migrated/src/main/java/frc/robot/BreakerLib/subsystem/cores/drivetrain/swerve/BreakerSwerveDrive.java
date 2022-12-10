@@ -25,7 +25,7 @@ import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.test.suites.BreakerGenericTestSuiteImplementation;
-import frc.robot.BreakerLib.util.test.suites.swerveSuite.BreakerSwerveDriveTestSuite;
+import frc.robot.BreakerLib.util.test.suites.drivetrain.swerve.BreakerSwerveDriveTestSuite;
 
 /**
  * BreakerLib swerve drive class.

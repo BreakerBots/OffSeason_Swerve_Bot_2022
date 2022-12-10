@@ -18,7 +18,7 @@ import frc.robot.BreakerLib.util.math.BreakerUnits;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
-import frc.robot.BreakerLib.util.test.suites.flywheelSuite.BreakerFlywheelTestSuite;
+import frc.robot.BreakerLib.util.test.suites.flywheel.BreakerFlywheelTestSuite;
 import frc.robot.BreakerLib.util.vendorutil.BreakerCTREUtil;
 
 /** A class representing a robot's shooter flywheel and its assocated controle loop */

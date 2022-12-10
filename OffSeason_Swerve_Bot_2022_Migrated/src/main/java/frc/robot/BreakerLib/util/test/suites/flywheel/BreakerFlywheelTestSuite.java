@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.util.test.suites.flywheelSuite;
+package frc.robot.BreakerLib.util.test.suites.flywheel;
 
 import frc.robot.BreakerLib.subsystem.cores.shooter.BreakerFalconFlywheel;
 import frc.robot.BreakerLib.subsystem.cores.shooter.BreakerGenericFlywheel;
