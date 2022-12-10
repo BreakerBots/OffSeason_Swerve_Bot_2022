@@ -2,15 +2,15 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.util.robotmanager;
+package frc.robot.BreakerLib.util.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.BreakerLib.auto.trajectory.management.BreakerAutoManager;
-import frc.robot.BreakerLib.subsystem.cores.drivetrain.autobrake.BreakerAutoBrakeManager;
-import frc.robot.BreakerLib.subsystem.cores.drivetrain.autobrake.BreakerAutoBrakeManagerConfig;
 import frc.robot.BreakerLib.util.logging.BreakerLog;
 import frc.robot.BreakerLib.util.test.selftest.SelfTest;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
+import frc.robot.BreakerLib.subsystem.cores.drivetrain.brakemode.BreakerBrakeModeManager;
+import frc.robot.BreakerLib.subsystem.cores.drivetrain.brakemode.BreakerBrakeModeManagerConfig;
 
 /**
  * Robot manager that configures SelfTest functionality, automatic brake mode,
@@ -19,7 +19,7 @@ import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
 public class BreakerRobotManager {
     private static SelfTest test;
     private static BreakerAutoManager autoManager;
-    private static BreakerAutoBrakeManager brakeModeManager;
+    private static BreakerBrakeModeManager brakeModeManager;
     private static BreakerGenericDrivetrain baseDrivetrain;
 
     private BreakerRobotManager() {
@@ -31,24 +31,24 @@ public class BreakerRobotManager {
      * @param robotConfig Robot configuration.
      */
     public static void setup(BreakerGenericDrivetrain baseDrivetrain, BreakerRobotConfig robotConfig) {
-        if (robotConfig.UsesOrchestra()) {
-            BreakerLog.startLog(robotConfig.getAutologNetworkTables(), robotConfig.getOrchestra());
+        if (robotConfig.usesOrchestra()) {
+            BreakerLog.startLog(robotConfig.networkTablesLoggingEnabled(), robotConfig.getOrchestra());
             test = new SelfTest(robotConfig.getSecondsBetweenSelfChecks(),
                     robotConfig.getOrchestra(), robotConfig.getAutoRegisterDevices());
         } else {
-            BreakerLog.startLog(robotConfig.getAutologNetworkTables());
+            BreakerLog.startLog(robotConfig.networkTablesLoggingEnabled());
             test = new SelfTest(robotConfig.getSecondsBetweenSelfChecks(),
                     robotConfig.getAutoRegisterDevices());
         }
         BreakerRobotManager.baseDrivetrain = baseDrivetrain;
-        BreakerRobotManager.autoManager = robotConfig.UsesPaths() ? new BreakerAutoManager(robotConfig.getAutoPaths())
+        BreakerRobotManager.autoManager = robotConfig.usesPaths() ? new BreakerAutoManager(robotConfig.getAutoPaths())
                 : new BreakerAutoManager();
-        BreakerRobotManager.brakeModeManager = new BreakerAutoBrakeManager(
-                new BreakerAutoBrakeManagerConfig(baseDrivetrain));
+        BreakerRobotManager.brakeModeManager = new BreakerBrakeModeManager(
+                new BreakerBrakeModeManagerConfig(baseDrivetrain));
         BreakerLog.logRobotStarted(robotConfig.getStartConfig());
     }
 
-    public static BreakerAutoBrakeManager getAutomaticBreakModeManager() {
+    public static BreakerBrakeModeManager getAutomaticBreakModeManager() {
         return brakeModeManager;
     }
 
@@ -64,7 +64,7 @@ public class BreakerRobotManager {
         return autoManager.getSelectedAutoPath();
     }
 
-    public static void setDrivetrainBreakMode(boolean isEnabled) {
+    public static void setDrivetrainBrakeMode(boolean isEnabled) {
         baseDrivetrain.setDrivetrainBrakeMode(isEnabled);
     }
 }

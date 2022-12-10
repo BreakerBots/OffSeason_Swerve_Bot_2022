@@ -21,9 +21,9 @@ import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDrive
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerTeleopSwerveDriveController;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.modules.BreakerMK4iFalconSwerveModule;
 import frc.robot.BreakerLib.util.BreakerArbitraryFeedforwardProvider;
-import frc.robot.BreakerLib.util.robotmanager.BreakerRobotConfig;
-import frc.robot.BreakerLib.util.robotmanager.BreakerRobotManager;
-import frc.robot.BreakerLib.util.robotmanager.BreakerRobotStartConfig;
+import frc.robot.BreakerLib.util.robot.BreakerRobotConfig;
+import frc.robot.BreakerLib.util.robot.BreakerRobotManager;
+import frc.robot.BreakerLib.util.robot.BreakerRobotStartConfig;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -47,11 +47,7 @@ public class RobotContainer {
    */
   public RobotContainer() {
 
-    BreakerRobotManager.setup(
-        drivetrainSys,
-        new BreakerRobotConfig(
-            new BreakerRobotStartConfig(5104, "BreakerBots", "Offseason SwerveBot", 2022, "V2.1",
-                "Roman Abrahamson, and Yousif Alkhalaf")));
+    robotManagerSetup();
 
     controllerSys.configDeadbands(new BreakerGamepadAnalogDeadbandConfig(0.06, 0.06, 0.06, 0.06));
 
@@ -117,6 +113,13 @@ public class RobotContainer {
     backRightModule.setDeviceName(" BR_Module ");
 
     return new BreakerSwerveDrive(config, imu, frontLeftModule, frontRightModule, backLeftModule, backRightModule);
+  }
+
+  private void robotManagerSetup() {
+    BreakerRobotConfig robotConfig = new BreakerRobotConfig(new BreakerRobotStartConfig(5104, "BreakerBots",
+        "Breaker Swerve", 2022, "v1", "Yousif Alkhalaf, Roman Abrahamson"));
+    
+    BreakerRobotManager.setup(drivetrainSys, robotConfig);
   }
 
   /**

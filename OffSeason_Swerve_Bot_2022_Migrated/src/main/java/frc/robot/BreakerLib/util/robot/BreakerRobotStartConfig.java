@@ -2,9 +2,9 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.util.robotmanager;
+package frc.robot.BreakerLib.util.robot;
 
-/** Configures general robot info on startup. */
+/** Configures info in robot startup message. */
 public class BreakerRobotStartConfig {
     private int teamNum;
     private String teamName;

@@ -2,12 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.subsystem.cores.drivetrain.autobrake;
+package frc.robot.BreakerLib.subsystem.cores.drivetrain.brakemode;
 
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
 
-/** Config for {@link BreakerAutoBrakeManager}. */
-public class BreakerAutoBrakeManagerConfig {
+/** Config for {@link BreakerBrakeModeManager}. */
+public class BreakerBrakeModeManagerConfig {
 
     private boolean breakInAuto;
     private boolean breakInTeleop;
@@ -15,7 +15,7 @@ public class BreakerAutoBrakeManagerConfig {
     private boolean breakInDisabled;
     private BreakerGenericDrivetrain baseDrivetrain;
 
-    public BreakerAutoBrakeManagerConfig(BreakerGenericDrivetrain baseDrivetrain, boolean breakInTeleop,
+    public BreakerBrakeModeManagerConfig(BreakerGenericDrivetrain baseDrivetrain, boolean breakInTeleop,
             boolean breakInAuto, boolean breakInTest, boolean breakInDisabled) {
         this.breakInAuto = breakInAuto;
         this.breakInDisabled = breakInDisabled;
@@ -28,7 +28,7 @@ public class BreakerAutoBrakeManagerConfig {
      * Team 5104 default configuration, with all braking disabled along with the
      * robot for ease of transport but enabled otherwise.
      */
-    public BreakerAutoBrakeManagerConfig(BreakerGenericDrivetrain baseDrivetrain) {
+    public BreakerBrakeModeManagerConfig(BreakerGenericDrivetrain baseDrivetrain) {
         this.breakInAuto = true;
         this.breakInDisabled = false;
         this.breakInTeleop = true;

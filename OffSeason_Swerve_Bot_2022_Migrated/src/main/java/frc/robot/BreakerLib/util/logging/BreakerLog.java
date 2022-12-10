@@ -10,7 +10,7 @@ import frc.robot.BreakerLib.devices.cosmetic.music.BreakerSounds;
 import frc.robot.BreakerLib.util.BreakerLibVersion;
 import frc.robot.BreakerLib.util.BreakerRoboRIO;
 import frc.robot.BreakerLib.util.BreakerRoboRIO.RobotOperatingMode;
-import frc.robot.BreakerLib.util.robotmanager.BreakerRobotStartConfig;
+import frc.robot.BreakerLib.util.robot.BreakerRobotStartConfig;
 
 /** Global log manager for all your data logging and printing needs */
 public class BreakerLog {
