@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /** Playstation DualShock/DualSense controller wrapper. */
 public class BreakerPlaystationController extends BreakerGenericGamepad {
-    private JoystickButton triangle, square, circle, cross, share, options, touchpad, ps;
+    private JoystickButton share, options, touchpad, ps;
 
     /** PlayStation controller based on the {@link BreakerGenericGamepad}. 
      * 
@@ -24,11 +24,6 @@ public class BreakerPlaystationController extends BreakerGenericGamepad {
                 PS4Controller.Axis.kRightY.value, false, PS4Controller.Axis.kL2.value, PS4Controller.Axis.kR2.value,
                 PS4Controller.Button.kL1.value,
                 PS4Controller.Button.kL1.value);
-                
-        triangle = new JoystickButton(hid, PS4Controller.Button.kTriangle.value);
-        square = new JoystickButton(hid, PS4Controller.Button.kSquare.value);
-        circle = new JoystickButton(hid, PS4Controller.Button.kCircle.value);
-        cross = new JoystickButton(hid, PS4Controller.Button.kCross.value);
         share = new JoystickButton(hid, PS4Controller.Button.kShare.value);
         options = new JoystickButton(hid, PS4Controller.Button.kOptions.value);
         touchpad = new JoystickButton(hid, PS4Controller.Button.kTouchpad.value);
@@ -38,22 +33,22 @@ public class BreakerPlaystationController extends BreakerGenericGamepad {
 
     /** @return Triangle button. */
     public JoystickButton getTriangleButton() {
-        return triangle;
+        return getFaceButtons().getTopFaceButton();
     }
 
     /** @return Square button. */
     public JoystickButton getSquareButton() {
-        return square;
+        return getFaceButtons().getLeftFaceButton();
     }
 
     /** @return Circle button. */
     public JoystickButton getCircleButton() {
-        return circle;
+        return getFaceButtons().getRightFaceButton();
     }
 
     /** @return Cross button. */
     public JoystickButton getCrossButton() {
-        return cross;
+        return getFaceButtons().getBottomFaceButton();
     }
 
     /** @return Share button. */

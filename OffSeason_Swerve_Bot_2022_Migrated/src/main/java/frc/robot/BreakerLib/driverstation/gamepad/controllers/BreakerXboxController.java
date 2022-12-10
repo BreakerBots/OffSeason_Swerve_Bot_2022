@@ -72,21 +72,21 @@ public class BreakerXboxController extends BreakerGenericGamepad {
 
     /** @return A button. */
     public JoystickButton getButtonA() {
-        return faceButtons.getBottomActionButton();
+        return faceButtons.getBottomFaceButton();
     }
 
     /** @return B button. */
     public JoystickButton getButtonB() {
-        return faceButtons.getRightActionButton();
+        return faceButtons.getRightFaceButton();
     }
 
     /** @return X button. */
     public JoystickButton getButtonX() {
-        return faceButtons.getLeftActionButton();
+        return faceButtons.getLeftFaceButton();
     }
 
     /** @return Y button. */
     public JoystickButton getButtonY() {
-        return faceButtons.getTopActionButton();
+        return faceButtons.getTopFaceButton();
     }
 }

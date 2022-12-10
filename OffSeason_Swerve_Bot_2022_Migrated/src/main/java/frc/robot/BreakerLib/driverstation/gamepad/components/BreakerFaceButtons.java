@@ -1,4 +1,4 @@
-// Copyright (c) FIRST and other WPILib contributors.
+// Copyright (c) FIRST and other WPILib contributors.BreakerFaceButtons
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -14,34 +14,34 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * controllers.
  */
 public class BreakerFaceButtons {
-    private JoystickButton topActionButton, leftActionButton, rightActionButton, bottomActonButton;
+    private JoystickButton topFaceButton, leftFaceButton, rightFaceButton, bottomActonButton;
 
     /** Constructs set of face button based on given button ports and HID device. */
-    public BreakerFaceButtons(GenericHID hid, int topActionButtonPort, int leftActionButtonPort,
-            int rightActionButtonPort, int bottomActionButtonPort) {
-        topActionButton = new JoystickButton(hid, topActionButtonPort);
-        leftActionButton = new JoystickButton(hid, leftActionButtonPort);
-        rightActionButton = new JoystickButton(hid, rightActionButtonPort);
-        bottomActonButton = new JoystickButton(hid, bottomActionButtonPort);
+    public BreakerFaceButtons(GenericHID hid, int topFaceButtonPort, int leftFaceButtonPort,
+            int rightFaceButtonPort, int bottomFaceButtonPort) {
+        topFaceButton = new JoystickButton(hid, topFaceButtonPort);
+        leftFaceButton = new JoystickButton(hid, leftFaceButtonPort);
+        rightFaceButton = new JoystickButton(hid, rightFaceButtonPort);
+        bottomActonButton = new JoystickButton(hid, bottomFaceButtonPort);
     }
 
     /** @return Bottom face button (ex. A on Xbox). */
-    public JoystickButton getBottomActionButton() {
+    public JoystickButton getBottomFaceButton() {
         return bottomActonButton;
     }
 
     /** @return Left face button (ex. X on Xbox). */
-    public JoystickButton getLeftActionButton() {
-        return leftActionButton;
+    public JoystickButton getLeftFaceButton() {
+        return leftFaceButton;
     }
 
     /** @return Right face button (ex. B on Xbox). */
-    public JoystickButton getRightActionButton() {
-        return rightActionButton;
+    public JoystickButton getRightFaceButton() {
+        return rightFaceButton;
     }
 
     /** @return Top face button (ex. Y on Xbox). */
-    public JoystickButton getTopActionButton() {
-        return topActionButton;
+    public JoystickButton getTopFaceButton() {
+        return topFaceButton;
     }
 }
