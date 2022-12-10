@@ -280,8 +280,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain {
   @Override
   public void setDrivetrainBrakeMode(boolean isEnabled) {
     for (BreakerGenericSwerveModule module : swerveModules) {
-      module.setDriveMotorBrakeMode(isEnabled);
-      module.setTurnMotorBrakeMode(isEnabled);
+      module.setModuleBrakeMode(isEnabled);
     }
   }
 

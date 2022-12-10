@@ -48,7 +48,7 @@ public class BreakerRoboRIO extends SubsystemBase {
         return BreakerUnits.microsecondsToSeconds(diffTime);
     }
 
-    /** Updates robot mode using {@link RobotState}. */
+    /** Updates robot mode using {@link RobotMode}. */
     private void updateRobotMode() {
         roboRIO.prevMode = roboRIO.currentMode;
         if (isDisabled()) {

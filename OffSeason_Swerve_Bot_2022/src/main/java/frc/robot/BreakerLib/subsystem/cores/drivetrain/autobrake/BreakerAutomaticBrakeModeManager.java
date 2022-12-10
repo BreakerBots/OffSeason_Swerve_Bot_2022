@@ -5,6 +5,7 @@
 package frc.robot.BreakerLib.subsystem.cores.drivetrain.autobrake;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
 import frc.robot.BreakerLib.util.BreakerRoboRIO;
 
@@ -58,6 +59,7 @@ public class BreakerAutomaticBrakeModeManager extends SubsystemBase {
                 baseDrivetrain.setDrivetrainBrakeMode(brakeInTeleop);
                 break;
             case TEST:
+                LiveWindow.setEnabled(false);
                 baseDrivetrain.setDrivetrainBrakeMode(brakeInTest);
                 break;
             case UNKNOWN:
