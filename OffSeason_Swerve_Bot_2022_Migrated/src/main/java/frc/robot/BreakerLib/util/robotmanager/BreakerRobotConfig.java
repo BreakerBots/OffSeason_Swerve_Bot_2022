@@ -13,6 +13,7 @@ public class BreakerRobotConfig {
     private double secondsBetweenSelfChecks;
     private boolean autologNetworkTables;
     private boolean autoRegisterDevices;
+    private boolean useAutoBrake;
     private BreakerFalconOrchestra orchestra;
     private boolean usesOrchestra;
     private BreakerAutoPath[] autoPaths;
@@ -27,6 +28,7 @@ public class BreakerRobotConfig {
      * @param autoRegisterDevices      Whether or not to automatically register
      *                                 devices into SelfTest.
      * @param autologNetworkTables     Whether or not to log NetworkTables.
+     * @param useAutoBrake Whether or not to use autobrake system.
      * @param startConfig              Startup info to use.
      * @param orchestra                BreakerFalconOrchestra to use.
      * @param autoPaths                Auto paths to initialize.

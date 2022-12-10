@@ -4,32 +4,40 @@
 
 package frc.robot.BreakerLib.subsystem.cores.drivetrain.autobrake;
 
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
 import frc.robot.BreakerLib.util.BreakerRoboRIO;
 
 /**
- * Automaticly handles break mode switching for your drivetrain based on the robot's current mode according to
- * given config.
+ * Automatically handles brake mode switching for your drivetrain based on the
+ * robot's current mode according to given config.
  */
-public class BreakerAutomaticBrakeModeManager extends SubsystemBase {
+public class BreakerAutoBrakeManager{
 
     private boolean brakeInAuto;
     private boolean brakeInTeleop;
     private boolean brakeInTest;
     private boolean brakeInDisabled;
-    private boolean autoBrakeIsEnabled;
+    private boolean autoBrakeIsEnabled = true;
     private BreakerGenericDrivetrain baseDrivetrain;
 
-    public BreakerAutomaticBrakeModeManager(BreakerAutomaticBrakeModeManagerConfig config) {
+    /** Creates an AutoBrake (automatic break mode) manager.
+     * 
+     * @param config Manager settings to use.
+     */
+    public BreakerAutoBrakeManager(BreakerAutoBrakeManagerConfig config) {
         brakeInAuto = config.getBreakInAuto();
         brakeInTeleop = config.getBreakInTeleop();
         brakeInTest = config.getBreakInTest();
         brakeInDisabled = config.getBreakInDisabled();
         baseDrivetrain = config.getBaseDrivetrain();
+
+        CommandScheduler.getInstance().schedule(new RunCommand(() -> this.setAutomaticBreakMode()));
     }
 
-    public void changeConfig(BreakerAutomaticBrakeModeManagerConfig config) {
+    public void changeConfig(BreakerAutoBrakeManagerConfig config) {
         brakeInAuto = config.getBreakInAuto();
         brakeInTeleop = config.getBreakInTeleop();
         brakeInTest = config.getBreakInTest();
@@ -47,11 +55,11 @@ public class BreakerAutomaticBrakeModeManager extends SubsystemBase {
 
     public void setAutomaticBreakMode() {
         switch (BreakerRoboRIO.getCurrentRobotMode()) {
-            case AUTONOMOUS:
-                baseDrivetrain.setDrivetrainBrakeMode(brakeInAuto);
-                break;
             case DISABLED:
                 baseDrivetrain.setDrivetrainBrakeMode(brakeInDisabled);
+                break;
+            case AUTONOMOUS:
+                baseDrivetrain.setDrivetrainBrakeMode(brakeInAuto);
                 break;
             case TELEOP:
                 baseDrivetrain.setDrivetrainBrakeMode(brakeInTeleop);
@@ -81,12 +89,5 @@ public class BreakerAutomaticBrakeModeManager extends SubsystemBase {
 
     public boolean getBrakeInTest() {
         return brakeInTest;
-    }
-
-    @Override
-    public void periodic() {
-        if (autoBrakeIsEnabled) {
-            setAutomaticBreakMode();
-        }
     }
 }

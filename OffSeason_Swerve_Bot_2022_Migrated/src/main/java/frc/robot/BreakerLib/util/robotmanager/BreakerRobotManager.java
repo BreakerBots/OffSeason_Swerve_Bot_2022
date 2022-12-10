@@ -6,8 +6,8 @@ package frc.robot.BreakerLib.util.robotmanager;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.BreakerLib.auto.trajectory.management.BreakerAutoManager;
-import frc.robot.BreakerLib.subsystem.cores.drivetrain.autobrake.BreakerAutomaticBrakeModeManager;
-import frc.robot.BreakerLib.subsystem.cores.drivetrain.autobrake.BreakerAutomaticBrakeModeManagerConfig;
+import frc.robot.BreakerLib.subsystem.cores.drivetrain.autobrake.BreakerAutoBrakeManager;
+import frc.robot.BreakerLib.subsystem.cores.drivetrain.autobrake.BreakerAutoBrakeManagerConfig;
 import frc.robot.BreakerLib.util.logging.BreakerLog;
 import frc.robot.BreakerLib.util.test.selftest.SelfTest;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
@@ -19,7 +19,7 @@ import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
 public class BreakerRobotManager {
     private static SelfTest test;
     private static BreakerAutoManager autoManager;
-    private static BreakerAutomaticBrakeModeManager breakModeManager;
+    private static BreakerAutoBrakeManager brakeModeManager;
     private static BreakerGenericDrivetrain baseDrivetrain;
 
     private BreakerRobotManager() {
@@ -43,13 +43,13 @@ public class BreakerRobotManager {
         BreakerRobotManager.baseDrivetrain = baseDrivetrain;
         BreakerRobotManager.autoManager = robotConfig.UsesPaths() ? new BreakerAutoManager(robotConfig.getAutoPaths())
                 : new BreakerAutoManager();
-        BreakerRobotManager.breakModeManager = new BreakerAutomaticBrakeModeManager(
-                new BreakerAutomaticBrakeModeManagerConfig(baseDrivetrain));
+        BreakerRobotManager.brakeModeManager = new BreakerAutoBrakeManager(
+                new BreakerAutoBrakeManagerConfig(baseDrivetrain));
         BreakerLog.logRobotStarted(robotConfig.getStartConfig());
     }
 
-    public static BreakerAutomaticBrakeModeManager getAutomaticBreakModeManager() {
-        return breakModeManager;
+    public static BreakerAutoBrakeManager getAutomaticBreakModeManager() {
+        return brakeModeManager;
     }
 
     public static SelfTest getSelfTest() {

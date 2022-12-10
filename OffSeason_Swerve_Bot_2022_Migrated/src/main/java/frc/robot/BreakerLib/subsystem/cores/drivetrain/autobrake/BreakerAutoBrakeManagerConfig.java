@@ -6,14 +6,17 @@ package frc.robot.BreakerLib.subsystem.cores.drivetrain.autobrake;
 
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.BreakerGenericDrivetrain;
 
-/** Config for {@link BreakerAutomaticBrakeModeManager}. */
-public class BreakerAutomaticBrakeModeManagerConfig {
+/** Config for {@link BreakerAutoBrakeManager}. */
+public class BreakerAutoBrakeManagerConfig {
+
     private boolean breakInAuto;
     private boolean breakInTeleop;
     private boolean breakInTest;
     private boolean breakInDisabled;
     private BreakerGenericDrivetrain baseDrivetrain;
-    public BreakerAutomaticBrakeModeManagerConfig(BreakerGenericDrivetrain baseDrivetrain, boolean breakInTeleop, boolean breakInAuto, boolean breakInTest, boolean breakInDisabled) {
+
+    public BreakerAutoBrakeManagerConfig(BreakerGenericDrivetrain baseDrivetrain, boolean breakInTeleop,
+            boolean breakInAuto, boolean breakInTest, boolean breakInDisabled) {
         this.breakInAuto = breakInAuto;
         this.breakInDisabled = breakInDisabled;
         this.breakInTeleop = breakInTeleop;
@@ -21,8 +24,11 @@ public class BreakerAutomaticBrakeModeManagerConfig {
         this.baseDrivetrain = baseDrivetrain;
     }
 
-    /** Team 5104 default configuration, with all braking disabled allong with the robot for ease of transport but enabled outherwise */
-    public BreakerAutomaticBrakeModeManagerConfig(BreakerGenericDrivetrain baseDrivetrain) {
+    /**
+     * Team 5104 default configuration, with all braking disabled along with the
+     * robot for ease of transport but enabled otherwise.
+     */
+    public BreakerAutoBrakeManagerConfig(BreakerGenericDrivetrain baseDrivetrain) {
         this.breakInAuto = true;
         this.breakInDisabled = false;
         this.breakInTeleop = true;
