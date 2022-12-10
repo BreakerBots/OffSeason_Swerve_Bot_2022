@@ -19,7 +19,7 @@ public class BreakerAutomaticBrakeModeManager extends SubsystemBase {
     private boolean brakeInTeleop;
     private boolean brakeInTest;
     private boolean brakeInDisabled;
-    private boolean autoBrakeIsEnabled;
+    private boolean autoBrakeIsEnabled = true;
     private BreakerGenericDrivetrain baseDrivetrain;
 
     public BreakerAutomaticBrakeModeManager(BreakerAutomaticBrakeModeManagerConfig config) {
