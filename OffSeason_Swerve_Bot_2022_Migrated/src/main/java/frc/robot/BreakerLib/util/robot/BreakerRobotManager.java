@@ -48,22 +48,27 @@ public class BreakerRobotManager {
         BreakerLog.logRobotStarted(robotConfig.getStartConfig());
     }
 
-    public static BreakerBrakeModeManager getAutomaticBreakModeManager() {
+    /** @return Brake mode manager object. */
+    public static BreakerBrakeModeManager getBrakeModeManager() {
         return brakeModeManager;
     }
 
+    /** @return SelfTest object. */
     public static SelfTest getSelfTest() {
         return test;
     }
 
+    /** @return Auto manager object. */
     public static BreakerAutoManager getAutoManager() {
         return autoManager;
     }
 
+    /** @return Autopath selected through auto manager. */
     public static Command getSelectedAutoPath() {
         return autoManager.getSelectedAutoPath();
     }
 
+    /** Enable or disable brake mode. */
     public static void setDrivetrainBrakeMode(boolean isEnabled) {
         baseDrivetrain.setDrivetrainBrakeMode(isEnabled);
     }

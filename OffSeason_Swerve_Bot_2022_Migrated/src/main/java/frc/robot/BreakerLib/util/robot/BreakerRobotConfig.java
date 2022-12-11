@@ -118,38 +118,47 @@ public class BreakerRobotConfig {
         this.secondsBetweenSelfChecks = seconds;
     }
 
+    /** @return Auto-register device setting. */
     public boolean getAutoRegisterDevices() {
         return autoRegisterDevices;
     }
 
+    /** @return Array of auto paths. */
     public BreakerAutoPath[] getAutoPaths() {
         return autoPaths;
     }
 
+    /** @return Brake mode manager enabled setting.*/
     public boolean getBrakeModeManagerEnabled() {
         return useBrakeModeManager;
     }
 
+    /** @return Falcon Orchestra. */
     public BreakerFalconOrchestra getOrchestra() {
         return orchestra;
     }
 
+    /** @return Number of seconds between self-checks. */
     public double getSecondsBetweenSelfChecks() {
         return secondsBetweenSelfChecks;
     }
 
+    /** @return If NetworkTables are logged. */
     public boolean networkTablesLoggingEnabled() {
         return networkTablesLogging;
     }
 
+    /** @return If orchestra is enabled. */
     public boolean usesOrchestra() {
         return usesOrchestra;
     }
 
+    /** @return If auto paths are enabled. */
     public boolean usesPaths() {
         return usesPaths;
     }
 
+    /** @return Robot start config. */
     public BreakerRobotStartConfig getStartConfig() {
         return startConfig;
     }
