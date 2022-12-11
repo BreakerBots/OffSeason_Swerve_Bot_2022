@@ -4,6 +4,12 @@
 
 package frc.robot.commands;
 
+import BreakerLib.auto.trajectory.BreakerTrajectoryUtil;
+import BreakerLib.auto.trajectory.management.BreakerStartTrajectoryPath;
+import BreakerLib.auto.trajectory.management.BreakerTrajectoryPath;
+import BreakerLib.auto.trajectory.swerve.standard.BreakerSwerveAutoPathFollower;
+import BreakerLib.auto.trajectory.swerve.standard.BreakerSwerveAutoPathFollowerConfig;
+import BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDrive;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -13,12 +19,6 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.BreakerLib.auto.trajectory.BreakerTrajectoryUtil;
-import frc.robot.BreakerLib.auto.trajectory.management.BreakerStartTrajectoryPath;
-import frc.robot.BreakerLib.auto.trajectory.management.BreakerTrajectoryPath;
-import frc.robot.BreakerLib.auto.trajectory.swerve.standard.BreakerSwerveAutoPathFollower;
-import frc.robot.BreakerLib.auto.trajectory.swerve.standard.BreakerSwerveAutoPathFollowerConfig;
-import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDrive;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

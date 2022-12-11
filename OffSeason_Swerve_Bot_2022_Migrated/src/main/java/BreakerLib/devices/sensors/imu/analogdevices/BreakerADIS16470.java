@@ -1,0 +1,252 @@
+// No!
+
+package BreakerLib.devices.sensors.imu.analogdevices;
+
+import static edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis.kX;
+import static edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis.kY;
+import static edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis.kZ;
+
+import BreakerLib.devices.sensors.imu.BreakerGenericIMU;
+import BreakerLib.util.math.BreakerMath;
+import BreakerLib.util.math.BreakerUnits;
+import BreakerLib.util.power.BreakerPowerManagementConfig;
+import BreakerLib.util.power.DevicePowerMode;
+import edu.wpi.first.math.geometry.Quaternion;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.ADIS16470_IMU.CalibrationTime;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
+
+/**
+ * ADIS16470 IMU using BreakerLib interfaces. Calibration is done on
+ * construction. Only Z-axis yaw is supported.
+ */
+public class BreakerADIS16470 extends BreakerGenericIMU {
+
+    private ADIS16470_IMU imu;
+
+    /**
+     * ADIS16470 gyro with Z axis as yaw, CS0 SPI port, and calibration time of 4
+     * ms.
+     */
+    public BreakerADIS16470() {
+        imu = new ADIS16470_IMU();
+        calibrate();
+    }
+
+    /**
+     * ADIS16470 with custom parameters. Refer to the following image for orientation.
+     * https://wiki.analog.com/_media/first/adis16470_rotation_figure.jpg?w=250&tok=187ece
+     * 
+     * @param port    SPI port.
+     * @param calTime Calibration time.
+     */
+    public BreakerADIS16470(SPI.Port port, CalibrationTime calTime) {
+        imu = new ADIS16470_IMU(kZ, port, calTime);
+        calibrate();
+    }
+
+    @Override
+    public double getYawDegrees() {
+        return BreakerMath.angleModulus(getRawYaw());
+    }
+
+    @Override
+    public double getPitchDegrees() {
+        return BreakerMath.angleModulus(getRawPitch());
+    }
+
+    @Override
+    public double getRollDegrees() {
+        return BreakerMath.angleModulus(getRawRoll());
+    }
+
+    @Override
+    public Rotation2d getYawRotation2d() {
+        return Rotation2d.fromDegrees(getYawDegrees());
+    }
+
+    @Override
+    public Rotation2d getPitchRotation2d() {
+        return Rotation2d.fromDegrees(getPitchDegrees());
+    }
+
+    @Override
+    public Rotation2d getRollRotation2d() {
+        return Rotation2d.fromDegrees(getRollDegrees());
+    }
+
+    @Override
+    public double getYawRate() {
+        imu.setYawAxis(kZ);
+        double rate = imu.getRate();
+        imu.setYawAxis(kZ);
+        return rate;
+    }
+
+    @Override
+    public double getPitchRate() {
+        imu.setYawAxis(kY);
+        double rate = imu.getRate();
+        imu.setYawAxis(kZ);
+        return rate;
+    }
+
+    @Override
+    public double getRollRate() {
+        imu.setYawAxis(kX);
+        double rate = imu.getRate();
+        imu.setYawAxis(kZ);
+        return rate;
+    }
+
+    /** Does nothing. */
+    public void setYaw(double value) {
+    }
+
+    /** Does nothing. */
+    public void setPitch(double value) {
+    }
+
+    /** Does nothing. */
+    public void setRoll(double value) {
+
+    }
+
+    @Override
+    public double getRawYaw() {
+        imu.setYawAxis(kZ);
+        double angle = imu.getAngle();
+        imu.setYawAxis(kZ);
+        return angle;
+    }
+
+    @Override
+    public double getRawPitch() {
+        imu.setYawAxis(kY);
+        double angle = imu.getAngle();
+        imu.setYawAxis(kZ);
+        return angle;
+    }
+
+    @Override
+    public double getRawRoll() {
+        imu.setYawAxis(kX);
+        double angle = imu.getAngle();
+        imu.setYawAxis(kZ);
+        return angle;
+    }
+
+    @Override
+    public double getRawYawRate() {
+        return getYawRate();
+    }
+
+    @Override
+    public double getRawPitchRate() {
+        return getPitchRate();
+    }
+
+    @Override
+    public double getRawRollRate() {
+        return getRollRate();
+    }
+
+    @Override
+    public double[] getRawAngles() {
+        return new double[] {getRawYaw(), getRawPitch(), getRawRoll()};
+    }
+
+    @Override
+    public double[] getRawGyroRates() {
+        return new double[] {getRawYawRate(), getRawPitchRate(), getRawRollRate()};
+    }
+
+    @Override
+    public Quaternion getQuaternion() {
+        return getRotation3d().getQuaternion();
+    }
+
+    @Override
+    public Rotation3d getRotation3d() {
+        return new Rotation3d(getRollDegrees(), getPitchDegrees(), getYawDegrees());
+    }
+
+    @Override
+    public Rotation3d getRawRotation3d() {
+        return new Rotation3d(getRawRoll(), getRawPitch(), getRawYaw());
+    }
+
+    @Override
+    public void calibrate() {
+        imu.calibrate();
+    }
+
+    @Override
+    public void reset() {
+        imu.reset();
+    }
+
+    @Override
+    public double[] getRawAccelerometerVals() {
+        return new double[] {getRawAccelX(), getRawAccelY(), getRawAccelZ()};
+    }
+
+    @Override
+    public double getRawAccelX() {
+        return BreakerUnits.metersPerSecondSquaredToGs(imu.getAccelX());
+    }
+
+    @Override
+    public double getRawAccelY() {
+        return BreakerUnits.metersPerSecondSquaredToGs(imu.getAccelY());
+    }
+
+    @Override
+    public double getRawAccelZ() {
+        return BreakerUnits.metersPerSecondSquaredToGs(imu.getAccelZ());
+    }
+
+    /** Does nothing. */
+    public void setRange(Range range) {
+        
+    }
+
+    @Override
+    public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void overrideAutomaticPowerManagement(DevicePowerMode manualPowerMode) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void returnToAutomaticPowerManagement() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public boolean isUnderAutomaticControl() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public DevicePowerMode getPowerMode() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void runSelfTest() {
+        // TODO Auto-generated method stub
+
+    }
+}
