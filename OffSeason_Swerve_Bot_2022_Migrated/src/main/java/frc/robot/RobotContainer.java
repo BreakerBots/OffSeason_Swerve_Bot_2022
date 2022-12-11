@@ -38,7 +38,6 @@ public class RobotContainer {
 
   private final BreakerXboxController controllerSys = new BreakerXboxController(0);
   private final BreakerPigeon2 imuSys = new BreakerPigeon2(5);
-  
   private final BreakerSwerveDrive drivetrainSys = swerveDriveSetup(imuSys);
   private final BreakerTeleopSwerveDriveController manualDriveCommand = new BreakerTeleopSwerveDriveController(
       drivetrainSys, controllerSys);
@@ -51,10 +50,10 @@ public class RobotContainer {
     robotManagerSetup();
 
     controllerSys.configDeadbands(new BreakerGamepadAnalogDeadbandConfig(0.06, 0.06, 0.06, 0.06));
-    configureButtonBindings();
 
-    // Drivetrain
     drivetrainSys.resetOdometryPosition();
+
+    configureButtonBindings();
     manualDriveCommand.addSlewRateLimiters(new SlewRateLimiter(2.0), new SlewRateLimiter(2.0),
         new SlewRateLimiter(4.0));
     drivetrainSys.setDefaultCommand(manualDriveCommand);
@@ -74,8 +73,8 @@ public class RobotContainer {
         .toggleOnTrue(new InstantCommand(drivetrainSys::resetOdometryRotation));
   }
 
-  // Sets up swerve drive
   private BreakerSwerveDrive swerveDriveSetup(BreakerGenericIMU imu) {
+
     var driveFL = new WPI_TalonFX(FL_WHEEL_ID);
     var turnFL = new WPI_TalonFX(FL_ROTATION_ID);
     var encoderFL = new WPI_CANCoder(FL_ENCODER_ID);
@@ -116,7 +115,6 @@ public class RobotContainer {
     return new BreakerSwerveDrive(config, imu, frontLeftModule, frontRightModule, backLeftModule, backRightModule);
   }
 
-  // Sets up RobotManager
   private void robotManagerSetup() {
     BreakerRobotConfig robotConfig = new BreakerRobotConfig(new BreakerRobotStartConfig(5104, "BreakerBots",
         "Breaker Swerve", 2022, "v1", "Yousif Alkhalaf, Roman Abrahamson"));

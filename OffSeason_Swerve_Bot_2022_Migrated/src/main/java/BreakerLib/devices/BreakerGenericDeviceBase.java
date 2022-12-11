@@ -4,11 +4,12 @@
 
 package BreakerLib.devices;
 
+import BreakerLib.util.logging.BreakerGenericTelemetryProvider;
 import BreakerLib.util.power.BreakerPowerManageable;
 import BreakerLib.util.test.selftest.BreakerSelfTestableBase;
 import BreakerLib.util.test.selftest.SelfTest;
 
-/** Less complicated alternative to BreakerGenericDevice that also automatically registers devices. */
+/** Less complcated alternative to BreakerGenericDevice that also automaticly regesters Devices */
 public abstract class BreakerGenericDeviceBase extends BreakerSelfTestableBase implements BreakerPowerManageable {
     public BreakerGenericDeviceBase() {
         SelfTest.autoRegisterDevice(this);
