@@ -6,6 +6,7 @@ package frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import frc.robot.BreakerLib.auto.trajectory.swerve.standard.BreakerSwerveAutoPathFollower;
 import frc.robot.BreakerLib.util.BreakerArbitraryFeedforwardProvider;
 
 /** Config class for {@link BreakerSwerveDrive}. */
@@ -91,9 +92,10 @@ public class BreakerSwerveDriveConfig {
      * @param linearMulitplier Slow mode multiplier for drive motors.
      * @param turnMultiplier Slow mode multiplier for turn motors.
      */
-    public void setSlowModeMultipliers(double linearMulitplier, double turnMultiplier) {
+    public BreakerSwerveDriveConfig setSlowModeMultipliers(double linearMulitplier, double turnMultiplier) {
         slowModeLinearMultiplier = linearMulitplier;
         slowModeTurnMultiplier = turnMultiplier;
+        return this;
     }
 
     /** @return Kinematics of swerve drivetrain. */
