@@ -55,8 +55,6 @@ public class RobotContainer {
     drivetrainSys.resetOdometryPosition();
 
     configureButtonBindings();
-    manualDriveCommand.addSlewRateLimiters(new SlewRateLimiter(2.0), new SlewRateLimiter(2.0),
-        new SlewRateLimiter(4.0));
     drivetrainSys.setDefaultCommand(manualDriveCommand);
   }
 
