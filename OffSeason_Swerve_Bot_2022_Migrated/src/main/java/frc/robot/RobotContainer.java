@@ -67,9 +67,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    controllerSys.getButtonB().toggleOnTrue(new InstantCommand(drivetrainSys::toggleSlowMode));
+    controllerSys.getButtonB().onTrue(new InstantCommand(drivetrainSys::toggleSlowMode));
     controllerSys.getButtonX()
-        .toggleOnTrue(new InstantCommand(drivetrainSys::resetOdometryRotation));
+        .onTrue(new InstantCommand(drivetrainSys::resetOdometryRotation));
   }
 
   private void robotManagerSetup() {
