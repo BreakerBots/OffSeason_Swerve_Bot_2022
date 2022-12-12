@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 
 import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGenericGyro;
+import frc.robot.BreakerLib.devices.sensors.imu.ctre.BreakerPigeon2;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDrive;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDriveConfig;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.modules.BreakerGenericSwerveModule;
@@ -18,46 +19,42 @@ import static frc.robot.Constants.*;
 /** Add your docs here. */
 public class Drive extends BreakerSwerveDrive {
     
-    WPI_TalonFX driveFL = new WPI_TalonFX(FL_WHEEL_ID);
-    WPI_TalonFX turnFL = new WPI_TalonFX(FL_ROTATION_ID);
-    WPI_CANCoder encoderFL = new WPI_CANCoder(FL_ENCODER_ID);
+    private static WPI_TalonFX driveFL = new WPI_TalonFX(FL_WHEEL_ID);
+    private static WPI_TalonFX turnFL = new WPI_TalonFX(FL_ROTATION_ID);
+    private static WPI_CANCoder encoderFL = new WPI_CANCoder(FL_ENCODER_ID);
 
-    WPI_TalonFX driveFR = new WPI_TalonFX(FR_WHEEL_ID);
-    WPI_TalonFX turnFR = new WPI_TalonFX(FR_ROTATION_ID);
-    WPI_CANCoder encoderFR = new WPI_CANCoder(FR_ENCODER_ID);
+    private static WPI_TalonFX driveFR = new WPI_TalonFX(FR_WHEEL_ID);
+    private static WPI_TalonFX turnFR = new WPI_TalonFX(FR_ROTATION_ID);
+    private static WPI_CANCoder encoderFR = new WPI_CANCoder(FR_ENCODER_ID);
 
-    WPI_TalonFX driveBL = new WPI_TalonFX(BL_WHEEL_ID);
-    WPI_TalonFX turnBL = new WPI_TalonFX(BL_ROTATION_ID);
-    WPI_CANCoder encoderBL = new WPI_CANCoder(BL_ENCODER_ID);
+    private static WPI_TalonFX driveBL = new WPI_TalonFX(BL_WHEEL_ID);
+    private static WPI_TalonFX turnBL = new WPI_TalonFX(BL_ROTATION_ID);
+    private static WPI_CANCoder encoderBL = new WPI_CANCoder(BL_ENCODER_ID);
 
-    WPI_TalonFX driveBR = new WPI_TalonFX(BR_WHEEL_ID);
-    WPI_TalonFX turnBR = new WPI_TalonFX(BR_ROTATION_ID);
-    WPI_CANCoder encoderBR = new WPI_CANCoder(BR_ENCODER_ID);
+    private static WPI_TalonFX driveBR = new WPI_TalonFX(BR_WHEEL_ID);
+    private static WPI_TalonFX turnBR = new WPI_TalonFX(BR_ROTATION_ID);
+    private static WPI_CANCoder encoderBR = new WPI_CANCoder(BR_ENCODER_ID);
 
-    BreakerSwerveDriveConfig config = new BreakerSwerveDriveConfig(
+    private static BreakerSwerveDriveConfig config = new BreakerSwerveDriveConfig(
         4.1148, 4.1148, 16.1148,
         1.25, 0.0, 0.05,
         0.35, 0.0, 0.0, 0.0,
         8.14, 4.0, 0.001, 4.1148,
         new BreakerArbitraryFeedforwardProvider(2.75, 0.2),
-        FL_TRANSLATION, FR_TRANSLATION, BL_TRANSLATION, BR_TRANSLATION);
+        FL_TRANSLATION, FR_TRANSLATION, BL_TRANSLATION, BR_TRANSLATION)
+        .setSlowModeMultipliers(0.5, 0.5);
 
-    config.setSlowModeMultipliers(0.5, 0.5);
-
-    BreakerMK4iFalconSwerveModule frontLeftModule = new BreakerMK4iFalconSwerveModule(driveFL, turnFL, encoderFL, config, 121, true, true);
-    frontLeftModule.setDeviceName(" FL_Module ");
-
-    BreakerMK4iFalconSwerveModule frontRightModule = new BreakerMK4iFalconSwerveModule(driveFR, turnFR, encoderFR, config, -61, false, true);
-    frontRightModule.setDeviceName(" FR_Module ");
-
-    BreakerMK4iFalconSwerveModule backLeftModule = new BreakerMK4iFalconSwerveModule(driveBL, turnBL, encoderBL, config, 30.0, true, true);
-    backLeftModule.setDeviceName(" BL_Module ");
-
-    BreakerMK4iFalconSwerveModule backRightModule = new BreakerMK4iFalconSwerveModule(driveBR, turnBR, encoderBR, config, -176.0, false, true);
-    backRightModule.setDeviceName(" BR_Module ");
-    public Drive(BreakerSwerveDriveConfig config, BreakerGenericGyro gyro, BreakerGenericSwerveModule[] swerveModules) {
-        super(config, gyro, swerveModules);
-        //TODO Auto-generated constructor stub
+    private static BreakerMK4iFalconSwerveModule frontLeftModule = new BreakerMK4iFalconSwerveModule(driveFL, turnFL, encoderFL, config, 121, true, true);
+    private static BreakerMK4iFalconSwerveModule frontRightModule = new BreakerMK4iFalconSwerveModule(driveFR, turnFR, encoderFR, config, -61, false, true);
+    private static BreakerMK4iFalconSwerveModule backLeftModule = new BreakerMK4iFalconSwerveModule(driveBL, turnBL, encoderBL, config, 30.0, true, true);
+    private static BreakerMK4iFalconSwerveModule backRightModule = new BreakerMK4iFalconSwerveModule(driveBR, turnBR, encoderBR, config, -176.0, false, true);
+    
+    public Drive(BreakerPigeon2 imu) {
+        super(config, imu, frontLeftModule, frontRightModule, backLeftModule, backRightModule);
+        frontLeftModule.setDeviceName(" FL_Module ");
+        frontRightModule.setDeviceName(" FR_Module ");
+        backLeftModule.setDeviceName(" BL_Module ");
+        backRightModule.setDeviceName(" BR_Module ");
     }
 
 }
