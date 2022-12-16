@@ -50,19 +50,31 @@ public class BreakerFalconDiffDrive extends BreakerDiffDrive {
         for (WPI_TalonFX motorL : leftMotors) {
             Faults motorFaults = new Faults();
             motorL.getFaults(motorFaults);
-            if (motorFaults.hasAnyFault()) {
+            boolean motorDisconected = motorL.getFirmwareVersion() == -1;
+            if (motorFaults.hasAnyFault() || motorDisconected) {
                 health = DeviceHealth.FAULT;
                 work.append(" MOTOR ID (" + motorL.getDeviceID() + ") FAULTS: ");
-                work.append(BreakerCTREUtil.getMotorFaultsAsString(motorFaults));
+                if (motorFaults.hasAnyFault()) {
+                    work.append(BreakerCTREUtil.getMotorFaultsAsString(motorFaults));
+                }
+                if (motorDisconected) {
+                    work.append(" motor_disconected ");
+                }
             }
         }
         for (WPI_TalonFX motorR : rightMotors) {
             Faults motorFaults = new Faults();
             motorR.getFaults(motorFaults);
-            if (motorFaults.hasAnyFault()) {
+            boolean motorDisconected = motorR.getFirmwareVersion() == -1;
+            if (motorFaults.hasAnyFault() || motorDisconected) {
                 health = DeviceHealth.FAULT;
                 work.append(" MOTOR ID (" + motorR.getDeviceID() + ") FAULTS: ");
-                work.append(BreakerCTREUtil.getMotorFaultsAsString(motorFaults));
+                if (motorFaults.hasAnyFault()) {
+                    work.append(BreakerCTREUtil.getMotorFaultsAsString(motorFaults));
+                }
+                if (motorDisconected) {
+                    work.append(" motor_disconected ");
+                }
             }
         }
         faultStr = work.toString();

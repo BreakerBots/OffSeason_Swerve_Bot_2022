@@ -196,6 +196,10 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
         turnMotor.getFaults(curTurnFaults);
         driveMotor.getFaults(curDriveFaults);
         turnEncoder.getFaults(curEncoderFaults);
+        boolean driveMotNotConnected = driveMotor.getFirmwareVersion() == -1;
+        boolean turnMotNotConnected = turnMotor.getFirmwareVersion() == -1;
+        boolean turnEncoderNotConnected =turnEncoder.getFirmwareVersion() == -1;
+
         if (curDriveFaults.HardwareFailure) {
             driveMotorHealth = DeviceHealth.INOPERABLE;
             faults += " DRIVE_MOTOR_FAIL ";
@@ -243,9 +247,25 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
             encoderHealth = (encoderHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : encoderHealth;
             overallHealth = (overallHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : overallHealth;
         }
-        if (!curDriveFaults.HardwareFailure && !curTurnFaults.HardwareFailure && !curTurnFaults.SupplyUnstable
-                && !curDriveFaults.SupplyUnstable && !curEncoderFaults.MagnetTooWeak
-                && !curEncoderFaults.HardwareFault) {
+        if (driveMotNotConnected) {
+            faults += " DRIVE_MOTOR_DISCONNECTED ";
+            driveMotorHealth = DeviceHealth.INOPERABLE;
+            overallHealth = DeviceHealth.INOPERABLE;
+        }
+        if (turnMotNotConnected) {
+            faults += " TURN_MOTOR_DISCONNECTED ";
+            turnMotorHealth = DeviceHealth.INOPERABLE;
+            overallHealth = DeviceHealth.INOPERABLE;
+        }
+        if (turnEncoderNotConnected) {
+            faults += " ANGLE_ENCODER_DISCONNECTED ";
+            encoderHealth = DeviceHealth.INOPERABLE;
+            overallHealth = DeviceHealth.INOPERABLE;
+        }
+        boolean noFaults = !curDriveFaults.HardwareFailure && !curTurnFaults.HardwareFailure && !curTurnFaults.SupplyUnstable
+        && !curDriveFaults.SupplyUnstable && !curEncoderFaults.MagnetTooWeak
+        && !curEncoderFaults.HardwareFault && !driveMotNotConnected && !turnMotNotConnected && !turnEncoderNotConnected;
+        if (noFaults) {
             faults = null;
             driveMotorHealth = DeviceHealth.NOMINAL;
             turnMotorHealth = DeviceHealth.NOMINAL;

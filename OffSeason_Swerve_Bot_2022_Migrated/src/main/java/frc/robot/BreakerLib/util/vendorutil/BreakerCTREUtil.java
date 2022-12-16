@@ -218,8 +218,6 @@ public class BreakerCTREUtil {
         }
         fieldMask <<= 1; // Scrolls to next bit.
       }
-    } else {
-      work.append(" none ");
     }
     return work.toString();
   }
