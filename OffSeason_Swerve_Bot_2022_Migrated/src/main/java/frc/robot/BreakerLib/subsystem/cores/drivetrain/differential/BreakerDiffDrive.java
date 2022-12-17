@@ -320,8 +320,9 @@ public abstract class BreakerDiffDrive extends BreakerGenericDrivetrain {
   }
 
   @Override
-  public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig) {
-    return null;
+  public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig, double... managementPerameters) {
+      // TODO Auto-generated method stub
+      return null;
   }
 
   @Override

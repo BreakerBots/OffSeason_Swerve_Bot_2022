@@ -6,7 +6,7 @@ package frc.robot.BreakerLib.util.power;
 
 /** Add your docs here. */
 public interface BreakerPowerManageable {
-    public abstract DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig);
+    public abstract DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig, double... managementPerameters);
     public abstract void overrideAutomaticPowerManagement(DevicePowerMode manualPowerMode);
     public abstract void returnToAutomaticPowerManagement();
     public abstract boolean isUnderAutomaticControl();

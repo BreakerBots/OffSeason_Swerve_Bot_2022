@@ -306,7 +306,7 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
     }
 
     @Override
-    public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig) {
+    public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig, double... managementPerameters) {
         // TODO Auto-generated method stub
         return null;
     }

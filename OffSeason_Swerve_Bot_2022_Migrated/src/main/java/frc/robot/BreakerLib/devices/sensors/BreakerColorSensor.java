@@ -79,7 +79,7 @@ public class BreakerColorSensor extends BreakerGenericDeviceBase {
   }
 
   @Override
-  public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig) {
+  public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig, double... managementPerameters) {
     // TODO Auto-generated method stub
     return null;
   }
