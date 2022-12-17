@@ -183,7 +183,10 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
 
     @Override
     public void runSelfTest() {
-        faults = null;
+        faults = "";
+        driveMotorHealth = DeviceHealth.NOMINAL;
+        turnMotorHealth = DeviceHealth.NOMINAL;
+        overallHealth = DeviceHealth.NOMINAL;
         Faults curTurnFaults = new Faults();
         Faults curDriveFaults = new Faults();
         CANCoderFaults curEncoderFaults = new CANCoderFaults();
@@ -237,13 +240,17 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
             encoderHealth = (encoderHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : encoderHealth;
             overallHealth = (overallHealth != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : overallHealth;
         }
-        if (!curDriveFaults.HardwareFailure && !curTurnFaults.HardwareFailure && !curTurnFaults.SupplyUnstable
-                && !curDriveFaults.SupplyUnstable && !curEncoderFaults.MagnetTooWeak
-                && !curEncoderFaults.HardwareFault) {
-            faults = null;
-            driveMotorHealth = DeviceHealth.NOMINAL;
-            turnMotorHealth = DeviceHealth.NOMINAL;
-            overallHealth = DeviceHealth.NOMINAL;
+        if (driveMotor.getFirmwareVersion() == -1) {
+            faults += " DRIVE_MOTOR_DISCONNECTED ";
+            overallHealth = DeviceHealth.INOPERABLE;
+        }
+        if (turnMotor.getFirmwareVersion() == -1) {
+            faults += " TURN_MOTOR_DISCONNECTED ";
+            overallHealth = DeviceHealth.INOPERABLE;
+        }
+        if (turnEncoder.getFirmwareVersion() == -1) {
+            faults += " TURN_ENCODER_DISCONNECTED ";
+            overallHealth = DeviceHealth.INOPERABLE;
         }
     }
 
