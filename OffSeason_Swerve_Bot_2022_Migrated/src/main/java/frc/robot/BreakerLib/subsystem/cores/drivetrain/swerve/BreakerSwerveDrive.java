@@ -291,7 +291,7 @@ public class BreakerSwerveDrive extends BreakerGenericDrivetrain implements Brea
 
   @Override
   public void runSelfTest() {
-    faultStr = null;
+    faultStr = "";
     health = DeviceHealth.NOMINAL;
     for (BreakerGenericSwerveModule module : swerveModules) {
       module.runSelfTest();

@@ -84,15 +84,12 @@ public class BreakerTrinaryCTREMotor extends BreakerGenericTrinaryMotor {
 
     @Override
     public void runSelfTest() {
-        faultStr = null;
+        faultStr = "";
         health = DeviceHealth.NOMINAL;
-        Faults faultObj = new Faults();
-        motor.getFaults(faultObj);
-        if (faultObj.hasAnyFault()) {
-            Pair<DeviceHealth, String> pair = BreakerCTREUtil
-                    .getMotorHealthAndFaults(faultObj);
-            faultStr = pair.getSecond();
-            health = pair.getFirst();
+        Pair<DeviceHealth, String> faultPair = BreakerCTREUtil.checkMotorFaultsAndConnection(motor);
+        if (faultPair.getFirst() != DeviceHealth.NOMINAL) {
+            health = faultPair.getFirst();
+            faultStr = faultPair.getSecond();
         }
     }
 

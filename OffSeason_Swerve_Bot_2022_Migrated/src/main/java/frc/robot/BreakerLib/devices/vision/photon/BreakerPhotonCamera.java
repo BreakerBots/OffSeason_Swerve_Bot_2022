@@ -128,7 +128,7 @@ public class BreakerPhotonCamera extends BreakerGenericDeviceBase {
 
     @Override
     public void runSelfTest() {
-        faultStr = null;
+        faultStr = "";
         health = DeviceHealth.NOMINAL;
         if (getPipelineLatancyMilliseconds() == 0) {
             health = DeviceHealth.INOPERABLE;

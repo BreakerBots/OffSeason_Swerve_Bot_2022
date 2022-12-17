@@ -81,7 +81,7 @@ public class SystemDiagnostics extends BreakerSelfTestableBase {
 
     @Override
     public void runSelfTest() {
-        faultStr = null;
+        faultStr = "";
         health = DeviceHealth.NOMINAL;
 
         if (!devices.isEmpty()) {
@@ -96,12 +96,10 @@ public class SystemDiagnostics extends BreakerSelfTestableBase {
 
         if (!ctreMotorControllers.isEmpty()) {
             for (BaseMotorController con: ctreMotorControllers) {
-                Faults motorFaults = new Faults();
-                con.getFaults(motorFaults);
-                if (motorFaults.hasAnyFault()) {
-                    Pair<DeviceHealth, String> motorState = BreakerCTREUtil.getMotorHealthAndFaults(motorFaults);
+                Pair<DeviceHealth, String> motorState = BreakerCTREUtil.checkMotorFaultsAndConnection(con);
+                if (motorState.getFirst() != DeviceHealth.NOMINAL) {
                     faultStr += " / CTRE Motor ID (" + con.getBaseID() + "): " + motorState.getSecond();
-                    health = health == DeviceHealth.INOPERABLE ? motorState.getFirst() : health;
+                    health = (health == DeviceHealth.INOPERABLE) ? motorState.getFirst() : health;
                 }
             }
         }

@@ -202,13 +202,17 @@ public class BreakerPigeon extends BreakerGenericIMU implements BreakerGenericMa
 
     @Override
     public void runSelfTest() {
-        faultStr = null;
+        faultStr = "";
         health = DeviceHealth.NOMINAL;
         PigeonIMU_Faults curFaults = new PigeonIMU_Faults();
         pigeon.getFaults(curFaults);
         if (curFaults.hasAnyFault()) {
             health = DeviceHealth.INOPERABLE;
-            faultStr += " UNKNOWN_FAULT ";
+            faultStr += " unknown_fault ";
+        }
+        if (pigeon.getFirmwareVersion() == -1) {
+            health = DeviceHealth.INOPERABLE;
+            faultStr += " device_disconnected ";
         }
     }
 

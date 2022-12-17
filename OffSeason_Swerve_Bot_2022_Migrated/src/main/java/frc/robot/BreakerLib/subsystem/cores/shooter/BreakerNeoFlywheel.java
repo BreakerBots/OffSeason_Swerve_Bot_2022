@@ -62,7 +62,7 @@
 
 //     @Override
 //     public void runSelfTest() {
-//        faultStr = null;
+//        faultStr = "";
 //        health = DeviceHealth.NOMINAL;
 //        for (CANSparkMax mot: motors) {
 //            short motFaults = mot.getFaults();

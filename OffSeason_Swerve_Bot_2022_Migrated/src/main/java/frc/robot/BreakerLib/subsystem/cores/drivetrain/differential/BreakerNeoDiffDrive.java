@@ -42,7 +42,7 @@
 
 //     @Override
 //     public void runSelfTest() {
-//         faultStr = null;
+//         faultStr = "";
 //         health = DeviceHealth.NOMINAL;
 
 //         StringBuilder work = new StringBuilder();

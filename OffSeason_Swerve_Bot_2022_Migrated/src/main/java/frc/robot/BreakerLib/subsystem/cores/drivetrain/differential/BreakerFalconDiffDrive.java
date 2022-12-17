@@ -7,6 +7,7 @@ package frc.robot.BreakerLib.subsystem.cores.drivetrain.differential;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.Pair;
 import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGenericGyro;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 import frc.robot.BreakerLib.util.vendorutil.BreakerCTREUtil;
@@ -43,38 +44,22 @@ public class BreakerFalconDiffDrive extends BreakerDiffDrive {
 
     @Override
     public void runSelfTest() {
-        faultStr = null;
+        faultStr = "";
         health = DeviceHealth.NOMINAL;
 
         StringBuilder work = new StringBuilder();
         for (WPI_TalonFX motorL : leftMotors) {
-            Faults motorFaults = new Faults();
-            motorL.getFaults(motorFaults);
-            boolean motorDisconected = motorL.getFirmwareVersion() == -1;
-            if (motorFaults.hasAnyFault() || motorDisconected) {
+            Pair<DeviceHealth, String> motorFaultData = BreakerCTREUtil.checkMotorFaultsAndConnection(motorL);
+            if (motorFaultData.getFirst() != DeviceHealth.NOMINAL) {
                 health = DeviceHealth.FAULT;
-                work.append(" MOTOR ID (" + motorL.getDeviceID() + ") FAULTS: ");
-                if (motorFaults.hasAnyFault()) {
-                    work.append(BreakerCTREUtil.getMotorFaultsAsString(motorFaults));
-                }
-                if (motorDisconected) {
-                    work.append(" motor_disconected ");
-                }
+                work.append(" MOTOR ID (" + motorL.getDeviceID() + ") FAULTS: " + motorFaultData.getSecond());
             }
         }
         for (WPI_TalonFX motorR : rightMotors) {
-            Faults motorFaults = new Faults();
-            motorR.getFaults(motorFaults);
-            boolean motorDisconected = motorR.getFirmwareVersion() == -1;
-            if (motorFaults.hasAnyFault() || motorDisconected) {
+            Pair<DeviceHealth, String> motorFaultData = BreakerCTREUtil.checkMotorFaultsAndConnection(motorR);
+            if (motorFaultData.getFirst() != DeviceHealth.NOMINAL) {
                 health = DeviceHealth.FAULT;
-                work.append(" MOTOR ID (" + motorR.getDeviceID() + ") FAULTS: ");
-                if (motorFaults.hasAnyFault()) {
-                    work.append(BreakerCTREUtil.getMotorFaultsAsString(motorFaults));
-                }
-                if (motorDisconected) {
-                    work.append(" motor_disconected ");
-                }
+                work.append(" MOTOR ID (" + motorR.getDeviceID() + ") FAULTS: " + motorFaultData.getSecond());
             }
         }
         faultStr = work.toString();

@@ -38,7 +38,7 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
 
     private BreakerArbitraryFeedforwardProvider ffProvider;
     private BreakerSwerveDriveConfig config;
-    private String faults = null, deviceName = "Swerve_Module_(SDS_MK4I)";
+    private String faults = "", deviceName = "Swerve_Module_(SDS_MK4I)";
     private WPI_TalonFX turnMotor, driveMotor;
     private WPI_CANCoder turnEncoder;
     private SwerveModuleState targetModuleState;
@@ -189,7 +189,10 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
 
     @Override
     public void runSelfTest() {
-        faults = null;
+        faults = "";
+        driveMotorHealth = DeviceHealth.NOMINAL;
+        turnMotorHealth = DeviceHealth.NOMINAL;
+        overallHealth = DeviceHealth.NOMINAL;
         Faults curTurnFaults = new Faults();
         Faults curDriveFaults = new Faults();
         CANCoderFaults curEncoderFaults = new CANCoderFaults();
@@ -261,15 +264,6 @@ public class BreakerMK4iFalconSwerveModule implements BreakerGenericSwerveModule
             faults += " ANGLE_ENCODER_DISCONNECTED ";
             encoderHealth = DeviceHealth.INOPERABLE;
             overallHealth = DeviceHealth.INOPERABLE;
-        }
-        boolean noFaults = !curDriveFaults.HardwareFailure && !curTurnFaults.HardwareFailure && !curTurnFaults.SupplyUnstable
-        && !curDriveFaults.SupplyUnstable && !curEncoderFaults.MagnetTooWeak
-        && !curEncoderFaults.HardwareFault && !driveMotNotConnected && !turnMotNotConnected && !turnEncoderNotConnected;
-        if (noFaults) {
-            faults = null;
-            driveMotorHealth = DeviceHealth.NOMINAL;
-            turnMotorHealth = DeviceHealth.NOMINAL;
-            overallHealth = DeviceHealth.NOMINAL;
         }
     }
 

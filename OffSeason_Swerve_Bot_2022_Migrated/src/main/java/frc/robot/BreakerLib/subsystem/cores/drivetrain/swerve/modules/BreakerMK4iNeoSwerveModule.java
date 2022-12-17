@@ -33,7 +33,7 @@
 
 //     private BreakerArbitraryFeedforwardProvider ffProvider;
 //     private BreakerSwerveDriveConfig config;
-//     private String faults = null, deviceName = "Swerve_Module_(SDS_MK4I)";
+//     private String faults = "", deviceName = "Swerve_Module_(SDS_MK4I)";
 //     private CANSparkMax turnMotor, driveMotor;
 //     private PIDController turnPID;
 //     private WPI_CANCoder turnEncoder;
@@ -152,7 +152,7 @@
 
 //     @Override
 //     public void runSelfTest() {
-//         faults = null;
+//         faults = "";
 //         turnMotorHealth = DeviceHealth.NOMINAL;
 //         driveMotorHealth = DeviceHealth.NOMINAL;
 //         overallHealth = DeviceHealth.NOMINAL;

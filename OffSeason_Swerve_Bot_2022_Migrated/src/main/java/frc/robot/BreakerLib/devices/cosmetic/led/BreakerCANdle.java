@@ -136,7 +136,7 @@ public class BreakerCANdle extends BreakerGenericLoopedDevice implements Breaker
 
     @Override
     public void runSelfTest() {
-        faultStr = null;
+        faultStr = "";
         health = DeviceHealth.NOMINAL;
         CANdleFaults faultsC = new CANdleFaults();
         candle.getFaults(faultsC);

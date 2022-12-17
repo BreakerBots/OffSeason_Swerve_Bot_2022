@@ -6,7 +6,7 @@ package frc.robot.BreakerLib.util.test.selftest;
 
 /** A higher level implamentation of the {@link BreakerSelfTestable} interface */
 public abstract class BreakerSelfTestableBase implements BreakerSelfTestable  {
-    protected String faultStr = null, deviceName = " Unknown_Device ";
+    protected String faultStr = "", deviceName = " Unknown_Device ";
     protected DeviceHealth health = DeviceHealth.NOMINAL;
 
     @Override

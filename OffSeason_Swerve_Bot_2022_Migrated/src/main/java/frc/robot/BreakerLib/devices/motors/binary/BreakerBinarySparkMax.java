@@ -79,7 +79,7 @@ package frc.robot.BreakerLib.devices.motors.binary;
 
 //     @Override
 //     public void runSelfTest() {
-//         faultStr = null;
+//         fault = "";
 //         health = DeviceHealth.NOMINAL;
 //         short faults = motor.getFaults();
 //         if (faults != 0) {

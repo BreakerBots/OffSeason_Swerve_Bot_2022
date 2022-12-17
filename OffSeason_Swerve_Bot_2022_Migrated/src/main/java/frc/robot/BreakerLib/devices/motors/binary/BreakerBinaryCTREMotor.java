@@ -80,15 +80,12 @@ public class BreakerBinaryCTREMotor extends BreakerGenericBinaryMotor {
 
     @Override
     public void runSelfTest() {
-        faultStr = null;
+        faultStr = "";
         health = DeviceHealth.NOMINAL;
-        Faults faultObj = new Faults();
-        motor.getFaults(faultObj);
-        if (faultObj.hasAnyFault()) {
-            Pair<DeviceHealth, String> pair = BreakerCTREUtil
-                    .getMotorHealthAndFaults(faultObj);
-            faultStr = pair.getSecond();
-            health = pair.getFirst();
+        Pair<DeviceHealth, String> faultPair = BreakerCTREUtil.checkMotorFaultsAndConnection(motor);
+        if (faultPair.getFirst() != DeviceHealth.NOMINAL) {
+            faultStr = faultPair.getSecond();
+            health = faultPair.getFirst();
         }
     }
 

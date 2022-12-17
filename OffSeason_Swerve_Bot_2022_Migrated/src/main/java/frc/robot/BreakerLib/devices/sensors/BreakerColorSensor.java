@@ -58,13 +58,11 @@ public class BreakerColorSensor extends BreakerGenericDeviceBase {
 
   @Override
   public void runSelfTest() {
-    faultStr = null;
+    faultStr = "";
+    health = DeviceHealth.NOMINAL;
     if (!colorSensor.isConnected()) {
       health = DeviceHealth.INOPERABLE;
       faultStr = " COLOR_SENSOR_NOT_CONNECTED ";
-    } else {
-      health = DeviceHealth.NOMINAL;
-      faultStr = null;
     }
   }
 

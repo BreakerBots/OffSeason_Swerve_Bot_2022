@@ -198,30 +198,34 @@ public class BreakerPigeon2 extends BreakerGenericIMU implements BreakerGenericM
 
   @Override
   public void runSelfTest() {
-    faultStr = null;
+    faultStr = "";
     health = DeviceHealth.NOMINAL;
     Pigeon2_Faults curFaults = new Pigeon2_Faults();
     pigeon.getFaults(curFaults);
 
     if (curFaults.HardwareFault) {
       health = DeviceHealth.INOPERABLE;
-      faultStr += " HARDWARE_FAULT ";
+      faultStr += " hardware_fault ";
     }
     if (curFaults.MagnetometerFault) {
       health = DeviceHealth.INOPERABLE;
-      faultStr += " MAG_FAULT ";
+      faultStr += " mag_fault ";
     }
     if (curFaults.GyroFault) {
       health = DeviceHealth.INOPERABLE;
-      faultStr += "  GYRO_FAULT ";
+      faultStr += "  gyro_fault ";
     }
     if (curFaults.AccelFault) {
       health = DeviceHealth.INOPERABLE;
-      faultStr += " ACCEL_FAULT ";
+      faultStr += " accel_fault ";
     }
     if (curFaults.UnderVoltage) {
       health = (health != DeviceHealth.INOPERABLE) ? DeviceHealth.FAULT : health;
-      faultStr += " UNDER_6.5V ";
+      faultStr += " under_6.5V ";
+    }
+    if (pigeon.getFirmwareVersion() == -1) {
+      health = DeviceHealth.INOPERABLE;
+      faultStr += " device_disconnected ";
     }
   }
 

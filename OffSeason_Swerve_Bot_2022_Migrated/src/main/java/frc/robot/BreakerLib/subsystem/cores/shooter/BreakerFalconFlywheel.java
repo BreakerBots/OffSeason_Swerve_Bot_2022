@@ -78,12 +78,10 @@ public class BreakerFalconFlywheel extends BreakerGenericFlywheel {
 
     @Override
     public void runSelfTest() {
-       faultStr = null;
+       faultStr = "";
        health = DeviceHealth.NOMINAL;
        for (WPI_TalonFX mot: motors) {
-           Faults motFaults = new Faults();
-           mot.getFaults(motFaults);
-           Pair<DeviceHealth, String> faultData = BreakerCTREUtil.getMotorHealthAndFaults(motFaults);
+           Pair<DeviceHealth, String> faultData = BreakerCTREUtil.checkMotorFaultsAndConnection(mot);
            if (faultData.getFirst() != DeviceHealth.NOMINAL) {
                faultStr += faultData.getSecond();
                health = health != DeviceHealth.NOMINAL ? faultData.getFirst() : health;

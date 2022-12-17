@@ -60,4 +60,30 @@ public class BreakerVendorUtil {
         }
         return new Pair<DeviceHealth, String>(health, work.toString());
     }
+
+    /**
+   * Gets device faults as string 
+   * 
+   * @param Device faults as bitfield
+   * @return All faults found as string. If no faults are found, "" is returned.
+  */
+    public static String getDeviceFaultsAsString(long faultBitField,
+    HashMap<Integer, String> fieldPlacesAndFaultMessages) {
+    StringBuilder work = new StringBuilder();
+    if (faultBitField != 0) {
+    long fieldMask = 1; // masks all but selected bit
+    for (int fieldPlace = 0; fieldPlace < fieldPlacesAndFaultMessages.size(); fieldPlace++) {
+        if (((faultBitField & fieldMask) != 0) && fieldPlacesAndFaultMessages.containsKey(fieldPlace)) { // Checks for
+                                                                                                        // 1s in
+                                                                                                        // bitfield
+                                                                                                        // that
+                                                                                                        // signifies
+                                                                                                        // error
+        work.append(fieldPlacesAndFaultMessages.get(fieldPlace));
+        }
+        fieldMask <<= 1; // Scrolls to next bit.
+    }
+    }
+    return work.toString();
+    }
 }

@@ -262,7 +262,7 @@ public class BreakerAHRS extends BreakerGenericIMU implements BreakerGenericMagn
 
     public void runSelfTest() {
         health = DeviceHealth.NOMINAL;
-        faultStr = null;
+        faultStr = "";
         if (!imu.isConnected()) {
             health = DeviceHealth.INOPERABLE;
             faultStr += " NOT_CONNECTED ";
