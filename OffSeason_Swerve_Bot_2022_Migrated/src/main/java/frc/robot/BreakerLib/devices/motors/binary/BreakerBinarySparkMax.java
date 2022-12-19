@@ -90,10 +90,10 @@ package frc.robot.BreakerLib.devices.motors.binary;
 //     }
 
 //     @Override
-    public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig, double... managementPerameters) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    // public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig, double... managementPerameters) {
+    //     // TODO Auto-generated method stub
+    //     return null;
+    // }
 
 //     @Override
 //     public void overrideAutomaticPowerManagement(DevicePowerMode manualPowerMode) {

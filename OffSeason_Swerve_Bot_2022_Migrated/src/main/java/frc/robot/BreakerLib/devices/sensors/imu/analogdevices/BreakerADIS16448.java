@@ -235,12 +235,6 @@ public class BreakerADIS16448 extends BreakerGenericIMU {
     }
 
     @Override
-    public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public void overrideAutomaticPowerManagement(DevicePowerMode manualPowerMode) {
         // TODO Auto-generated method stub
 
@@ -268,5 +262,11 @@ public class BreakerADIS16448 extends BreakerGenericIMU {
     public void runSelfTest() {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig, double... managementPerameters) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
