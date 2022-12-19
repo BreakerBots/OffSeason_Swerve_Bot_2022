@@ -18,6 +18,11 @@ public class BreakerTurretState {
         this.flywheelRPM = flywheelRPM;
     }
 
+    
+    /** 
+     * @param robotRot
+     * @return BreakerTurretState
+     */
     public BreakerTurretState toRobotRelativeState(Rotation3d robotRot) {
         return new BreakerTurretState(azimuthAngle.plus(robotRot.toRotation2d()), altitudeAngle.plus(new Rotation2d(robotRot.getY())), flywheelRPM);
     }

@@ -38,6 +38,10 @@ public class BreakerButtonBinding {
        bindConditionaly(() -> true);
     }
 
+    
+    /** 
+     * @param isBindingEnabledSupplier
+     */
     public void bindConditionaly(BooleanSupplier isBindingEnabledSupplier) {
         switch (bindingType) {
             case ON_FALSE:

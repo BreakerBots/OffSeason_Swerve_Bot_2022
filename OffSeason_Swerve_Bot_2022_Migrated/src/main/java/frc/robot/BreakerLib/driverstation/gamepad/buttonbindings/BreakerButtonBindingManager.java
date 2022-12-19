@@ -8,16 +8,28 @@ package frc.robot.BreakerLib.driverstation.gamepad.buttonbindings;
 public class BreakerButtonBindingManager {
     private static int indexOfMapToUse = 0;
     private static int nextMapIndex = 0;
+    
+    /** 
+     * @param mapToAdd
+     */
     public static void addButtonBindingMap(BreakerButtonBindingMap mapToAdd) {
         final int index = nextMapIndex;
         mapToAdd.bindAllConditionaly(() -> indexOfMapToUse == index);
         nextMapIndex++;
     }
 
+    
+    /** 
+     * @return int
+     */
     public static int getActiveButtonBindingMapIndex() {
         return indexOfMapToUse;
     }
 
+    
+    /** 
+     * @param indexOfMapToUse
+     */
     public static void setActiveButtonBindingMap(int indexOfMapToUse) {
         BreakerButtonBindingManager.indexOfMapToUse = indexOfMapToUse;
     }

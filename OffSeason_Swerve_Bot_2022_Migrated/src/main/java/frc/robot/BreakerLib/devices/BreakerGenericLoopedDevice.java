@@ -67,6 +67,10 @@ public abstract class BreakerGenericLoopedDevice extends BreakerGenericDeviceBas
             SendableRegistry.addLW(child, getSubsystem(), name);
         }
         
+        
+        /** 
+         * @param builder
+         */
         @Override
         public void initSendable(SendableBuilder builder) {
             builder.setSmartDashboardType("Subsystem");
@@ -84,22 +88,38 @@ public abstract class BreakerGenericLoopedDevice extends BreakerGenericDeviceBas
         }
 
         
+    
+    /** 
+     * @param newName
+     */
     @Override
     public void setProviderName(String newName) {
         setDeviceName(newName);
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String getProviderName() {
         return getDeviceName();
     }
 
+    
+    /** 
+     * @param isEnabled
+     */
     @Override
     public void setTelemetryEnabled(boolean isEnabled) {
         telemetryEnabled = isEnabled;
         
     }
 
+    
+    /** 
+     * @return boolean
+     */
     @Override
     public boolean isTelemetryEnabled() {
         return telemetryEnabled;

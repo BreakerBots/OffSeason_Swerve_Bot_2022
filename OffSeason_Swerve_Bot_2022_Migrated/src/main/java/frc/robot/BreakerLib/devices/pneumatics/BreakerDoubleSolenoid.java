@@ -98,6 +98,10 @@ public class BreakerDoubleSolenoid {
         }
     }
 
+    
+    /** 
+     * @return Value
+     */
     public Value getState() {
         return solenoid.get();
     }

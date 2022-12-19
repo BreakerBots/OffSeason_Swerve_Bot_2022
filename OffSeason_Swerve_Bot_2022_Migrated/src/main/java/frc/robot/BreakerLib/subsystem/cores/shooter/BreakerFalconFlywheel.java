@@ -54,11 +54,19 @@ public class BreakerFalconFlywheel extends BreakerGenericFlywheel {
         }
     }
 
+    
+    /** 
+     * @return double
+     */
     @Override
     public double getFlywheelVelRSU() {
         return lFlyMotor.getSelectedSensorVelocity();
     }
 
+    
+    /** 
+     * @return double
+     */
     @Override
     public double getFlywheelRPM() {
         return BreakerUnits.falconRSUtoRPM(getFlywheelVelRSU());
@@ -71,6 +79,10 @@ public class BreakerFalconFlywheel extends BreakerGenericFlywheel {
         lFlyMotor.set(ControlMode.Velocity, flySetSpd, DemandType.ArbitraryFeedForward, feedforward);
     }
 
+    
+    /** 
+     * @return BreakerFlywheelTestSuite
+     */
     @Override
     public BreakerFlywheelTestSuite getTestSuite() {
         return testSuite;
@@ -89,12 +101,22 @@ public class BreakerFalconFlywheel extends BreakerGenericFlywheel {
        }
     }
 
+    
+    /** 
+     * @param managementConfig
+     * @param managementPerameters
+     * @return DevicePowerMode
+     */
     @Override
     public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig, double... managementPerameters) {
         // TODO Auto-generated method stub
         return null;
     }
 
+    
+    /** 
+     * @param manualPowerMode
+     */
     @Override
     public void overrideAutomaticPowerManagement(DevicePowerMode manualPowerMode) {
         // TODO Auto-generated method stub
@@ -107,12 +129,20 @@ public class BreakerFalconFlywheel extends BreakerGenericFlywheel {
         
     }
 
+    
+    /** 
+     * @return boolean
+     */
     @Override
     public boolean isUnderAutomaticControl() {
         // TODO Auto-generated method stub
         return false;
     }
 
+    
+    /** 
+     * @return DevicePowerMode
+     */
     @Override
     public DevicePowerMode getPowerMode() {
         // TODO Auto-generated method stub

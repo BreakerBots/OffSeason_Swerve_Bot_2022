@@ -23,14 +23,26 @@ public class BreakerAngularVector3 {
         this.magnatudeRoll = 0;
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getMagnatudeYaw() {
         return magnatudeYaw;
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getMagnatudePitch() {
         return magnatudePitch;
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getMagnatudeRoll() {
         return magnatudeRoll;
     }

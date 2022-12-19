@@ -180,12 +180,22 @@ public class BreakerCompressor extends BreakerGenericDeviceBase {
 
     }
 
+    
+    /** 
+     * @param managementConfig
+     * @param managementPerameters
+     * @return DevicePowerMode
+     */
     @Override
     public DevicePowerMode managePower(BreakerPowerManagementConfig managementConfig, double... managementPerameters) {
         // TODO Auto-generated method stub
         return null;
     }
 
+    
+    /** 
+     * @param manualPowerMode
+     */
     @Override
     public void overrideAutomaticPowerManagement(DevicePowerMode manualPowerMode) {
         // TODO Auto-generated method stub
@@ -198,12 +208,20 @@ public class BreakerCompressor extends BreakerGenericDeviceBase {
 
     }
 
+    
+    /** 
+     * @return boolean
+     */
     @Override
     public boolean isUnderAutomaticControl() {
         // TODO Auto-generated method stub
         return false;
     }
 
+    
+    /** 
+     * @return DevicePowerMode
+     */
     @Override
     public DevicePowerMode getPowerMode() {
         // TODO Auto-generated method stub

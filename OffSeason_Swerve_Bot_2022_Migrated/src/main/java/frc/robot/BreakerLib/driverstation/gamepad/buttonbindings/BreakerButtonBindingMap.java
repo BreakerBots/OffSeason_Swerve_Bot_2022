@@ -13,6 +13,10 @@ public class BreakerButtonBindingMap {
         this.buttonBindings = buttonBindings;
     }
 
+    
+    /** 
+     * @return BreakerButtonBinding[]
+     */
     public BreakerButtonBinding[] getButtonBindings() {
         return buttonBindings;
     }
@@ -23,6 +27,10 @@ public class BreakerButtonBindingMap {
         }
     }
 
+    
+    /** 
+     * @param isBindingEnabledSupplier
+     */
     public void bindAllConditionaly(BooleanSupplier isBindingEnabledSupplier) {
         for (BreakerButtonBinding bind: buttonBindings) {
             bind.bindConditionaly(isBindingEnabledSupplier);

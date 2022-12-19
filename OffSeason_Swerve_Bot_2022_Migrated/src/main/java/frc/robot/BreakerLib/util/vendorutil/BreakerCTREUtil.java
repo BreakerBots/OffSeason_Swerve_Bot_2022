@@ -100,6 +100,11 @@ public class BreakerCTREUtil {
     return BreakerVendorUtil.getDeviceHealthAndFaults(motorFaults.toBitfield(), map);
   }
 
+  
+  /** 
+   * @param motor
+   * @return Pair<DeviceHealth, String>
+   */
   public static Pair<DeviceHealth, String> checkMotorFaultsAndConnection(IMotorController motor) {
     Faults motorFaults = new Faults();
     motor.getFaults(motorFaults);
@@ -126,6 +131,11 @@ public class BreakerCTREUtil {
     return BreakerVendorUtil.getDeviceHealthAndFaults(encoderFaults.toBitfield(), map);
   }
 
+  
+  /** 
+   * @param canCoder
+   * @return Pair<DeviceHealth, String>
+   */
   public static Pair<DeviceHealth, String> checkCANCoderFaultsAndConnection(CANCoder canCoder) {
     CANCoderFaults canCoderFaults = new CANCoderFaults();
     canCoder.getFaults(canCoderFaults);

@@ -31,10 +31,19 @@ public class BreakerVision implements BreakerGenericOdometer {
         odometer = new BreakerVisionOdometer(poseFilter);
     }
 
+    
+    /** 
+     * @return BreakerPhotonCamera[]
+     */
     public BreakerPhotonCamera[] getCameras() {
         return cameras;
     }
 
+    
+    /** 
+     * @param cameraName
+     * @return BreakerPhotonCamera
+     */
     public BreakerPhotonCamera getCamera(String cameraName) {
         for (BreakerPhotonCamera cam: cameras) {
             if (cam.getDeviceName() == cameraName) {
@@ -44,6 +53,10 @@ public class BreakerVision implements BreakerGenericOdometer {
         return null;
     }
 
+    
+    /** 
+     * @return boolean
+     */
     public boolean hasTargets() {
         for (BreakerPhotonCamera cam: cameras) {
             if (cam.hasTargets()) {
@@ -53,42 +66,78 @@ public class BreakerVision implements BreakerGenericOdometer {
         return false;
     }
 
+    
+    /** 
+     * @return BreakerFiducialPhotonTarget[]
+     */
     public BreakerFiducialPhotonTarget[] getFiducialTargets() {
         return targets;
     }
 
+    
+    /** 
+     * @return Pose3d
+     */
     public Pose3d getFilteredRobotPose3d() {
         return poseFilter.getFilteredRobotPose3d();
     }
 
+    
+    /** 
+     * @return Pose2d
+     */
     public Pose2d getFilteredRobotPose() {
         return poseFilter.getFilteredRobotPose();
     }
 
+    
+    /** 
+     * @return BreakerVisionOdometer
+     */
     public BreakerVisionOdometer getBaseVisionOdometer() {
         return odometer;
     }
 
+    
+    /** 
+     * @param newPose
+     */
     @Override
     public void setOdometryPosition(Pose2d newPose) {
         odometer.setOdometryPosition(newPose);
     }
 
+    
+    /** 
+     * @return Pose2d
+     */
     @Override
     public Pose2d getOdometryPoseMeters() {
         return odometer.getOdometryPoseMeters();
     }
 
+    
+    /** 
+     * @return BreakerMovementState2d
+     */
     @Override
     public BreakerMovementState2d getMovementState() {
         return odometer.getMovementState();
     }
 
+    
+    /** 
+     * @return ChassisSpeeds
+     */
     @Override
     public ChassisSpeeds getRobotRelativeChassisSpeeds() {
         return odometer.getRobotRelativeChassisSpeeds();
     }
 
+    
+    /** 
+     * @return ChassisSpeeds
+     */
     @Override
     public ChassisSpeeds getFieldRelativeChassisSpeeds() {
         return odometer.getFieldRelativeChassisSpeeds();

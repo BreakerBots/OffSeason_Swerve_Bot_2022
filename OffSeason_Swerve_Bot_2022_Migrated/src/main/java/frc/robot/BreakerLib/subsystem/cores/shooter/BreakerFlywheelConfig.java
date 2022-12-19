@@ -28,33 +28,65 @@ public class BreakerFlywheelConfig {
         this.arbFFProvider = arbFFProvider;
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getkD() {
         return kD;
     }
+    
+    /** 
+     * @return double
+     */
     public double getkF() {
         return kF;
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getkI() {
         return kI;
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getkP() {
         return kP;
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getAcclerationTolerence() {
         return acclerationTolerence;
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getVelocityTolerence() {
         return velocityTolerence;
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getFlywheelGearRatio() {
         return flywheelGearRatio;
     }
 
+    
+    /** 
+     * @return BreakerArbitraryFeedforwardProvider
+     */
     public BreakerArbitraryFeedforwardProvider getArbFFProvider() {
         return arbFFProvider;
     }

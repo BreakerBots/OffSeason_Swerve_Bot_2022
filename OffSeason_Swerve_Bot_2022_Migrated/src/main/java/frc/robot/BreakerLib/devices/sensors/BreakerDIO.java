@@ -34,39 +34,71 @@ public class BreakerDIO {
         this.channel = channel;
     }
 
+    
+    /** 
+     * @return boolean
+     */
     public boolean getInput() {
         output.disablePWM();
         state = DIOState.DIGITAL_IN;
         return input.get();
     }
 
+    
+    /** 
+     * @return boolean
+     */
     public boolean getOutput() {
         state = DIOState.DIGITAL_OUT;
         return output.get();
     }
 
+    
+    /** 
+     * @param value
+     */
     public void setOutput(boolean value) {
         output.disablePWM();
         output.set(value);
     }
 
+    
+    /** 
+     * @param dutyCycle
+     */
     public void setOutputPWM(double dutyCycle) {
         state = DIOState.PWM_OUT;
         output.enablePWM(dutyCycle);
     }
 
+    
+    /** 
+     * @return DIOState
+     */
     public DIOState getState() {
         return state;
     }
 
+    
+    /** 
+     * @return DigitalInput
+     */
     public DigitalInput getBaseInput() {
         return input;
     }
 
+    
+    /** 
+     * @return DigitalOutput
+     */
     public DigitalOutput getBaseOutput() {
         return output;
     }
 
+    
+    /** 
+     * @return int
+     */
     public int getChannel() {
         return channel;
     }

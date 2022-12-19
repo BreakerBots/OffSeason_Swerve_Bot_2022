@@ -73,58 +73,121 @@ public class BreakerVector3 implements BreakerInterpolable<BreakerVector3> {
         return new BreakerVector3(translationToVectorize.getX(), translationToVectorize.getY(), translationToVectorize.getY());
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getMagnatudeX() {
         return magnatudeX;
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getMagnatudeY() {
         return magnatudeY;
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getMagnatudeZ() {
         return magnatudeZ;
     }
 
+    
+    /** 
+     * @return double
+     */
     public double getMagnitude() {
         return magnitude;
     }
 
+    
+    /** 
+     * @return Rotation3d
+     */
     public Rotation3d getVectorRotation() {
         return vectorRotation;
     }
 
+    
+    /** 
+     * @param rotation
+     * @return BreakerVector3
+     */
     public BreakerVector3 rotateBy(Rotation3d rotation) {
         return BreakerVector3.fromMagnitudeAndvectorRotation(magnitude, vectorRotation.plus(rotation));
     }
 
+    
+    /** 
+     * @param outher
+     * @return BreakerVector3
+     */
     public BreakerVector3 minus(BreakerVector3 outher) {
         return new BreakerVector3(magnatudeX - outher.magnatudeX, magnatudeY - outher.magnatudeY, magnatudeZ - outher.magnatudeZ);
     }
 
+    
+    /** 
+     * @param outher
+     * @return BreakerVector3
+     */
     public BreakerVector3 plus(BreakerVector3 outher) {
         return new BreakerVector3(magnatudeX + outher.magnatudeX, magnatudeY + outher.magnatudeY, magnatudeZ + outher.magnatudeZ);
     }
 
+    
+    /** 
+     * @return BreakerVector3
+     */
     public BreakerVector3 unaryMinus()  {
         return new BreakerVector3(-magnatudeX, -magnatudeY, -magnatudeZ);
     }
 
+    
+    /** 
+     * @param scalar
+     * @return BreakerVector3
+     */
     public BreakerVector3 times(double scalar) {
         return new BreakerVector3(magnatudeX * scalar, magnatudeY * scalar, magnatudeZ * scalar);
     }
 
+    
+    /** 
+     * @param scalar
+     * @return BreakerVector3
+     */
     public BreakerVector3 div(double scalar) {
         return new BreakerVector3(magnatudeX / scalar,  magnatudeY / scalar, magnatudeY / scalar);
     }
     
+    
+    /** 
+     * @return Translation3d
+     */
     public Translation3d getAsTranslation() {
         return new Translation3d(magnatudeX, magnatudeY, magnatudeZ);
     }
 
+    
+    /** 
+     * @return BreakerVector3
+     */
     public BreakerVector3 getUnitVector() {
         return BreakerVector3.fromMagnitudeAndvectorRotation(1, vectorRotation);
     }
 
+    
+    /** 
+     * @param endValue
+     * @param t
+     * @return BreakerVector3
+     */
     @Override
     public BreakerVector3 interpolate(BreakerVector3 endValue, double t) {
         double interX = MathUtil.interpolate(magnatudeX, endValue.getMagnatudeX(), t);
@@ -139,11 +202,20 @@ public class BreakerVector3 implements BreakerInterpolable<BreakerVector3> {
         return new double[] { magnatudeX, magnatudeY, magnatudeZ };
     }
 
+    
+    /** 
+     * @param interpolatableData
+     * @return BreakerVector3
+     */
     @Override
     public BreakerVector3 fromInterpolatableData(double[] interpolatableData) {
         return new BreakerVector3(interpolatableData[0], interpolatableData[1], interpolatableData[2]);
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return "Vector Magnatude:" + magnitude + ", X-Magnatude: " + magnatudeX + ", Y-Magnatude: " + magnatudeY

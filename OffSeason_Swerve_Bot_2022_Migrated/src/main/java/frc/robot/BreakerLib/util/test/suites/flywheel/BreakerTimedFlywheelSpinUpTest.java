@@ -62,16 +62,28 @@ public class BreakerTimedFlywheelSpinUpTest extends BreakerTestBase {
     periodicLog("Cur Speed: " + curVel + ", At Target: " + baseFlywheel.flywheelIsAtTargetVel() + ", Stable Time Sec: " + (stableCycles * 0.02));
   }
 
+  
+  /** 
+   * @return BreakerTimedFlywheelSpinUpTestResult
+   */
   public BreakerTimedFlywheelSpinUpTestResult getResults() {
     return new BreakerTimedFlywheelSpinUpTestResult(targetRPM, testTimeSeconds, timeToStabilitySec, peakDiv, stableCycles / totalCycles, avgSpeed, rpmAndTimestamps);
   }
 
+  
+  /** 
+   * @param interrupted
+   */
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     logEnd(getResults().toString());
   }
 
+  
+  /** 
+   * @return boolean
+   */
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {

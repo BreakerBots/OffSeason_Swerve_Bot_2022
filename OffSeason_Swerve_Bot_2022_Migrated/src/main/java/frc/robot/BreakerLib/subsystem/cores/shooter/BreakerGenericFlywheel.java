@@ -31,6 +31,10 @@ public abstract class BreakerGenericFlywheel extends BreakerGenericLoopedDevice 
         ffProvider = config.getArbFFProvider();
     }
 
+    
+    /** 
+     * @param flywheelTargetSpeedRPM
+     */
     public void setFlywheelSpeed(double flywheelTargetSpeedRPM) {
         flywheelTargetRPM = flywheelTargetSpeedRPM;
     }
@@ -39,6 +43,10 @@ public abstract class BreakerGenericFlywheel extends BreakerGenericLoopedDevice 
 
     public abstract double getFlywheelRPM();
 
+    
+    /** 
+     * @return double
+     */
     public double getFlywheelTargetRPM() {
         return flywheelTargetRPM;
     }
@@ -52,6 +60,10 @@ public abstract class BreakerGenericFlywheel extends BreakerGenericLoopedDevice 
 
     protected abstract void runFlywheel();
 
+    
+    /** 
+     * @return boolean
+     */
     public boolean flywheelIsAtTargetVel() {
         return BreakerMath.lambdaEquals(flywheelTargetRPM, getFlywheelRPM(), velTol) && BreakerMath.lambdaEquals(accel, 0, accelTol);
     }
@@ -63,6 +75,10 @@ public abstract class BreakerGenericFlywheel extends BreakerGenericLoopedDevice 
         lastVel = getFlywheelRPM();
     }
 
+    
+    /** 
+     * @return BreakerFlywheelTestSuite
+     */
     @Override
     public BreakerFlywheelTestSuite getTestSuite() {
         return testSuite;

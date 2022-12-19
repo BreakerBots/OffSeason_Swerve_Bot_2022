@@ -23,6 +23,10 @@ public class BreakerGamepadThumbstick extends BreakerAnalogThumbstick {
         stickClick = new JoystickButton(hid, thumbstickButtonPort);
     }
 
+    
+    /** 
+     * @return JoystickButton
+     */
     public JoystickButton getJoystickButton() {
         return stickClick;
     }
