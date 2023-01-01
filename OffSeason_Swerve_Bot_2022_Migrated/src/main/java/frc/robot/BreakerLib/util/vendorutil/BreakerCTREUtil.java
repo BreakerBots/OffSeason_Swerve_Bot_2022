@@ -7,17 +7,13 @@ package frc.robot.BreakerLib.util.vendorutil;
 import java.util.HashMap;
 
 import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdleFaults;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderFaults;
-import com.ctre.phoenix.sensors.WPI_CANCoder;
-import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.Pair;
 import frc.robot.BreakerLib.util.logging.BreakerLog;

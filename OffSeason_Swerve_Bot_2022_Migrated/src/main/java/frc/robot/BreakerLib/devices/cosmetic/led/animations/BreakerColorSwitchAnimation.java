@@ -4,16 +4,11 @@
 
 package frc.robot.BreakerLib.devices.cosmetic.led.animations;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** Add your docs here. */
 public class BreakerColorSwitchAnimation extends CommandBase implements BreakerAnimation {

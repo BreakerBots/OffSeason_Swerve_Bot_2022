@@ -15,21 +15,21 @@ import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
  */
 public class BreakerVendorUtil {
 
-    /** Returns device health as {@link DeviceHealth} values. */
+    /**
+     * 
+     * @param faultBitField               Bitfield of faults to examine.
+     * @param fieldPlacesAndHealthEffects Map of bitfield places and related {@link DeviceHealth} effects.
+     * 
+     * @return Device health as {@link DeviceHealth} values.
+     */
     public static DeviceHealth getDeviceFaultsAsHealth(long faultBitField,
             HashMap<Integer, DeviceHealth> fieldPlacesAndHealthEffects) {
         DeviceHealth health = DeviceHealth.NOMINAL;
         if (faultBitField != 0) {
             long fieldMask = 1; // masks all but selected bit
             for (int fieldPlace = 0; fieldPlace < fieldPlacesAndHealthEffects.size(); fieldPlace++) {
-                if (((faultBitField & fieldMask) != 0) && fieldPlacesAndHealthEffects.containsKey(fieldPlace)) { // Checks
-                                                                                                                 // for
-                                                                                                                 // 1s
-                                                                                                                 // in
-                                                                                                                 // bitfield
-                                                                                                                 // that
-                                                                                                                 // signifies
-                                                                                                                 // error
+                // Checks for 1s in bitfield that signifies an error.
+                if (((faultBitField & fieldMask) != 0) && fieldPlacesAndHealthEffects.containsKey(fieldPlace)) {
                     health = health != DeviceHealth.INOPERABLE ? fieldPlacesAndHealthEffects.get(fieldPlace) : health;
                 }
                 fieldMask <<= 1; // Scrolls to next bit.
@@ -38,7 +38,13 @@ public class BreakerVendorUtil {
         return health;
     }
 
-    /** Gets device health and faults. */
+    /**
+     * 
+     * @param faultBitField               Bitfield of faults to examine.
+     * @param fieldPlacesHealthEffectsAndFaultMessages Map of bitfield places and related {@link DeviceHealth} effects, along with fault messages.
+     * 
+     * @return Device health as {@link DeviceHealth} values along with list of faults.
+     */
     public static Pair<DeviceHealth, String> getDeviceHealthAndFaults(long faultBitField,
             HashMap<Integer, Pair<DeviceHealth, String>> fieldPlacesHealthEffectsAndFaultMessages) {
         StringBuilder work = new StringBuilder();
@@ -62,28 +68,31 @@ public class BreakerVendorUtil {
     }
 
     /**
-   * Gets device faults as string 
-   * 
-   * @param Device faults as bitfield
-   * @return All faults found as string. If no faults are found, "" is returned.
-  */
+     * Gets device faults as string
+     * 
+     * @param faultBitField Device faults as bitfield
+     * @param fieldPlacesAndFaultMessages Map of bitfield places and related fault messages.
+     * @return All faults found as string. If no faults are found, "" is returned.
+     */
     public static String getDeviceFaultsAsString(long faultBitField,
-    HashMap<Integer, String> fieldPlacesAndFaultMessages) {
-    StringBuilder work = new StringBuilder();
-    if (faultBitField != 0) {
-    long fieldMask = 1; // masks all but selected bit
-    for (int fieldPlace = 0; fieldPlace < fieldPlacesAndFaultMessages.size(); fieldPlace++) {
-        if (((faultBitField & fieldMask) != 0) && fieldPlacesAndFaultMessages.containsKey(fieldPlace)) { // Checks for
-                                                                                                        // 1s in
-                                                                                                        // bitfield
-                                                                                                        // that
-                                                                                                        // signifies
-                                                                                                        // error
-        work.append(fieldPlacesAndFaultMessages.get(fieldPlace));
+            HashMap<Integer, String> fieldPlacesAndFaultMessages) {
+        StringBuilder work = new StringBuilder();
+        if (faultBitField != 0) {
+            long fieldMask = 1; // masks all but selected bit
+            for (int fieldPlace = 0; fieldPlace < fieldPlacesAndFaultMessages.size(); fieldPlace++) {
+                if (((faultBitField & fieldMask) != 0) && fieldPlacesAndFaultMessages.containsKey(fieldPlace)) { // Checks
+                                                                                                                 // for
+                                                                                                                 // 1s
+                                                                                                                 // in
+                                                                                                                 // bitfield
+                                                                                                                 // that
+                                                                                                                 // signifies
+                                                                                                                 // error
+                    work.append(fieldPlacesAndFaultMessages.get(fieldPlace));
+                }
+                fieldMask <<= 1; // Scrolls to next bit.
+            }
         }
-        fieldMask <<= 1; // Scrolls to next bit.
-    }
-    }
-    return work.toString();
+        return work.toString();
     }
 }

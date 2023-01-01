@@ -50,7 +50,7 @@ public class BreakerFlywheelStateSpace extends SubsystemBase {
 
   /** Sets target flywheel speed based on RPM. */
   public void setSpeedRPM(double targetSpeed) {
-    targetSpeedRadPerSec = BreakerMath.radPerSecFromRPM(targetSpeed);
+    targetSpeedRadPerSec = BreakerMath.rpmToRadPerSec(targetSpeed);
   }
 
   /** Sets target flywheel speed based on radians per second. */

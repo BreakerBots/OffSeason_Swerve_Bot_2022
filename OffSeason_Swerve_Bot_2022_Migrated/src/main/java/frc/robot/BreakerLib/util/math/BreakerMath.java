@@ -1,11 +1,8 @@
-package frc.robot.BreakerLib.util.math; 
+package frc.robot.BreakerLib.util.math;
 
 import java.util.List;
 
-import com.ctre.phoenix.sensors.AbsoluteSensorRange;
-
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -15,7 +12,7 @@ import frc.robot.BreakerLib.physics.Breaker3AxisForces;
 import frc.robot.BreakerLib.physics.vector.BreakerVector2;
 import frc.robot.BreakerLib.position.movement.BreakerMovementState2d;
 
-/** Easily accessible  math utilitie class. */
+/** BreakerLib math util class. */
 public class BreakerMath {
 
     private static double prevTime = 0;
@@ -43,9 +40,10 @@ public class BreakerMath {
         return MathUtil.inputModulus(deg, -constraint, constraint);
     }
 
-    /**Constrains an angle value in degrees within a minimum and maximum angle.
+    /**
+     * Constrains an angle value in degrees within a minimum and maximum angle.
      * 
-     * @param deg Angle value in degrees.
+     * @param deg      Angle value in degrees.
      * @param minAngle Minimum angle value.
      * @param maxAngle Maximum angle value.
      * 
@@ -55,19 +53,17 @@ public class BreakerMath {
         return MathUtil.inputModulus(deg, minAngle, maxAngle);
     }
 
-    /** Calculates radians per second from rotations per minute. */
-    public static final double radPerSecFromRPM(double rpm) {
+    /** @return Radians per second from rotations per minute. */
+    public static final double rpmToRadPerSec(double rpm) {
         return ((rpm / 60) * (2 * Math.PI));
     }
 
-    /** Calculates rotations per minute from radians per second. */
-    public static final double rpmFromRadPerSec(double radPerSec) {
+    /** @return Rotations per minute from radians per second. */
+    public static final double radPerSecToRPM(double radPerSec) {
         return ((radPerSec * 60) / (2 * Math.PI));
     }
 
     /**
-     * Gets the amount of time in seconds between cycles.
-     * 
      * @return Time difference between cycles, in seconds.
      */
     public static double getCycleDiffTime() {
@@ -237,7 +233,8 @@ public class BreakerMath {
                         (1000 / timeToLastUpdateMiliseconds) * (speeds.vyMetersPerSecond
                                 - prevMovementState.getDerivativefromIndex(0).getLinearForces().getMagnatudeY())),
                 (1000 / timeToLastUpdateMiliseconds)
-                        * (speeds.omegaRadiansPerSecond - prevMovementState.getDerivativefromIndex(0).getAngularForce()));
+                        * (speeds.omegaRadiansPerSecond
+                                - prevMovementState.getDerivativefromIndex(0).getAngularForce()));
         Breaker3AxisForces jerk = new Breaker3AxisForces(
                 new BreakerVector2(
                         (1000 / timeToLastUpdateMiliseconds) * (acceleration.getLinearForces().getMagnatudeX()
@@ -272,7 +269,7 @@ public class BreakerMath {
         for (int i = 0; i < valuesToAvg.length; i++) {
             denom += i < weights.length ? weights[i] : 1.0;
         }
-        
+
         return numer / denom;
     }
 
@@ -280,14 +277,14 @@ public class BreakerMath {
         double numer = 0;
         double denom = 0;
         for (int i = 0; i < valuesToAvg.size(); i++) {
-            double weaght = i < weights.size() ? weights.get(i): 1.0;
+            double weaght = i < weights.size() ? weights.get(i) : 1.0;
             numer += valuesToAvg.get(i) * weaght;
         }
 
         for (int i = 0; i < valuesToAvg.get(i); i++) {
             denom += i < weights.size() ? weights.get(i) : 1.0;
         }
-        
+
         return numer / denom;
     }
 
@@ -295,9 +292,9 @@ public class BreakerMath {
         return Math.pow(num, 1.0 / root);
     }
 
-    public static double absoluteAngleToContinuousRelativeAngleDegrees(double curRelativeAngle, Rotation2d curAbsoluteAngle, Rotation2d tgtAngle) {
+    public static double absoluteAngleToContinuousRelativeAngleDegrees(double curRelativeAngle,
+            Rotation2d curAbsoluteAngle, Rotation2d tgtAngle) {
         return curRelativeAngle + (tgtAngle.minus(curAbsoluteAngle).getDegrees());
     }
-
 
 }

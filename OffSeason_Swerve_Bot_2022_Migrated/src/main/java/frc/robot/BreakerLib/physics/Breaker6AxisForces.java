@@ -10,6 +10,7 @@ import frc.robot.BreakerLib.physics.vector.BreakerVector3;
 /** A class that represents vectorizeable forces (EX: velocity, acceleration, etc) 
  * acting on a 3d object with 6 degrees of freedom (X, Y, and Z linear axise as well as the yaw, pitch, and roll angular axies) */
 public class Breaker6AxisForces {
+    
     private BreakerVector3 linearForces;
     private BreakerAngularVector3 angularForces;
     public Breaker6AxisForces(BreakerVector3 linearForces, BreakerAngularVector3 angularForces) {

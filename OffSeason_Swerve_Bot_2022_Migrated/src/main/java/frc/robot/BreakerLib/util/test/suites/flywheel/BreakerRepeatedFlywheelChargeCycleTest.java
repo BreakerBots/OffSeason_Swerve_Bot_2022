@@ -4,11 +4,7 @@
 
 package frc.robot.BreakerLib.util.test.suites.flywheel;
 
-import java.util.Currency;
-
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.BreakerLib.subsystem.cores.shooter.BreakerFalconFlywheel;
 import frc.robot.BreakerLib.subsystem.cores.shooter.BreakerGenericFlywheel;
 import frc.robot.BreakerLib.util.math.averages.BreakerAverage;
 import frc.robot.BreakerLib.util.test.suites.BreakerTestBase;
