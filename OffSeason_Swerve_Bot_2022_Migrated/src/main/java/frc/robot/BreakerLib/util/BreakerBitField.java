@@ -4,8 +4,11 @@
 
 package frc.robot.BreakerLib.util;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 
 import com.fasterxml.jackson.databind.util.ArrayIterator;
@@ -24,6 +27,10 @@ public class BreakerBitField implements java.lang.Iterable<Boolean>, java.lang.C
     public BreakerBitField(Boolean... bools) {
         this.bools = Arrays.copyOf(bools, bools.length);
         
+    }
+
+    public BreakerBitField(Collection<Boolean> bools) {
+        this(bools.toArray(new Boolean[bools.size()]));
     }
 
     public BreakerBitField(long bitField) {
@@ -64,6 +71,21 @@ public class BreakerBitField implements java.lang.Iterable<Boolean>, java.lang.C
 
     public BreakerBitField(boolean bit) {
         bools = new Boolean[]{bit};
+    }
+
+    public BreakerBitField(BigInteger bitField) {
+        byte[] data = bitField.toByteArray();
+        ArrayList<Boolean> bools = new ArrayList<>();
+        for (byte b: data) {
+            byte mask = 1;
+            for (int i = 0; i < 8; i++) {
+                if (bools.size() < Integer.MAX_VALUE) {
+                    bools.add((b & mask) == 1);
+                    mask <<= 1;
+                }
+            }
+        }
+        this.bools = bools.toArray(new Boolean[bools.size()]);
     }
 
     public BreakerBitField and(BreakerBitField outher) {
@@ -116,6 +138,14 @@ public class BreakerBitField implements java.lang.Iterable<Boolean>, java.lang.C
         return new BreakerBitField(newBools);
     }
 
+    public BreakerBitField BitwiseComplament() {
+        boolean[] newBools = new boolean[bools.length];
+        for (int i = 0; i < bools.length; i++) {
+            newBools[i] = !bools[i];
+        }
+        return new BreakerBitField(bools);
+    }
+
     public boolean get(int index) {
         return bools[index];
     }
@@ -135,5 +165,10 @@ public class BreakerBitField implements java.lang.Iterable<Boolean>, java.lang.C
     @Override
     public Iterator<Boolean> iterator() {
         return new ArrayIterator<Boolean>(bools);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return (Object) (new BreakerBitField(bools));
     }
 }
