@@ -2,19 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.BreakerLib.devices.sensors;
+package frc.robot.BreakerLib.devices.sensors.color;
 
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.util.Color;
-import frc.robot.BreakerLib.devices.BreakerGenericDeviceBase;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;
 import frc.robot.BreakerLib.util.power.DevicePowerMode;
 import frc.robot.BreakerLib.util.test.selftest.DeviceHealth;
 
 /** REV Color Sensor V3 implementing the Breaker device interface. */
-public class BreakerColorSensor extends BreakerGenericDeviceBase {
+public class BreakerColorSensorV3 extends BreakerGenericColorSensor {
 
   private ColorSensorV3 colorSensor;
 
@@ -23,21 +22,24 @@ public class BreakerColorSensor extends BreakerGenericDeviceBase {
    * 
    * @param i2cPort I2C port for the color sensor.
    */
-  public BreakerColorSensor(Port i2cPort) {
+  public BreakerColorSensorV3(Port i2cPort) {
     colorSensor = new ColorSensorV3(i2cPort);
     deviceName = "Color_Sensor_V3";
   }
 
+  @Override
   /** Current color detected by the sensor. */
   public Color getColor() {
     return colorSensor.getColor();
   }
 
+  @Override
   /** Compare target color to detected color. */
-  public boolean compareColors(Color comparisionColor) {
+  public boolean compareColor(Color comparisionColor) {
     return (comparisionColor == colorSensor.getColor());
   }
 
+  @Override
   /** Delivers RGB values plus IR value. */
   public int[] getRawColorsADC() {
     int[] colorVals = new int[4];
@@ -48,12 +50,13 @@ public class BreakerColorSensor extends BreakerGenericDeviceBase {
     return colorVals;
   }
 
+  @Override
   /**
    * @return Sensor's proximity to its sensing target with 2047 being closest
    * and 0 being furthest.
    */
-  public int getProximity() {
-    return colorSensor.getProximity();
+  public double getProximity() {
+    return (double) (colorSensor.getProximity()) / 2048.0;
   }
 
   @Override
