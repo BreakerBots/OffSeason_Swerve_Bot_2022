@@ -3,37 +3,55 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.BreakerLib.driverstation.dashboard;
-
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.FieldObject2d;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 
-/** Add your docs here. */
-public class BreakerFieldWidget extends SubsystemBase{
+/** Static wrapper for Field2d dashboard field widget. */
+public class BreakerFieldWidget {
+
     private static Field2d field = new Field2d();
-    private static BreakerGenericOdometer odometer;
+
+    /**
+     * Creates field widget.
+     * 
+     * @param odometer Odometer to use to update robot position.
+     */
     public BreakerFieldWidget(BreakerGenericOdometer odometer) {
-        BreakerFieldWidget.odometer = odometer;
         BreakerDashboard.getMainTab().add(field);
+        CommandScheduler.getInstance().schedule(new RunCommand(() -> field.setRobotPose(odometer.getOdometryPoseMeters())));
     }
 
+    /** @return Robot object on field widget. */
     public static FieldObject2d getRobotObject() {
         return field.getRobotObject();
     }
 
+    /**
+     * Creates or gets field object with given name.
+     * 
+     * @param name Name of field object
+     * @return Field object with given name
+     */
     public static FieldObject2d getFieldObject(String name) {
         return field.getObject(name);
     }
 
-    public static Field2d getBaseField() {
-        return field;
+    /**
+     * Sets widget poses for given {@link FieldObject2d}.
+     * 
+     * @param name Name of field objects.
+     * @param poses Poses for field objects. Max of 85.
+     */
+    public static void setFieldObjectPoses(String name, Pose2d... poses) {
+        
     }
 
-    @Override
-    public void periodic() {
-        field.setRobotPose(odometer.getOdometryPoseMeters());
+    /** @return Field2d widget. */
+    public static Field2d getBaseField() {
+        return field;
     }
 }

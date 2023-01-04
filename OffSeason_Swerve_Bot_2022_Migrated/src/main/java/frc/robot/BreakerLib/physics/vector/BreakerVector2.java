@@ -4,13 +4,9 @@
 
 package frc.robot.BreakerLib.physics.vector;
 
-import javax.print.attribute.standard.MediaSize.Other;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.Tracer;
-import frc.robot.BreakerLib.util.math.BreakerMath;
 import frc.robot.BreakerLib.util.math.interpolation.BreakerInterpolable;
 
 /**

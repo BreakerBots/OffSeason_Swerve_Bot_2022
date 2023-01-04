@@ -4,8 +4,6 @@
 
 package frc.robot.BreakerLib.driverstation.gamepad.components;
 
-import java.util.function.Supplier;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.GenericHID;
 

@@ -9,30 +9,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 
-/** Add your docs here. */
+/** Wrapper for Shuffleboard dashboard. */
 public class BreakerDashboard {
     private static List<ShuffleboardTab> allTabs = new ArrayList<>();
 
+    /** @return Tab labeled "Main". */
     public static ShuffleboardTab getMainTab() {
         return getTab("Main");
     }
 
+    /** @return Tab labeled "Setup". */
     public static ShuffleboardTab getSetupTab() {
         return getTab("Setup");
     }
     
+    /** @return Tab labeled "Tuning". */
     public static ShuffleboardTab getTuningTab() {
         return getTab("Tuning");
     }
 
+    /** @return Tab labeled "Diagnostics". */
     public static ShuffleboardTab getDiagnosticsTab() {
         return getTab("Diagnostics");
     }
 
+    /** Creates/adds tab with given name.
+     * 
+     * @param tabName Name of tab
+     * 
+     * @return Tab.
+     */
     public static ShuffleboardTab getTab(String tabName) {
         ShuffleboardTab tab = Shuffleboard.getTab(tabName);
         if (!allTabs.contains(tab)) {
@@ -41,6 +49,7 @@ public class BreakerDashboard {
         return tab;
     }
 
+    /** @return All Shuffleboard tabs. */
     public static List<ShuffleboardTab> getAllTabs() {
         return allTabs;
     }
