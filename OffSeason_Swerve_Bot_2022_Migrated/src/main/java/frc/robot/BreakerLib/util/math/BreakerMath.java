@@ -177,9 +177,9 @@ public class BreakerMath {
         double y1 = point1.getY();
         double x2 = point2.getX();
         double y2 = point2.getY();
-        double startRelAng = Math.atan(x2 - x1 / y2 - y1) * 180 / Math.PI;
-        double cor = (y2 - y2 / Math.abs(y2 - y1));
-        double finalAng = ((startRelAng * cor) + 90) * (-cor);
+        double startRelAng = Math.atan((x2 - x1) / (y2 - y1)) * (180 / Math.PI);
+        double coordinateSystem = (y2 - y2 / Math.abs(y2 - y1));
+        double finalAng = ((startRelAng * coordinateSystem) + 90) * (-coordinateSystem);
         return Rotation2d.fromDegrees(finalAng).rotateBy(Rotation2d.fromDegrees(90));
     }
 

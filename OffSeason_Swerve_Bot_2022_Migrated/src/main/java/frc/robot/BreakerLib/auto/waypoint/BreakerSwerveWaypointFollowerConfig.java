@@ -9,17 +9,29 @@ import edu.wpi.first.math.controller.HolonomicDriveController;
 import frc.robot.BreakerLib.position.odometry.BreakerGenericOdometer;
 import frc.robot.BreakerLib.subsystem.cores.drivetrain.swerve.BreakerSwerveDrive;
 
-/** Add your docs here. */
+/** Config for {@link BreakerSwerveWaypointFollower} with holonomic drive controller, drivetrain, and odometer. */
 public class BreakerSwerveWaypointFollowerConfig {
+
     private HolonomicDriveController driveController;
     private BreakerSwerveDrive drivetrain;
     private BreakerGenericOdometer odometer;
 
+    /** Creates config with internal drivetrain odometer.
+     * 
+     * @param drivetrain Swerve drive.
+     * @param driveController Holonomic drive controller.
+     */
     public BreakerSwerveWaypointFollowerConfig(BreakerSwerveDrive drivetrain, HolonomicDriveController driveController) {
-        this(drivetrain, drivetrain, driveController);
+        this(drivetrain, driveController, drivetrain);
     }
 
-    public BreakerSwerveWaypointFollowerConfig(BreakerSwerveDrive drivetrain, BreakerGenericOdometer odometer, HolonomicDriveController driveController) {
+    /** Creates config with external odometer.
+     * 
+     * @param drivetrain Swerve drive.
+     * @param driveController Holonomic drive controller.
+     * @param odometer External odometer.
+     */
+    public BreakerSwerveWaypointFollowerConfig(BreakerSwerveDrive drivetrain, HolonomicDriveController driveController, BreakerGenericOdometer odometer) {
         this.driveController = driveController;
         this.drivetrain = drivetrain;
         this.odometer = odometer;

@@ -62,7 +62,7 @@ public class BreakerWaypointPathGenerator {
         }
         BreakerWaypointPath path = wpPaths[0];
         for (int i = 1; i < wpPaths.length; i++) {
-            path.concatinate(wpPaths[i]);
+            path.concatenate(wpPaths[i]);
         }
         return path;
     }
