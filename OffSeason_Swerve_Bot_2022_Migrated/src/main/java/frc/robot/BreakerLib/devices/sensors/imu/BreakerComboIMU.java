@@ -3,6 +3,7 @@ package frc.robot.BreakerLib.devices.sensors.imu;
 import edu.wpi.first.math.geometry.Quaternion;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import frc.robot.BreakerLib.devices.sensors.accelerometer.BreakerGenericAccelerometer;
 import frc.robot.BreakerLib.devices.sensors.gyro.BreakerGeneric3AxisGyro;
 import frc.robot.BreakerLib.util.power.BreakerPowerManagementConfig;

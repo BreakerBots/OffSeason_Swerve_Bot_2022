@@ -9,12 +9,13 @@ import java.util.function.IntSupplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
-/** A {@link BreakerGenericSwerveRotationSupplier} that can switch between multiple {@link BreakerGenericSwerveRotationSupplier} instances. */
+/** A {@link BreakerGenericSwerveRotationSupplier} that can switch between multipul {@link BreakerGenericSwerveRotationSupplier} instances */
 public class BreakerSwitchableSwerveRotationSupplier implements BreakerGenericSwerveRotationSupplier {
     private BooleanSupplier boolSwitcher;
     private IntSupplier intSwicher;
     private boolean usesBoolSwicher;
     private BreakerGenericSwerveRotationSupplier[] rotationSuppliers;
+    private double curTime = 0;
 
     /** Creates a new {@link BreakerSwitchableSwerveRotationSupplier} that can swich between two {@link BreakerGenericSwerveRotationSupplier}
      * instance based on the returned value of a BooleanSupplier

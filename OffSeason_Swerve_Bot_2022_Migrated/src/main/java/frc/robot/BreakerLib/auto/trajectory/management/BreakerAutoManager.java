@@ -11,22 +11,23 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.BreakerLib.driverstation.dashboard.BreakerDashboard;
 import frc.robot.BreakerLib.util.logging.BreakerLog;
 
-/** Class that manages all available autopaths for dashboard chooser. */
+/** Class that manages all avalable autopaths for dashboard chooser */
 public class BreakerAutoManager {
 
+    private BreakerAutoPath[] autoPaths;
     private SendableChooser<BreakerAutoPath> selector;
-    private BreakerAutoPath doNothingPath = new BreakerAutoPath("Default 'Do Nothing' Path",
-            new SequentialCommandGroup());
+    private BreakerAutoPath doNothingPath = new BreakerAutoPath("Default 'Do Nothing' Path", new SequentialCommandGroup());
 
     /**
      * Places auto paths onto the dashboard GUI
      * 
      * @param autoPaths Autopaths to select from.
      */
-    public BreakerAutoManager(BreakerAutoPath... autoPaths) {
+    public BreakerAutoManager(BreakerAutoPath...autoPaths) {
+        this.autoPaths = autoPaths;
         selector = new SendableChooser<BreakerAutoPath>();
         selector.setDefaultOption("Do Nothing", doNothingPath);
-        for (BreakerAutoPath path : autoPaths) {
+        for (BreakerAutoPath path: autoPaths) {
             selector.addOption(path.getPathName(), path);
         }
         BreakerDashboard.getSetupTab().add("AUTOPATH SELECTOR", selector).withWidget(BuiltInWidgets.kComboBoxChooser);
@@ -36,19 +37,20 @@ public class BreakerAutoManager {
      * Constructor with no paths.
      */
     public BreakerAutoManager() {
+        autoPaths = new BreakerAutoPath[0];
         selector = new SendableChooser<BreakerAutoPath>();
         selector.setDefaultOption("Do Nothing", doNothingPath);
         BreakerDashboard.getSetupTab().add("AUTOPATH SELECTOR", selector).withWidget(BuiltInWidgets.kComboBoxChooser);
     }
 
-    /** @return Auto path selected on the dashboard widget. */
+    /** Returns auto path selected on the dashboard widget. */
     public BreakerAutoPath getSelected() {
         return selector.getSelected();
     }
 
-    /** @return Base autopath command from selected BreakerAutoPath. */
+    /**Returns base command group autopath from selected BreakerAutoPath. */
     public Command getSelectedAutoPath() {
-        BreakerLog.logBreakerLibEvent(" New Autopath Started: " + getSelected().getPathName());
+        BreakerLog.logBreakerLibEvent(" New Autopath Started: " + getSelected().getPathName()); 
         return getSelected().getBaseAutoPath();
     }
 }
