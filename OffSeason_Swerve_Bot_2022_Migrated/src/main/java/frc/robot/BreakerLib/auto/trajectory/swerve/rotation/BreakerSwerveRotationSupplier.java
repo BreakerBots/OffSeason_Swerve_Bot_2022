@@ -19,7 +19,7 @@ import frc.robot.BreakerLib.util.math.interpolation.maps.BreakerInterpolatingTre
 public class BreakerSwerveRotationSupplier implements BreakerGenericSwerveRotationSupplier {
 
     private Function<Double, Rotation2d> externalFunction;
-    private BreakerInterpolatingTreeMap<Double, BreakerInterpolableDouble> interMap;
+    private BreakerInterpolatingTreeMap<Double, BreakerInterpolableDouble> interMap = new BreakerInterpolatingTreeMap<>();
     private boolean usesFunc;
 
     /**

@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import static frc.robot.Constants.*;
 
+import java.util.Arrays;
+
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
@@ -85,5 +87,6 @@ public class Drive extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putString("Drive Pose", drivetrain.getOdometryPoseMeters().toString());
+        System.out.println(Arrays.toString(drivetrain.getTargetModuleStates()));
     }
 }

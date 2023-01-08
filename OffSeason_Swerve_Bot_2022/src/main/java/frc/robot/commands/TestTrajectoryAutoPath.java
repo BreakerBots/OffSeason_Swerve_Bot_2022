@@ -32,30 +32,26 @@ import frc.robot.subsystems.Drive;
 public class TestTrajectoryAutoPath extends SequentialCommandGroup {
   /** Creates a new TestAutoPath. */
   public TestTrajectoryAutoPath(Drive drivetrain) {
-    ProfiledPIDController thetaPID =  new ProfiledPIDController(1.0, 0.0, 0.0, new TrapezoidProfile.Constraints(5.0, 5.0));
-    thetaPID.enableContinuousInput(-2*Math.PI, 2*Math.PI);
+    ProfiledPIDController thetaPID =  new ProfiledPIDController(0.05, 0.0, 2.0, new TrapezoidProfile.Constraints(0.5, 0.5));
+    thetaPID.enableContinuousInput(0, 2*Math.PI);
     BreakerSwerveAutoPathFollowerConfig swerveFollowerConfig = new BreakerSwerveAutoPathFollowerConfig(
         drivetrain.getBaseDrivetrain(),
         new HolonomicDriveController(new PIDController(2.0, 0.0, 0.1), new PIDController(2.0, 0.0, 0.1),
             thetaPID));
 
     BreakerTrajectoryPath traj1 = new BreakerTrajectoryPath(TrajectoryGenerator.generateTrajectory(
-        new Pose2d(new Translation2d(0.75, new Rotation2d()), new Rotation2d()),
+        new Pose2d(new Translation2d(0.0, 0.0), new Rotation2d()),
         BreakerTrajectoryUtil.toTranslationWaypointList(
-            new Translation2d(0.75, Rotation2d.fromDegrees(45)),
-            new Translation2d(0.75, Rotation2d.fromDegrees(90)),
-            new Translation2d(0.75, Rotation2d.fromDegrees(135)),
-            new Translation2d(0.75, Rotation2d.fromDegrees(179)),
-            new Translation2d(0.75, Rotation2d.fromDegrees(225)),
-            new Translation2d(0.75, Rotation2d.fromDegrees(270)),
-            new Translation2d(0.75, Rotation2d.fromDegrees(315))
+            new Translation2d(1.0, 0.0)
         ),
-        new Pose2d(new Translation2d(0.75, new Rotation2d()), new Rotation2d()),
+        new Pose2d(new Translation2d(2.0, 0.0), new Rotation2d()),
         new TrajectoryConfig(0.5, 0.5)), true);
 
-    //BreakerSwerveRotationSupplier rotSup = new BreakerSwerveRotationSupplier(() -> (new Rotation2d(0.5*Math.PI)));
+    BreakerSwerveRotationSupplier rotSup = new BreakerSwerveRotationSupplier(new BreakerRotationPoint(new Rotation2d(), 0.0), new BreakerRotationPoint(new Rotation2d(Math.PI), 5.0));
+
+    //BreakerSwerveRotationSupplier rotSup = new BreakerSwerveRotationSupplier((Double time) -> (new Rotation2d((time/2) * Math.PI)));
     addCommands(
-        new BreakerStartTrajectoryPath(drivetrain.getBaseDrivetrain(),  new Pose2d(new Translation2d(0.75, new Rotation2d()), new Rotation2d())),
-        new BreakerSwerveAutoPathFollower(swerveFollowerConfig, traj1));
+        new BreakerStartTrajectoryPath(drivetrain.getBaseDrivetrain(),  new Pose2d(new Translation2d(0.0, 0.0), new Rotation2d())),
+        new BreakerSwerveAutoPathFollower(swerveFollowerConfig, rotSup, traj1));
   }
 }
